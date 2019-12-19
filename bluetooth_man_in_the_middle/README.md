@@ -4,7 +4,7 @@
 
 This project shows the implementation of Man-In-The-Middle with BLE. It also demonstrates how to solve this vunerablility.
 
-## SDK version ##
+## Gecko SDK version ##
 
 v2.7
 
