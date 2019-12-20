@@ -19,7 +19,6 @@ The Silicon Labs Bluetooth stack allows for a wide variety applications to be bu
 
 - BLE SPP with Windows
 - Man-in-the-Middle Demo
-- Thunderboard Aggregator
 
 ## Documentation ##
 
