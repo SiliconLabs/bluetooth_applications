@@ -15,7 +15,7 @@ v2.7
 
 ## Setup ##
 
-To test the man-in-the-middle(MITM), you need two WSTK boards. One board needs to be programmed with the bluetooth_soc-mitm_mg12.sls project and the other needs the basic SOC Health Thermometer example provided by Simplicity Studio.
+To test the man-in-the-middle(MITM), you need two WSTK boards. One board needs to be programmed with the bluetooth_soc_mitm_mg12.sls project and the other needs the basic SOC Health Thermometer example provided by Simplicity Studio.
 
 Turn both of the devices on and click on Bluetooth Browse in the Blue Gecko App. The regular server will be named "Thermometer Example" and the MITM will be named "Thermometer Example M". If the MITM device already intercepted the connection, you should only see "Thermometer Example M".
 
@@ -31,7 +31,7 @@ Another project has been provided showing the initialization and configuration w
 
 ## .sls Projects Used ##
 
-- bluetooth_soc-mitm_mg12.sls
+- bluetooth_soc_mitm_mg12.sls
 - bluetooth_soc_thermometer_auth_mg12.sls
 
 ## How to Port to Another Part ##
