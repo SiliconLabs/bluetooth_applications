@@ -19,6 +19,7 @@ The Silicon Labs Bluetooth stack allows for a wide variety applications to be bu
 
 - BLE SPP with Windows
 - Man-in-the-Middle Demo
+- Explorer Kit Bluetooth barometer example using I2C bus DPS310 pressure sensor
 
 ## Documentation ##
 
