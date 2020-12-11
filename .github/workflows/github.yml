@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: SiliconLabs/close-pull-request-target@v2.2
       with:
-        comment: "This repo does not accept PRs. The code in this repository is provided as-is, and questions related to this repo will not be supported. If you have a general question for Silicon Labs, visit www.silabs.com/support for assistance."
+        comment: "This repo does not accept PRs. All bug reports or questions should be handled via issues. Please refer to the readme for instructions on reporting issues. If you have a general question for Silicon Labs, visit www.silabs.com/support for assistance."
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
