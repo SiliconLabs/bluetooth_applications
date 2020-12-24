@@ -2,8 +2,8 @@
 
 ## Summary ##
 
-This project shows the implementation of IR signal generate and 4x4 matrix key scan with BLE on our EFR32 device(lynx). 
-The expectation is ensure IR signal generate work well in case that BLE in a heavy communication.
+This project shows the implementation of an IR signal generator and 4x4 matrix key scan with BLE on our EFR32 devices. 
+The expectation is to ensure the IR signal generator works well in cases with heavy BLE traffic.
 <div align="left">
   <img src="./doc/images/framework.png" height="480">
 </div>
@@ -30,14 +30,13 @@ v2.7
 
 ### Keypad
 
-Most of time the system is stay in idle status. When key active, GPIO interrupt wakeup system, then key scan and key timer(10ms) start to work. When key is available or key release, key callback is invoked to indicate which key is detected or release, after key release the system back to idle again.
+Most of the time the system stays in an idle state. When a key is active(pressed), the GPIO interrupt wakeups the system, then the key scan and key timer(10ms) starts to work. When a key is available or a key is released,  the key callback is invoked to indicate which key is detected or released, after a key release the system back to idle again.
 - Initialization.
-    - key_init() function initialize the key pad with 2 callback, set GPIO direction and interrupt.
-    - key_wakeup_callback_t wakeup_cb, is called in GPIO IRQ. It start the key timer.
-    - key_callback_t cb, is called in the key detection, report which key is detected and key release.
-- Running the key Detection
-    - key_scan() functions run in a key time slice, check which key and how long is pressed then report key status.
-
+    - key_init() function initializes the keypad with 2 callback, set GPIO direction, and interrupt.
+    - key_wakeup_callback_t wakeup_cb, is called in GPIO IRQ. It starts the key timer.
+    - key_callback_t cb, is called in the key detection. It reports which key is detected or released.
+- Running the key detection
+    - key_scan() function runs in a key time slice, checks which key and how long the key is pressed, then reports the key status.
 #### Keypad flowchart
 
 <div align="left">
@@ -46,13 +45,13 @@ Most of time the system is stay in idle status. When key active, GPIO interrupt 
 
 ### IR generate
 
-Most of time the system is stay in idle status.When IR send is required, configure the stream according to given data, send out all the stream bit. If don't got stop command, it keep repeat. If no need to repeat the IR signal, system will back to idle status.  
+Most of the time the system stays in an idle state. When an IR send is required, the system configures the stream according to the given data, then sends out all the stream bit. If no stop command is inputted, the system will repeat the stream. If no need to repeat the IR signal, the system will go back to the idle state. 
 - Initialization.
-    - ir_generate_init() function initialize the key pad with callback.
-    - code_t ir_code, set the IR protocol, currently support NEC and SONY type.
-    - ir_callback_t cb, is called if one frame stream is sent.
+    - ir_generate_init() function initializes the keypad with callback.
+    - code_t ir_code sets the IR protocol, currently supports NEC and SONY type.
+    - ir_callback_t cb is called if one frame stream is sent.
 - Running the IR generate
-    - ir_generate_stream() function configure the data that desire to send and start, repeat flag use in NEC IR protocol.
+    - ir_generate_stream() function configures the data that desire to send and start, repeat flag used in NEC IR protocol.
     - ir_generate_stop() function can stop the IR generate.
 
 #### IR flowchart
@@ -61,7 +60,7 @@ Most of time the system is stay in idle status.When IR send is required, configu
   <img src="./doc/images/ir.png" height="480">
 </div>
 
-In this example IR stream start/stop is control by key event. We can use tera term for tracking the run status and logic analyzer/oscilloscope for check the IR waveform.
+In this example, IR stream start/stop is controlled by a key event. We can use tera term for tracking the run status and logic analyzer/oscilloscope to check the IR waveform.
 
 ## .sls Projects Used ##
 
