@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * @file maxm86161.h
-* @brief Platform independent driver
-* @version 1.0
+* @brief Header file of maxm86161 biometric sensor driver
+* @version 1.0.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -30,7 +30,8 @@
 *******************************************************************************
 *
 * EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with the specified dependency versions and is suitable as a demonstration for evaluation purposes only.
+* This code has been minimally tested to ensure that it builds with the specified
+* dependency versions and is suitable as a demonstration for evaluation purposes only.
 * This code will be maintained at the sole discretion of Silicon Labs.
 *
 ******************************************************************************/
@@ -75,12 +76,6 @@ int32_t maxm86161_i2c_block_read(uint8_t address, uint16_t length, uint8_t* valu
 /*******************************************************************************
  *******    max86161 Register and Parameter Bit Definitions  *********************
  ******************************************************************************/
-/// @cond DOXYGEN_SHOULD_SKIP_THIS
-
-#define ECODE_MAXM86161DRV_OK             0
-#define ECODE_MAXM86161DRV_ERROR          1
-#define ECODE_MAXM86161DRV_QUEUE_FULL    -1
-#define ECODE_MAXM86161DRV_QUEUE_EMPTY   -2
 
 #define MAXM86161_FIFO_CFG_2_FLUSH_FIFO                 0x10
 #define MAXM86161_FIFO_CFG_2_FIFO_READ_DATA_CLR         0x08
@@ -222,8 +217,6 @@ enum maxm86161_ledsq_setting {
 #define MAXM86161_INT_1_PWR_RDY                         0x01
 #define MAXM86161_INT_1_PWR_NOT_RDY                     0x00
 
-/// @endcond
-
 
 /**
  * @brief Structure for reading fifo data
@@ -263,12 +256,12 @@ typedef struct {
  */
 typedef struct
 {
-  uint8_t alc; //
-  uint8_t offset; //
-  uint8_t ppg_tint;
-  uint8_t adc_range;
-  uint8_t smp_rate;
-  uint8_t smp_freq;
+  uint8_t alc;        ///< Enable/disable ALC
+  uint8_t offset;     ///< Enable/disable dark current measurement
+  uint8_t ppg_tint;   ///< Set the pulse width of the LED drivers and the integration time of PPG ADC
+  uint8_t adc_range;  ///< Set the ADC range of the sensor
+  uint8_t smp_rate;   ///< Set the number of exposure per sample
+  uint8_t smp_freq;   ///< Set the effective sampling rate of the PPG sensor
 } maxm86161_ppg_cfg_t;
 
 /**
@@ -276,14 +269,14 @@ typedef struct
  */
 typedef struct
 {
-  uint8_t full_fifo;
-  uint8_t data_rdy;
-  uint8_t alc_ovf;
-  uint8_t proxy;
-  uint8_t led_compliant;
-  uint8_t die_temp;
-  uint8_t pwr_rdy;
-  uint8_t sha;
+  uint8_t full_fifo;      ///< The FIFO buffer is full
+  uint8_t data_rdy;       ///< New data in the FIFO
+  uint8_t alc_ovf;        ///< The ambient light cancellation function of the photodiode
+  uint8_t proxy;          ///< Proximity mode
+  uint8_t led_compliant;  ///< LED is not compliant
+  uint8_t die_temp;       ///< The TEMP ADC has finished its current conversion
+  uint8_t pwr_rdy;        ///< VBATT went below the UVLO threshold
+  uint8_t sha;            ///< SHA Authentication done
 } maxm86161_int_t;
 
 /**
@@ -291,9 +284,9 @@ typedef struct
  */
 typedef struct
 {
-  uint8_t green;
-  uint8_t ir;
-  uint8_t red;
+  uint8_t green;  ///<set the nominal drive current of green LED
+  uint8_t ir;     ///<set the nominal drive current of ir LED
+  uint8_t red;    ///<set the nominal drive current of red LED
 } maxm86161_ledpa_t;
 
 /**
@@ -301,12 +294,12 @@ typedef struct
  */
 typedef struct
 {
-  uint8_t ledsq1;
-  uint8_t ledsq2;
-  uint8_t ledsq3;
-  uint8_t ledsq4;
-  uint8_t ledsq5;
-  uint8_t ledsq6;
+  uint8_t ledsq1; ///<set the data type for LED Sequence 1 of the FIFO
+  uint8_t ledsq2; ///<set the data type for LED Sequence 2 of the FIFO
+  uint8_t ledsq3; ///<set the data type for LED Sequence 3 of the FIFO
+  uint8_t ledsq4; ///<set the data type for LED Sequence 4 of the FIFO
+  uint8_t ledsq5; ///<set the data type for LED Sequence 5 of the FIFO
+  uint8_t ledsq6; ///<set the data type for LED Sequence 6 of the FIFO
 } maxm86161_ledsq_cfg_t;
 
 /**
@@ -314,9 +307,9 @@ typedef struct
  */
 typedef struct
 {
-  uint8_t green;
-  uint8_t ir;
-  uint8_t red;
+  uint8_t green;  ///<Range selection of the green LED current
+  uint8_t ir;     ///<Range selection of the ir LED current
+  uint8_t red;    ///<Range selection of the red LED current
 } maxm86161_led_range_curr_t;
 
 /**

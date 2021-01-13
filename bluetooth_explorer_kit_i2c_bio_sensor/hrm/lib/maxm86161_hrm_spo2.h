@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * @file maxm86161_hrm_spo2.h
-* @brief Maxm86161 HRM/SPO2 algorithm
+* @brief Header file of Maxm86161 HRM/SPO2 algorithm
 * @version 1.1.0
 *******************************************************************************
 * # License
@@ -30,7 +30,8 @@
 *******************************************************************************
 *
 * EXPERIMENTAL QUALITY
-* This code has not been formally tested and is provided as-is.  It is not suitable for production environments.
+* This code has not been formally tested and is provided as-is.
+* It is not suitable for production environments.
 * This code will not be maintained.
 *
 ******************************************************************************/

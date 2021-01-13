@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * @file maxm86161_i2c.h
-* @brief I2C device setup for maxm86161 driver.
-* @version 1.0
+* @brief Header file of maxm86161_i2c
+* @version 1.0.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -30,7 +30,8 @@
 *******************************************************************************
 *
 * EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with the specified dependency versions and is suitable as a demonstration for evaluation purposes only.
+* This code has been minimally tested to ensure that it builds with the specified dependency versions
+* and is suitable as a demonstration for evaluation purposes only.
 * This code will be maintained at the sole discretion of Silicon Labs.
 *
 ******************************************************************************/

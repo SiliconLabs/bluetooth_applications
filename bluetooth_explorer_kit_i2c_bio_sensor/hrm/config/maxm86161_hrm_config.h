@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * @file maxm86161_hrm_config.h
 * @brief Setup for HRM/SPO2 algorithms library
-* @version 1.0
+* @version 1.0.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -30,9 +30,8 @@
 *******************************************************************************
 *
 * EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with
-* the specified dependency versions and is suitable as a demonstration for
-* evaluation purposes only.
+* This code has been minimally tested to ensure that it builds with the specified
+* dependency versions and is suitable as a demonstration for evaluation purposes only.
 * This code will be maintained at the sole discretion of Silicon Labs.
 *
 ******************************************************************************/

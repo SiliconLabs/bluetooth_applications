@@ -422,7 +422,7 @@ int32_t maxm86161_hrm_process(maxm_hrm_handle_t *handle, int16_t *heart_rate, in
       goto Error;
 
 #if (UART_DEBUG & PPG_LEVEL)
-    printf("\n%lu,%lu,%lu,", samples.ppg[0], samples.ppg[1], samples.ppg[2]);
+    hrm_helper_output_raw_sample_debug_message(&samples);
 #endif
 
     if(handle->hrm_dc_sensing_flag == HRM_DC_SENSING_START || handle->hrm_dc_sensing_flag == HRM_DC_SENSING_RESTART)

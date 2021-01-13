@@ -1,7 +1,7 @@
 /***************************************************************************//**
 * @file maxm86161.c
-* @brief Platform independent driver
-* @version 1.0
+* @brief Platform independent driver for maxm86161 biometric sensor
+* @version 1.0.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -30,7 +30,8 @@
 *******************************************************************************
 *
 * EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with the specified dependency versions and is suitable as a demonstration for evaluation purposes only.
+* This code has been minimally tested to ensure that it builds with the specified
+* dependency versions and is suitable as a demonstration for evaluation purposes only.
 * This code will be maintained at the sole discretion of Silicon Labs.
 *
 ******************************************************************************/
@@ -74,7 +75,8 @@ static void maxm86161_soft_reset_delay( void );
  * @brief
  *    Initialize the Maxim86161 with the device configuration
  *
- * @param[in] device configuration structure
+ * @param[in] global_cfg
+ * device configuration structure
  *
  * @return
  *    sl_status_t error code
@@ -107,10 +109,11 @@ sl_status_t maxm86161_init_device(maxm86161_device_config_t global_cfg)
  *    In this mode, the oscillator is shutdown and the part draws minimum current
  *    If this bit is asserted during an active conversion, then the conversion is aborted.
  *
- * @param[in] bool value for turn on/off option
+ * @param[in] turn_off
+ * bool value for turn on/off option
  *
  * @return
- *    sl_status_t error code
+ *    None
  ******************************************************************************/
 void maxm86161_shutdown_device(bool turn_off)
 {
@@ -158,7 +161,11 @@ void maxm86161_flush_fifo()
  * @brief
  *    Set the number of sample the fifo for maxim to fire an FULL interrupt
  *
- * @param[in] number of sample
+ * @param[in] level
+ * number of sample
+ *
+ * @return
+ *    None
  *
  ******************************************************************************/
 void maxm86161_set_int_level(uint8_t level)
@@ -172,10 +179,12 @@ void maxm86161_set_int_level(uint8_t level)
  * @brief
  *    Configure PPG (such as adc range, sample rate, ...)
  *
- * @param[in] pointer to the ppg configuration struct
+ * @param[in] *ppg_cfg
+ * pointer to the ppg configuration struct
  *
  * @return
  *    sl_status_t error code
+ *
  ******************************************************************************/
 sl_status_t maxm86161_ppg_config(maxm86161_ppg_cfg_t *ppg_cfg)
 {
@@ -206,12 +215,15 @@ sl_status_t maxm86161_ppg_config(maxm86161_ppg_cfg_t *ppg_cfg)
  * @brief
  *    Configure LED current for a specific LED
  *
- * @param[in] no of led that need to change current
+ * @param[in] ledx
+ * no of led that need to change current
  *
- * @param[in] current of the LED
+ * @param[in] value
+ * current of the LED
  *
  * @return
  *    sl_status_t error code
+ *
  ******************************************************************************/
 sl_status_t maxm86161_led_pa_config_specific(uint8_t ledx, uint8_t value)
 {
@@ -236,7 +248,11 @@ sl_status_t maxm86161_led_pa_config_specific(uint8_t ledx, uint8_t value)
  * @brief
  *    Configure LED current for all the LED at the initial stage
  *
- * @param[in] pointer to the ledpa struct
+ * @param[in] *ledpa
+ * pointer to the ledpa struct
+ *
+ * @return
+ *    None
  *
  ******************************************************************************/
 void maxm86161_led_pa_config (maxm86161_ledpa_t *ledpa )
@@ -250,7 +266,8 @@ void maxm86161_led_pa_config (maxm86161_ledpa_t *ledpa )
  * @brief
  *    Configure range current for all the LED at the initial stage
  *
- * @param[in] pointer to the led_range struct
+ * @param[in] *led_range
+ * pointer to the led_range struct
  *
  * @return
  *    sl_status_t error code
@@ -278,10 +295,12 @@ sl_status_t maxm86161_led_range_config(maxm86161_led_range_curr_t *led_range)
  *    The data format in the FIFO as well as the sequencing of exposures are controlled by the LED Sequence
  *    Registers using LEDC1 through LEDC6
  *
- * @param[in] pointer to the led_range struct
+ * @param[in] *ledsq
+ * pointer to the led_range struct
  *
  * @return
  *    sl_status_t error code
+ *
  ******************************************************************************/
 sl_status_t maxm86161_led_sequence_config(maxm86161_ledsq_cfg_t *ledsq)
 {
@@ -310,7 +329,8 @@ sl_status_t maxm86161_led_sequence_config(maxm86161_ledsq_cfg_t *ledsq)
  * @brief
  *    Configure interrupt at the initial stage
  *
- * @param[in] pointer to the interrupt control struct
+ * @param[in] *int_ctrl
+ * pointer to the interrupt control struct
  *
  * @return
  *    sl_status_t error code
@@ -346,10 +366,12 @@ sl_status_t maxm86161_interupt_control(maxm86161_int_t *int_ctrl)
  * @brief
  *    Get status of all Maxim's interrupt
  *
- * @param[in] pointer to queue where PPG sample is put
+ * @param[in] *int_status
+ * pointer to queue where PPG sample is put
  *
  * @return
  *    None
+ *
  ******************************************************************************/
 void maxm86161_get_irq_status(maxm86161_int_t *int_status)
 {
@@ -380,10 +402,12 @@ void maxm86161_get_irq_status(maxm86161_int_t *int_status)
  * @brief
  *    Process FULL interrupt to get PPG sample and put it into the queue
  *
- * @param[in] pointer to queue where PPG sample is put
+ * @param[in] *queue
+ * pointer to queue where PPG sample is put
  *
  * @return
  *    None
+ *
  ******************************************************************************/
 void maxm86161_read_samples_in_fifo(maxm86161_fifo_queue_t *queue)
 {
@@ -455,10 +479,12 @@ void maxm86161_read_samples_in_fifo(maxm86161_fifo_queue_t *queue)
  * @brief
  *    Count the number of sample in queue
  *
- * @param[in] queue
+ * @param[in] *queue
+ * pointer to queue
  *
  * @return
  *    number of sample in queue
+ *
  ******************************************************************************/
 uint16_t maxm86161_num_samples_in_queue(maxm86161_fifo_queue_t *queue)
 {
@@ -471,14 +497,18 @@ uint16_t maxm86161_num_samples_in_queue(maxm86161_fifo_queue_t *queue)
  * @brief
  *    Allocate a fifo queue for PPG maxim data
  *
- * @param[in] pointer to queue
+ * @param[in] *queue
+ * pointer to queue
  *
- * @param[in] pointer to buffer to use for fifo queue
+ * @param[in] *queueBuffer
+ * pointer to buffer to use for fifo queue
  *
- * @param[in] queue buffer size in bytes
+ * @param[in] queueSizeInBytes
+ * queue buffer size in bytes
  *
  * @return
  *    sl_status_t error code
+ *
  ******************************************************************************/
 sl_status_t maxm86161_allocate_ppg_data_queue( maxm86161_fifo_queue_t *queue, maxm86161_ppg_sample_t *queueBuffer, int16_t queueSizeInBytes)
 {
@@ -498,12 +528,15 @@ sl_status_t maxm86161_allocate_ppg_data_queue( maxm86161_fifo_queue_t *queue, ma
  * @brief
  *    Put ppg sample to the queue
  *
- * @param[in] pointer to queue
+ * @param[in] *queue
+ * pointer to queue
  *
- * @param[in] pointer to ppg sample
+ * @param[in] *sample
+ * pointer to ppg sample
  *
  * @return
  *    sl_status_t error code
+ *
  ******************************************************************************/
 sl_status_t maxm86161_enqueue_ppg_sample_data (maxm86161_fifo_queue_t *queue, maxm86161_ppg_sample_t *sample)
 {
@@ -541,12 +574,15 @@ sl_status_t maxm86161_enqueue_ppg_sample_data (maxm86161_fifo_queue_t *queue, ma
  * @brief
  *    pop a sample from queue
  *
- * @param[in] pointer to queue
+ * @param[in] *queue
+ * pointer to queue
  *
- * @param[in] pointer to ppg sample
+ * @param[in] *sample
+ * pointer to ppg sample
  *
  * @return
  *    sl_status_t error code
+ *
  ******************************************************************************/
 sl_status_t maxm86161_dequeue_ppg_sample_data (maxm86161_fifo_queue_t *queue, maxm86161_ppg_sample_t *sample)
 {
@@ -576,10 +612,12 @@ sl_status_t maxm86161_dequeue_ppg_sample_data (maxm86161_fifo_queue_t *queue, ma
  * @brief
  *    Clear the Maxm86161 queue
  *
- * @param[in] pointer to queue
+ * @param[in] *queue
+ * pointer to queue
  *
  * @return
  *    None
+ *
  ******************************************************************************/
 void maxm86161_clear_queue(maxm86161_fifo_queue_t *queue)
 {

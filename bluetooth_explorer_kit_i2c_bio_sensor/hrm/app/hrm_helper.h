@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * @file hrm_helper.h
-* @brief Helper function to reducing burden on algorithm code
+* @brief Header file of maxm86161_helper.c
 * @version 1.0
 *******************************************************************************
 * # License
@@ -47,6 +47,9 @@ extern "C" {
 #endif
 
 typedef void *  max86161_hrm_helper_handle_t;
+
+void hrm_helper_output_debug_message(int16_t heart_rate, int16_t spo2);
+void hrm_helper_output_raw_sample_debug_message(maxm86161_hrm_irq_sample_t *sample);
 
 void maxm86161_hrm_helper_process_irq();
 int32_t maxm86161_hrm_helper_sample_queue_numentries();

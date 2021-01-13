@@ -38,6 +38,7 @@
 #include <hrm_helper.h>
 #include <maxm86161.h>
 #include <maxm86161_hrm_config.h>
+#include <stdio.h>
 
 maxm86161_fifo_queue_t ppg_queue;
 maxm86161_ppg_sample_t maxm86161_irq_queue[APP_QUEUE_SIZE];
@@ -135,3 +136,19 @@ bool maxm86161_get_prox_mode(void)
   return maxm86161_prox_mode;
 }
 #endif
+
+/**************************************************************************//**
+ * @brief Prints USB debug output.
+ *****************************************************************************/
+void hrm_helper_output_debug_message(int16_t heart_rate, int16_t spo2)
+{
+  printf("Heart rate = %hdbpm, SpO2 = %hd%%\n", heart_rate, spo2);
+}
+
+/**************************************************************************//**
+ * @brief Outputs sample to USB debug interface
+ *****************************************************************************/
+void hrm_helper_output_raw_sample_debug_message(maxm86161_hrm_irq_sample_t *sample)
+{
+  printf("\n%lu,%lu,%lu,", sample->ppg[0], sample->ppg[1], sample->ppg[2]);
+}
