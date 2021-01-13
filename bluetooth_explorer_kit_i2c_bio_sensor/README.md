@@ -2,7 +2,7 @@
 
 ## Summary ##
 
-This example implements the **Heart Rate** service and **Pulse Oximeter** service. It enables a peer device to connect and receive heart rate and oxygen saturation values via Bluetooth. The reported values are measured by a bio-sensor located on the Heart Rate 2 Click.
+This example implements the **Heart Rate** service and **Pulse Oximeter service** service. It enables a peer device to connect and receive heart rate and pulse Oximeter values via Bluetooth. The reported values are measured by a bio-sensor located on the Heart Rate 2 Click.
 
 ## Gecko SDK version ##
 
