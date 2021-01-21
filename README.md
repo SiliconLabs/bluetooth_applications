@@ -21,6 +21,7 @@ The Silicon Labs Bluetooth stack allows for a wide variety applications to be bu
 - Man-in-the-Middle Demo
 - Explorer Kit Bluetooth barometer example using I2C bus DPS310 pressure sensor
 - IR Generator
+- Bluetooth NFC Pairing
 
 ## Documentation ##
 
