@@ -20,6 +20,8 @@ The Silicon Labs Bluetooth stack allows for a wide variety applications to be bu
 - BLE SPP with Windows
 - Man-in-the-Middle Demo
 - Explorer Kit Bluetooth barometer example using I2C bus DPS310 pressure sensor
+  - Simplicity Studio SV5.1.1.0 and GSDK v3.1.1 
+  - Full SSv5 project, example source and pre-built binaries
 - IR Generator
 - Bluetooth NFC Pairing
 

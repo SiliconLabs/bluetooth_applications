@@ -44,7 +44,7 @@
 #define BAROMETER_DEFAULT_SDA_PORT          gpioPortD
 #define BAROMETER_DEFAULT_SDA_PIN           3
 #define BAROMETER_DEFAULT_I2C_INSTANCE      I2C0
-#define BAROMETER_DEFAULT_I2C_ADDR          0x76
+#define BAROMETER_DEFAULT_I2C_ADDR          0x76        /* 0x76 = Pressure 3 click in mikroBUS, 0x77 = Adafruit DPS310 in Qwiic*/
 #define BAROMETER_DEFAULT_OVERSAMP_INDEX    4
 
 #endif /* BAROMETER_CONFIG_H */

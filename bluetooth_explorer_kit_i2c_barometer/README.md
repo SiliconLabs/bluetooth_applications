@@ -8,15 +8,15 @@ It is using a reference barometer driver component for an **I2C-bus** connected 
 
 The application makes a pressure measurement every second when the Bluetooth connection is open. While the measurement is ongoing, the yellow LED is lit.
 
-The pressure measurement can be manually read via Bluetooth Pressure-characteristic under Environmental Sensing-service or it can be also automatically updated using Notifications.
+The pressure measurement can be seen via Bluetooth Pressure-characteristic under Environmental Sensing-service by reading it manually or it can be also automatically updated using Notifications.
 
 The sensor board used here is a **mikroE "Pressure 3 Click"** using **mikroE mikroBUS**-socket **I2C** connection. But also other **I2C** connected **DPS310**-sensors can be used here such as **SparkFun Qwiic Connect System**-compatible **Adafruit's DPS310**-based pressure sensor board. 
 
 A target application of a barometer pressure sensor could be a weather station or an altitude sensor.
 
-## Gecko SDK version ##
+## Simplicity Studio and Gecko SDK Suite version ##
 
-GSDK v3.0.0
+Simplicity Studio SV5.1.1.0 and GSDK v3.1.1
 
 ## Hardware Required ##
 
@@ -46,15 +46,17 @@ barometer_config.h -file has the module I2C bus pin definitions and also the sen
 
 The GATT changes were adding a new Environmental Sensing service using UUID 0x181A that has a characteristic Pressure ​UUID 0x2A6D with Read and Notify properties. As it is a Bluetooth SIG Assigned UUID, most applications know how to display the value correctly. The Pressure characteristic size is 4 bytes and it is a 32-bit unsigned integer and the unit is pascals. This information can be seen from the Bluetooth GATT Configurator when Add:ing a Characteristic, see the Pressure there.
 
-The application file app.c has barometer and LED initialization in the app_init(). When the connection is opened, a 1 second timer periodical is started. When the timer is triggered, then the LED is lit and the barometer measurement is started. When the measurement is ready, then the LED is turned off and the GATT characteristic is updated. If the notification was enabled, also the the client is notified about the value update. sl_bt_evt_gatt_server_characteristic_status_id-event is handling the notification enable/disable control. If the connection closed, also the barometer measurement timer is stopped.
+The application file app.c has barometer and LED initialization in the app_init(). The LED blinks once if the barometer initialization is successful. If the LED stays on, the initialization has been failed. The reason is typically wrong sensor I2C address (i.e. using the wrong application version) or wrongly configured Click board mode (SPI-mode instead I2C) or if using some own ways to connect the sensor, various other reasons as we are in the embedded world. But no panic, in most cases, both sensors work without any issues if used without any modifications.
+
+When the connection is opened, a 1 second timer periodical is started. When the timer is triggered, then the LED is lit and the barometer measurement is started. When the measurement is ready, then the LED is turned off and the GATT characteristic is updated. If the notification was enabled, also the the client is notified about the value update. sl_bt_evt_gatt_server_characteristic_status_id-event is handling the notification enable/disable control. If the connection closed, also the barometer measurement timer is stopped.
 
 More information about the barometer driver and it's usage can be found from the driver project and documentation.
 
-The example can be used with a minor changes also in the other products.
+The example can be used with a minor changes also in the other Silabs Bluetooth products.
 
 # Create an example application #
 
-Simplicity Studio 5 was used to create the example code.
+Simplicity Studio 5-series was used to create the example code.
 
 You can either create an example application code as basis and modify it according to the instructions below or use the ready made .sls-project.
 
@@ -66,15 +68,17 @@ Next add the I2C Simple Polled Master-driver from the project .SLCP-file's SOFTW
 
 And last import the GATT configuration by using the SOFTWARE COMPONENTS-tab and open the "Bluetooth GATT Configurator" and use it's Import-button to import the *gatt_configuration.btconf*
 
-Save the files, build and ready to flash or debug! To Build select the project from the "Simplicity IDE"-perspectives "Project Explorer" and then press the hammer sign from the above toolbar to build. If there were 0 warnings, then there should be a Binaries-folder in the project. Expand the folder and use right menu button for the .s37 file and select "Flash to Device". Flash Programmer dialog should be opened. It might ask to select the Explorer Kit Board first and to press the "Click to Query Lock Status".The correct file is selected so just select Program.
+Save the files, build and ready to flash or debug! To Build select the project from the "Simplicity IDE"-perspectives "Project Explorer" and then press the hammer sign from the above toolbar to build. If there were 0 warnings, then there should be a Binaries-folder in the project. Expand the folder and use right menu button for the .s37 file and select "Flash to Device". Flash Programmer dialog should be opened. It might ask to select the Explorer Kit Board first and to press the "Click to Query Lock Status". The correct file is selected so just select Program.
 
 *Note*: The Explorer Kit also requires a bootloader to run the application. Most likely there is one already but in case not, the easiest way is to use for example iBeacon demo from the Launcher view DEMOS tab after selecting the Explorer Kit from the Debug Adapters.
 
 ## .sls Projects Used ##
 
-explorer_kit_example_baro_mikrobus.sls - This application uses I2C address 0x76 that is the Pressure 3 click default
+_explorer_kit_example_i2c_mikrobus_baro_gsdk311.sls_ - This application uses I2C address 0x76 that is the mikroE Pressure 3 click default
 
-explorer_kit_example_baro_qwiic.sls - This application uses I2C address 0x77 that is the Adafruit DPS310 default
+_explorer_kit_example_i2c_qwiic_baro_gsdk311.sls_ - This application uses I2C address 0x77 that is the Adafruit DPS310 default
+
+Also precompiled binaries in S-Record format (.s37) are included for the projects above test the applications instantly. The files can be programmed using for example _Simplicity Studio Flash Programmer_ tool or _Simplicity Commander_ application. Remember to flash also the bootloader at least once, it is also included for a smooth experience.
 
 # More information #
 
