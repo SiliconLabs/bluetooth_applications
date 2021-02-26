@@ -17,13 +17,18 @@ The Silicon Labs Bluetooth stack allows for a wide variety applications to be bu
 
 ## Examples ##
 
-- BLE SPP with Windows
-- Man-in-the-Middle Demo
-- Explorer Kit Bluetooth barometer example using I2C bus DPS310 pressure sensor
-  - Simplicity Studio SV5.1.1.0 and GSDK v3.1.1 
-  - Full SSv5 project, example source and pre-built binaries
-- IR Generator
-- Bluetooth NFC Pairing
+- BLE Man-in-the-Middle vulnerability Demo with a solution
+- BLE NFC Pairing with NT3H2111 and NT3H2211
+- BLE SPP over BLE (Serial Port Profile)
+- BLE SPP with Windows (Serial Port Profile)
+- BLE OTA Firmware Update in User Application example
+- BLE Uploading Images to Internal/External Flash Using OTA DFU
+- Explorer Kit BLE accelerometer example using I2C bus BMA400 accelerometer
+- Explorer Kit BLE barometer example using I2C bus DPS310 pressure sensor
+- Explorer Kit BLE bio-sensor example using I2C bus MAXM86161 HR and SpO2 sensor
+- IR Generator (InfraRed)
+- Log system example using UART(VCOM) or RTT with message levels
+
 
 ## Documentation ##
 
