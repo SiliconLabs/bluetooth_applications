@@ -152,20 +152,39 @@ static void update_digit(glib_display_t *digit, uint16_t data);
  *****************************************************************************/
 void hrm_init_app(void)
 {
+  int32_t err;
+
   /* Initialize the oled. */
   oled_app_init();
+
+  /* Initialize other peripherals and drivers */
+  hrm_gpio_setup();
+  // Initialize hrm
+  data_storage.spo2 = &spo2_data;
+  data_storage.hrm = &hrm_data_storage;
+  err = maxm86161_hrm_initialize(&data_storage, &hrmHandle);
+  maxm86161_hrm_configure(hrmHandle, NULL, true);
+
+  // if a max86161 is not present on the I2C bus, then shows an error on OLED
+  if (err == MAXM86161_HRM_ERROR_INVALID_PART_ID) {
+    /* Use Narrow font */
+    glib_set_font(&glib_context, (glib_font_t *) &glib_font_6x8);
+    glib_draw_string(&glib_context, "Error:", 0, 2);
+    glib_draw_string(&glib_context, "cannot", 8, 12);
+    glib_draw_string(&glib_context, "detect", 8, 22);
+    glib_draw_string(&glib_context, "MAX86161", 8, 32);
+    glib_update_display();
+  }
+  else {
+    /* Use 11x18 font */
+    glib_set_font(&glib_context, (glib_font_t *) &glib_font_11x18);
+    glib_draw_bmp(&glib_context, silicon_labs_logo);
+  }
+
   sl_sleeptimer_delay_millisecond(3000);
   glib_enable_display(false);
   //Start a software timer 500ms interval for update oled
   sl_bt_system_set_soft_timer(16384, DISPLAY_TIMER, 0);
-
-  /* Initialize other peripherals and drivers */
-  hrm_gpio_setup();
-
-  data_storage.spo2 = &spo2_data;
-  data_storage.hrm = &hrm_data_storage;
-  maxm86161_hrm_initialize(&data_storage, &hrmHandle);
-  maxm86161_hrm_configure(hrmHandle, NULL, true);
 }
 
 /**************************************************************************//**
@@ -296,6 +315,7 @@ bool hrm_get_status(void)
   hrm_contac_status = (hrm_spo2_state == HRM_STATE_ACTIVE);
   return hrm_contac_status;
 }
+
 /**************************************************************************//**
  * @brief This function returns the SpO2.
  *****************************************************************************/
@@ -304,9 +324,9 @@ int16_t hrm_get_spo2(void)
   return spo2;
 }
 
-/***************************************************************************//**
- * Initialize example.
- ******************************************************************************/
+/**************************************************************************//**
+ * Initialize OLED display.
+ *****************************************************************************/
 static void oled_app_init(void)
 {
   /* Initialize the display */
@@ -317,12 +337,6 @@ static void oled_app_init(void)
 
   /* Fill lcd with background color */
   glib_clear(&glib_context);
-
-  /* Use 11x18 font */
-  glib_set_font(&glib_context, (glib_font_t *) &glib_font_11x18);
-
-  glib_draw_bmp(&glib_context, silicon_labs_logo);
-
 }
 
 /**************************************************************************//**
@@ -348,6 +362,7 @@ void hrm_update_display(void)
     glib_update_display();
   }
 }
+
 /**************************************************************************//**
  * @brief Update the digits to prepare show on LCD display
  *****************************************************************************/
@@ -364,4 +379,3 @@ static void update_digit(glib_display_t *digit, uint16_t data)
     }
   }
 }
-

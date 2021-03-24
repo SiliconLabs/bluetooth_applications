@@ -2,15 +2,15 @@
 
 ## Summary ##
 
-This example implements the **Heart Rate** service and **Pulse Oximeter service** service. It enables a peer device to connect and receive Heart Rate and Pulse Oximeter values via Bluetooth. These values are also displayed on the OLED screen located on the SparkFun Micro OLED Breakout (Qwiic) board. The reported values are measured by a bio-sensor located on the Heart Rate 2 Click board.
+This example implements the **Heart Rate** service and **Pulse Oximeter service** service. It enables a peer device to connect and receive Heart Rate and Pulse Oximeter values via Bluetooth. The HRM/SpO2 values are measured by using a bio-sensor located on the Heart Rate 2 Click board and displayed on the OLED screen located on the SparkFun Micro OLED Breakout (Qwiic) board.
 
 This code example has the related code examples, which may be worth reading before. Find them here:
 
-- [OLED SSD1306 driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/oled_ssd1306_i2c).
+- [OLED SSD1306 driver.](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/oled_ssd1306_i2c)
 
-- [MAX86161 driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/bio_sensor_maxm86161).
+- [MAX86161 driver.](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/bio_sensor_maxm86161)
 
-- [HRM/SpO2 Software Demo](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_explorer_kit_i2c_bio_sensor).
+- [HRM/SpO2 Software Demo without OLED display.](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_explorer_kit_i2c_bio_sensor)
 
 ## Gecko SDK version ##
 
@@ -26,7 +26,7 @@ v3.1.1
 
 ## Connections Required ##
 
-The Heart Rate 2 Click board can just be "clicked" into its place. Be sure that the board's 45-degree corner matches the Explorer Kit's 45-degree white line. 
+The Heart Rate 2 Click board can just be "clicked" into its place. Be sure that the board's 45-degree corner matches the Explorer Kit's 45-degree white line.
 
 The SparkFun Micro OLED Breakout (Qwiic) board can be easily connected by using a Qwiic cable.
 
@@ -34,15 +34,16 @@ The SparkFun Micro OLED Breakout (Qwiic) board can be easily connected by using 
 
 ## Setup ##
 
-To test this application, you should connect the BMG220 Explorer Kit Board to the PC using a microUSB cable. 
+To test this application, you should connect the BMG220 Explorer Kit Board to the PC using a microUSB cable.
 
 You can either import the provided **bluetooth_explorer_kit_bio_sensor_oled.sls** project file or start with an empty example project as basis:
 
-1. Create a **Bluetooth - SoC Empty** project for the "BGM220 Explorer Kit Board" using Simplicity Studio 5. Use the default project settings. Be sure to connect and select the BGM220 Explorer Kit Board from the "Debug Adapters" on the left before creating a project.
+1. Create a **Bluetooth - SoC Empty** project for the "BGM220 Explorer Kit Board" using Simplicity Studio v5. Use the default project settings. Be sure to connect and select the BGM220 Explorer Kit Board from the "Debug Adapters" on the left before creating a project.
 
 2. Copy the attached *app.c* file and the *hrm* folder into the project root folder (overwriting existing app.c). Add all of the directory paths in the *hrm* folder to the project.
 
 3. Import the GATT configuration:
+
 - Open the .slcp file in the project.
 - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
 - Find the Import button and import the attached *gatt_configuration.btconf* file.
@@ -84,7 +85,7 @@ You can either import the provided **bluetooth_explorer_kit_bio_sensor_oled.sls*
 
 ## How It Works ##
 
-Upon reset, the application will display the Silicon Labs's logo on the OLED screen in three seconds. Then the OLED display will off to save energy. Follow the below steps to test the example:
+Upon reset, the application will display the Silicon Labs's logo on the OLED screen for three seconds. Then the OLED display will be off to save energy. Follow the below steps to test the example:
 
 1. Open the EFR Connect app on your smartphone.
 
@@ -104,6 +105,6 @@ Upon reset, the application will display the Silicon Labs's logo on the OLED scr
 
 *OLED display*
 
-You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the logs from the virtual COM port. The raw data in each column represents "green LED, IR LED, red LED”. Heart rate and SpO2 values are updated once a second. The user can easily log the raw samples and debug messages to a *.csv file for post-analysis.
+You can launch the Console that is integrated in Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the logs from the virtual COM port. The raw data in each column represents "green LED, IR LED, red LED”. Heart rate and SpO2 values are updated once a second. The user can easily log the raw samples and debug messages to a *.csv file for post-analysis.
 
 ![](images/console.png)

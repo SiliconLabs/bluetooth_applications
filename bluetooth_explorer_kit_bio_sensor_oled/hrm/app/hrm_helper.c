@@ -28,11 +28,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 *
 *******************************************************************************
-*
-* EXPERIMENTAL QUALITY
-* This code has not been formally tested and is provided as-is.  It is not suitable for production environments.
-* This code will not be maintained.
-*
+* # Experimental Quality
+* This code has not been formally tested and is provided as-is. It is not
+* suitable for production environments. In addition, this code will not be
+* maintained and there may be no bug maintenance planned for these resources.
+* Silicon Labs may update projects from time to time.
 ******************************************************************************/
 
 #include <hrm_helper.h>
@@ -44,12 +44,18 @@ maxm86161_fifo_queue_t ppg_queue;
 maxm86161_ppg_sample_t maxm86161_irq_queue[APP_QUEUE_SIZE];
 static bool maxm86161_prox_mode = false;
 
-void maxm86161_helper_sample_queue_clear()
+/**************************************************************************//**
+ * @brief Empty the samples in queue.
+ *****************************************************************************/
+void maxm86161_helper_sample_queue_clear(void)
 {
   maxm86161_clear_queue(&ppg_queue);
 }
 
-int32_t maxm86161_hrm_helper_sample_queue_numentries()
+/**************************************************************************//**
+ * @brief Query number of entries in the queue.
+ *****************************************************************************/
+int32_t maxm86161_hrm_helper_sample_queue_numentries(void)
 {
   int16_t count=0;
 
@@ -57,6 +63,9 @@ int32_t maxm86161_hrm_helper_sample_queue_numentries()
   return count;
 }
 
+/**************************************************************************//**
+ * @brief Get sample from the queue.
+ *****************************************************************************/
 int32_t maxm86161_hrm_helper_sample_queue_get(maxm86161_hrm_irq_sample_t *samples)
 {
 
@@ -65,13 +74,13 @@ int32_t maxm86161_hrm_helper_sample_queue_get(maxm86161_hrm_irq_sample_t *sample
 
   ret = maxm86161_dequeue_ppg_sample_data(&ppg_queue, &s);
   if (ret == 0) {
-      samples->ppg[0] = s.ppg1;
-      samples->ppg[1] = s.ppg2;
-      samples->ppg[2] = s.ppg3;
+    samples->ppg[0] = s.ppg1;
+    samples->ppg[1] = s.ppg2;
+    samples->ppg[2] = s.ppg3;
   }
   else {
-      ret = MAXM86161_HRM_ERROR_SAMPLE_QUEUE_EMPTY;
-            goto Error;
+    ret = MAXM86161_HRM_ERROR_SAMPLE_QUEUE_EMPTY;
+    goto Error;
   }
 
 Error:
@@ -79,17 +88,21 @@ Error:
 }
 
 /**************************************************************************//**
- * @brief
+ * @brief Initialize and clear the queue.
  *****************************************************************************/
-int32_t maxm86161_hrm_helper_initialize()
+int32_t maxm86161_hrm_helper_initialize(void)
 {
   int16_t error = 0;
-  maxm86161_allocate_ppg_data_queue(&ppg_queue, maxm86161_irq_queue, APP_QUEUE_SIZE*MAXM86161DRV_PPG_SAMPLE_SIZE_BYTES);
+  maxm86161_allocate_ppg_data_queue(&ppg_queue,
+                                    maxm86161_irq_queue,
+                                    APP_QUEUE_SIZE * MAXM86161DRV_PPG_SAMPLE_SIZE_BYTES);
   maxm86161_helper_sample_queue_clear();
   return error;
 }
 
-
+/**************************************************************************//**
+ * @brief Main interrupt processing routine for MAX86161.
+ *****************************************************************************/
 #ifdef PROXIMITY
 void maxm86161_hrm_helper_process_irq(void)
 {

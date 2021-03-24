@@ -510,9 +510,13 @@ Error:
  *****************************************************************************/
 int32_t maxm86161_hrm_initialize(maxm86161_data_storage_t *data, maxm_hrm_handle_t **handle)
 {
-  int32_t error = MAXM86161_HRM_SUCCESS;
-
+  int32_t err = MAXM86161_HRM_SUCCESS;
   maxm_hrm_handle_t *_handle;
+  uint8_t part_id;
+
+  /* Check whether a max86161 is present on the I2C bus or not. */
+  if (!maxm86161_hrm_identify_part(&part_id))
+    err = MAXM86161_HRM_ERROR_INVALID_PART_ID;
 
 #if (SIHRM_USE_DYNAMIC_DATA_STRUCTURE == 0)
   _handle = (maxm_hrm_handle_t*)(data->hrm);
@@ -526,7 +530,7 @@ int32_t maxm86161_hrm_initialize(maxm86161_data_storage_t *data, maxm_hrm_handle
 
   (*handle) = (maxm_hrm_handle_t *)_handle;
 
-  return error;
+  return err;
 }
 
 /**************************************************************************//**
