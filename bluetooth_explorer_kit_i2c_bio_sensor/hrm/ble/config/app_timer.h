@@ -63,11 +63,7 @@ typedef enum {
   *  some HRM examples do not use this timer.
   */
   HEART_RATE_TIMER,
-  PULSE_OXIMETER_TIMER,
- /** Display Polarity Inversion Timer
-  * Timer for toggling the the EXTCOMIN signal, which prevents building up a DC bias
-     within the Sharp memory LCD panel */
-  DISP_POL_INV_TIMER
+  PULSE_OXIMETER_TIMER
 } app_timer_t;
 
 /** @} (end addtogroup app) */

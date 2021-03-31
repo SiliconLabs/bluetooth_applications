@@ -86,7 +86,7 @@ void pulse_oximeter_init(void)
 {
   //TODO:: Add suitable initialization for service
 
-  //ctsDateTime_t time = {2018, 7, 31, 15, 27, 40};
+  //ctsDateTime_t time = {2020, 7, 31, 15, 27, 40};
   //service_data.plx_spot_check_measurement.timestamp = time;
   service_data.plx_spot_check_measurement.flags = 0;  // Only present SpO2 and PR
   service_data.plx_spot_check_measurement.SpO2PRSpotcheck.SpO2 = 0;

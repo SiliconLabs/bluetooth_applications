@@ -47,9 +47,9 @@ extern "C" {
 #include <stdint.h>
 #include <maxm86161.h>
 
-/**************************************************************************//**
- * HRM/SpO2 Algorithm Defines
- *****************************************************************************/
+/***************************************************************************//**
+ **************      HRM/SpO2 Algorithm Defines    *****************************
+ ******************************************************************************/
 #define FS_25HZ                                         800
 #define MAXM86161_HRM_SUCCESS                           0
 #define MAXM86161_HRM_ERROR_RESERVED                    -1
@@ -183,7 +183,7 @@ extern "C" {
 
 
 /**************************************************************************//**
- * HRM/SpO2 Algorithm Types
+ ******************    HRM/SpO2 Algorithm Types     ***************************
  *****************************************************************************/
 typedef float sihrmFloat_t;
 
@@ -439,18 +439,21 @@ int32_t maxm86161_hrm_setup_debug(maxm_hrm_handle_t *handle, int32_t enable);
 
 /**************************************************************************//**
  * @brief
- *  Output debug message
+ *  Configure maxm86161hrm debugging mode.
  *
  * @param[in] handle
- *  Pointer to maxm86161 handle
+ *  Pointer to maxm86161hrm handle
  *
- * @param[in] message
- *  Message data
+ * @param[in] enable
+ *  Enable or Disable debug
+ *
+ * @param[in] debug
+ *  Pointer to debug status
  *
  * @return
  *  Returns error status.
  *****************************************************************************/
-int32_t maxm86161_hrm_output_debug_message(maxm_hrm_handle_t *handle, int8_t * message);
+int32_t maxm86161_hrm_setup_debug(maxm_hrm_handle_t *handle, int32_t enable);
 
 /**************************************************************************//**
  * @brief
@@ -465,7 +468,9 @@ int32_t maxm86161_hrm_output_debug_message(maxm_hrm_handle_t *handle, int8_t * m
  * @return
  *  Returns error status.
  *****************************************************************************/
-int32_t maxm86161_hrm_configure(maxm_hrm_handle_t *handle, maxm86161_device_config_t *device_config, bool enable_debug);
+int32_t maxm86161_hrm_configure(maxm_hrm_handle_t *handle,
+                                maxm86161_device_config_t *device_config,
+                                bool enable_debug);
 
 /**************************************************************************//**
  * @brief
@@ -494,10 +499,15 @@ int32_t maxm86161_hrm_configure(maxm_hrm_handle_t *handle, maxm86161_device_conf
  * @return
  *  Returns error status.
  *****************************************************************************/
-int32_t maxm86161_hrm_process_external_sample(maxm_hrm_handle_t *handle, int16_t *heart_rate, int16_t *SpO2, int32_t *hrm_status, mamx86161_hrm_data_t *hrm_data, maxm86161_hrm_irq_sample_t *samples);
+int32_t maxm86161_hrm_process_external_sample(maxm_hrm_handle_t *handle,
+                                              int16_t *heart_rate,
+                                              int16_t *SpO2,
+                                              int32_t *hrm_status,
+                                              mamx86161_hrm_data_t *hrm_data,
+                                              maxm86161_hrm_irq_sample_t *samples);
 /**************************************************************************//**
  * @brief
- *  HRM process engine.  This function should be called at least once per sample
+ *  HRM process engine. This function should be called at least once per sample
  *
  * @param[in] _handle
  *  Maxm86161 handle
@@ -523,7 +533,13 @@ int32_t maxm86161_hrm_process_external_sample(maxm_hrm_handle_t *handle, int16_t
  * @return
  *  Returns error status.
  *****************************************************************************/
-int32_t maxm86161_hrm_process(maxm_hrm_handle_t *handle, int16_t *heartRate, int16_t *SpO2, int16_t numSamples, int16_t *numSamplesProcessed, int32_t *hrmStatus, mamx86161_hrm_data_t *hrmData);
+int32_t maxm86161_hrm_process(maxm_hrm_handle_t *handle,
+                              int16_t *heartRate,
+                              int16_t *SpO2,
+                              int16_t numSamples,
+                              int16_t *numSamplesProcessed,
+                              int32_t *hrmStatus,
+                              mamx86161_hrm_data_t *hrmData);
 
 /**************************************************************************//**
  * @brief
@@ -532,14 +548,6 @@ int32_t maxm86161_hrm_process(maxm_hrm_handle_t *handle, int16_t *heartRate, int
  *
  * @param[in] _handle
  *  Maxm86161 handle
- *
- * @param[in] reset
- *  Reset the internal parameters of the HRM algorithm.  If set to false the
- *  HRM algorithm will begin running using parameter values from the last time
- *  it was run.  If the users heart rate has changed significantly since the
- *  last time the algorithm has run and reset is set to false, it could take
- *  longer to converge on the correct heart rate.  It is recommended to set
- *  reset to true if the HRM algorithm has been stopped for greater than 15s.
  *
  * @return
  *  Returns error status.

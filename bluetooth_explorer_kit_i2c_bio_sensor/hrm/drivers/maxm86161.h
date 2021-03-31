@@ -30,8 +30,9 @@
 *******************************************************************************
 *
 * EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with the specified
-* dependency versions and is suitable as a demonstration for evaluation purposes only.
+* This code has been minimally tested to ensure that it builds with
+* the specified dependency versions and is suitable as a demonstration
+* for evaluation purposes only.
 * This code will be maintained at the sole discretion of Silicon Labs.
 *
 ******************************************************************************/
@@ -39,42 +40,21 @@
 #ifndef MAXM86161_H_
 #define MAXM86161_H_
 
-/***************************************************************************//**
- * @addtogroup Drivers
- * @{
- ******************************************************************************/
-
-/***************************************************************************//**
- * @addtogroup Maxm86161
- * @{
- ******************************************************************************/
-
 #include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/*******************************************************************************
- *******************************   TYPES   ***********************************
- ******************************************************************************/
-typedef void* HANDLE;
-
 #include "maxm86161_i2c.h"
 #include "sl_status.h"
 #include "sl_udelay.h"
 
 
-/*******************************************************************************
- ***************   Functions found in maxm86161_sys_out.c     ********************
- ******************************************************************************/
-int32_t maxm86161_i2c_write_to_register( uint8_t address, uint8_t value);
-int32_t maxm86161_i2c_read_from_register(uint8_t address);
-int32_t maxm86161_i2c_block_write(uint8_t address, uint8_t length, uint8_t const *values);
-int32_t maxm86161_i2c_block_read(uint8_t address, uint16_t length, uint8_t* values);
+typedef void* HANDLE;
 
-/*******************************************************************************
- *******    max86161 Register and Parameter Bit Definitions  *********************
+/***************************************************************************//**
+ ********    max86161 Register and Parameter Bit Definitions  ******************
  ******************************************************************************/
 
 #define MAXM86161_FIFO_CFG_2_FLUSH_FIFO                 0x10
@@ -85,14 +65,14 @@ int32_t maxm86161_i2c_block_read(uint8_t address, uint16_t length, uint8_t* valu
 #define MAXM86161_FIFO_CFG_2_FIFO_ROLL_OVER             0x02
 #define MAXM86161_FIFO_CFG_2_FIFO_STOP                  0x00
 
-#define MAXM86161_INT_ENABLE                             0x01
-#define MAXM86161_INT_DISABLE                            0x00
+#define MAXM86161_INT_ENABLE                            0x01
+#define MAXM86161_INT_DISABLE                           0x00
 
-#define MAXM86161_PPG_CFG_ALC_EN                         0x01
-#define MAXM86161_PPG_CFG_ALC_DS                         0x00
+#define MAXM86161_PPG_CFG_ALC_EN                        0x01
+#define MAXM86161_PPG_CFG_ALC_DS                        0x00
 
-#define MAXM86161_PPG_CFG_OFFSET_ADD                     0x01
-#define MAXM86161_PPG_CFG_OFFSET_NO                      0x00
+#define MAXM86161_PPG_CFG_OFFSET_ADD                    0x01
+#define MAXM86161_PPG_CFG_OFFSET_NO                     0x00
 
 enum maxm86161_ppg_cfg_tint{
   MAXM86161_PPG_CFG_TINT_14p8_US  = 0x00,
@@ -164,43 +144,43 @@ enum maxm86161_ledsq_setting {
   MAXM86161_LEDSQ_DIRECT_AMBIENT = 0x9,
 };
 
-#define MAXM86161_PIN_HIGH                               1
-#define MAXM86161_PIN_LOW                                0
+#define MAXM86161_PIN_HIGH                              1
+#define MAXM86161_PIN_LOW                               0
 
 //Cfg shift data
-#define MAXM86161_PPG_CFG_ALC                                  7
-#define MAXM86161_PPG_CFG_OFFSET                               6
-#define MAXM86161_PPG_CFG_ADC_RANGE                            2
-#define MAXM86161_PPG_CFG_TINT                                 0
-#define MAXM86161_PPG_CFG_SMP_RATE                             3
-#define MAXM86161_PPG_CFG_SMP_AVG                              0
+#define MAXM86161_PPG_CFG_ALC                           7
+#define MAXM86161_PPG_CFG_OFFSET                        6
+#define MAXM86161_PPG_CFG_ADC_RANGE                     2
+#define MAXM86161_PPG_CFG_TINT                          0
+#define MAXM86161_PPG_CFG_SMP_RATE                      3
+#define MAXM86161_PPG_CFG_SMP_AVG                       0
 
 //Led range shift data
-#define MAXM86161_LED_RANGE_SHIFT_GREEN                        0
-#define MAXM86161_LED_RANGE_SHIFT_IR                           2
-#define MAXM86161_LED_RANGE_SHIFT_RED                          4
+#define MAXM86161_LED_RANGE_SHIFT_GREEN                 0
+#define MAXM86161_LED_RANGE_SHIFT_IR                    2
+#define MAXM86161_LED_RANGE_SHIFT_RED                   4
 
 //Led sequence shift
-#define MAXM86161_LEDSQ_SHIFT                                  4
+#define MAXM86161_LEDSQ_SHIFT                           4
 
 //Int shift data and int mask
-#define MAXM86161_INT_SHIFT_FULL                               7
-#define MAXM86161_INT_SHIFT_DATA_RDY                           6
-#define MAXM86161_INT_SHIFT_ALC_OVF                            5
-#define MAXM86161_INT_SHIFT_PROXY                              4
-#define MAXM86161_INT_SHIFT_LED_COMPLIANT                      3
-#define MAXM86161_INT_SHIFT_DIE_TEMEP                          2
-#define MAXM86161_INT_SHIFT_PWR_RDY                            0
-#define MAXM86161_INT_SHIFT_SHA                                0
-#define MAXM86161_INT_MASK                                     0x01
+#define MAXM86161_INT_SHIFT_FULL                        7
+#define MAXM86161_INT_SHIFT_DATA_RDY                    6
+#define MAXM86161_INT_SHIFT_ALC_OVF                     5
+#define MAXM86161_INT_SHIFT_PROXY                       4
+#define MAXM86161_INT_SHIFT_LED_COMPLIANT               3
+#define MAXM86161_INT_SHIFT_DIE_TEMEP                   2
+#define MAXM86161_INT_SHIFT_PWR_RDY                     0
+#define MAXM86161_INT_SHIFT_SHA                         0
+#define MAXM86161_INT_MASK                              0x01
 
 
-#define MAXM86161_SYS_CTRL_SW_RESET                      0x01
-#define MAXM86161_SYS_CTRL_SHUT_DOWN                     0x02
-#define MAXM86161_SYS_CTRL_POWER_ON                      0x00
-#define MAXM86161_SYS_CTRL_LOW_PWR_MODE                  0x04
-#define MAXM86161_SYS_CTRL_SINGLE_PPG                    0x08
-#define MAXM86161_SYS_CTRL_DUAL_PPG                      0x00
+#define MAXM86161_SYS_CTRL_SW_RESET                     0x01
+#define MAXM86161_SYS_CTRL_SHUT_DOWN                    0x02
+#define MAXM86161_SYS_CTRL_POWER_ON                     0x00
+#define MAXM86161_SYS_CTRL_LOW_PWR_MODE                 0x04
+#define MAXM86161_SYS_CTRL_SINGLE_PPG                   0x08
+#define MAXM86161_SYS_CTRL_DUAL_PPG                     0x00
 
 #define MAXM86161_INT_1_FULL                            0x80
 #define MAXM86161_INT_1_NOT_FULL                        0x00
@@ -227,8 +207,9 @@ typedef struct
   uint8_t  tag; // 5-bits to determine which LED it belong
 } maxm86161_fifo_data_t;
 
-/// @endcond
-/// Raw data FIFO queue typedef
+/**
+ * Raw data FIFO queue typedef
+ */
 typedef struct {
   volatile uint16_t head;        ///< Index of next byte to get.
   volatile uint16_t tail;        ///< Index of where to enqueue next byte.
@@ -325,28 +306,167 @@ typedef struct maxm86161_device_config
 } maxm86161_device_config_t;
 
 
-/*******************************************************************************
- ***************   Functions supplied by maxm86161drv.c   ******************
+/***************************************************************************//**
+ *******************   Functions supplied by maxm86161.c   *********************
+ ******************************************************************************/
+
+/***************************************************************************//**
+ * @brief
+ *    Initialize the Maxim86161 with the device configuration
+ *
+ * @param[in] global_cfg
+ * device configuration structure
+ *
+ * @return
+ *    sl_status_t error code
+ ******************************************************************************/
+sl_status_t maxm86161_init_device(maxm86161_device_config_t global_cfg);
+
+/***************************************************************************//**
+ * @brief
+ *    Turn on/off shutdown mode
+ *
+ *    All interrupts are cleared.
+ *    In this mode, the oscillator is shutdown and the part draws minimum current
+ *    If this bit is asserted during an active conversion, then the conversion is aborted.
+ *
+ * @param[in] turn_off
+ * bool value for turn on/off option
+ *
+ * @return
+ *    None
+ ******************************************************************************/
+void maxm86161_shutdown_device(bool turn_off);
+
+/***************************************************************************//**
+ * @brief
+ *  All configuration, threshold and data registers including distributed
+ *  registers are reset to their power-on-state
+ *
+ ******************************************************************************/
+void maxm86161_software_reset(void);
+
+/***************************************************************************//**
+ * @brief
+ *  the FIFO gets flushed, FIFO_DATA_COUNT becomes 0.
+ *  The contents of the FIFO are lost.
+ *
+ ******************************************************************************/
+void maxm86161_flush_fifo();
+
+/***************************************************************************//**
+ * @brief
+ *    Set the number of sample the fifo for maxim to fire an FULL interrupt
+ *
+ * @param[in] level
+ *    Number of sample
+ *
+ * @return
+ *    None
+ *
+ ******************************************************************************/
+void maxm86161_set_int_level(uint8_t level);
+
+/***************************************************************************//**
+ * @brief
+ *    Configure PPG (such as adc range, sample rate, ...)
+ *
+ * @param[in] ppg_cfg
+ *    Pointer to the ppg configuration struct
+ *
+ * @return
+ *    sl_status_t error code
+ *
+ ******************************************************************************/
+sl_status_t maxm86161_ppg_config(maxm86161_ppg_cfg_t *ppg_cfg);
+
+/***************************************************************************//**
+ * @brief
+ *    Configure LED current for a specific LED
+ *
+ * @param[in] ledx
+ *    Number of led that need to change current
+ *
+ * @param[in] value
+ *    Current of the LED
+ *
+ * @return
+ *    sl_status_t error code
+ *
+ ******************************************************************************/
+sl_status_t maxm86161_led_pa_config_specific(uint8_t ledx, uint8_t value);
+
+/***************************************************************************//**
+ * @brief
+ *    Configure LED current for all the LED at the initial stage
+ *
+ * @param[in] ledpa
+ *    Pointer to the ledpa struct
+ *
+ * @return
+ *    None
+ *
+ ******************************************************************************/
+void maxm86161_led_pa_config(maxm86161_ledpa_t *ledpa);
+
+/***************************************************************************//**
+ * @brief
+ *    Configure range current for all the LED at the initial stage
+ *
+ * @param[in] led_range
+ *    Pointer to the led_range struct
+ *
+ * @return
+ *    sl_status_t error code
+ *
+ ******************************************************************************/
+sl_status_t maxm86161_led_range_config(maxm86161_led_range_curr_t *led_range);
+
+/***************************************************************************//**
+ * @brief
+ *    Configure led sequence. The data format in the FIFO as well as
+ *    the sequencing of exposures are controlled by the LED Sequence
+ *    Registers using LEDC1 through LEDC6
+ *
+ * @param[in] ledsq
+ *    Pointer to the led_range struct
+ *
+ * @return
+ *    sl_status_t error code
+ *
+ ******************************************************************************/
+sl_status_t maxm86161_led_sequence_config(maxm86161_ledsq_cfg_t *ledsq);
+
+/***************************************************************************//**
+ * @brief
+ *    Configure interrupt at the initial stage
+ *
+ * @param[in] int_ctrl
+ *    Pointer to the interrupt control struct
+ *
+ * @return
+ *    sl_status_t error code
+ *
+ ******************************************************************************/
+sl_status_t maxm86161_interupt_control(maxm86161_int_t *int_ctrl);
+
+/***************************************************************************//**
+ * @brief
+ *    Get status of all Maxim's interrupt
+ *
+ * @param[in] int_status
+ *    Pointer to queue where PPG sample is put
+ *
+ * @return
+ *    None
+ *
  ******************************************************************************/
 void maxm86161_get_irq_status(maxm86161_int_t *int_status);
-void maxm86161_flush_fifo();
-void maxm86161_led_pa_config(maxm86161_ledpa_t *ledpa);
-void maxm86161_set_int_level(uint8_t level);
-void maxm86161_software_reset();
-void maxm86161_shutdown_device(bool turn_off);
-sl_status_t maxm86161_led_pa_config_specific(uint8_t ledx, uint8_t value);
-sl_status_t maxm86161_led_range_config(maxm86161_led_range_curr_t *led_range);
-sl_status_t maxm86161_led_sequence_config(maxm86161_ledsq_cfg_t *ledsq);
-sl_status_t maxm86161_interupt_control(maxm86161_int_t *int_ctrl);
-sl_status_t maxm86161_ppg_config(maxm86161_ppg_cfg_t *ppg_cfg);
-sl_status_t maxm86161_set_prox_threshold();
-sl_status_t maxm86161_init_device(maxm86161_device_config_t global_cfg);
-int32_t maxm86161_read_fifo(maxm86161_fifo_queue_t *queue);
 
-/*******************************************************************************
- ************************** Maxm86161 I2C Registers *******************************
+
+/***************************************************************************//**
+ ************************** Maxm86161 I2C Registers ****************************
  ******************************************************************************/
-/// @cond DOXYGEN_SHOULD_SKIP_THIS
 
 //Status group
 #define MAXM86161_REG_IRQ_STATUS1		0x00
@@ -423,21 +543,105 @@ int32_t maxm86161_read_fifo(maxm86161_fifo_queue_t *queue);
 #define MAXM86161_REG_FIFO_TAG_MASK   0x1F
 
 /***************************************************************************//**
- * Data Fifo Queue Functions
+ ***************    Data Fifo Queue Functions   ********************************
  ******************************************************************************/
-void maxm86161_clear_queue(maxm86161_fifo_queue_t *queue);
-uint16_t maxm86161_num_samples_in_queue(maxm86161_fifo_queue_t *queue);
-sl_status_t maxm86161_enqueue_ppg_sample_data (maxm86161_fifo_queue_t *queue, maxm86161_ppg_sample_t *sample);
-sl_status_t maxm86161_dequeue_ppg_sample_data (maxm86161_fifo_queue_t *queue, maxm86161_ppg_sample_t *sample);
-sl_status_t maxm86161_allocate_ppg_data_queue( maxm86161_fifo_queue_t *queue, maxm86161_ppg_sample_t *queueBuffer, int16_t queueSizeInBytes);
 
 /***************************************************************************//**
- * Fifo/Interrupt Processing functions
+ * @brief
+ *    Process FULL interrupt to get PPG sample and put it into the queue
+ *
+ * @param[out] queue
+ *    Pointer to queue where PPG sample is put
+ *
+ * @return
+ *    None
+ *
  ******************************************************************************/
 void maxm86161_read_samples_in_fifo(maxm86161_fifo_queue_t *queue);
 
+/***************************************************************************//**
+ * @brief
+ *    Clear the Maxm86161 queue
+ *
+ * @param[in] queue
+ *    Pointer to queue
+ *
+ * @return
+ *    None
+ *
+ ******************************************************************************/
+void maxm86161_clear_queue(maxm86161_fifo_queue_t *queue);
+
+/***************************************************************************//**
+ * @brief
+ *    Count the number of sample in queue
+ *
+ * @param[in] queue
+ *    Pointer to queue
+ *
+ * @return
+ *    Number of sample in queue
+ *
+ ******************************************************************************/
+uint16_t maxm86161_num_samples_in_queue(maxm86161_fifo_queue_t *queue);
+
+/***************************************************************************//**
+ * @brief
+ *    Put ppg sample to the queue
+ *
+ * @param[in] queue
+ *    Pointer to queue
+ *
+ * @param[in] sample
+ *    Pointer to ppg sample
+ *
+ * @return
+ *    sl_status_t error code
+ *
+ ******************************************************************************/
+sl_status_t maxm86161_enqueue_ppg_sample_data (maxm86161_fifo_queue_t *queue,
+                                               maxm86161_ppg_sample_t *sample);
+
+/***************************************************************************//**
+ * @brief
+ *    Pop a sample from queue
+ *
+ * @param[in] queue
+ *    Pointer to queue
+ *
+ * @param[in] sample
+ *    Pointer to ppg sample
+ *
+ * @return
+ *    sl_status_t error code
+ *
+ ******************************************************************************/
+sl_status_t maxm86161_dequeue_ppg_sample_data (maxm86161_fifo_queue_t *queue,
+                                               maxm86161_ppg_sample_t *sample);
+
+/***************************************************************************//**
+ * @brief
+ *    Allocate a fifo queue for PPG maxim data
+ *
+ * @param[in] queue
+ *    Pointer to queue
+ *
+ * @param[in] queueBuffer
+ *    Pointer to buffer to use for fifo queue
+ *
+ * @param[in] queueSizeInBytes
+ *    Queue buffer size in bytes
+ *
+ * @return
+ *    sl_status_t error code
+ *
+ ******************************************************************************/
+sl_status_t maxm86161_allocate_ppg_data_queue( maxm86161_fifo_queue_t *queue,
+                                               maxm86161_ppg_sample_t *queueBuffer,
+                                               int16_t queueSizeInBytes);
+
+#ifdef __cplusplus
+}
 #endif
 
-
-
-
+#endif

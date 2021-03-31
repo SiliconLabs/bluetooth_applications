@@ -37,14 +37,13 @@
 #include <hrm_helper.h>
 #include <maxm86161_hrm_config.h>
 #include <maxm86161_hrm_spo2.h>
-#include "em_device.h"
-#include "em_chip.h"
 #include "em_gpio.h"
 #include "em_cmu.h"
 #include "em_emu.h"
 #include "sl_i2cspm.h"
 #include "sl_bt_api.h"
-
+#include "sl_simple_button_instances.h"
+#include "sl_sleeptimer.h"
 #include "hrm_app.h"
 
 /**************************************************************************//**
@@ -82,22 +81,39 @@ static volatile hrm_spo2_state_t hrm_spo2_state = HRM_STATE_IDLE;
  * Local prototypes
  *****************************************************************************/
 static void hrm_gpio_setup(void);
-static void init_mikroe_i2c(void);
-//static void enable_maxim(void);
 
 /**************************************************************************//**
  * @brief Initialize the HRM application.
  *****************************************************************************/
 void hrm_init_app(void)
 {
-  /* Initialize other peripherals and drivers */
-  init_mikroe_i2c();
+  /* Initialize peripherals*/
   hrm_gpio_setup();
 
   data_storage.spo2 = &spo2_data;
   data_storage.hrm = &hrm_data_storage;
   maxm86161_hrm_initialize(&data_storage, &hrmHandle);
   maxm86161_hrm_configure(hrmHandle, NULL, true);
+}
+
+/**************************************************************************//**
+ * Simple Button
+ * Button state changed callback
+ * @param[in] handle
+ *    Button event handle
+ *****************************************************************************/
+void sl_button_on_change(const sl_button_t *handle)
+{
+  // Button pressed.
+  if (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_PRESSED) {
+    if (&sl_button_btn0 == handle) {
+      sl_bt_external_signal(BTN0_IRQ_EVENT);
+    }
+
+    if (&sl_button_max86161_int == handle) {
+      sl_bt_external_signal(MAXM86161_IRQ_EVENT);
+    }
+  }
 }
 
 /**************************************************************************//**
@@ -108,51 +124,9 @@ static void hrm_gpio_setup(void)
   /* Enable GPIO clock */
   CMU_ClockEnable(cmuClock_GPIO, true);
 
-  /* Configure PC7 as input and enable interrupt  */
-  GPIO_PinModeSet(MAXM86161_BTN0_GPIO_PORT, MAXM86161_BTN0_GPIO_PIN, gpioModeInputPull, 1);  // PC7 is button
-  GPIO_IntConfig(MAXM86161_BTN0_GPIO_PORT, MAXM86161_BTN0_GPIO_PIN, false, true, true);
-
   GPIO_PinModeSet(MAXM86161_EN_GPIO_PORT, MAXM86161_EN_GPIO_PIN, gpioModePushPull, 1);
   // need delay to wait the Maxim ready before we can read and write to register
-  sl_udelay_wait(5000);
-  /* Configure PB3 as input and enable interrupt  */
-  GPIO_PinModeSet(MAXM86161_INT_GPIO_PORT, MAXM86161_INT_GPIO_PIN, gpioModeInputPull, 1);
-  GPIO_IntConfig(MAXM86161_INT_GPIO_PORT, MAXM86161_INT_GPIO_PIN, false, true, true);
-  if(GPIO_PinInGet(MAXM86161_INT_GPIO_PORT , MAXM86161_INT_GPIO_PIN) == 0)
-    GPIO_IntSet(1 << MAXM86161_INT_GPIO_PIN);
-
-  //GPIO_PinModeSet(gpioPortA, 4, gpioModePushPull, 1); // PA4 is LED
-
-  /* Enable ODD interrupt to catch button press that changes slew rate */
-  NVIC_ClearPendingIRQ(GPIO_ODD_IRQn);
-  NVIC_EnableIRQ(GPIO_ODD_IRQn);
-}
-
-static void init_mikroe_i2c(void)
-{
-  I2CSPM_Init_TypeDef mikroe = MIKROE_I2C_INIT_DEFAULT;
-  I2CSPM_Init(&mikroe);
-}
-
-/**************************************************************************//**
- * @brief GPIO Interrupt handler for even pins.
- *****************************************************************************/
-
-void GPIO_ODD_IRQHandler(void)
-{
-  uint32_t flags;
-  flags = GPIO_IntGet();
-  GPIO_IntClear(flags);
-
-  if(flags & (1 << MAXM86161_INT_GPIO_PIN))
-  {
-    sl_bt_external_signal(MAXM86161_IRQ_EVENT);
-  }
-
-  if(flags & (1 << MAXM86161_BTN0_GPIO_PIN))
-  {
-    sl_bt_external_signal(BTN0_IRQ_EVENT);
-  }
+  sl_sleeptimer_delay_millisecond(5);
 }
 
 /**************************************************************************//**
@@ -160,43 +134,45 @@ void GPIO_ODD_IRQHandler(void)
  *****************************************************************************/
 void hrm_process_event(uint32_t event_flags)
 {
-  if (event_flags & MAXM86161_IRQ_EVENT)
-  {
-    //GPIO_PinOutToggle(gpioPortA, 4);
+  if (event_flags & MAXM86161_IRQ_EVENT) {
     maxm86161_hrm_helper_process_irq();
   }
 
-  if (event_flags & BTN0_IRQ_EVENT)
-  {
-    if(hrm_spo2_state == HRM_STATE_IDLE)
-    {
+  if (event_flags & BTN0_IRQ_EVENT) {
+    if(hrm_spo2_state == HRM_STATE_IDLE) {
       hrm_spo2_state = HRM_STATE_ACQUIRING;
       maxm86161_hrm_run(hrmHandle);
     }
-    else
-    {
+    else {
       hrm_spo2_state = HRM_STATE_IDLE;
       maxm86161_hrm_pause();
     }
   }
 }
 
+/**************************************************************************//**
+ * @brief HRM process main loop.
+ *****************************************************************************/
 void hrm_loop(void)
 {
   int16_t num_samples_processed;
   int32_t err;
 
-  err = maxm86161_hrm_process(hrmHandle, &heart_rate, &spo2, 1, &num_samples_processed, &hrm_status, &hrm_data);
+  err = maxm86161_hrm_process(hrmHandle,
+                              &heart_rate,
+                              &spo2,
+                              1,
+                              &num_samples_processed,
+                              &hrm_status, &hrm_data);
 
-  switch(hrm_spo2_state)
-  {
+  switch (hrm_spo2_state) {
     case HRM_STATE_IDLE:
       //update_display = true;
       break;
     case HRM_STATE_ACQUIRING:
     case HRM_STATE_ACTIVE:
-      if((err == MAXM86161_HRM_SUCCESS) && (hrm_status & MAXM86161_HRM_STATUS_FRAME_PROCESSED))
-      {
+      if((err == MAXM86161_HRM_SUCCESS)
+          && (hrm_status & MAXM86161_HRM_STATUS_FRAME_PROCESSED)) {
         hrm_status &= ~MAXM86161_HRM_STATUS_FRAME_PROCESSED;
 
 #if (UART_DEBUG & HRM_LEVEL)
@@ -207,13 +183,15 @@ void hrm_loop(void)
         hrm_spo2_state = HRM_STATE_ACTIVE;
       }
 #ifdef PROXIMITY
-    else if ((hrm_status & MAXM86161_HRM_STATUS_FINGER_OFF) || (hrm_status & MAXM86161_HRM_STATUS_SPO2_FINGER_OFF) ||
-        (hrm_status & MAXM86161_HRM_STATUS_ZERO_CROSSING_INVALID) || (maxm86161_get_prox_mode()))
+    else if ((hrm_status & MAXM86161_HRM_STATUS_FINGER_OFF)
+        || (hrm_status & MAXM86161_HRM_STATUS_SPO2_FINGER_OFF)
+        || (hrm_status & MAXM86161_HRM_STATUS_ZERO_CROSSING_INVALID)
+        || (maxm86161_get_prox_mode())) {
 #else
-    else if ((hrm_status & MAXM86161_HRM_STATUS_FINGER_OFF) || (hrm_status & MAXM86161_HRM_STATUS_SPO2_FINGER_OFF) ||
-           (hrm_status & MAXM86161_HRM_STATUS_ZERO_CROSSING_INVALID))
+    else if ((hrm_status & MAXM86161_HRM_STATUS_FINGER_OFF)
+        || (hrm_status & MAXM86161_HRM_STATUS_SPO2_FINGER_OFF)
+        || (hrm_status & MAXM86161_HRM_STATUS_ZERO_CROSSING_INVALID)) {
 #endif
-    {
       heart_rate = 0;
       spo2 = 0;
       //update_display = true;
@@ -243,6 +221,9 @@ bool hrm_get_status(void)
   return hrm_contac_status;
 }
 
+/**************************************************************************//**
+ * @brief This function returns the SpO2.
+ *****************************************************************************/
 int16_t hrm_get_spo2(void)
 {
   return spo2;

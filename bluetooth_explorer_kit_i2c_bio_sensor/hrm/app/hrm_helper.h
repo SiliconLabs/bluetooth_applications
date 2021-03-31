@@ -28,11 +28,11 @@
 * 3. This notice may not be removed or altered from any source distribution.
 *
 *******************************************************************************
-*
-* EXPERIMENTAL QUALITY
-* This code has not been formally tested and is provided as-is.  It is not suitable for production environments.
-* This code will not be maintained.
-*
+* # Experimental Quality
+* This code has not been formally tested and is provided as-is. It is not
+* suitable for production environments. In addition, this code will not be
+* maintained and there may be no bug maintenance planned for these resources.
+* Silicon Labs may update projects from time to time.
 ******************************************************************************/
 
 #ifndef MAXM86161_HELPER_H_
@@ -48,18 +48,47 @@ extern "C" {
 
 typedef void *  max86161_hrm_helper_handle_t;
 
-void hrm_helper_output_debug_message(int16_t heart_rate, int16_t spo2);
-void hrm_helper_output_raw_sample_debug_message(maxm86161_hrm_irq_sample_t *sample);
+/**************************************************************************//**
+ * @brief Empty the samples in queue.
+ *****************************************************************************/
+void maxm86161_hrm_helper_sample_queue_clear(void);
 
-void maxm86161_hrm_helper_process_irq();
-int32_t maxm86161_hrm_helper_sample_queue_numentries();
+/**************************************************************************//**
+ * @brief Query number of entries in the queue.
+ *****************************************************************************/
+int32_t maxm86161_hrm_helper_sample_queue_numentries(void);
+
+/**************************************************************************//**
+ * @brief Get sample from the queue.
+ *****************************************************************************/
 int32_t maxm86161_hrm_helper_sample_queue_get(maxm86161_hrm_irq_sample_t *samples);
-void maxm86161_hrm_helper_sample_queue_clear();
-int32_t maxm86161_hrm_helper_initialize();
-int32_t maxm86161_hrm_helper_close();
+
+/**************************************************************************//**
+ * @brief Initialize and clear the queue.
+ *****************************************************************************/
+int32_t maxm86161_hrm_helper_initialize(void);
+
+/**************************************************************************//**
+ * @brief Main interrupt processing routine for MAX86161.
+ *****************************************************************************/
+void maxm86161_hrm_helper_process_irq(void);
+
+/**************************************************************************//**
+ * @brief Use to check maxm86161 in proximity mode or normal mode
+ *****************************************************************************/
 #ifdef PROXIMITY
 bool maxm86161_get_prox_mode(void);
 #endif
+
+/**************************************************************************//**
+ * @brief Prints heart rate and spo2 to USB debug interface
+ *****************************************************************************/
+void hrm_helper_output_debug_message(int16_t heart_rate, int16_t spo2);
+
+/**************************************************************************//**
+ * @brief Prints samples to USB debug interface
+ *****************************************************************************/
+void hrm_helper_output_raw_sample_debug_message(maxm86161_hrm_irq_sample_t *sample);
 
 #ifdef __cplusplus
 }
