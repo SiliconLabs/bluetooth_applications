@@ -26,6 +26,7 @@ The Silicon Labs Bluetooth stack allows for a wide variety applications to be bu
 - Explorer Kit BLE accelerometer example using I2C bus BMA400 accelerometer
 - Explorer Kit BLE barometer example using I2C bus DPS310 pressure sensor
 - Explorer Kit BLE bio-sensor example using I2C bus MAXM86161 HR and SpO2 sensor
+- Explorer Kit BLE bio-sensor example using I2C bus MAXM86161 HR/SpO2 sensor and OLED display
 - IR Generator (InfraRed)
 - Log system example using UART(VCOM) or RTT with message levels
 
