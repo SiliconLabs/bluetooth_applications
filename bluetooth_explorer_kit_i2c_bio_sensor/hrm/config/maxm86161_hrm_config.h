@@ -30,8 +30,9 @@
 *******************************************************************************
 *
 * EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with the specified
-* dependency versions and is suitable as a demonstration for evaluation purposes only.
+* This code has been minimally tested to ensure that it builds with
+* the specified dependency versions and is suitable as a demonstration
+* for evaluation purposes only.
 * This code will be maintained at the sole discretion of Silicon Labs.
 *
 ******************************************************************************/

@@ -141,32 +141,30 @@ void heart_rate_read_callback(sl_bt_msg_t *evt)
  ******************************************************************************/
 void heart_rate_write_callback(sl_bt_msg_t *evt)
 {
-
   uint8_t response_code = 0;
-  switch(evt->data.evt_gatt_server_user_write_request.characteristic)
-  {
-	// Heart Rate Control Point characteristic written
+
+  switch (evt->data.evt_gatt_server_user_write_request.characteristic) {
+    // Heart Rate Control Point characteristic written
     case gattdb_heart_rate_control_point:
-    {
-      memcpy((uint8_t *)&service_data.heart_rate_control_point, evt->data.evt_gatt_server_user_write_request.value.data, evt->data.evt_gatt_server_user_write_request.value.len);
+      memcpy((uint8_t *)&service_data.heart_rate_control_point,
+             evt->data.evt_gatt_server_user_write_request.value.data,
+             evt->data.evt_gatt_server_user_write_request.value.len);
       // TODO:: Add your own code here.
-    }
     break;
     
-	// Write operation not permitted by default
+    // Write operation not permitted by default
     default:
-    {
       response_code = ATT_WRITE_NOT_PERMITTED;
-    }
     break;
   }
   
   // TODO:: Add your own code here.
   
   // Send response
-  sl_bt_gatt_server_send_user_write_response(evt->data.evt_gatt_server_user_write_request.connection,
-                                                 evt->data.evt_gatt_server_user_write_request.characteristic,
-                                                 response_code);
+  sl_bt_gatt_server_send_user_write_response(
+      evt->data.evt_gatt_server_user_write_request.connection,
+      evt->data.evt_gatt_server_user_write_request.characteristic,
+      response_code);
 }
 
 /*******************************************************************************
@@ -182,10 +180,9 @@ void heart_rate_disconnect_event(sl_bt_msg_t *evt)
   (void)evt;
   // TODO:: Add your own code here.
   // stop timer for indicate and notify
-  if (notifications_enabled == true)
-  {
+  if (notifications_enabled == true) {
     notifications_enabled = false;
-    sl_bt_system_set_soft_timer(0,HEART_RATE_TIMER,0);
+    sl_bt_system_set_soft_timer(0, HEART_RATE_TIMER, 0);
   }
 }
 
@@ -212,28 +209,30 @@ void heart_rate_characteristic_status(sl_bt_msg_t *evt)
   send_data[2] = (service_data.heart_rate_measurement >> 8) & 0xff;
   
   // Notification or Indication status changed for Heart Rate Measurement
-  if (evt->data.evt_gatt_server_characteristic_status.characteristic == gattdb_heart_rate_measurement
-      && evt->data.evt_gatt_server_characteristic_status.status_flags == gatt_server_client_config )
-  {
-    if (evt->data.evt_gatt_server_characteristic_status.client_config_flags) // Notification or Indication - enabled 
-    {
+  if (evt->data.evt_gatt_server_characteristic_status.characteristic
+      == gattdb_heart_rate_measurement
+      && evt->data.evt_gatt_server_characteristic_status.status_flags
+      == gatt_server_client_config ) {
+    // Notification or Indication - enabled
+    if (evt->data.evt_gatt_server_characteristic_status.client_config_flags) {
       //Start a software timer 500ms interval
-      sl_bt_system_set_soft_timer(16384,HEART_RATE_TIMER,0);
+      sl_bt_system_set_soft_timer(16384, HEART_RATE_TIMER, 0);
 
       // TODO:: Add your own code here.
 
-      sl_bt_gatt_server_send_notification(evt->data.evt_gatt_server_characteristic_status.connection,
-             evt->data.evt_gatt_server_characteristic_status.characteristic,
-             3,
-             send_data);
+      sl_bt_gatt_server_send_notification(
+           evt->data.evt_gatt_server_characteristic_status.connection,
+           evt->data.evt_gatt_server_characteristic_status.characteristic,
+           3,
+           send_data);
       notifications_enabled = true;
     }
-    else // Notification or Indication - disabled
-    {
+    // Notification or Indication - disabled
+    else {
       // TODO:: Add your own code here.
       notifications_enabled = false;
       //Stop the software timer 
-      sl_bt_system_set_soft_timer(0,HEART_RATE_TIMER,0);
+      sl_bt_system_set_soft_timer(0, HEART_RATE_TIMER, 0);
     }
   }
 }
@@ -259,12 +258,11 @@ void heart_rate_send_new_data(uint8_t connect)
   send_data[2] = (service_data.heart_rate_measurement >> 8) & 0xff;
 
 
-  if (notifications_enabled == true)
-  { //sl_bt_gatt_server_send_characteristic_notification(0xFF,
+  if (notifications_enabled == true) {
      sl_bt_gatt_server_send_notification(connect,
-         gattdb_heart_rate_measurement,
-          3,
-          send_data);
+                                         gattdb_heart_rate_measurement,
+                                         3,
+                                         send_data);
   }
 }
 

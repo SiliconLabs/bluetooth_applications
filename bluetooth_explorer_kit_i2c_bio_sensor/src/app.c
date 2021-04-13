@@ -53,7 +53,7 @@ static void services_init(void);
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
-static uint8_t connection = 0xFF;
+static uint8_t connection_handle = 0xff;
 
 /**************************************************************************//**
  * Application Init.
@@ -154,7 +154,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     /* ------------------------------- */
     /* This event indicates that a new connection was opened. */
     case sl_bt_evt_connection_opened_id:
-      connection = evt->data.evt_connection_opened.connection;
+      connection_handle = evt->data.evt_connection_opened.connection;
       break;
 
     // -------------------------------
@@ -164,6 +164,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       heart_rate_disconnect_event(evt);
       pulse_oximeter_disconnect_event(evt);
       device_information_disconnect_event(evt);
+      connection_handle = 0xff;
 
       /* Restart advertising after client has disconnected. */
       sc = sl_bt_advertiser_start(
@@ -179,13 +180,13 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       /* Service write handlers */
       /* Heart Rate characteristics written */
-      if (evt->data.evt_gatt_server_user_write_request.characteristic == gattdb_heart_rate_control_point)
-      {
+      if (evt->data.evt_gatt_server_user_write_request.characteristic
+          == gattdb_heart_rate_control_point) {
         heart_rate_write_callback(evt);
       }
       /* Pulse Oximeter characteristics written */
-      else if (evt->data.evt_gatt_server_user_write_request.characteristic == gattdb_record_access_control_point)
-      {
+      else if (evt->data.evt_gatt_server_user_write_request.characteristic
+          == gattdb_record_access_control_point) {
         pulse_oximeter_write_callback(evt);
       }
 
@@ -194,38 +195,42 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_gatt_server_user_read_request_id:
 
       /* Handle previous read operation for long characteristics */
-      if (ble_att_send_data_handler(evt->data.evt_gatt_server_user_read_request.characteristic, evt->data.evt_gatt_server_user_read_request.offset))
-      {
+      if (ble_att_send_data_handler(evt->data.evt_gatt_server_user_read_request.characteristic,
+                                    evt->data.evt_gatt_server_user_read_request.offset)) {
         /* Event handled */
         break;
       }
 
       /* Service read handlers */
       /* Heart Rate characteristics read */
-      if (evt->data.evt_gatt_server_user_read_request.characteristic == gattdb_body_sensor_location)
-      {
+      if (evt->data.evt_gatt_server_user_read_request.characteristic
+          == gattdb_body_sensor_location) {
         heart_rate_read_callback(evt);
       }
       /* Device Information characteristics read */
-      else if ((evt->data.evt_gatt_server_user_read_request.characteristic >= gattdb_manufacturer_name_string) && (evt->data.evt_gatt_server_user_read_request.characteristic <= gattdb_firmware_revision_string))
-      {
+      else if ((evt->data.evt_gatt_server_user_read_request.characteristic
+                >= gattdb_manufacturer_name_string)
+            && (evt->data.evt_gatt_server_user_read_request.characteristic
+                <= gattdb_firmware_revision_string)) {
         device_information_read_callback(evt);
       }
       /* Pulse Oximeter characteristics read */
-      else if ((evt->data.evt_gatt_server_user_read_request.characteristic >= gattdb_plx_spot_check_measurement) && (evt->data.evt_gatt_server_user_read_request.characteristic <= gattdb_record_access_control_point))
-      {
+      else if ((evt->data.evt_gatt_server_user_read_request.characteristic
+                >= gattdb_plx_spot_check_measurement)
+            && (evt->data.evt_gatt_server_user_read_request.characteristic
+                <= gattdb_record_access_control_point)) {
         pulse_oximeter_read_callback(evt);
       }
       break;
 
     case sl_bt_evt_gatt_server_characteristic_status_id:
       /* Heart Rate characteristics read */
-      if (evt->data.evt_gatt_server_characteristic_status.characteristic == gattdb_heart_rate_measurement)
-      {
+      if (evt->data.evt_gatt_server_characteristic_status.characteristic
+          == gattdb_heart_rate_measurement) {
         heart_rate_characteristic_status(evt);
       }
-      else if (evt->data.evt_gatt_server_characteristic_status.characteristic == gattdb_plx_continuous_measurement)
-      {
+      else if (evt->data.evt_gatt_server_characteristic_status.characteristic
+          == gattdb_plx_continuous_measurement) {
         pulse_oximeter_characteristic_status(evt);
       }
       break;
@@ -237,23 +242,19 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
      * event->data.evt_system_external_signal.extsignals   */
     case sl_bt_evt_system_external_signal_id:
       hrm_process_event(evt->data.evt_system_external_signal.extsignals);
-    break;
+      break;
 
     /* Software Timer event */
     case sl_bt_evt_system_soft_timer_id:
       /* Check which software timer handle is in question */
-      switch (evt->data.evt_system_soft_timer.handle)
-      {
-        case HEART_RATE_TIMER:
-          heart_rate_send_new_data(connection);
+      if (evt->data.evt_system_soft_timer.handle == HEART_RATE_TIMER) {
+        heart_rate_send_new_data(connection_handle);
         break;
+      }
 
-        case PULSE_OXIMETER_TIMER:
-          pulse_oximeter_send_new_data(connection);
+      if (evt->data.evt_system_soft_timer.handle == PULSE_OXIMETER_TIMER) {
+        pulse_oximeter_send_new_data(connection_handle);
         break;
-
-        default:
-          break;
       }
       break;
 
@@ -278,4 +279,3 @@ static void services_init(void)
   device_information_init();
   pulse_oximeter_init();
 }
-
