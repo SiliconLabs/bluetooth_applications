@@ -33,7 +33,7 @@
 
 // Defines
 #define ULFRCO_FREQUENCY                 1000
-#define WAKEUP_INTERVAL_MS              0.25*60000 // 2*1min
+#define WAKEUP_INTERVAL_MS              15000 // 30 sec
 #define BURTC_COUNT_BETWEEN_WAKEUP      (((ULFRCO_FREQUENCY * WAKEUP_INTERVAL_MS) / 1000)-1)
 #define ADVERTISING_DURATION            500 // 5 seconds
 
@@ -79,7 +79,7 @@ static void init_BURTC(void){
   // Enable compare interrupt flag
   BURTC_IntEnable(BURTC_IF_COMP);
 
-  // Initialize BURTC
+  // Initialize BURTC. This also starts BURTC automatically.
   BURTC_Init(&init_burtc);
 }
 
@@ -139,7 +139,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
      //Reset and stop BURTC counter until advertising timeout.
       BURTC_CounterReset();
       BURTC_Stop();
-      BURTC_SyncWait();
+      BURTC_SyncWait(); // Wait for the stop to synchronize
 
       // Set 0 dBm Transmit Power.
       sc = sl_bt_system_set_tx_power(0, 0, &min_pwr, &max_pwr);
