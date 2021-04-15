@@ -16,7 +16,7 @@
  ******************************************************************************/
 
 #include "sl_bluetooth.h"
-#include "sl_app_assert.h"
+#include "app_assert.h"
 #include "gatt_db.h"
 #include "app.h"
 #include "sl_simple_button_btn1_config.h"
@@ -33,7 +33,7 @@
 
 // Defines
 #define ULFRCO_FREQUENCY                 1000
-#define WAKEUP_INTERVAL_MS              15000 // 30 sec
+#define WAKEUP_INTERVAL_MS              15000 // 15 sec
 #define BURTC_COUNT_BETWEEN_WAKEUP      (((ULFRCO_FREQUENCY * WAKEUP_INTERVAL_MS) / 1000)-1)
 #define ADVERTISING_DURATION            500 // 5 seconds
 
@@ -143,9 +143,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       // Set 0 dBm Transmit Power.
       sc = sl_bt_system_set_tx_power(0, 0, &min_pwr, &max_pwr);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to set max TX power for Bluetooth\n",
-                    (int)sc);
+      app_assert_status(sc);
       // Initialize iBeacon ADV data.
       bcn_setup_adv_beaconing();
       break;
@@ -230,18 +228,14 @@ static void bcn_setup_adv_beaconing(void)
 
   // Create an advertising set.
   sc = sl_bt_advertiser_create_set(&advertising_set_handle);
-  sl_app_assert(sc == SL_STATUS_OK,
-                "[E: 0x%04x] Failed to create advertising set\n",
-                (int)sc);
+  app_assert_status(sc);
 
   // Set custom advertising data.
   sc = sl_bt_advertiser_set_data(advertising_set_handle,
                                  0,
                                  sizeof(bcn_beacon_adv_data),
                                  (uint8_t *)(&bcn_beacon_adv_data));
-  sl_app_assert(sc == SL_STATUS_OK,
-                "[E: 0x%04x] Failed to set advertiser data\n",
-                (int)sc);
+  app_assert_status(sc);
 
   // Set advertising parameters. 100ms advertisement interval.
   sc = sl_bt_advertiser_set_timing(
@@ -250,16 +244,12 @@ static void bcn_setup_adv_beaconing(void)
     160,     // max. adv. interval (milliseconds * 1.6)
     ADVERTISING_DURATION,       // adv. duration
     0);      // max. num. adv. events
-  sl_app_assert(sc == SL_STATUS_OK,
-                "[E: 0x%04x] Failed to set advertising timing\n",
-                (int)sc);
+  app_assert_status(sc);
 
   // Start advertising in user mode and disable connections.
   sc = sl_bt_advertiser_start(
     advertising_set_handle,
     advertiser_user_data,
     advertiser_non_connectable);
-  sl_app_assert(sc == SL_STATUS_OK,
-                "[E: 0x%04x] Failed to start advertising\n",
-                (int)sc);
+  app_assert_status(sc);
 }

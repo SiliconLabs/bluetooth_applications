@@ -7,7 +7,7 @@ Note that wake-up from EM4 is performed through a reset. Thus, no data is retain
 
 ## Gecko SDK version ##
 
-SDK v3.1.1
+SDK v3.1.2
 
 ## Hardware Required ##
 - WSTK
@@ -19,8 +19,7 @@ Note that `BRD4182A` radio board is used for preparing this example code. If you
 
 1. Create `Bluetooth - SoC iBeacon` example project for your radio board using Simplicity Studio 5.
 2. Open the `*.slcp` file in your project and install `Simple Button` driver.
-3. When prompted to create a component instance, create a name for the button instance in the provided field.
-
+3. When prompted to create a component instance, create a name for the button instance in the provided field. We are creating btn1 button instance in this example, since EM4WU Pin is button 1 in BRD4182A. 
     ![button 1 instance](./images/create-btn-instance.png)
 
 4. Copy and overwrite the attached `app.c` file into your project directory.
@@ -42,5 +41,5 @@ EMU_EM4Init(&em4Init);
 
 To wake-up from EM4 using a specific module, the EM4WUEN register of that module must be enabled. In this example code, this is done via the call to  `BURTC_Init()` and `GPIO_EM4EnablePinWakeup()` for the BURTC and GPIO wakeup pin, respectively.
 
-
+The average current consumption in EM4 deep sleep mode is ~115 nA.
 ![](images/energy-profile.png)
