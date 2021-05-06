@@ -30,167 +30,128 @@
 *******************************************************************************
 *
 * EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with the specified dependency versions
-* and is suitable as a demonstration for evaluation purposes only.
+* This code has been minimally tested to ensure that it builds with
+* the specified dependency versions and is suitable as a demonstration
+* for evaluation purposes only.
 * This code will be maintained at the sole discretion of Silicon Labs.
 *
 ******************************************************************************/
-#include <maxm86161.h>
-#include <maxm86161_hrm_config.h>
-#include <maxm86161_i2c.h>
-#include <stdio.h>
+
 #include "sl_i2cspm.h"
-#include "em_i2c.h"
-
-#include "em_gpio.h"
+#include "sl_i2cspm_mikroe_config.h"
+#include "stdio.h"
 #include "string.h"
-
-static int16_t maxm86161_i2c_write_byte_data(uint8_t address, uint8_t data);
-static int16_t maxm86161_i2c_read_byte_data(uint8_t address, uint8_t *data);
-static int16_t maxm86161_i2c_write_i2c_block_data(uint8_t address, uint8_t length, uint8_t const* values);
-static int16_t maxm86161_i2c_read_i2c_block_data(uint8_t address, uint16_t length, uint8_t* values);
-
+#include "maxm86161_hrm_config.h"
+#include "maxm86161_i2c.h"
 
 /**************************************************************************//**
- * @brief Write to Maxim register
+ * @brief Write a byte to Maxim register.
  *****************************************************************************/
-int32_t maxm86161_i2c_write_to_register(uint8_t address, uint8_t data)
+sl_status_t maxm86161_i2c_write_to_register(uint8_t address, uint8_t data)
 {
-  return maxm86161_i2c_write_byte_data(address, data);
+  I2C_TransferSeq_TypeDef    seq;
+  I2C_TransferReturn_TypeDef ret;
+  uint8_t i2c_write_data[2];
+  uint8_t i2c_read_data[1];
+
+  seq.addr = MAXM86161_SLAVE_ADDRESS;
+  seq.flags = I2C_FLAG_WRITE;
+  /* Select register and data to write */
+  i2c_write_data[0] = address ;
+  i2c_write_data[1] = data;
+  seq.buf[0].data = i2c_write_data;
+  seq.buf[0].len  = 2;
+  /* Select length of data to be read */
+  seq.buf[1].data = i2c_read_data;
+  seq.buf[1].len  = 0;
+
+  ret = I2CSPM_Transfer(SL_I2CSPM_MIKROE_PERIPHERAL, &seq);
+  if (ret != i2cTransferDone) {
+    return SL_STATUS_TRANSMIT;
+  }
+
+  return SL_STATUS_OK;
 }
 
 /**************************************************************************//**
- * @brief Read from Maxim register.
+ * @brief Read a byte from Maxim register.
  *****************************************************************************/
-int32_t maxm86161_i2c_read_from_register(uint8_t address)
+sl_status_t maxm86161_i2c_read_from_register(uint8_t address, uint8_t *data)
 {
-  uint8_t data;
-  maxm86161_i2c_read_byte_data(address, &data);
-  return data;
+  I2C_TransferSeq_TypeDef    seq;
+  I2C_TransferReturn_TypeDef ret;
+  uint8_t i2c_write_data[1];
+
+  seq.addr = MAXM86161_SLAVE_ADDRESS;
+  seq.flags = I2C_FLAG_WRITE_READ;
+  i2c_write_data[0] = address;
+  seq.buf[0].data = i2c_write_data;
+  seq.buf[0].len  = 1;
+  /* Select length of data to be read */
+  seq.buf[1].data = data;
+  seq.buf[1].len  = 1;
+
+  ret = I2CSPM_Transfer(SL_I2CSPM_MIKROE_PERIPHERAL, &seq);
+  if (ret != i2cTransferDone) {
+    *data = 0x00;
+    return SL_STATUS_TRANSMIT;
+  }
+
+  return SL_STATUS_OK;
 }
 
 /**************************************************************************//**
- * @brief block write to maxim
- * Block writes should never be used.
+ * @brief Write a Block to Maxim.
  *****************************************************************************/
-int32_t maxm86161_i2c_block_write( uint8_t address, uint8_t length, uint8_t const *values)
+sl_status_t maxm86161_i2c_block_write(uint8_t address, uint8_t length, uint8_t const *data)
 {
-  return maxm86161_i2c_write_i2c_block_data(address,
-                                               length,
-                                               values);
+  I2C_TransferSeq_TypeDef seq;
+  I2C_TransferReturn_TypeDef ret;
+  uint8_t i2c_write_data[2];
+  uint8_t i2c_read_data[1];
+
+  seq.addr = MAXM86161_SLAVE_ADDRESS;
+  seq.flags = I2C_FLAG_WRITE;
+  /* Select register and data to write */
+  i2c_write_data[0] = address ;
+  for (int i = 0; i < length; i++) {
+    i2c_write_data[i + 1] = data[i];
+  }
+  seq.buf[0].data = i2c_write_data;
+  seq.buf[0].len  = length + 1;
+  /* Select length of data to be read */
+  seq.buf[1].data = i2c_read_data;
+  seq.buf[1].len  = 0;
+  ret = I2CSPM_Transfer(SL_I2CSPM_MIKROE_PERIPHERAL, &seq);
+  if (ret != i2cTransferDone) {
+    return SL_STATUS_TRANSMIT;
+  }
+
+  return SL_STATUS_OK;
 }
 
 /**************************************************************************//**
- * @brief Block read from Maxim.
+ * @brief Read a Block from Maxim.
  *****************************************************************************/
-int32_t maxm86161_i2c_block_read(uint8_t address, uint16_t length, uint8_t *values)
+sl_status_t maxm86161_i2c_block_read(uint8_t address, uint16_t length, uint8_t *data)
 {
-	return maxm86161_i2c_read_i2c_block_data(address, length, values);
-}
+  I2C_TransferSeq_TypeDef seq;
+  I2C_TransferReturn_TypeDef ret;
+  uint8_t i2c_write_data[1];
 
-/**************************************************************************//**
- * @brief Write to Maxim i2c.
- *****************************************************************************/
-static int16_t maxm86161_i2c_write_byte_data(uint8_t address, uint8_t data)
-{
-	I2C_TransferSeq_TypeDef    seq;
-	I2C_TransferReturn_TypeDef ret;
-	uint8_t i2c_write_data[2];
-	uint8_t i2c_read_data[1];
-	seq.addr  = MAXM86161_SLAVE_ADDRESS ;
-	seq.flags = I2C_FLAG_WRITE;
-	/* Select register and data to write */
-	i2c_write_data[0] = address ;
-	i2c_write_data[1] = data;
-	seq.buf[0].data = i2c_write_data;
-	seq.buf[0].len  = 2;
-	seq.buf[1].data = i2c_read_data;
-	seq.buf[1].len  = 0;
-	ret = I2CSPM_Transfer((I2C_TypeDef*)MIKROE_I2C, &seq);
-	if (ret != i2cTransferDone)
-	{
-	    return (int16_t)ret;
-	}
-	return (int16_t)0;
-}
+  seq.addr  = MAXM86161_SLAVE_ADDRESS;
+  seq.flags = I2C_FLAG_WRITE_READ;
 
-/**************************************************************************//**
- * @brief read byte from maxim i2c.
- *****************************************************************************/
-static int16_t maxm86161_i2c_read_byte_data(uint8_t address, uint8_t *data)
-{
-	I2C_TransferSeq_TypeDef    seq;
-	I2C_TransferReturn_TypeDef ret;
-	uint8_t i2c_write_data[1];
+  i2c_write_data[0] = address;
+  seq.buf[0].data = i2c_write_data;
+  seq.buf[0].len  = 1;
+  /* Select length of data to be read */
+  seq.buf[1].data = data;
+  seq.buf[1].len  = length;
+  ret = I2CSPM_Transfer(SL_I2CSPM_MIKROE_PERIPHERAL, &seq);
+  if (ret != i2cTransferDone) {
+    return SL_STATUS_TRANSMIT;
+  }
 
-	seq.addr  = MAXM86161_SLAVE_ADDRESS;
-	seq.flags = I2C_FLAG_WRITE_READ;
-	i2c_write_data[0] = address;
-	seq.buf[0].data = i2c_write_data;
-	seq.buf[0].len  = 1;
-	/* Select length of data to be read */
-	seq.buf[1].data = data;
-	seq.buf[1].len  = 1;
-	ret = I2CSPM_Transfer((I2C_TypeDef*)MIKROE_I2C, &seq);
-	if (ret != i2cTransferDone)
-	{
-		*data = 0xff;
-		return((int) ret);
-	}
-	return((int) 1);
-}
-
-/**************************************************************************//**
- * @brief Write block data to Maxim i2c.
- *****************************************************************************/
-static int16_t maxm86161_i2c_write_i2c_block_data(uint8_t address, uint8_t length, uint8_t const* data)
-{
-	I2C_TransferSeq_TypeDef    seq;
-	I2C_TransferReturn_TypeDef ret;
-	uint8_t i2c_write_data[2];
-	uint8_t i2c_read_data[1];
-	seq.addr  = MAXM86161_SLAVE_ADDRESS;
-	seq.flags = I2C_FLAG_WRITE;
-	/* Select register and data to write */
-	i2c_write_data[0] = address ;
-	for (int i=0; i<length; i++)
-	{
-		i2c_write_data[i+1] = data[i];
-	}
-	seq.buf[0].data = i2c_write_data;
-	seq.buf[0].len  = length + 1;
-	seq.buf[1].data = i2c_read_data;
-	seq.buf[1].len  = 0;
-	ret = I2CSPM_Transfer(MIKROE_I2C, &seq);
-	if (ret != i2cTransferDone)
-	{
-	return (int16_t)ret;
-	}
-	return (int16_t)0;
-}
-
-/**************************************************************************//**
- * @brief read block data from to maxim i2c.
- *****************************************************************************/
-static int16_t maxm86161_i2c_read_i2c_block_data(uint8_t address, uint16_t length, uint8_t* data)
-{
-	I2C_TransferSeq_TypeDef    seq;
-	I2C_TransferReturn_TypeDef ret;
-	uint8_t i2c_write_data[1];
-
-	seq.addr  = MAXM86161_SLAVE_ADDRESS;
-	seq.flags = I2C_FLAG_WRITE_READ;
-
-	i2c_write_data[0] = address;
-	seq.buf[0].data = i2c_write_data;
-	seq.buf[0].len  = 1;
-	/* Select length of data to be read */
-	seq.buf[1].data = data;
-	seq.buf[1].len  = length;
-	ret = I2CSPM_Transfer(MIKROE_I2C, &seq);
-	if (ret != i2cTransferDone)
-	{
-		return((int) ret);
-	}
-	return((int) 1);
+  return SL_STATUS_OK;
 }

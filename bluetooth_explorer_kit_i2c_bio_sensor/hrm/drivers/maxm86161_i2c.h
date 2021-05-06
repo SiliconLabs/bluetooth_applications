@@ -30,8 +30,9 @@
 *******************************************************************************
 *
 * EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with the specified dependency versions
-* and is suitable as a demonstration for evaluation purposes only.
+* This code has been minimally tested to ensure that it builds with
+* the specified dependency versions and is suitable as a demonstration
+* for evaluation purposes only.
 * This code will be maintained at the sole discretion of Silicon Labs.
 *
 ******************************************************************************/
@@ -42,58 +43,69 @@
 extern "C" {
 #endif
 
-#include <stdint.h>
-#include "em_gpio.h"   //needed for GPIO_Port_TypeDef
-#if (MAXM86161_BUS == MAXM86161_I2C)
-  #include "em_i2c.h"
-#elif (MAXM86161_BUS == MAXM86161_SPI)
-  #include "spidrv.h"
-#endif
-
-/* Communicate with the MAXM86161 over I2C or SPI */
-#define MAXM86161_I2C   0
-#define MAXM86161_SPI   1
-#define MAXM86161_BUS   MAXM86161_I2C
-
+#include "sl_status.h"
+#include "em_gpio.h"
+/** I2C device address for MAX86161 */
 #define MAXM86161_SLAVE_ADDRESS         0xC4
-#define MIKROE_I2C                      I2C1
 
 #define MAXM86161_EN_GPIO_PORT          gpioPortC
 #define MAXM86161_EN_GPIO_PIN           3
 
-#define MAXM86161_INT_GPIO_PORT         gpioPortB
-#define MAXM86161_INT_GPIO_PIN          3
+/***************************************************************************//**
+ * @brief
+ *   Write a byte to the sensor via I2C.
+ * @param[in] address
+ *   The register address of the sensor.
+ * @param[in] data
+ *   Data in transfer.
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_TRANSMIT on failure
+ ******************************************************************************/
+sl_status_t maxm86161_i2c_write_to_register( uint8_t address, uint8_t data);
 
- /** Button 0 for start and pause measurement */
-#define MAXM86161_BTN0_GPIO_PORT        gpioPortC
-#define MAXM86161_BTN0_GPIO_PIN         7
+/***************************************************************************//**
+ * @brief
+ *   Read a byte from the sensor via I2C.
+ * @param[in] address
+ *   The register address of the sensor.
+ * @param[out] data
+ *   Data in transfer.
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_TRANSMIT on failure
+ ******************************************************************************/
+sl_status_t maxm86161_i2c_read_from_register(uint8_t address, uint8_t* data);
 
-#define MIKROE_I2C_INIT_DEFAULT                                               \
-{                                                                             \
-    MIKROE_I2C,  /* Use I2C instance */                                       \
-    gpioPortD,    /* SCL port */                                              \
-    2,     /* SCL pin */                                                      \
-    gpioPortD,    /* SDA port */                                              \
-    3,     /* SDA pin */                                                      \
-    0,                         /* Use currently configured reference clock */ \
-    I2C_FREQ_STANDARD_MAX,     /* Set to standard rate  */                    \
-    i2cClockHLRStandard,       /* Set to use 4:4 low/high duty cycle */       \
-};
+/***************************************************************************//**
+ * @brief
+ *   Write a block to the sensor over SPI interface.
+ * @param[in] address
+ *   The register address of the sensor.
+ * @param[in] length
+ *   Length of buffer in transfer.
+ * @param[in] data
+ *   Data buffer.
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_TRANSMIT on failure
+ ******************************************************************************/
+sl_status_t maxm86161_i2c_block_write(uint8_t address, uint8_t length, uint8_t const *data);
 
-typedef struct Max86161PortConfig
-{
-#if (MAXM86161_BUS == MAXM86161_I2C)
-  I2C_TypeDef       *i2cPort;   /**< I2C port Maxm86161 is connected to */
-  uint8_t           i2cAddress; /**< I2C address of Maxm86161 */
-#elif (MAXM86161_BUS == MAXM86161_SPI)
-  SPIDRV_Handle_t   spiHandle;   /**< SPI Handle Maxm86161 is connected to */
-  SPIDRV_Init_t     *spiPortConfig;  /**< SPIDRV Initialization struct. */
+/***************************************************************************//**
+ * @brief
+ *   Read a block from the sensor over SPI interface.
+ * @param[in] address
+ *   The register address of the sensor.
+ * @param[in] length
+ *   Length of buffer in transfer.
+ * @param[out] data
+ *   Data buffer.
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_TRANSMIT on failure
+ ******************************************************************************/
+sl_status_t maxm86161_i2c_block_read(uint8_t address, uint16_t length, uint8_t* data);
 
+#ifdef __cplusplus
+}
 #endif
-  GPIO_Port_TypeDef irqPort;    /**< Port for Maxm86161 INT pin */
-  int               irqPin;     /**< Pin for Maxm86161 INT pin */
-} Max86161PortConfig_t;
-
 
 #endif
 
