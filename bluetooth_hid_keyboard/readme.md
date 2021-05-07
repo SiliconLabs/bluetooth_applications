@@ -20,9 +20,9 @@ Before the HID device can enter its normal operating mode and transfer data with
 properly enumerate. After a device has successfully enumerated, the host can begin sending and receiving data in the form of reports.
 For more information, see [HID Specification and Usage Tables](https://www.usb.org/hid).
 
-The HID over GATT profile is an adaptation of the USB HID specification. In this profile, the *Report Map characteristic* (Bluetooth LE version of the USB *Report Descrtiptor*) is used to specify the HID *Report characteristic*, which is responsible for exchanging data between a HID Device and a HID Host.
+The HID over GATT profile is an adaptation of the USB HID specification. In this profile, the *Report Map characteristic* (Bluetooth LE version of the USB *Report Descriptor*) is used to specify the HID *Report characteristic*, which is responsible for exchanging data between a HID Device and a HID Host.
 
-In this profile there can be several *Report charateristics* but only one *Report Map characteristic* which defines the size of the reports, and the purpose of each byte and bit in each report. Input reports are sent using notifications and they can also be read by the host.
+In this profile there can be several *Report characteristics* but only one *Report Map characteristic* which defines the size of the reports, and the purpose of each byte and bit in each report. Input reports are sent using notifications and they can also be read by the host.
 
 A Bluetooth HID Device must implement the HID over GATT profile. In addition to HID Service, this profile requires the Battery Service and the Device Information Service, too. The detailed description can be found in [HID over GATT Profile Specification](https://www.bluetooth.org/docman/handlers/downloaddoc.ashx?doc_id=245141).
 
@@ -144,7 +144,7 @@ HID Devices must bond and use LE Security Mode 1, Security Level 2 or 3, both of
 1. Create a new 'Bluetooth - SoC Empty' project for your device.
 2. Install the following software components:
    1. Platform -> Driver -> Simple Button (instances: btn0 and btn1)
-   2. Serives -> IO Stream -> IO Stream: USART
+   2. Services -> IO Stream -> IO Stream: USART
    3. Application -> Utility -> Log
 3. Import the attached gatt_configuration.btconf file in the GATT Configurator.
 4. Copy the attached app.c file into your project (overwriting the existing one).
@@ -154,7 +154,7 @@ HID Devices must bond and use LE Security Mode 1, Security Level 2 or 3, both of
 ## Usage
 This section gives a brief description of the general usage.
 
-On the host device, open Bluetooth settings and find the device which is called "Silabs KB". Host device may ask the user to accept pairing, which is necessary for keyboard operation. After the device is connected and paired successfully, press PB0 to send a character. To activate the Caps lock modifier keep PB0 pressed simultaneously. Open a program on the host device where keystrokes can appear.
+On the host device, open Bluetooth settings and find the device which is called "HID KB". Host device may ask the user to accept pairing, which is necessary for keyboard operation. After the device is connected and paired successfully, press PB0 to send a character. To activate the Caps lock modifier keep PB1 pressed simultaneously. Open a program on the host device where keystrokes can appear.
 
 This example was tested on Android 9, Windows 10 and iOS 13.
 
