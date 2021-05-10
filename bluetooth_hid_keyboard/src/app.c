@@ -47,7 +47,7 @@ static uint8_t actual_key, modifier;
 static uint8_t counter=0;
 
 static uint8_t notification_enabled = 0;
-static int16_t connection_handle = -1;
+static uint8_t connection_handle = 0xff;
 
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
@@ -190,7 +190,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
     case  sl_bt_evt_system_external_signal_id:
 
-      if ((notification_enabled == 1) && (connection_handle != -1))
+      if ((notification_enabled == 1) && (connection_handle != 0xff))
       {
           memset(input_report_data, 0, sizeof(input_report_data));
 
@@ -225,7 +225,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_connection_closed_id:
 
       notification_enabled = 0;
-      connection_handle = -1;
+      connection_handle = 0xff;
 
       // Restart advertising after client has disconnected.
       sc = sl_bt_advertiser_start(
