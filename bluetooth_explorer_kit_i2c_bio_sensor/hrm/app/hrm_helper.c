@@ -38,7 +38,7 @@
 #include <hrm_helper.h>
 #include <maxm86161.h>
 #include <maxm86161_hrm_config.h>
-#include <sl_app_log.h>
+#include <app_log.h>
 
 maxm86161_fifo_queue_t ppg_queue;
 maxm86161_ppg_sample_t maxm86161_irq_queue[APP_QUEUE_SIZE];
@@ -151,7 +151,7 @@ bool maxm86161_get_prox_mode(void)
  *****************************************************************************/
 void hrm_helper_output_debug_message(int16_t heart_rate, int16_t spo2)
 {
-  sl_app_log("Heart rate = %hdbpm, SpO2 = %hd%%\n", heart_rate, spo2);
+  app_log("Heart rate = %hdbpm, SpO2 = %hd%%\n", heart_rate, spo2);
 }
 
 /**************************************************************************//**
@@ -159,5 +159,5 @@ void hrm_helper_output_debug_message(int16_t heart_rate, int16_t spo2)
  *****************************************************************************/
 void hrm_helper_output_raw_sample_debug_message(maxm86161_hrm_irq_sample_t *sample)
 {
-  sl_app_log("\n%lu,%lu,%lu,", sample->ppg[0], sample->ppg[1], sample->ppg[2]);
+  app_log("\n%lu,%lu,%lu,", sample->ppg[0], sample->ppg[1], sample->ppg[2]);
 }

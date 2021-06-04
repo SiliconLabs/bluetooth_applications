@@ -35,7 +35,7 @@
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
 #include "em_common.h"
-#include "sl_app_assert.h"
+#include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
 #include "app.h"
@@ -103,9 +103,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       /* Extract unique ID from BT Address. */
       sc = sl_bt_system_get_identity_address(&address, &address_type);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to get Bluetooth address\n",
-                    (int)sc);
+      app_assert_status(sc);
 
       /* Pad and reverse unique ID to get System ID. */
       system_id[0] = address.addr[5];
@@ -121,15 +119,11 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
                                                    0,
                                                    sizeof(system_id),
                                                    system_id);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to write attribute\n",
-                    (int)sc);
+      app_assert_status(sc);
 
       /* Create an advertising set. */
       sc = sl_bt_advertiser_create_set(&advertising_set_handle);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to create advertising set\n",
-                    (int)sc);
+      app_assert_status(sc);
 
       /* Set advertising interval to 100ms. */
       sc = sl_bt_advertiser_set_timing(
@@ -138,17 +132,13 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         160, // max. adv. interval (milliseconds * 1.6)
         0,   // adv. duration
         0);  // max. num. adv. events
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to set advertising timing\n",
-                    (int)sc);
+      app_assert_status(sc);
       /* Start general advertising and enable connections. */
       sc = sl_bt_advertiser_start(
         advertising_set_handle,
         advertiser_general_discoverable,
         advertiser_connectable_scannable);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to start advertising\n",
-                    (int)sc);
+      app_assert_status(sc);
       break;
 
     /* ------------------------------- */
@@ -171,9 +161,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         advertising_set_handle,
         advertiser_general_discoverable,
         advertiser_connectable_scannable);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to start advertising\n",
-                    (int)sc);
+      app_assert_status(sc);
       break;
 
     case sl_bt_evt_gatt_server_user_write_request_id:

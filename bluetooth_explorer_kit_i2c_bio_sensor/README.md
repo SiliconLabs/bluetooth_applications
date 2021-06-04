@@ -10,7 +10,7 @@ This code example has a related code example, which may be worth reading before.
 
 ## Gecko SDK version ##
 
-v3.1.1
+v3.1.2
 
 ## Hardware Required ##
 
@@ -63,7 +63,7 @@ You can either import the provided **bluetooth_explorer_kit_i2c_bio_sensor.sls**
 
 - Install **IO Stream: Retarget STDIO** component (found under **[Services] > [IO Stream]** group).
 
-- Install the **Log** component (found under **[Bluetooth] > [Utility]** group).
+- Install the **Log** component (found under **[Application] > [Utility]** group).
 
 5. Save the files, build and ready to flash or debug! To build select the project from the "Simplicity IDE"-perspectives "Project Explorer" and then press the hammer sign from the above toolbar. If there were 0 warnings, then there should be a Binaries-folder in the project. Expand the folder and use the right menu button for the .s37 file and select "Flash to Device". Flash Programmer dialog should be opened. The correct file is selected so just select Program.
 
