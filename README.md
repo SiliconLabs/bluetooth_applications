@@ -23,6 +23,7 @@ The Silicon Labs Bluetooth stack allows for a wide variety applications to be bu
 - BLE SPP with Windows (Serial Port Profile)
 - BLE OTA Firmware Update in User Application example
 - BLE Uploading Images to Internal/External Flash Using OTA DFU
+- BLE Using EM4 Energy Mode in Bluetooth iBeacon Application
 - Explorer Kit BLE accelerometer example using I2C bus BMA400 accelerometer
 - Explorer Kit BLE barometer example using I2C bus DPS310 pressure sensor
 - Explorer Kit BLE bio-sensor example using I2C bus MAXM86161 HR and SpO2 sensor
