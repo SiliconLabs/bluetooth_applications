@@ -1,3 +1,12 @@
+## Deprecation Notice
+
+This code has been deprecated. It has been provided for historical reference only and should not be used. This code will not be maintained. This code is subject to the quality disclaimer at the point in time prior to deprecation and superseded by this deprecation notice.
+
+### Reasoning
+
+This code example is marked as deprecated because Bluetooth soft timers became deprecated in GSDK v3.2. Soft timers will be removed from the Bluetooth stack, and using the sleep timer platform component will be the preferred way for timing. The usage of sleep timer and watchdog is demonstrated with code examples in the Gecko SDK and under [https://github.com/SiliconLabs/peripheral_examples](https://github.com/SiliconLabs/peripheral_examples). 
+
+
 
 # Using Watchdog in Bluetooth Applications
 

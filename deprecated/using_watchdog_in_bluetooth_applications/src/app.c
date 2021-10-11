@@ -2,6 +2,14 @@
  * @file
  * @brief Core application logic.
  *******************************************************************************
+ *
+ * DEPRECATION NOTICE
+ * This code has been deprecated. It has been provided for historical reference
+ * only and should not be used. This code will not be maintained.
+ * This code is subject to the quality disclaimer at the point in time prior
+ * to deprecation and superseded by this deprecation notice.
+ *
+ *******************************************************************************
  * # License
  * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
