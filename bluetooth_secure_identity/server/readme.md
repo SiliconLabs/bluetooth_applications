@@ -67,7 +67,7 @@ WSTK must be connected to computer through USB cable
 
 7. After the client connects, the server will display the following on a serial console <image does not display in github>
 
-![Server Console Output](Images\server_console.PNG)
+![Server Console Output](.\Images\server_console.PNG)
 
 8. The test message which is encrypted and sent to the client is defined in app.c (line 510) as shown below:
 
