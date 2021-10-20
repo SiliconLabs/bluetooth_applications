@@ -56,26 +56,29 @@ WSTK must be connected to computer through USB cable
 4.  Flash 'output_gbl\full-signed.gbl' to the target hardware.
 
 5. The private device signing key is found in the 'server\security' folder. Flash this to your hardware's userdata memory with the following command
-   commander flash private-device-key.hex
+   
+```
+   commander flash private-key.hex
+```
 
-   note: the 'security' folder also contains the private key in PEM format, the NVM3 initialization file and NVM3 text file which contains the raw binary form of the private device signing key. These files are provided for reference and are not needed for a simple test.
+   note: the 'security' folder also contains the private key in PEM format, ~~the NVM3 initialization file and NVM3 text file which contains the raw binary form of the private device signing key~~. These files are provided for reference and are not needed for a simple test. <need to document the generation of this hex file> <also need to include script or docs for generating certificate chain>
 
-6. Once the application and private device signing key have been flashed to the target hardware, the server is ready to connect to the server.
+6. Once the application and private device signing key have been flashed to the target hardware, the client is ready to connect to the server.
 
-7. After the client connects, the server will display the following on a serial console
+7. After the client connects, the server will display the following on a serial console <image does not display in github>
 
-![Server Console Output](images\server_console.PNG)
+![Server Console Output](Images\server_console.PNG)
 
-6. The test message which is encrypted and sent to the client is defined in app.c (line 510) as shown below:
+8. The test message which is encrypted and sent to the client is defined in app.c (line 510) as shown below:
 
-   ```
-       case gattdb_test_data:
-         {
-           const uint8_t plaintext[] = "Silabs success";
-           static uint8_t ciphertext[32];
-   ```
+```
+    case gattdb_test_data:
+      {
+        const uint8_t plaintext[] = "Silabs success";
+        static uint8_t ciphertext[32];
+```
 
-   If you want to change the message, edit the value of 'plaintext'.
+If you want to change the message, edit the value of 'plaintext'.
 
 
 
