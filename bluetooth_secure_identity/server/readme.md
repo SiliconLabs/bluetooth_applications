@@ -55,17 +55,18 @@ WSTK must be connected to computer through USB cable
 
 4.  Flash 'output_gbl\full-signed.gbl' to the target hardware.
 
-5. The private device signing key is found in the 'server\security' folder. Flash this to your hardware's userdata memory with the following command
+5. The device private signing key is found in the 'server\security' folder. Provision the device private signing key by using the following commands
    
 ```
-   commander flash private-key.hex
+python process-pem.py device\device-signing-private-key.pem
+commander flash device\device-signing-private-key.pem --binary --address 0x7E400
 ```
 
-   note: the 'security' folder also contains the private key in PEM format, ~~the NVM3 initialization file and NVM3 text file which contains the raw binary form of the private device signing key~~. These files are provided for reference and are not needed for a simple test. <need to document the generation of this hex file> <also need to include script or docs for generating certificate chain>
+note: The PEM string must be NULL terminated to be processed correctly. This is done by the python script.   note: the 'security' folder also contains the private key in PEM 
 
 6. Once the application and private device signing key have been flashed to the target hardware, the client is ready to connect to the server.
 
-7. After the client connects, the server will display the following on a serial console <image does not display in github>
+7. After the client connects, the server will display the following on a serial console 
 
 ![Server Console Output](Images/server_console.PNG)
 
@@ -80,7 +81,26 @@ WSTK must be connected to computer through USB cable
 
 If you want to change the message, edit the value of 'plaintext'.
 
+### Creating the Certificate Chain
 
+Now that you've seen a simple demo using the default identity attestation certificate chain, you can create your own certificate chain that will be unique to your devices.
+
+1.  Create a new chain of certificates by running security\build-id-cert-chain.bat
+
+2. The certificates are placed in security\root\root-cert.pem, security\factory\factory-cert.pem, security\batch\batch-cert.pem and device\device-cert.pem. Copy the contents of each file to src\certificates.c, you'll find an array for each certificate, replacing the previous values. 
+
+3. Provision the device private signing key by using the following commands
+
+   ```
+   python process-pem.py device\device-signing-private-key.pem
+   commander flash device\device-signing-private-key.pem --binary --address 0x7E400
+   ```
+   
+   note: The PEM string must be NULL terminated to be processed correctly. This is done by the python script.
+   
+4. Provision the root public signing key from security\root\root-signing-public-key.pem by copying the contents of the file to ..\client\src\app.c, replacing the previous value.
+
+5. Rebuild and flash both the server and client applications. Testing instructions are provided in the previous section.
 
 ## Disclaimer
 
