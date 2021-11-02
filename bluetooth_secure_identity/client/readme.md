@@ -4,7 +4,7 @@
 
 This file describes the use of the client project.
 
-## The client acts as a central device for the accompanying server project in this repository. The main task of this device is to establish a secure identity exchange with the server.The Behaviour is as follows:
+The client acts as a central device for the accompanying server project in this repository. The main task of this device is to establish a secure identity exchange with the server.The Behaviour is as follows:
 
 1. Scans for a server advertising the 'secure attestation' service and opens a connection
 
@@ -24,7 +24,7 @@ This file describes the use of the client project.
 
 9. On receiving a signed public key from the server, the signature is verified using the pubic key from the server's  device certificate.
 
-10. On successful verification of the server's public key, the client generates an ECDH keypair, signs the public key with it's private device key then sends the public key and signature back to the server.
+10. On successful verification of the server's public key, the client generates an ECDH keypair, signs the public key with it's private device key then sends the public key and signature back to the server. If the verification of the public signature fails, an assert() occurs which requires a device reset.
 
 11. The shared secret is hashed with SHA2/256 to produce a symmetric key for securing communications between the client and server.
 
@@ -33,7 +33,7 @@ This file describes the use of the client project.
     ### Notes
 
     - The UUIDs for characteristics and the 'secure attestation' service are used to correctly identify each attribute. A list is maintained in app.h.
-    - The EFR32MG21B was chosen for the client since it has tamper resistant certificates programmed by Silicon Labs at the factory.
+    - The EFR32MG21B was chosen for the client since it has certificates programmed by Silicon Labs at the factory.
 
 ## Gecko SDK Version
 
