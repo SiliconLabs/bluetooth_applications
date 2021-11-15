@@ -1,6 +1,9 @@
 #ifndef LOG_H
 #define LOG_H
 
+// Needed for the error_checking() and log_events() forward declarations below
+#include "sl_bluetooth.h"
+
 #if (LOCAL_LOG_OFF == 1)
 #define GK_LOGD(_tag_, _prefix_, ...)
 #define GK_LOGI(_tag_, _prefix_, ...)
