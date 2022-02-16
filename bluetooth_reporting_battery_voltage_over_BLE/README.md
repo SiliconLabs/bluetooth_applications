@@ -1,5 +1,9 @@
 # Reporting Battery Voltage over BLE
- 
+
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+
 ## Description
  
 This example shows how to create an application to monitor the battery voltage and report it as a percentage of full charge. The Bluetooth SIG defines a battery service exactly for this purpose. The definition can be found in [Bluetooth SIG Specifications List](https://www.bluetooth.com/specifications/specs/). The example will use this adopted service to report battery level.

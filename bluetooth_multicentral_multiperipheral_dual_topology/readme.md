@@ -2,6 +2,10 @@
 
 # Multi-Slave Multi-Master Dual-Topology Example
 
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+
 ## Background
 
 This code example has related User's Guides:

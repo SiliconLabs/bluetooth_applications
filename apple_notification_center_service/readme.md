@@ -1,5 +1,9 @@
 # Apple Notification Center Service #
- 
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+![GitHub](https://img.shields.io/badge/SDK-v3.1.1-green)
+
 ## Description ##
  
 This example demonstrates how to receive [Apple Notification Center Service (ANCS)](https://developer.apple.com/library/content/documentation/CoreBluetooth/Reference/AppleNotificationCenterServiceSpecification/Specification/Specification.html) Notifications, such as phone calls, calendar events, and so on and print them out to the VCOM.

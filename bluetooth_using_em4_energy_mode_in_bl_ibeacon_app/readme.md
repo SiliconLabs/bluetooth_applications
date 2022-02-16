@@ -1,5 +1,10 @@
 # Using EM4 Energy Mode in Bluetooth Beacon App
 
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+![GitHub](https://img.shields.io/badge/SDK-v3.1.2-green)
+
 ## Summary ##
 This code example shows the use of sleep mode EM4 in a Bluetooth Beacon Application. The use case addressed in the attached example code is that of a Bluetooth iBeaconing device which operates in deep sleep mode EM4. When either the user interrupts the operation via a button press, or the BURTC counter reaches top value (15000 = 15 sec), the device exits from EM4 and advertises for 5 seconds before going back to EM4 again. BURTC counter resets everytime the device exits from EM4.
 

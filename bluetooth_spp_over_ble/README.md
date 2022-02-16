@@ -1,5 +1,8 @@
 # SPP (Serial Port Profile) over BLE
-
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+![GitHub](https://img.shields.io/badge/SDK-v3.1.0-green)
 
 
 ## Overview ##

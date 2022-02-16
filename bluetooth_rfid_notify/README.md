@@ -1,4 +1,11 @@
 # RFID Card Scan over BLE
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v3.1.2-green)
+[![GitHub](https://img.shields.io/badge/Sparkfun-RFID%20Reader-green)](https://www.sparkfun.com/products/11827)
+[![GitHub](https://img.shields.io/badge/Sparkfun-RFID%20Tag-green)](https://www.sparkfun.com/products/14325)
+![GCC badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_rfid_notify_gcc.json)
 
 ## Description
 This project shows an example of a Bluetooth RFID Card Reader.

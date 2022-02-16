@@ -12,6 +12,7 @@
 </table>
 
 # Bluetooth NFC Pairing with NT3H2x11
+![License badge](https://img.shields.io/badge/License-zlib-green)
 This project demonstrates Bluetooth LE static handover with a NT3H2x11.
 
 > NT3H2x11 stands for NT3H2111 and NT3H2211.
