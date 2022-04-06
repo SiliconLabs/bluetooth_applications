@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="group__buzzer__cfg" kind="group">
+    <compoundname>buzzer_cfg</compoundname>
+    <title>Buzzer_cfg</title>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__buzzer__cfg_1ga53157b0c521fcb6114549b588626560d" prot="public" static="no">
+        <name>BUZZER_FREQ</name>
+        <initializer>4000</initializer>
+        <briefdescription>
+<para>The buzzer default PWM frequency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>The frequency at which the CMT-8540S-SMT buzzer is to be driven. If modifying this driver for other buzzers, another frequency may be used. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="138" column="9" bodyfile="D:/doxygen/src/buzzer.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__buzzer__cfg_1ga807084bc4e9ed9f0922a373e7bbb851f" prot="public" static="no">
+        <name>BUZZER_PWM_OUTPUT_LOCATION</name>
+        <initializer>BUZZER_PWM_OUTPUT_LOC</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="141" column="9" bodyfile="D:/doxygen/src/buzzer.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__buzzer__cfg_1ga497c9723bda5195a5cc37240d975ada7" prot="public" static="no">
+        <name>PWM_INSTANCE_DEFAULT</name>
+        <initializer>  {                                                                       \
+    BUZZER_PWM_PERIPHERAL,                   /* PWM peripheral */             \
+    (uint8_t)BUZZER_PWM_OUTPUT_CHANNEL,      /* PWM channel */                \
+    (uint8_t)BUZZER_PWM_OUTPUT_PORT,         /* PWM output port */            \
+    (uint8_t)BUZZER_PWM_OUTPUT_PIN,          /* PWM output pin */             \
+    (uint8_t)BUZZER_PWM_OUTPUT_LOCATION,     /* PWM output location */        \
+  }</initializer>
+        <briefdescription>
+<para>Default struct for PWM initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="150" column="9" bodyfile="D:/doxygen/src/buzzer.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__buzzer__cfg_1ga701ad181c094ef35b0208b49f2afc0c6" prot="public" static="no">
+        <name>PWM_CFG_DEFAULT</name>
+        <initializer>  {                                                                       \
+    <ref refid="group__buzzer__cfg_1ga53157b0c521fcb6114549b588626560d" kindref="member">BUZZER_FREQ</ref>,                         /* PWM frequency */              \
+    BUZZER_PWM_POLARITY,                 /* PWM Polarity */               \
+  }</initializer>
+        <briefdescription>
+<para>Default struct for PWM configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="163" column="9" bodyfile="D:/doxygen/src/buzzer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__buzzer__cfg_1gaddf17ead4555be743a088e91c9d2e3df" prot="public" static="no">
+        <name>BUZZER_INIT_DEFAULT</name>
+        <initializer>  {                                                                       \
+    <ref refid="group__buzzer__cfg_1ga497c9723bda5195a5cc37240d975ada7" kindref="member">PWM_INSTANCE_DEFAULT</ref>,                /* PWM instance */               \
+    <ref refid="group__buzzer__cfg_1ga701ad181c094ef35b0208b49f2afc0c6" kindref="member">PWM_CFG_DEFAULT</ref>,                     /* PWM config */                 \
+    <ref refid="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91ab7ca1571d9d7a1b28fbeb263bd145b83" kindref="member">buzzer_VOL0</ref>,                         /* buzzer volume */              \
+  }</initializer>
+        <briefdescription>
+<para>Default init struct for buzzer initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="173" column="9" bodyfile="D:/doxygen/src/buzzer.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="structglib__display__t" kind="struct" language="C++" prot="public">
+    <compoundname>glib_display_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structglib__display__t_1a7883d0a2d2789386cb83f9d8cb505de7" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t glib_display_t::index[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>index</name>
+        <qualifiedname>glib_display_t::index</qualifiedname>
+        <briefdescription>
+<para>Max number digit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/air_quality_app.h" line="88" column="11" bodyfile="D:/doxygen/src/air_quality_app.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/doxygen/src/air_quality_app.h" line="86" column="1" bodyfile="D:/doxygen/src/air_quality_app.h" bodystart="86" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structglib__display__t_1a7883d0a2d2789386cb83f9d8cb505de7" prot="public" virt="non-virtual"><scope>glib_display_t</scope><name>index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

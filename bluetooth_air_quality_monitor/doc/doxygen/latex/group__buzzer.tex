@@ -1,0 +1,426 @@
+\hypertarget{group__buzzer}{}\doxysection{driver}
+\label{group__buzzer}\index{driver@{driver}}
+
+
+API for configuring and manipulating buzzer driver.  
+
+
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em PWM driver instance. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structbuzzer__pwm__config__t}{buzzer\+\_\+pwm\+\_\+config\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em PWM driver configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_ga83117835be9a2ed544accc629e7443f0}{buzzer\+\_\+init}} (\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$buzzer)
+\begin{DoxyCompactList}\small\item\em Initializes all necessary pins and peripherals used for the buzzer. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_ga364c48d9fafdf3014a5ef726b65eeff5}{buzzer\+\_\+deinit}} (\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$buzzer)
+\begin{DoxyCompactList}\small\item\em Deinitializes all necessary pins and peripherals used for the buzzer. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_ga3913df8a799979fe11487e207eadc5af}{buzzer\+\_\+set\+\_\+volume}} (\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$buzzer, \mbox{\hyperlink{group___buzzer_ga098bd7ee5be45b675db7728bc702bb91}{buzzer\+\_\+volume\+\_\+t}} volume)
+\begin{DoxyCompactList}\small\item\em Sets the buzzer volume level in percentages (range\mbox{[}0..100\%\mbox{]}). \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_gab81ee7f51de0c50ff3888e8cbe214b8a}{buzzer\+\_\+get\+\_\+volume}} (\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$buzzer, \mbox{\hyperlink{group___buzzer_ga098bd7ee5be45b675db7728bc702bb91}{buzzer\+\_\+volume\+\_\+t}} $\ast$volume)
+\begin{DoxyCompactList}\small\item\em Gets the buzzer volume level in percentages (range\mbox{[}0..100\%\mbox{]}). \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_ga889998e04d4677cd794ef26156175466}{buzzer\+\_\+play\+\_\+sound}} (\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$buzzer, uint16\+\_\+t freq, uint16\+\_\+t duration)
+\begin{DoxyCompactList}\small\item\em Plays a sound on the buzzer. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_ga64abb2a4bb49379433463bf7028453ff}{buzzer\+\_\+play\+\_\+melody}} (\mbox{\hyperlink{structbuzzer__melody__t}{buzzer\+\_\+melody\+\_\+t}} $\ast$melody)
+\begin{DoxyCompactList}\small\item\em Plays a melody on the buzzer. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_ga065e5230d7083f471a50b11d67240f7a}{buzzer\+\_\+end\+\_\+sound}} (\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$buzzer)
+\begin{DoxyCompactList}\small\item\em Ends playing a sound. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_gaf9eed3e51b7fcbcb460a153ac52f231a}{buzzer\+\_\+begin\+\_\+sound}} (\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$buzzer, uint16\+\_\+t freq)
+\begin{DoxyCompactList}\small\item\em Begins playing a sound. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__buzzer_ga148532c25a2f83d7c32442266ce289c5}{SL\+\_\+\+ENUM}} (buzzer\+\_\+pwm\+\_\+polarity\+\_\+t)
+\begin{DoxyCompactList}\small\item\em PWM polarity selection. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_gae08b6502f9d42dd52323e4fd04454dbd}{buzzer\+\_\+pwm\+\_\+init}} (\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$pwm, \mbox{\hyperlink{structbuzzer__pwm__config__t}{buzzer\+\_\+pwm\+\_\+config\+\_\+t}} $\ast$config)
+\begin{DoxyCompactList}\small\item\em Initializes PWM driver. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__buzzer_ga13ce7c8bc26578da1dbc4176f28e95b9}{buzzer\+\_\+pwm\+\_\+deinit}} (\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$pwm)
+\begin{DoxyCompactList}\small\item\em Deinitializes PWM driver. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__buzzer_ga66b8b79768398d514ed9720cd384ba1f}{buzzer\+\_\+pwm\+\_\+start}} (\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$pwm)
+\begin{DoxyCompactList}\small\item\em Starts generating PWM waveform. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__buzzer_ga024a35ec28b876272f3a68a00b09df91}{buzzer\+\_\+pwm\+\_\+stop}} (\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$pwm)
+\begin{DoxyCompactList}\small\item\em Stops generating PWM waveform. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__buzzer_gabf9d9e49f5334c66d90bc46a80c99b8f}{buzzer\+\_\+pwm\+\_\+set\+\_\+duty\+\_\+cycle}} (\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$pwm, uint8\+\_\+t percent)
+\begin{DoxyCompactList}\small\item\em Sets duty cycle for PWM waveform. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{group__buzzer_ga13bdd9b74e02528ba4b8feb995cb15c3}{buzzer\+\_\+pwm\+\_\+get\+\_\+duty\+\_\+cycle}} (\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$pwm)
+\begin{DoxyCompactList}\small\item\em Gets duty cycle for PWM waveform. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group__buzzer_ga231f363b372f5388f210d0c3205aa3ff}{buzzer\+\_\+pwm\+\_\+set\+\_\+frequency}} (\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$pwm, uint32\+\_\+t freq)
+\begin{DoxyCompactList}\small\item\em Sets the frequency for PWM. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{group__buzzer_ga7537b0ed4354d42214c17b82f881af94}{buzzer\+\_\+pwm\+\_\+get\+\_\+frequency}} (\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$pwm)
+\begin{DoxyCompactList}\small\item\em Gets the frequency for PWM. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+API for configuring and manipulating buzzer driver. 
+
+buzzer PWM Driver
+
+The PWM driver uses one or more TIMER peripherals to generate one or more PWM waveform, with configurable frequency, duty cycle, and polarity.
+
+Multiple instances of the driver can be created and allocated to their own TIMER channel.
+
+The duty cycle of the PWM waveform can be updated, while the PWM driver is running by calling \mbox{\hyperlink{group__buzzer_gabf9d9e49f5334c66d90bc46a80c99b8f}{buzzer\+\_\+pwm\+\_\+set\+\_\+duty\+\_\+cycle()}}, without causing glitches in the output waveform.
+
+\begin{DoxyNote}{Note}
+If several PWM driver instances are set up to use the same TIMER instance, the PWM frequency of these instances must be the same. 
+\end{DoxyNote}
+\hypertarget{group__buzzer_autotoc_md6}{}\doxyparagraph{PWM Example Code}\label{group__buzzer_autotoc_md6}
+Basic example for generating PWM waveform\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "{}buzzer\_pwm.h"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "{}em\_gpio.h"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int} main( \textcolor{keywordtype}{void} )}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{}
+\DoxyCodeLine{  ...}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\_pwm\_instance\_t}} sl\_pwm\_led0 = \{}
+\DoxyCodeLine{    .\mbox{\hyperlink{structbuzzer__pwm__instance__t_a43267aceb5e10babd1b09a25281d5276}{timer}}    = TIMER0,}
+\DoxyCodeLine{    .channel  = 0,}
+\DoxyCodeLine{    .port     = gpioPortA,}
+\DoxyCodeLine{    .pin      = 0,}
+\DoxyCodeLine{    .location = 0,}
+\DoxyCodeLine{  \};}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \mbox{\hyperlink{structbuzzer__pwm__config__t}{buzzer\_pwm\_config\_t}} pwm\_led0\_config = \{}
+\DoxyCodeLine{    .\mbox{\hyperlink{structbuzzer__pwm__config__t_a6601e615c0cf4a4ab8d67dd63cd32d2c}{frequency}} = 10000,}
+\DoxyCodeLine{    .polarity  = PWM\_ACTIVE\_HIGH,}
+\DoxyCodeLine{  \};}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \textcolor{comment}{// Initialize PWM}}
+\DoxyCodeLine{  \mbox{\hyperlink{group__buzzer_gae08b6502f9d42dd52323e4fd04454dbd}{buzzer\_pwm\_init}}(\&sl\_pwm\_led0, \&pwm\_led0\_config);}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \textcolor{comment}{// Set duty cycle to 40\%}}
+\DoxyCodeLine{  \mbox{\hyperlink{group__buzzer_gabf9d9e49f5334c66d90bc46a80c99b8f}{buzzer\_pwm\_set\_duty\_cycle}}(\&sl\_pwm\_led0, 40);}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \textcolor{comment}{// Enable PWM output}}
+\DoxyCodeLine{  \mbox{\hyperlink{group__buzzer_ga66b8b79768398d514ed9720cd384ba1f}{buzzer\_pwm\_start}}(\&sl\_pwm\_led0);}
+\DoxyCodeLine{}
+\DoxyCodeLine{  ...}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__buzzer_gaf9eed3e51b7fcbcb460a153ac52f231a}\label{group__buzzer_gaf9eed3e51b7fcbcb460a153ac52f231a}} 
+\index{driver@{driver}!buzzer\_begin\_sound@{buzzer\_begin\_sound}}
+\index{buzzer\_begin\_sound@{buzzer\_begin\_sound}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_begin\_sound()}{buzzer\_begin\_sound()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+begin\+\_\+sound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$}]{buzzer,  }\item[{uint16\+\_\+t}]{freq }\end{DoxyParamCaption})}
+
+
+
+Begins playing a sound. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buzzer} & The instance of \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}}. See \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} object definition for the detailed explanation.\\
+\hline
+\mbox{\texttt{ in}}  & {\em freq} & Buzzer sound frequency.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. SL\+\_\+\+STATUS\+\_\+\+NULL\+\_\+\+POINTER Pointer to NULL. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga364c48d9fafdf3014a5ef726b65eeff5}\label{group__buzzer_ga364c48d9fafdf3014a5ef726b65eeff5}} 
+\index{driver@{driver}!buzzer\_deinit@{buzzer\_deinit}}
+\index{buzzer\_deinit@{buzzer\_deinit}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_deinit()}{buzzer\_deinit()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+deinit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$}]{buzzer }\end{DoxyParamCaption})}
+
+
+
+Deinitializes all necessary pins and peripherals used for the buzzer. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buzzer} & The instance of \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}}. See \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} object definition for the detailed explanation.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. SL\+\_\+\+STATUS\+\_\+\+NULL\+\_\+\+POINTER Pointer to NULL. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga065e5230d7083f471a50b11d67240f7a}\label{group__buzzer_ga065e5230d7083f471a50b11d67240f7a}} 
+\index{driver@{driver}!buzzer\_end\_sound@{buzzer\_end\_sound}}
+\index{buzzer\_end\_sound@{buzzer\_end\_sound}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_end\_sound()}{buzzer\_end\_sound()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+end\+\_\+sound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$}]{buzzer }\end{DoxyParamCaption})}
+
+
+
+Ends playing a sound. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buzzer} & The instance of \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}}. See \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} object definition for the detailed explanation.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. SL\+\_\+\+STATUS\+\_\+\+NULL\+\_\+\+POINTER Pointer to NULL. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_gab81ee7f51de0c50ff3888e8cbe214b8a}\label{group__buzzer_gab81ee7f51de0c50ff3888e8cbe214b8a}} 
+\index{driver@{driver}!buzzer\_get\_volume@{buzzer\_get\_volume}}
+\index{buzzer\_get\_volume@{buzzer\_get\_volume}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_get\_volume()}{buzzer\_get\_volume()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+get\+\_\+volume (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$}]{buzzer,  }\item[{\mbox{\hyperlink{group___buzzer_ga098bd7ee5be45b675db7728bc702bb91}{buzzer\+\_\+volume\+\_\+t}} $\ast$}]{volume }\end{DoxyParamCaption})}
+
+
+
+Gets the buzzer volume level in percentages (range\mbox{[}0..100\%\mbox{]}). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buzzer} & The instance of \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}}. See \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} object definition for the detailed explanation.\\
+\hline
+\mbox{\texttt{ out}}  & {\em volume} & The instance of buzzer\+\_\+volume\+\_\+t. Buzzer sound volume.
+\begin{DoxyItemize}
+\item {\bfseries{minimum \+:}} buzzer\+\_\+\+VOL0
+\item {\bfseries{maximum \+:}} buzzer\+\_\+\+VOL100 See \mbox{\hyperlink{group___buzzer_ga098bd7ee5be45b675db7728bc702bb91}{buzzer\+\_\+volume\+\_\+t}} object definition for the detailed explanation.
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. SL\+\_\+\+STATUS\+\_\+\+NULL\+\_\+\+POINTER Pointer to NULL. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga83117835be9a2ed544accc629e7443f0}\label{group__buzzer_ga83117835be9a2ed544accc629e7443f0}} 
+\index{driver@{driver}!buzzer\_init@{buzzer\_init}}
+\index{buzzer\_init@{buzzer\_init}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_init()}{buzzer\_init()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$}]{buzzer }\end{DoxyParamCaption})}
+
+
+
+Initializes all necessary pins and peripherals used for the buzzer. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buzzer} & The instance of \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}}. See \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} object definition for the detailed explanation.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. SL\+\_\+\+STATUS\+\_\+\+NULL\+\_\+\+POINTER Pointer to NULL. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga64abb2a4bb49379433463bf7028453ff}\label{group__buzzer_ga64abb2a4bb49379433463bf7028453ff}} 
+\index{driver@{driver}!buzzer\_play\_melody@{buzzer\_play\_melody}}
+\index{buzzer\_play\_melody@{buzzer\_play\_melody}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_play\_melody()}{buzzer\_play\_melody()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+play\+\_\+melody (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__melody__t}{buzzer\+\_\+melody\+\_\+t}} $\ast$}]{melody }\end{DoxyParamCaption})}
+
+
+
+Plays a melody on the buzzer. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buzzer} & The instance of \mbox{\hyperlink{structbuzzer__melody__t}{buzzer\+\_\+melody\+\_\+t}}. See \mbox{\hyperlink{structbuzzer__melody__t}{buzzer\+\_\+melody\+\_\+t}} object definition for the detailed explanation.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. SL\+\_\+\+STATUS\+\_\+\+NULL\+\_\+\+POINTER Pointer to NULL. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga889998e04d4677cd794ef26156175466}\label{group__buzzer_ga889998e04d4677cd794ef26156175466}} 
+\index{driver@{driver}!buzzer\_play\_sound@{buzzer\_play\_sound}}
+\index{buzzer\_play\_sound@{buzzer\_play\_sound}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_play\_sound()}{buzzer\_play\_sound()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+play\+\_\+sound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$}]{buzzer,  }\item[{uint16\+\_\+t}]{freq,  }\item[{uint16\+\_\+t}]{duration }\end{DoxyParamCaption})}
+
+
+
+Plays a sound on the buzzer. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buzzer} & The instance of \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}}. See \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} object definition for the detailed explanation.\\
+\hline
+\mbox{\texttt{ in}}  & {\em freq} & Buzzer sound frequency.\\
+\hline
+\mbox{\texttt{ in}}  & {\em duration} & Buzzer sound duration in milliseconds.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. SL\+\_\+\+STATUS\+\_\+\+NULL\+\_\+\+POINTER Pointer to NULL. SL\+\_\+\+STATUS\+\_\+\+INVALID\+\_\+\+RANGE Out of range. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga13ce7c8bc26578da1dbc4176f28e95b9}\label{group__buzzer_ga13ce7c8bc26578da1dbc4176f28e95b9}} 
+\index{driver@{driver}!buzzer\_pwm\_deinit@{buzzer\_pwm\_deinit}}
+\index{buzzer\_pwm\_deinit@{buzzer\_pwm\_deinit}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_pwm\_deinit()}{buzzer\_pwm\_deinit()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+pwm\+\_\+deinit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$}]{pwm }\end{DoxyParamCaption})}
+
+
+
+Deinitializes PWM driver. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pwm} & PWM driver instance\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga13bdd9b74e02528ba4b8feb995cb15c3}\label{group__buzzer_ga13bdd9b74e02528ba4b8feb995cb15c3}} 
+\index{driver@{driver}!buzzer\_pwm\_get\_duty\_cycle@{buzzer\_pwm\_get\_duty\_cycle}}
+\index{buzzer\_pwm\_get\_duty\_cycle@{buzzer\_pwm\_get\_duty\_cycle}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_pwm\_get\_duty\_cycle()}{buzzer\_pwm\_get\_duty\_cycle()}}
+{\footnotesize\ttfamily uint8\+\_\+t buzzer\+\_\+pwm\+\_\+get\+\_\+duty\+\_\+cycle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$}]{pwm }\end{DoxyParamCaption})}
+
+
+
+Gets duty cycle for PWM waveform. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pwm} & PWM driver instance\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Percent of the PWM period waveform is in the state defined as the active polarity in the driver configuration 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga7537b0ed4354d42214c17b82f881af94}\label{group__buzzer_ga7537b0ed4354d42214c17b82f881af94}} 
+\index{driver@{driver}!buzzer\_pwm\_get\_frequency@{buzzer\_pwm\_get\_frequency}}
+\index{buzzer\_pwm\_get\_frequency@{buzzer\_pwm\_get\_frequency}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_pwm\_get\_frequency()}{buzzer\_pwm\_get\_frequency()}}
+{\footnotesize\ttfamily uint32\+\_\+t buzzer\+\_\+pwm\+\_\+get\+\_\+frequency (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$}]{pwm }\end{DoxyParamCaption})}
+
+
+
+Gets the frequency for PWM. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pwm} & PWM driver instance\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The frequency of the PWM period waveform is in the state defined as the active polarity in the driver configuration 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_gae08b6502f9d42dd52323e4fd04454dbd}\label{group__buzzer_gae08b6502f9d42dd52323e4fd04454dbd}} 
+\index{driver@{driver}!buzzer\_pwm\_init@{buzzer\_pwm\_init}}
+\index{buzzer\_pwm\_init@{buzzer\_pwm\_init}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_pwm\_init()}{buzzer\_pwm\_init()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+pwm\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$}]{pwm,  }\item[{\mbox{\hyperlink{structbuzzer__pwm__config__t}{buzzer\+\_\+pwm\+\_\+config\+\_\+t}} $\ast$}]{config }\end{DoxyParamCaption})}
+
+
+
+Initializes PWM driver. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pwm} & PWM driver instance\\
+\hline
+\mbox{\texttt{ in}}  & {\em config} & Driver configuration\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_gabf9d9e49f5334c66d90bc46a80c99b8f}\label{group__buzzer_gabf9d9e49f5334c66d90bc46a80c99b8f}} 
+\index{driver@{driver}!buzzer\_pwm\_set\_duty\_cycle@{buzzer\_pwm\_set\_duty\_cycle}}
+\index{buzzer\_pwm\_set\_duty\_cycle@{buzzer\_pwm\_set\_duty\_cycle}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_pwm\_set\_duty\_cycle()}{buzzer\_pwm\_set\_duty\_cycle()}}
+{\footnotesize\ttfamily void buzzer\+\_\+pwm\+\_\+set\+\_\+duty\+\_\+cycle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$}]{pwm,  }\item[{uint8\+\_\+t}]{percent }\end{DoxyParamCaption})}
+
+
+
+Sets duty cycle for PWM waveform. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pwm} & PWM driver instance\\
+\hline
+\mbox{\texttt{ in}}  & {\em percent} & Percent of the PWM period waveform is in the state defined as the active polarity in the driver configuration \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__buzzer_ga231f363b372f5388f210d0c3205aa3ff}\label{group__buzzer_ga231f363b372f5388f210d0c3205aa3ff}} 
+\index{driver@{driver}!buzzer\_pwm\_set\_frequency@{buzzer\_pwm\_set\_frequency}}
+\index{buzzer\_pwm\_set\_frequency@{buzzer\_pwm\_set\_frequency}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_pwm\_set\_frequency()}{buzzer\_pwm\_set\_frequency()}}
+{\footnotesize\ttfamily void buzzer\+\_\+pwm\+\_\+set\+\_\+frequency (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$}]{pwm,  }\item[{uint32\+\_\+t}]{freq }\end{DoxyParamCaption})}
+
+
+
+Sets the frequency for PWM. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pwm} & PWM driver instance\\
+\hline
+\mbox{\texttt{ in}}  & {\em freq} & The Frequency for PWM \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__buzzer_ga66b8b79768398d514ed9720cd384ba1f}\label{group__buzzer_ga66b8b79768398d514ed9720cd384ba1f}} 
+\index{driver@{driver}!buzzer\_pwm\_start@{buzzer\_pwm\_start}}
+\index{buzzer\_pwm\_start@{buzzer\_pwm\_start}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_pwm\_start()}{buzzer\_pwm\_start()}}
+{\footnotesize\ttfamily void buzzer\+\_\+pwm\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$}]{pwm }\end{DoxyParamCaption})}
+
+
+
+Starts generating PWM waveform. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pwm} & PWM driver instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__buzzer_ga024a35ec28b876272f3a68a00b09df91}\label{group__buzzer_ga024a35ec28b876272f3a68a00b09df91}} 
+\index{driver@{driver}!buzzer\_pwm\_stop@{buzzer\_pwm\_stop}}
+\index{buzzer\_pwm\_stop@{buzzer\_pwm\_stop}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_pwm\_stop()}{buzzer\_pwm\_stop()}}
+{\footnotesize\ttfamily void buzzer\+\_\+pwm\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__pwm__instance__t}{buzzer\+\_\+pwm\+\_\+instance\+\_\+t}} $\ast$}]{pwm }\end{DoxyParamCaption})}
+
+
+
+Stops generating PWM waveform. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em pwm} & PWM driver instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__buzzer_ga3913df8a799979fe11487e207eadc5af}\label{group__buzzer_ga3913df8a799979fe11487e207eadc5af}} 
+\index{driver@{driver}!buzzer\_set\_volume@{buzzer\_set\_volume}}
+\index{buzzer\_set\_volume@{buzzer\_set\_volume}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{buzzer\_set\_volume()}{buzzer\_set\_volume()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t buzzer\+\_\+set\+\_\+volume (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} $\ast$}]{buzzer,  }\item[{\mbox{\hyperlink{group___buzzer_ga098bd7ee5be45b675db7728bc702bb91}{buzzer\+\_\+volume\+\_\+t}}}]{volume }\end{DoxyParamCaption})}
+
+
+
+Sets the buzzer volume level in percentages (range\mbox{[}0..100\%\mbox{]}). 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buzzer} & The instance of \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}}. See \mbox{\hyperlink{structbuzzer__t}{buzzer\+\_\+t}} object definition for the detailed explanation.\\
+\hline
+\mbox{\texttt{ in}}  & {\em volume} & The instance of buzzer\+\_\+volume\+\_\+t. Buzzer sound volume.
+\begin{DoxyItemize}
+\item {\bfseries{minimum \+:}} buzzer\+\_\+\+VOL0
+\item {\bfseries{maximum \+:}} buzzer\+\_\+\+VOL100 See \mbox{\hyperlink{group___buzzer_ga098bd7ee5be45b675db7728bc702bb91}{buzzer\+\_\+volume\+\_\+t}} object definition for the detailed explanation.
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK if there are no errors. SL\+\_\+\+STATUS\+\_\+\+NULL\+\_\+\+POINTER Pointer to NULL. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__buzzer_ga148532c25a2f83d7c32442266ce289c5}\label{group__buzzer_ga148532c25a2f83d7c32442266ce289c5}} 
+\index{driver@{driver}!SL\_ENUM@{SL\_ENUM}}
+\index{SL\_ENUM@{SL\_ENUM}!driver@{driver}}
+\doxysubsubsection{\texorpdfstring{SL\_ENUM()}{SL\_ENUM()}}
+{\footnotesize\ttfamily SL\+\_\+\+ENUM (\begin{DoxyParamCaption}\item[{buzzer\+\_\+pwm\+\_\+polarity\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+
+
+PWM polarity selection. 
+
+PWM polarity active high
+
+PWM polarity active low
+
+Definition at line \mbox{\hyperlink{buzzer__pwm_8h_source_l00107}{107}} of file \mbox{\hyperlink{buzzer__pwm_8h_source}{buzzer\+\_\+pwm.\+h}}.
+

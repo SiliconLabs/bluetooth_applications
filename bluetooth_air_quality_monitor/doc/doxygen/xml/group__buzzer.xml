@@ -1,0 +1,656 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="group__buzzer" kind="group">
+    <compoundname>buzzer</compoundname>
+    <title>driver</title>
+    <innerclass refid="structbuzzer__pwm__instance__t" prot="public">buzzer_pwm_instance_t</innerclass>
+    <innerclass refid="structbuzzer__pwm__config__t" prot="public">buzzer_pwm_config_t</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__buzzer_1ga83117835be9a2ed544accc629e7443f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_init</definition>
+        <argsstring>(buzzer_t *buzzer)</argsstring>
+        <name>buzzer_init</name>
+        <param>
+          <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+          <declname>buzzer</declname>
+        </param>
+        <briefdescription>
+<para>Initializes all necessary pins and peripherals used for the buzzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buzzer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref>. See <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object definition for the detailed explanation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. SL_STATUS_NULL_POINTER Pointer to NULL. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="242" column="13" declfile="D:/doxygen/src/buzzer.h" declline="242" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga364c48d9fafdf3014a5ef726b65eeff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_deinit</definition>
+        <argsstring>(buzzer_t *buzzer)</argsstring>
+        <name>buzzer_deinit</name>
+        <param>
+          <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+          <declname>buzzer</declname>
+        </param>
+        <briefdescription>
+<para>Deinitializes all necessary pins and peripherals used for the buzzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buzzer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref>. See <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object definition for the detailed explanation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. SL_STATUS_NULL_POINTER Pointer to NULL. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="256" column="13" declfile="D:/doxygen/src/buzzer.h" declline="256" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga3913df8a799979fe11487e207eadc5af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_set_volume</definition>
+        <argsstring>(buzzer_t *buzzer, buzzer_volume_t volume)</argsstring>
+        <name>buzzer_set_volume</name>
+        <param>
+          <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+          <declname>buzzer</declname>
+        </param>
+        <param>
+          <type><ref refid="group___buzzer_1ga098bd7ee5be45b675db7728bc702bb91" kindref="member">buzzer_volume_t</ref></type>
+          <declname>volume</declname>
+        </param>
+        <briefdescription>
+<para>Sets the buzzer volume level in percentages (range[0..100%]). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buzzer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref>. See <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object definition for the detailed explanation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">volume</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of buzzer_volume_t. Buzzer sound volume.<itemizedlist>
+<listitem><para><bold>minimum :</bold> buzzer_VOL0</para>
+</listitem><listitem><para><bold>maximum :</bold> buzzer_VOL100 See <ref refid="group___buzzer_1ga098bd7ee5be45b675db7728bc702bb91" kindref="member">buzzer_volume_t</ref> object definition for the detailed explanation.</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. SL_STATUS_NULL_POINTER Pointer to NULL. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="277" column="13" declfile="D:/doxygen/src/buzzer.h" declline="277" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1gab81ee7f51de0c50ff3888e8cbe214b8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_get_volume</definition>
+        <argsstring>(buzzer_t *buzzer, buzzer_volume_t *volume)</argsstring>
+        <name>buzzer_get_volume</name>
+        <param>
+          <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+          <declname>buzzer</declname>
+        </param>
+        <param>
+          <type><ref refid="group___buzzer_1ga098bd7ee5be45b675db7728bc702bb91" kindref="member">buzzer_volume_t</ref> *</type>
+          <declname>volume</declname>
+        </param>
+        <briefdescription>
+<para>Gets the buzzer volume level in percentages (range[0..100%]). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buzzer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref>. See <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object definition for the detailed explanation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">volume</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of buzzer_volume_t. Buzzer sound volume.<itemizedlist>
+<listitem><para><bold>minimum :</bold> buzzer_VOL0</para>
+</listitem><listitem><para><bold>maximum :</bold> buzzer_VOL100 See <ref refid="group___buzzer_1ga098bd7ee5be45b675db7728bc702bb91" kindref="member">buzzer_volume_t</ref> object definition for the detailed explanation.</para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. SL_STATUS_NULL_POINTER Pointer to NULL. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="298" column="13" declfile="D:/doxygen/src/buzzer.h" declline="298" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga889998e04d4677cd794ef26156175466" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_play_sound</definition>
+        <argsstring>(buzzer_t *buzzer, uint16_t freq, uint16_t duration)</argsstring>
+        <name>buzzer_play_sound</name>
+        <param>
+          <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+          <declname>buzzer</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>freq</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Plays a sound on the buzzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buzzer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref>. See <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object definition for the detailed explanation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buzzer sound frequency.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buzzer sound duration in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. SL_STATUS_NULL_POINTER Pointer to NULL. SL_STATUS_INVALID_RANGE Out of range. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="319" column="13" declfile="D:/doxygen/src/buzzer.h" declline="319" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga64abb2a4bb49379433463bf7028453ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_play_melody</definition>
+        <argsstring>(buzzer_melody_t *melody)</argsstring>
+        <name>buzzer_play_melody</name>
+        <param>
+          <type><ref refid="structbuzzer__melody__t" kindref="compound">buzzer_melody_t</ref> *</type>
+          <declname>melody</declname>
+        </param>
+        <briefdescription>
+<para>Plays a melody on the buzzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buzzer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of <ref refid="structbuzzer__melody__t" kindref="compound">buzzer_melody_t</ref>. See <ref refid="structbuzzer__melody__t" kindref="compound">buzzer_melody_t</ref> object definition for the detailed explanation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. SL_STATUS_NULL_POINTER Pointer to NULL. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="335" column="13" declfile="D:/doxygen/src/buzzer.h" declline="335" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga065e5230d7083f471a50b11d67240f7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_end_sound</definition>
+        <argsstring>(buzzer_t *buzzer)</argsstring>
+        <name>buzzer_end_sound</name>
+        <param>
+          <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+          <declname>buzzer</declname>
+        </param>
+        <briefdescription>
+<para>Ends playing a sound. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buzzer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref>. See <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object definition for the detailed explanation.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. SL_STATUS_NULL_POINTER Pointer to NULL. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="349" column="13" declfile="D:/doxygen/src/buzzer.h" declline="349" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1gaf9eed3e51b7fcbcb460a153ac52f231a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_begin_sound</definition>
+        <argsstring>(buzzer_t *buzzer, uint16_t freq)</argsstring>
+        <name>buzzer_begin_sound</name>
+        <param>
+          <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+          <declname>buzzer</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>freq</declname>
+        </param>
+        <briefdescription>
+<para>Begins playing a sound. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buzzer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref>. See <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object definition for the detailed explanation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buzzer sound frequency.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. SL_STATUS_NULL_POINTER Pointer to NULL. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="366" column="13" declfile="D:/doxygen/src/buzzer.h" declline="366" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga148532c25a2f83d7c32442266ce289c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SL_ENUM</definition>
+        <argsstring>(buzzer_pwm_polarity_t)</argsstring>
+        <name>SL_ENUM</name>
+        <param>
+          <type>buzzer_pwm_polarity_t</type>
+        </param>
+        <briefdescription>
+<para>PWM polarity selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>PWM polarity active high</para>
+<para>PWM polarity active low</para>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="107" column="1" bodyfile="D:/doxygen/src/buzzer_pwm.h" bodystart="107" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1gae08b6502f9d42dd52323e4fd04454dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_pwm_init</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm, buzzer_pwm_config_t *config)</argsstring>
+        <name>buzzer_pwm_init</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <param>
+          <type><ref refid="structbuzzer__pwm__config__t" kindref="compound">buzzer_pwm_config_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initializes PWM driver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Driver configuration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="146" column="13" declfile="D:/doxygen/src/buzzer_pwm.h" declline="146" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga13ce7c8bc26578da1dbc4176f28e95b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_pwm_deinit</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_deinit</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Deinitializes PWM driver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="158" column="13" declfile="D:/doxygen/src/buzzer_pwm.h" declline="158" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga66b8b79768398d514ed9720cd384ba1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buzzer_pwm_start</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_start</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Starts generating PWM waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="167" column="6" declfile="D:/doxygen/src/buzzer_pwm.h" declline="167" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga024a35ec28b876272f3a68a00b09df91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buzzer_pwm_stop</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_stop</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Stops generating PWM waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="176" column="6" declfile="D:/doxygen/src/buzzer_pwm.h" declline="176" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1gabf9d9e49f5334c66d90bc46a80c99b8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buzzer_pwm_set_duty_cycle</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm, uint8_t percent)</argsstring>
+        <name>buzzer_pwm_set_duty_cycle</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>percent</declname>
+        </param>
+        <briefdescription>
+<para>Sets duty cycle for PWM waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Percent of the PWM period waveform is in the state defined as the active polarity in the driver configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="189" column="6" declfile="D:/doxygen/src/buzzer_pwm.h" declline="189" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga13bdd9b74e02528ba4b8feb995cb15c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t buzzer_pwm_get_duty_cycle</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_get_duty_cycle</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Gets duty cycle for PWM waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Percent of the PWM period waveform is in the state defined as the active polarity in the driver configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="202" column="9" declfile="D:/doxygen/src/buzzer_pwm.h" declline="202" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga231f363b372f5388f210d0c3205aa3ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buzzer_pwm_set_frequency</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm, uint32_t freq)</argsstring>
+        <name>buzzer_pwm_set_frequency</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>freq</declname>
+        </param>
+        <briefdescription>
+<para>Sets the frequency for PWM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Frequency for PWM </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="214" column="6" declfile="D:/doxygen/src/buzzer_pwm.h" declline="214" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga7537b0ed4354d42214c17b82f881af94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t buzzer_pwm_get_frequency</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_get_frequency</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Gets the frequency for PWM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The frequency of the PWM period waveform is in the state defined as the active polarity in the driver configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="227" column="10" declfile="D:/doxygen/src/buzzer_pwm.h" declline="227" declcolumn="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>API for configuring and manipulating buzzer driver. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>buzzer PWM Driver</para>
+<para>The PWM driver uses one or more TIMER peripherals to generate one or more PWM waveform, with configurable frequency, duty cycle, and polarity.</para>
+<para>Multiple instances of the driver can be created and allocated to their own TIMER channel.</para>
+<para>The duty cycle of the PWM waveform can be updated, while the PWM driver is running by calling <ref refid="group__buzzer_1gabf9d9e49f5334c66d90bc46a80c99b8f" kindref="member">buzzer_pwm_set_duty_cycle()</ref>, without causing glitches in the output waveform.</para>
+<para><simplesect kind="note"><para>If several PWM driver instances are set up to use the same TIMER instance, the PWM frequency of these instances must be the same. </para>
+</simplesect>
+</para>
+<sect3 id="group__buzzer_1autotoc_md6">
+<title>PWM Example Code</title>
+<para>Basic example for generating PWM waveform:</para>
+<para><programlisting filename=".c"><codeline><highlight class="preprocessor">#include<sp/>&quot;buzzer_pwm.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;em_gpio.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>sl_pwm_led0<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structbuzzer__pwm__instance__t_1a43267aceb5e10babd1b09a25281d5276" kindref="member">timer</ref><sp/><sp/><sp/><sp/>=<sp/>TIMER0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.channel<sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.port<sp/><sp/><sp/><sp/><sp/>=<sp/>gpioPortA,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.pin<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.location<sp/>=<sp/>0,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structbuzzer__pwm__config__t" kindref="compound">buzzer_pwm_config_t</ref><sp/>pwm_led0_config<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structbuzzer__pwm__config__t_1a6601e615c0cf4a4ab8d67dd63cd32d2c" kindref="member">frequency</ref><sp/>=<sp/>10000,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>.polarity<sp/><sp/>=<sp/>PWM_ACTIVE_HIGH,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>PWM</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__buzzer_1gae08b6502f9d42dd52323e4fd04454dbd" kindref="member">buzzer_pwm_init</ref>(&amp;sl_pwm_led0,<sp/>&amp;pwm_led0_config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>duty<sp/>cycle<sp/>to<sp/>40%</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__buzzer_1gabf9d9e49f5334c66d90bc46a80c99b8f" kindref="member">buzzer_pwm_set_duty_cycle</ref>(&amp;sl_pwm_led0,<sp/>40);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>PWM<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__buzzer_1ga66b8b79768398d514ed9720cd384ba1f" kindref="member">buzzer_pwm_start</ref>(&amp;sl_pwm_led0);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</sect3>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="structglib__display__geometry" kind="struct" language="C++" prot="public">
+    <compoundname>glib_display_geometry</compoundname>
+    <includes refid="glib_8h" local="no">glib.h</includes>
+    <briefdescription>
+<para>Dimensions of the display. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/doxygen/src/glib.h" line="84" column="1"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

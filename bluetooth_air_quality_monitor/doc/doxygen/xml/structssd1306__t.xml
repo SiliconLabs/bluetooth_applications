@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="structssd1306__t" kind="struct" language="C++" prot="public">
+    <compoundname>ssd1306_t</compoundname>
+    <includes refid="ssd1306_8h" local="no">ssd1306.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structssd1306__t_1a573ccc01d1f0be07498eb0b9ab5f3e31" prot="public" static="no" mutable="no">
+        <type>unsigned short</type>
+        <definition>unsigned short ssd1306_t::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>ssd1306_t::width</qualifiedname>
+        <briefdescription>
+<para>Display pixel width. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/ssd1306.h" line="101" column="18" bodyfile="D:/doxygen/src/ssd1306.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structssd1306__t_1a9637be7ec3cff61735c7a06f7863df4e" prot="public" static="no" mutable="no">
+        <type>unsigned short</type>
+        <definition>unsigned short ssd1306_t::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>ssd1306_t::height</qualifiedname>
+        <briefdescription>
+<para>Display pixel height. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/ssd1306.h" line="102" column="18" bodyfile="D:/doxygen/src/ssd1306.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>General ssd1306 data structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="D:/doxygen/src/ssd1306.h" line="100" column="1" bodyfile="D:/doxygen/src/ssd1306.h" bodystart="100" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structssd1306__t_1a9637be7ec3cff61735c7a06f7863df4e" prot="public" virt="non-virtual"><scope>ssd1306_t</scope><name>height</name></member>
+      <member refid="structssd1306__t_1a573ccc01d1f0be07498eb0b9ab5f3e31" prot="public" virt="non-virtual"><scope>ssd1306_t</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="glib_8h" kind="file" language="C++">
+    <compoundname>glib.h</compoundname>
+    <includes local="no">sl_status.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes refid="glib__font_8h" local="no">glib_font.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/doxygen/src/glib.h</label>
+        <link refid="glib_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>glib_font.h</label>
+        <link refid="glib__font_8h_source"/>
+      </node>
+      <node id="2">
+        <label>sl_status.h</label>
+      </node>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="5">
+        <label>stdlib.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structglib__display__geometry__t" prot="public">glib_display_geometry_t</innerclass>
+    <innerclass refid="structglib__font__t" prot="public">glib_font_t</innerclass>
+    <innerclass refid="structglib__context__t" prot="public">glib_context_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="glib_8h_1ad06619a1f7d1c5d7b503cde202f64c4b" prot="public" static="no">
+        <name>ECODE_GLIB_BASE</name>
+        <initializer>0x00000000</initializer>
+        <briefdescription>
+<para>GLIB Base error code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="53" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a897aa30d053a1ddd195795781c60ce8d" prot="public" static="no">
+        <name>GLIB_OK</name>
+        <initializer>0x00000000</initializer>
+        <briefdescription>
+<para>Successful call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="57" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a7e1a5469de2e3df871e531cd38901a71" prot="public" static="no">
+        <name>GLIB_ERROR_NOTHING_TO_DRAW</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0001)</initializer>
+        <briefdescription>
+<para>Function did not draw. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="59" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1ac1511c135504b232a1b6d1f6cc604aa2" prot="public" static="no">
+        <name>GLIB_ERROR_INVALID_CHAR</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0002)</initializer>
+        <briefdescription>
+<para>Invalid char. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="61" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a7b4d8ff5d369349dd2d95ce87e4fae72" prot="public" static="no">
+        <name>GLIB_OUT_OF_BOUNDS</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0003)</initializer>
+        <briefdescription>
+<para>Coordinates out of bounds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="63" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1acfb27c329e814837edce781673137c3f" prot="public" static="no">
+        <name>GLIB_ERROR_INVALID_REGION</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0004)</initializer>
+        <briefdescription>
+<para>Invalid coordinates (ex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>xMin &gt; xMax) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="65" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1ac351aa3d95f5b1923b8e6413844fd6e3" prot="public" static="no">
+        <name>GLIB_ERROR_INVALID_ARGUMENT</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0005)</initializer>
+        <briefdescription>
+<para>Invalid argument. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="67" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a9485cba7e20a4e1b565391cdfb47c461" prot="public" static="no">
+        <name>GLIB_ERROR_OUT_OF_MEMORY</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0006)</initializer>
+        <briefdescription>
+<para>Out of memory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="69" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a479e652ab025d53801a10d0c0c002ba8" prot="public" static="no">
+        <name>GLIB_ERROR_FILE_NOT_SUPPORTED</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0007)</initializer>
+        <briefdescription>
+<para>File not supported. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="71" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a31c849315934ce156a9a364af204372d" prot="public" static="no">
+        <name>GLIB_ERROR_IO</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0008)</initializer>
+        <briefdescription>
+<para>General IO Error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="73" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a7bf90d3c36b9971954faa2421cb69002" prot="public" static="no">
+        <name>GLIB_ERROR_INVALID_FILE</name>
+        <initializer>(ECODE_GLIB_BASE | 0x0009)</initializer>
+        <briefdescription>
+<para>Invalid file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="75" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1aec06eb1bf3dee5b418ec3576e69c0ef8" prot="public" static="no">
+        <name>GLIB_ERROR_DRIVER_NOT_INITIALIZED</name>
+        <initializer>(ECODE_GLIB_BASE | 0x000A)</initializer>
+        <briefdescription>
+<para>Driver not initialized correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="77" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a68eb1f80b4df2818e5a0774106748141" prot="public" static="no">
+        <name>Black</name>
+        <initializer>0x00</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="79" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="glib_8h_1a298a3b7c7f2ea427a7cd21cdc9a4f054" prot="public" static="no">
+        <name>White</name>
+        <initializer>0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="80" column="9" bodyfile="D:/doxygen/src/glib.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="glib_8h_1a29ecb2b6191dc970454dd77a5eac7f37" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>typedef uint32_t glib_status_t</definition>
+        <argsstring></argsstring>
+        <name>glib_status_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="82" column="20" bodyfile="D:/doxygen/src/glib.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="glib_8h_1a8b0094d8abacdeea55520d1d4dd9e3df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_init</definition>
+        <argsstring>(void)</argsstring>
+        <name>glib_init</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Initialization function for the glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="146" column="15" declfile="D:/doxygen/src/glib.h" declline="146" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a195317800141fc2934b0001f9ab07bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_clear</definition>
+        <argsstring>(glib_context_t *pContext)</argsstring>
+        <name>glib_clear</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <briefdescription>
+<para>Clears the display with the background color of the <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a GLIB_Context_t which holds the background color.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="158" column="15" declfile="D:/doxygen/src/glib.h" declline="158" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a778b0a6b0e713e146f2f73d4957db931" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_draw_pixel</definition>
+        <argsstring>(glib_context_t *pContext, int32_t x, int32_t y)</argsstring>
+        <name>glib_draw_pixel</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Draws a pixel at x, y using foregroundColor defined in the <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> which holds the foreground color. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>X-coordinate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Y-coordinate</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="174" column="15" declfile="D:/doxygen/src/glib.h" declline="174" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1ac71f22036369293969189b1d69b6d5d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_earse_pixel</definition>
+        <argsstring>(glib_context_t *pContext, int32_t x, int32_t y)</argsstring>
+        <name>glib_earse_pixel</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Earse a pixel at x, y using foregroundColor defined in the <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> which holds the foreground color. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>X-coordinate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Y-coordinate</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="190" column="15" declfile="D:/doxygen/src/glib.h" declline="190" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1af5b57837b575e92c830b402eb193fa63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_draw_char</definition>
+        <argsstring>(glib_context_t *pContext, char my_char, int32_t x, int32_t y)</argsstring>
+        <name>glib_draw_char</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>my_char</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Draws a char using the font supplied with the library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>my_char</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Char to be drawn</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start x-coordinate for the char (Upper left corner)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start y-coordinate for the char (Upper left corner)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="211" column="15" declfile="D:/doxygen/src/glib.h" declline="211" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1ab2550a3bfd471f753245babac791a3eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_draw_string</definition>
+        <argsstring>(glib_context_t *pContext, const char *str, int32_t x0, int32_t y0)</argsstring>
+        <name>glib_draw_string</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>str</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>x0</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>y0</declname>
+        </param>
+        <briefdescription>
+<para>Draws a string using the font supplied with the library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the string that is drawn</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start x-coordinate for the string (Upper left corner)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start y-coordinate for the string (Upper left corner)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="232" column="15" declfile="D:/doxygen/src/glib.h" declline="232" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a7d23eb649ac4a9cb88dbcf3d8d3b6b48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_set_font</definition>
+        <argsstring>(glib_context_t *pContext, glib_font_t *pFont)</argsstring>
+        <name>glib_set_font</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type><ref refid="structglib__font__t" kindref="compound">glib_font_t</ref> *</type>
+          <declname>pFont</declname>
+        </param>
+        <briefdescription>
+<para>Set new font for the library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Note that GLIB defines a default font in glib.c. Redefine GLIB_DEFAULT_FONT to change the default font.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pFont</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the new font</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="249" column="15" declfile="D:/doxygen/src/glib.h" declline="249" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a049adbcc812ab76324790169e87dec85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_draw_line</definition>
+        <argsstring>(glib_context_t *pContext, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2)</argsstring>
+        <name>glib_draw_line</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>x1</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>y1</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>x2</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>y2</declname>
+        </param>
+        <briefdescription>
+<para>Draws a line from x1, y1 to x2, y2 by Bresenhem&apos;s algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> in which the line is drawn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start x-coordinate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start y-coordinate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End x-coordinate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End y-coordinate</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="273" column="15" declfile="D:/doxygen/src/glib.h" declline="273" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a489172cce97a19434fc586c58235dc70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_draw_rectangle</definition>
+        <argsstring>(glib_context_t *pContext, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2)</argsstring>
+        <name>glib_draw_rectangle</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>x1</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>y1</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>x2</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>y2</declname>
+        </param>
+        <briefdescription>
+<para>Draws a rectangle from x1, y1 to x2, y2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> in which the line is drawn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start x-coordinate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start y-coordinate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End x-coordinate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End y-coordinate</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="298" column="15" declfile="D:/doxygen/src/glib.h" declline="298" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a828a26e3d8391b12f3c3c31f390125c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_draw_circle</definition>
+        <argsstring>(glib_context_t *pContext, uint8_t par_x, uint8_t par_y, uint8_t par_r)</argsstring>
+        <name>glib_draw_circle</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>par_x</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>par_y</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>par_r</declname>
+        </param>
+        <briefdescription>
+<para>Draws a circle with center at x, y, and a radius. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Draws a circle using the Bresenhem&apos;s algorithm. See Wikipedia for algorithm.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> in which the circle is drawn. The circle is drawn using the foreground color.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>par_x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Center x-coordinate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>par_y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Center y-coordinate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>par_r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Radius of the circle</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="323" column="15" declfile="D:/doxygen/src/glib.h" declline="323" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a1d6f454e924652778e7306e61899f011" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_update_display</definition>
+        <argsstring>(void)</argsstring>
+        <name>glib_update_display</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Update the display device with contents of active glib_frame_buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Returns GLIB_OK is successful, error otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="333" column="15" declfile="D:/doxygen/src/glib.h" declline="333" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a31548ce4841f7d5002f2295a6e79c024" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_draw_bmp</definition>
+        <argsstring>(glib_context_t *pContext, const uint8_t *data)</argsstring>
+        <name>glib_draw_bmp</name>
+        <param>
+          <type><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref> *</type>
+          <declname>pContext</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Draws a bitmap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets up a bitmap that starts at 0,0 and draws bitmap. The picture is a monochrome bitmap.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pContext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a GLIB_Context_t in which the bitmap is drawn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bitmap data</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns GLIB_OK on success, or else error code </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="351" column="15" declfile="D:/doxygen/src/glib.h" declline="351" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a4702c756f8c41eecf58130942f57387d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_set_invert_color</definition>
+        <argsstring>(void)</argsstring>
+        <name>glib_set_invert_color</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Set a inversion color to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="360" column="15" declfile="D:/doxygen/src/glib.h" declline="360" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1ae3be7c11235aa07e729d190135ae9090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_set_normal_color</definition>
+        <argsstring>(void)</argsstring>
+        <name>glib_set_normal_color</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Set a normal color to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="369" column="15" declfile="D:/doxygen/src/glib.h" declline="369" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a002b3477b4f329425ef03a5459298b30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_set_contrast</definition>
+        <argsstring>(uint8_t value)</argsstring>
+        <name>glib_set_contrast</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set a contrast to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to set contrast. Select 1 out of 256 contrast steps. Contrast increases as the value increases.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="382" column="15" declfile="D:/doxygen/src/glib.h" declline="382" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1ac1a8ebbb4e1dc83fce90e24da3420f37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_scroll_right</definition>
+        <argsstring>(uint8_t start_page_addr, uint8_t end_page_addr)</argsstring>
+        <name>glib_scroll_right</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>start_page_addr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>end_page_addr</declname>
+        </param>
+        <briefdescription>
+<para>Set a Right Horizontal Scroll to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_page_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start page address</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_page_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End page address</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="397" column="15" declfile="D:/doxygen/src/glib.h" declline="397" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a844e831d16590187d04b2986de1307aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_scroll_left</definition>
+        <argsstring>(uint8_t start_page_addr, uint8_t end_page_addr)</argsstring>
+        <name>glib_scroll_left</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>start_page_addr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>end_page_addr</declname>
+        </param>
+        <briefdescription>
+<para>Set a Left Horizontal Scroll to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_page_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start page address</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_page_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End page address</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="412" column="15" declfile="D:/doxygen/src/glib.h" declline="412" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a6fa8143786b794a329ec8bdf34866764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_scroll_diag_right</definition>
+        <argsstring>(uint8_t start_page_addr, uint8_t end_page_addr)</argsstring>
+        <name>glib_scroll_diag_right</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>start_page_addr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>end_page_addr</declname>
+        </param>
+        <briefdescription>
+<para>Set a Vertical and Right Horizontal Scroll to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_page_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start page address</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_page_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End page address</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="427" column="15" declfile="D:/doxygen/src/glib.h" declline="427" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a59afd667874f8cfce3358abeed669f86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_scroll_diag_left</definition>
+        <argsstring>(uint8_t start_page_addr, uint8_t end_page_addr)</argsstring>
+        <name>glib_scroll_diag_left</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>start_page_addr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>end_page_addr</declname>
+        </param>
+        <briefdescription>
+<para>Set a Vertical and Left Horizontal Scroll to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_page_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start page address</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_page_addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End page address</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="442" column="15" declfile="D:/doxygen/src/glib.h" declline="442" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a9c8ebce10fcd9da467f9c46350755eca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_stop_scroll</definition>
+        <argsstring>(void)</argsstring>
+        <name>glib_stop_scroll</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Stop scroll to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="451" column="15" declfile="D:/doxygen/src/glib.h" declline="451" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="glib_8h_1a3a5c7d48138873a41a8594519b3e6456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>glib_status_t</type>
+        <definition>glib_status_t glib_enable_display</definition>
+        <argsstring>(bool on)</argsstring>
+        <name>glib_enable_display</name>
+        <param>
+          <type>bool</type>
+          <declname>on</declname>
+        </param>
+        <briefdescription>
+<para>Set the display ON/OFF to glib. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">on</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>State of OLED</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>GLIB_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/glib.h" line="463" column="15" declfile="D:/doxygen/src/glib.h" declline="463" declcolumn="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Silicon Labs Graphics Library. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="glib_8h_1autotoc_md9">
+<title>License</title>
+<para><bold>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</bold></para>
+<para>SPDX-License-Identifier: Zlib</para>
+<para>The licensor of this software is Silicon Laboratories Inc.</para>
+<para>This software is provided \&apos;as-is\&apos;, without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.</para>
+<para>Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:</para>
+<para><orderedlist>
+<listitem><para>The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.</para>
+</listitem><listitem><para>Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.</para>
+</listitem><listitem><para>This notice may not be removed or altered from any source distribution.</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="glib_8h_1autotoc_md10">
+<title>Evaluation Quality</title>
+<para>This code has been minimally tested to ensure that it builds and is suitable as a demonstration for evaluation purposes only. This code will be maintained at the sole discretion of Silicon Labs. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/***************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>GLIB_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>C-header<sp/>files<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sl_status.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;glib_font.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>GLIB<sp/>header<sp/>files<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>ECODE_GLIB_BASE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Error<sp/>codes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_OK<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_NOTHING_TO_DRAW<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0001)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_INVALID_CHAR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0002)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_OUT_OF_BOUNDS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0003)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_INVALID_REGION<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0004)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_INVALID_ARGUMENT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0005)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_OUT_OF_MEMORY<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0006)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_FILE_NOT_SUPPORTED<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0007)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_IO<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0008)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_INVALID_FILE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x0009)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GLIB_ERROR_DRIVER_NOT_INITIALIZED<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(ECODE_GLIB_BASE<sp/>|<sp/>0x000A)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>Black<sp/><sp/><sp/><sp/><sp/><sp/>0x00<sp/><sp/></highlight><highlight class="comment">//<sp/>Black<sp/>color,<sp/>no<sp/>pixel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>White<sp/><sp/><sp/><sp/><sp/><sp/>0x01<sp/><sp/></highlight><highlight class="comment">//<sp/>Pixel<sp/>is<sp/>set.<sp/>Color<sp/>depends<sp/>on<sp/>OLED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>uint32_t<sp/><sp/><sp/>glib_status_t;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structglib__display__geometry__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">__glib_display_geometry_t{</highlight></codeline>
+<codeline lineno="89" refid="structglib__display__geometry__t_1a0c03ea59e3646154cf5f0560efab6d41" refkind="member"><highlight class="normal"><sp/><sp/>uint16_t<sp/><ref refid="structglib__display__geometry__t_1a0c03ea59e3646154cf5f0560efab6d41" kindref="member">xSize</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structglib__display__geometry__t_1a7a8368f51791144c93303053b63228e2" refkind="member"><highlight class="normal"><sp/><sp/>uint16_t<sp/><ref refid="structglib__display__geometry__t_1a7a8368f51791144c93303053b63228e2" kindref="member">ySize</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}<sp/><ref refid="structglib__display__geometry__t" kindref="compound">glib_display_geometry_t</ref>;<sp/></highlight></codeline>
+<codeline lineno="96" refid="structglib__font__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">__glib_font_t{</highlight></codeline>
+<codeline lineno="98" refid="structglib__font__t_1a9be03e43a9554855741444e7804c9c41" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structglib__font__t_1a9be03e43a9554855741444e7804c9c41" kindref="member">width</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structglib__font__t_1ae9c57c049fbcde24028db35123436c8d" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structglib__font__t_1ae9c57c049fbcde24028db35123436c8d" kindref="member">height</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structglib__font__t_1ae1792b57be24149cec7ffc7c8a1c9afd" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structglib__font__t_1ae1792b57be24149cec7ffc7c8a1c9afd" kindref="member">spacing</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structglib__font__t_1af680f32fc7bf3bf14a2b759c00a27d8d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>*<ref refid="structglib__font__t_1af680f32fc7bf3bf14a2b759c00a27d8d" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}<sp/><ref refid="structglib__font__t" kindref="compound">glib_font_t</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structglib__context__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">__glib_context_t{</highlight></codeline>
+<codeline lineno="116" refid="structglib__context__t_1ab777ee6f5a0d1c01fe3f7ec4d5730dd6" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structglib__context__t_1ab777ee6f5a0d1c01fe3f7ec4d5730dd6" kindref="member">backgroundColor</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structglib__context__t_1afd443e6c535e6638caaae14885592ce9" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structglib__context__t_1afd443e6c535e6638caaae14885592ce9" kindref="member">foregroundColor</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structglib__context__t_1a0f40e88d06edecd01791aa7792cb39da" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structglib__font__t" kindref="compound">glib_font_t</ref><sp/><ref refid="structglib__context__t_1a0f40e88d06edecd01791aa7792cb39da" kindref="member">font</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/><ref refid="structglib__context__t" kindref="compound">glib_context_t</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Fonts<sp/>included<sp/>in<sp/>the<sp/>library<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>GLIB_INCLUDE_FONT_6x8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structglib__font__t" kindref="compound">glib_font_t</ref><sp/>glib_font_6x8;<sp/></highlight><highlight class="comment">/*<sp/>Default<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>GLIB_INCLUDE_FONT_7x10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structglib__font__t" kindref="compound">glib_font_t</ref><sp/>glib_font_7x10;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>GLIB_INCLUDE_FONT_11x18</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structglib__font__t" kindref="compound">glib_font_t</ref><sp/>glib_font_11x18;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>GLIB_INCLUDE_FONT_16x26</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structglib__font__t" kindref="compound">glib_font_t</ref><sp/>glib_font_16x26;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">glib_status_t<sp/>glib_init(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">glib_status_t<sp/>glib_clear(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">glib_status_t<sp/>glib_draw_pixel(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/>int32_t<sp/>x,<sp/>int32_t<sp/>y);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal">glib_status_t<sp/>glib_earse_pixel(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/>int32_t<sp/>x,<sp/>int32_t<sp/>y);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal">glib_status_t<sp/>glib_draw_char(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>my_char,<sp/>int32_t<sp/>x,<sp/>int32_t<sp/>y);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">glib_status_t<sp/>glib_draw_string(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>str,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>x0,<sp/>int32_t<sp/>y0);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal">glib_status_t<sp/>glib_set_font(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/><ref refid="structglib__font__t" kindref="compound">glib_font_t</ref><sp/>*pFont);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal">glib_status_t<sp/>glib_draw_line(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/>uint8_t<sp/>x1,<sp/>uint8_t<sp/>y1,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>x2,<sp/>uint8_t<sp/>y2);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">glib_status_t<sp/>glib_draw_rectangle(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/>uint8_t<sp/>x1,<sp/>uint8_t<sp/>y1,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>x2,<sp/>uint8_t<sp/>y2);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">glib_status_t<sp/>glib_draw_circle(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/>uint8_t<sp/>par_x,<sp/>uint8_t<sp/>par_y,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>par_r);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal">glib_status_t<sp/>glib_update_display(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal">glib_status_t<sp/>glib_draw_bmp(<ref refid="structglib__context__t" kindref="compound">glib_context_t</ref><sp/>*pContext,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*data);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">glib_status_t<sp/>glib_set_invert_color(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal">glib_status_t<sp/>glib_set_normal_color(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal">glib_status_t<sp/>glib_set_contrast(uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal">glib_status_t<sp/>glib_scroll_right(uint8_t<sp/>start_page_addr,<sp/>uint8_t<sp/>end_page_addr);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal">glib_status_t<sp/>glib_scroll_left(uint8_t<sp/>start_page_addr,<sp/>uint8_t<sp/>end_page_addr);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal">glib_status_t<sp/>glib_scroll_diag_right(uint8_t<sp/>start_page_addr,<sp/>uint8_t<sp/>end_page_addr);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal">glib_status_t<sp/>glib_scroll_diag_left(uint8_t<sp/>start_page_addr,<sp/>uint8_t<sp/>end_page_addr);</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal">glib_status_t<sp/>glib_stop_scroll(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal">glib_status_t<sp/>glib_enable_display(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>on);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="D:/doxygen/src/glib.h"/>
+  </compounddef>
+</doxygen>

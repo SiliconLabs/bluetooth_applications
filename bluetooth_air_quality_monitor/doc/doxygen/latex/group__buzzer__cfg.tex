@@ -1,0 +1,118 @@
+\hypertarget{group__buzzer__cfg}{}\doxysection{Buzzer\+\_\+cfg}
+\label{group__buzzer__cfg}\index{Buzzer\_cfg@{Buzzer\_cfg}}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{group__buzzer__cfg_ga53157b0c521fcb6114549b588626560d}{BUZZER\+\_\+\+FREQ}}~4000
+\begin{DoxyCompactList}\small\item\em The buzzer default PWM frequency. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{group__buzzer__cfg_ga807084bc4e9ed9f0922a373e7bbb851f}{BUZZER\+\_\+\+PWM\+\_\+\+OUTPUT\+\_\+\+LOCATION}}~BUZZER\+\_\+\+PWM\+\_\+\+OUTPUT\+\_\+\+LOC
+\item 
+\#define \mbox{\hyperlink{group__buzzer__cfg_ga497c9723bda5195a5cc37240d975ada7}{PWM\+\_\+\+INSTANCE\+\_\+\+DEFAULT}}
+\begin{DoxyCompactList}\small\item\em Default struct for PWM initialization. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{group__buzzer__cfg_ga701ad181c094ef35b0208b49f2afc0c6}{PWM\+\_\+\+CFG\+\_\+\+DEFAULT}}
+\begin{DoxyCompactList}\small\item\em Default struct for PWM configuration. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{group__buzzer__cfg_gaddf17ead4555be743a088e91c9d2e3df}{BUZZER\+\_\+\+INIT\+\_\+\+DEFAULT}}
+\begin{DoxyCompactList}\small\item\em Default init struct for buzzer initialization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{group__buzzer__cfg_ga53157b0c521fcb6114549b588626560d}\label{group__buzzer__cfg_ga53157b0c521fcb6114549b588626560d}} 
+\index{Buzzer\_cfg@{Buzzer\_cfg}!BUZZER\_FREQ@{BUZZER\_FREQ}}
+\index{BUZZER\_FREQ@{BUZZER\_FREQ}!Buzzer\_cfg@{Buzzer\_cfg}}
+\doxysubsubsection{\texorpdfstring{BUZZER\_FREQ}{BUZZER\_FREQ}}
+{\footnotesize\ttfamily \#define BUZZER\+\_\+\+FREQ~4000}
+
+
+
+The buzzer default PWM frequency. 
+
+\begin{DoxyNote}{Note}
+The frequency at which the CMT-\/8540\+S-\/\+SMT buzzer is to be driven. If modifying this driver for other buzzers, another frequency may be used. 
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{buzzer_8h_source_l00138}{138}} of file \mbox{\hyperlink{buzzer_8h_source}{buzzer.\+h}}.
+
+\mbox{\Hypertarget{group__buzzer__cfg_gaddf17ead4555be743a088e91c9d2e3df}\label{group__buzzer__cfg_gaddf17ead4555be743a088e91c9d2e3df}} 
+\index{Buzzer\_cfg@{Buzzer\_cfg}!BUZZER\_INIT\_DEFAULT@{BUZZER\_INIT\_DEFAULT}}
+\index{BUZZER\_INIT\_DEFAULT@{BUZZER\_INIT\_DEFAULT}!Buzzer\_cfg@{Buzzer\_cfg}}
+\doxysubsubsection{\texorpdfstring{BUZZER\_INIT\_DEFAULT}{BUZZER\_INIT\_DEFAULT}}
+{\footnotesize\ttfamily \#define BUZZER\+\_\+\+INIT\+\_\+\+DEFAULT}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{  \{                                                                       \(\backslash\)}
+\DoxyCodeLine{    PWM\_INSTANCE\_DEFAULT,                \textcolor{comment}{/* PWM instance */}               \(\backslash\)}
+\DoxyCodeLine{    PWM\_CFG\_DEFAULT,                     \textcolor{comment}{/* PWM config */}                 \(\backslash\)}
+\DoxyCodeLine{    buzzer\_VOL0,                         \textcolor{comment}{/* buzzer volume */}              \(\backslash\)}
+\DoxyCodeLine{  \}}
+
+\end{DoxyCode}
+
+
+Default init struct for buzzer initialization. 
+
+
+
+Definition at line \mbox{\hyperlink{buzzer_8h_source_l00173}{173}} of file \mbox{\hyperlink{buzzer_8h_source}{buzzer.\+h}}.
+
+\mbox{\Hypertarget{group__buzzer__cfg_ga807084bc4e9ed9f0922a373e7bbb851f}\label{group__buzzer__cfg_ga807084bc4e9ed9f0922a373e7bbb851f}} 
+\index{Buzzer\_cfg@{Buzzer\_cfg}!BUZZER\_PWM\_OUTPUT\_LOCATION@{BUZZER\_PWM\_OUTPUT\_LOCATION}}
+\index{BUZZER\_PWM\_OUTPUT\_LOCATION@{BUZZER\_PWM\_OUTPUT\_LOCATION}!Buzzer\_cfg@{Buzzer\_cfg}}
+\doxysubsubsection{\texorpdfstring{BUZZER\_PWM\_OUTPUT\_LOCATION}{BUZZER\_PWM\_OUTPUT\_LOCATION}}
+{\footnotesize\ttfamily \#define BUZZER\+\_\+\+PWM\+\_\+\+OUTPUT\+\_\+\+LOCATION~BUZZER\+\_\+\+PWM\+\_\+\+OUTPUT\+\_\+\+LOC}
+
+
+
+Definition at line \mbox{\hyperlink{buzzer_8h_source_l00141}{141}} of file \mbox{\hyperlink{buzzer_8h_source}{buzzer.\+h}}.
+
+\mbox{\Hypertarget{group__buzzer__cfg_ga701ad181c094ef35b0208b49f2afc0c6}\label{group__buzzer__cfg_ga701ad181c094ef35b0208b49f2afc0c6}} 
+\index{Buzzer\_cfg@{Buzzer\_cfg}!PWM\_CFG\_DEFAULT@{PWM\_CFG\_DEFAULT}}
+\index{PWM\_CFG\_DEFAULT@{PWM\_CFG\_DEFAULT}!Buzzer\_cfg@{Buzzer\_cfg}}
+\doxysubsubsection{\texorpdfstring{PWM\_CFG\_DEFAULT}{PWM\_CFG\_DEFAULT}}
+{\footnotesize\ttfamily \#define PWM\+\_\+\+CFG\+\_\+\+DEFAULT}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{  \{                                                                       \(\backslash\)}
+\DoxyCodeLine{    BUZZER\_FREQ,                         \textcolor{comment}{/* PWM frequency */}              \(\backslash\)}
+\DoxyCodeLine{    BUZZER\_PWM\_POLARITY,                 \textcolor{comment}{/* PWM Polarity */}               \(\backslash\)}
+\DoxyCodeLine{  \}}
+
+\end{DoxyCode}
+
+
+Default struct for PWM configuration. 
+
+
+
+Definition at line \mbox{\hyperlink{buzzer_8h_source_l00163}{163}} of file \mbox{\hyperlink{buzzer_8h_source}{buzzer.\+h}}.
+
+\mbox{\Hypertarget{group__buzzer__cfg_ga497c9723bda5195a5cc37240d975ada7}\label{group__buzzer__cfg_ga497c9723bda5195a5cc37240d975ada7}} 
+\index{Buzzer\_cfg@{Buzzer\_cfg}!PWM\_INSTANCE\_DEFAULT@{PWM\_INSTANCE\_DEFAULT}}
+\index{PWM\_INSTANCE\_DEFAULT@{PWM\_INSTANCE\_DEFAULT}!Buzzer\_cfg@{Buzzer\_cfg}}
+\doxysubsubsection{\texorpdfstring{PWM\_INSTANCE\_DEFAULT}{PWM\_INSTANCE\_DEFAULT}}
+{\footnotesize\ttfamily \#define PWM\+\_\+\+INSTANCE\+\_\+\+DEFAULT}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{  \{                                                                       \(\backslash\)}
+\DoxyCodeLine{    BUZZER\_PWM\_PERIPHERAL,                   \textcolor{comment}{/* PWM peripheral */}             \(\backslash\)}
+\DoxyCodeLine{    (uint8\_t)BUZZER\_PWM\_OUTPUT\_CHANNEL,      \textcolor{comment}{/* PWM channel */}                \(\backslash\)}
+\DoxyCodeLine{    (uint8\_t)BUZZER\_PWM\_OUTPUT\_PORT,         \textcolor{comment}{/* PWM output port */}            \(\backslash\)}
+\DoxyCodeLine{    (uint8\_t)BUZZER\_PWM\_OUTPUT\_PIN,          \textcolor{comment}{/* PWM output pin */}             \(\backslash\)}
+\DoxyCodeLine{    (uint8\_t)BUZZER\_PWM\_OUTPUT\_LOCATION,     \textcolor{comment}{/* PWM output location */}        \(\backslash\)}
+\DoxyCodeLine{  \}}
+
+\end{DoxyCode}
+
+
+Default struct for PWM initialization. 
+
+
+
+Definition at line \mbox{\hyperlink{buzzer_8h_source_l00150}{150}} of file \mbox{\hyperlink{buzzer_8h_source}{buzzer.\+h}}.
+

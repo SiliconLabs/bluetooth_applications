@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="structbuzzer__melody__t" kind="struct" language="C++" prot="public">
+    <compoundname>buzzer_melody_t</compoundname>
+    <includes refid="buzzer_8h" local="no">buzzer.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="group___buzzer_1gaee729cbb1d3fd7f08eddb0fcd0c9068b" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structbuzzer__note__t" kindref="compound">buzzer_note_t</ref> *</type>
+        <definition>const buzzer_note_t* buzzer_melody_t::melody</definition>
+        <argsstring></argsstring>
+        <name>melody</name>
+        <qualifiedname>buzzer_melody_t::melody</qualifiedname>
+        <briefdescription>
+<para>sequence of musical notes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="122" column="23" bodyfile="D:/doxygen/src/buzzer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1ga87b368a8e6f3427282679f5a4d873355" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t buzzer_melody_t::len</definition>
+        <argsstring></argsstring>
+        <name>len</name>
+        <qualifiedname>buzzer_melody_t::len</qualifiedname>
+        <briefdescription>
+<para>length of an array melody </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="123" column="12" bodyfile="D:/doxygen/src/buzzer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1gac901f1c3158766223b27e8a3f6fc979f" prot="public" static="no" mutable="no">
+        <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+        <definition>buzzer_t* buzzer_melody_t::buzzer</definition>
+        <argsstring></argsstring>
+        <name>buzzer</name>
+        <qualifiedname>buzzer_melody_t::buzzer</qualifiedname>
+        <briefdescription>
+<para>the instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="124" column="12" bodyfile="D:/doxygen/src/buzzer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Buzzer melody structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>buzzer_melody_t</label>
+        <link refid="structbuzzer__melody__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>melody</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>buzzer</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>buzzer_note_t</label>
+        <link refid="structbuzzer__note__t"/>
+      </node>
+      <node id="5">
+        <label>buzzer_pwm_config_t</label>
+        <link refid="structbuzzer__pwm__config__t"/>
+      </node>
+      <node id="4">
+        <label>buzzer_pwm_instance_t</label>
+        <link refid="structbuzzer__pwm__instance__t"/>
+      </node>
+      <node id="3">
+        <label>buzzer_t</label>
+        <link refid="structbuzzer__t"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>pwm</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="D:/doxygen/src/buzzer.h" line="121" column="1" bodyfile="D:/doxygen/src/buzzer.h" bodystart="121" bodyend="125"/>
+    <listofallmembers>
+      <member refid="group___buzzer_1gac901f1c3158766223b27e8a3f6fc979f" prot="public" virt="non-virtual"><scope>buzzer_melody_t</scope><name>buzzer</name></member>
+      <member refid="group___buzzer_1ga87b368a8e6f3427282679f5a4d873355" prot="public" virt="non-virtual"><scope>buzzer_melody_t</scope><name>len</name></member>
+      <member refid="group___buzzer_1gaee729cbb1d3fd7f08eddb0fcd0c9068b" prot="public" virt="non-virtual"><scope>buzzer_melody_t</scope><name>melody</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

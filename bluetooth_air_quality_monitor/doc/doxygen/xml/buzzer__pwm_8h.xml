@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="buzzer__pwm_8h" kind="file" language="C++">
+    <compoundname>buzzer_pwm.h</compoundname>
+    <includes local="yes">sl_status.h</includes>
+    <includes local="yes">sl_enum.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="yes">em_timer.h</includes>
+    <includedby refid="buzzer_8h" local="yes">D:/doxygen/src/buzzer.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>D:/doxygen/src/buzzer_pwm.h</label>
+        <link refid="buzzer__pwm_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>em_timer.h</label>
+      </node>
+      <node id="3">
+        <label>sl_enum.h</label>
+      </node>
+      <node id="2">
+        <label>sl_status.h</label>
+      </node>
+      <node id="4">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>D:/doxygen/src/buzzer.h</label>
+        <link refid="buzzer_8h_source"/>
+      </node>
+      <node id="1">
+        <label>D:/doxygen/src/buzzer_pwm.h</label>
+        <link refid="buzzer__pwm_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structbuzzer__pwm__instance__t" prot="public">buzzer_pwm_instance_t</innerclass>
+    <innerclass refid="structbuzzer__pwm__config__t" prot="public">buzzer_pwm_config_t</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__buzzer_1ga148532c25a2f83d7c32442266ce289c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SL_ENUM</definition>
+        <argsstring>(buzzer_pwm_polarity_t)</argsstring>
+        <name>SL_ENUM</name>
+        <param>
+          <type>buzzer_pwm_polarity_t</type>
+        </param>
+        <briefdescription>
+<para>PWM polarity selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>PWM polarity active high</para>
+<para>PWM polarity active low</para>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="107" column="1" bodyfile="D:/doxygen/src/buzzer_pwm.h" bodystart="107" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1gae08b6502f9d42dd52323e4fd04454dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_pwm_init</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm, buzzer_pwm_config_t *config)</argsstring>
+        <name>buzzer_pwm_init</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <param>
+          <type><ref refid="structbuzzer__pwm__config__t" kindref="compound">buzzer_pwm_config_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initializes PWM driver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Driver configuration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="146" column="13" declfile="D:/doxygen/src/buzzer_pwm.h" declline="146" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga13ce7c8bc26578da1dbc4176f28e95b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>sl_status_t</type>
+        <definition>sl_status_t buzzer_pwm_deinit</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_deinit</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Deinitializes PWM driver. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SL_STATUS_OK if there are no errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="158" column="13" declfile="D:/doxygen/src/buzzer_pwm.h" declline="158" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga66b8b79768398d514ed9720cd384ba1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buzzer_pwm_start</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_start</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Starts generating PWM waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="167" column="6" declfile="D:/doxygen/src/buzzer_pwm.h" declline="167" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga024a35ec28b876272f3a68a00b09df91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buzzer_pwm_stop</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_stop</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Stops generating PWM waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="176" column="6" declfile="D:/doxygen/src/buzzer_pwm.h" declline="176" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1gabf9d9e49f5334c66d90bc46a80c99b8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buzzer_pwm_set_duty_cycle</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm, uint8_t percent)</argsstring>
+        <name>buzzer_pwm_set_duty_cycle</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>percent</declname>
+        </param>
+        <briefdescription>
+<para>Sets duty cycle for PWM waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Percent of the PWM period waveform is in the state defined as the active polarity in the driver configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="189" column="6" declfile="D:/doxygen/src/buzzer_pwm.h" declline="189" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga13bdd9b74e02528ba4b8feb995cb15c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t buzzer_pwm_get_duty_cycle</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_get_duty_cycle</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Gets duty cycle for PWM waveform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Percent of the PWM period waveform is in the state defined as the active polarity in the driver configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="202" column="9" declfile="D:/doxygen/src/buzzer_pwm.h" declline="202" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga231f363b372f5388f210d0c3205aa3ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void buzzer_pwm_set_frequency</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm, uint32_t freq)</argsstring>
+        <name>buzzer_pwm_set_frequency</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>freq</declname>
+        </param>
+        <briefdescription>
+<para>Sets the frequency for PWM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Frequency for PWM </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="214" column="6" declfile="D:/doxygen/src/buzzer_pwm.h" declline="214" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__buzzer_1ga7537b0ed4354d42214c17b82f881af94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t buzzer_pwm_get_frequency</definition>
+        <argsstring>(buzzer_pwm_instance_t *pwm)</argsstring>
+        <name>buzzer_pwm_get_frequency</name>
+        <param>
+          <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref> *</type>
+          <declname>pwm</declname>
+        </param>
+        <briefdescription>
+<para>Gets the frequency for PWM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pwm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PWM driver instance</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The frequency of the PWM period waveform is in the state defined as the active polarity in the driver configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer_pwm.h" line="227" column="10" declfile="D:/doxygen/src/buzzer_pwm.h" declline="227" declcolumn="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>PWM driver. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="buzzer__pwm_8h_1autotoc_md4">
+<title>License</title>
+<para><bold>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</bold></para>
+<para>SPDX-License-Identifier: Zlib</para>
+<para>The licensor of this software is Silicon Laboratories Inc.</para>
+<para>This software is provided \&apos;as-is\&apos;, without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.</para>
+<para>Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:</para>
+<para><orderedlist>
+<listitem><para>The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.</para>
+</listitem><listitem><para>Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.</para>
+</listitem><listitem><para>This notice may not be removed or altered from any source distribution.</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="buzzer__pwm_8h_1autotoc_md5">
+<title>Evaluation Quality</title>
+<para>This code has been minimally tested to ensure that it builds and is suitable as a demonstration for evaluation purposes only. This code will be maintained at the sole discretion of Silicon Labs. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/***************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>BUZZER_PWM_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>BUZZER_PWM_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sl_status.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sl_enum.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;em_timer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">/***************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="group__buzzer_1ga148532c25a2f83d7c32442266ce289c5" refkind="member"><highlight class="normal"><ref refid="group__buzzer_1ga148532c25a2f83d7c32442266ce289c5" kindref="member">SL_ENUM</ref>(buzzer_pwm_polarity_t)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>PWM_ACTIVE_HIGH<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/>PWM_ACTIVE_LOW<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structbuzzer__pwm__instance__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">buzzer_pwm_instance<sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structbuzzer__pwm__instance__t_1a43267aceb5e10babd1b09a25281d5276" refkind="member"><highlight class="normal"><sp/><sp/>TIMER_TypeDef<sp/>*<ref refid="structbuzzer__pwm__instance__t_1a43267aceb5e10babd1b09a25281d5276" kindref="member">timer</ref>;<sp/></highlight></codeline>
+<codeline lineno="119" refid="structbuzzer__pwm__instance__t_1a81529ab439df77763514c57f2c5af1f2" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structbuzzer__pwm__instance__t_1a81529ab439df77763514c57f2c5af1f2" kindref="member">channel</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structbuzzer__pwm__instance__t_1a8f79e0c16df879c49de5e5d6852b6760" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structbuzzer__pwm__instance__t_1a8f79e0c16df879c49de5e5d6852b6760" kindref="member">port</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structbuzzer__pwm__instance__t_1ab1dcd1bbba8f2ce93c19cb8c5d0de731" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structbuzzer__pwm__instance__t_1ab1dcd1bbba8f2ce93c19cb8c5d0de731" kindref="member">pin</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structbuzzer__pwm__instance__t_1a08e03761dbb51efa01e7c8bed4f30f92" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="structbuzzer__pwm__instance__t_1a08e03761dbb51efa01e7c8bed4f30f92" kindref="member">location</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structbuzzer__pwm__config__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">buzzer_pwm_config<sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structbuzzer__pwm__config__t_1a6601e615c0cf4a4ab8d67dd63cd32d2c" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structbuzzer__pwm__config__t_1a6601e615c0cf4a4ab8d67dd63cd32d2c" kindref="member">frequency</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structbuzzer__pwm__config__t_1a6c9e2226accf1a29e7375fba0365b6c4" refkind="member"><highlight class="normal"><sp/><sp/>buzzer_pwm_polarity_t<sp/><ref refid="structbuzzer__pwm__config__t_1a6c9e2226accf1a29e7375fba0365b6c4" kindref="member">polarity</ref>;<sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}<sp/><ref refid="structbuzzer__pwm__config__t" kindref="compound">buzzer_pwm_config_t</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="group__buzzer_1gae08b6502f9d42dd52323e4fd04454dbd" refkind="member"><highlight class="normal">sl_status_t<sp/><ref refid="group__buzzer_1gae08b6502f9d42dd52323e4fd04454dbd" kindref="member">buzzer_pwm_init</ref>(<ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>*pwm,<sp/><ref refid="structbuzzer__pwm__config__t" kindref="compound">buzzer_pwm_config_t</ref><sp/>*config);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="group__buzzer_1ga13ce7c8bc26578da1dbc4176f28e95b9" refkind="member"><highlight class="normal">sl_status_t<sp/><ref refid="group__buzzer_1ga13ce7c8bc26578da1dbc4176f28e95b9" kindref="member">buzzer_pwm_deinit</ref>(<ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>*pwm);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="group__buzzer_1ga66b8b79768398d514ed9720cd384ba1f" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__buzzer_1ga66b8b79768398d514ed9720cd384ba1f" kindref="member">buzzer_pwm_start</ref>(<ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>*pwm);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="group__buzzer_1ga024a35ec28b876272f3a68a00b09df91" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__buzzer_1ga024a35ec28b876272f3a68a00b09df91" kindref="member">buzzer_pwm_stop</ref>(<ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>*pwm);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="group__buzzer_1gabf9d9e49f5334c66d90bc46a80c99b8f" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__buzzer_1gabf9d9e49f5334c66d90bc46a80c99b8f" kindref="member">buzzer_pwm_set_duty_cycle</ref>(<ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>*pwm,<sp/>uint8_t<sp/>percent);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="group__buzzer_1ga13bdd9b74e02528ba4b8feb995cb15c3" refkind="member"><highlight class="normal">uint8_t<sp/><ref refid="group__buzzer_1ga13bdd9b74e02528ba4b8feb995cb15c3" kindref="member">buzzer_pwm_get_duty_cycle</ref>(<ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>*pwm);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="group__buzzer_1ga231f363b372f5388f210d0c3205aa3ff" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__buzzer_1ga231f363b372f5388f210d0c3205aa3ff" kindref="member">buzzer_pwm_set_frequency</ref>(<ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>*pwm,<sp/>uint32_t<sp/>freq);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">/**************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="group__buzzer_1ga7537b0ed4354d42214c17b82f881af94" refkind="member"><highlight class="normal">uint32_t<sp/><ref refid="group__buzzer_1ga7537b0ed4354d42214c17b82f881af94" kindref="member">buzzer_pwm_get_frequency</ref>(<ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref><sp/>*pwm);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>BUZZER_PWM_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="D:/doxygen/src/buzzer_pwm.h"/>
+  </compounddef>
+</doxygen>

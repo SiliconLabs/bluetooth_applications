@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="ssd1306__config_8h" kind="file" language="C++">
+    <compoundname>ssd1306_config.h</compoundname>
+    <includedby refid="ssd1306_8h" local="yes">D:/doxygen/src/ssd1306.h</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>D:/doxygen/src/ssd1306.h</label>
+        <link refid="ssd1306_8h_source"/>
+      </node>
+      <node id="1">
+        <label>D:/doxygen/src/ssd1306_config.h</label>
+        <link refid="ssd1306__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ssd1306__config_8h_1a97d6b37bd83a7a15e8dd9ea321caa531" prot="public" static="no">
+        <name>SSD1306_DISPLAY_WIDTH</name>
+        <initializer>64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/ssd1306_config.h" line="38" column="9" bodyfile="D:/doxygen/src/ssd1306_config.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ssd1306__config_8h_1ac20862cf00621f8971e9d2d40c940773" prot="public" static="no">
+        <name>SSD1306_DISPLAY_HEIGHT</name>
+        <initializer>48</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/ssd1306_config.h" line="39" column="9" bodyfile="D:/doxygen/src/ssd1306_config.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>SSD1306 configure. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="ssd1306__config_8h_1autotoc_md17">
+<title>License</title>
+<para><bold>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</bold></para>
+<para>SPDX-License-Identifier: Zlib</para>
+<para>The licensor of this software is Silicon Laboratories Inc.</para>
+<para>This software is provided \&apos;as-is\&apos;, without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.</para>
+<para>Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:</para>
+<para><orderedlist>
+<listitem><para>The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.</para>
+</listitem><listitem><para>Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.</para>
+</listitem><listitem><para>This notice may not be removed or altered from any source distribution.</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="ssd1306__config_8h_1autotoc_md18">
+<title>Evaluation Quality</title>
+<para>This code has been minimally tested to ensure that it builds and is suitable as a demonstration for evaluation purposes only. This code will be maintained at the sole discretion of Silicon Labs. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/***************************************************************************/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>SSD1306_CONFIG_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SSD1306_CONFIG_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SSD1306_DISPLAY_WIDTH<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SSD1306_DISPLAY_HEIGHT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>48</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="D:/doxygen/src/ssd1306_config.h"/>
+  </compounddef>
+</doxygen>

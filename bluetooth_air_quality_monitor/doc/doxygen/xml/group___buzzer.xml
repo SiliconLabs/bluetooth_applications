@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.3" xml:lang="en-US">
+  <compounddef id="group___buzzer" kind="group">
+    <compoundname>Buzzer</compoundname>
+    <title>Driver</title>
+    <innerclass refid="structbuzzer__t" prot="public">buzzer_t</innerclass>
+    <innerclass refid="structbuzzer__note__t" prot="public">buzzer_note_t</innerclass>
+    <innerclass refid="structbuzzer__melody__t" prot="public">buzzer_melody_t</innerclass>
+    <innergroup refid="group__buzzer__cfg">Buzzer_cfg</innergroup>
+    <innergroup refid="group__buzzer__freq">Buzzer_freq</innergroup>
+    <innergroup refid="group__buzzer">driver</innergroup>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___buzzer_1ga098bd7ee5be45b675db7728bc702bb91" prot="public" static="no" strong="no">
+        <type></type>
+        <name>buzzer_volume_t</name>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91ab7ca1571d9d7a1b28fbeb263bd145b83" prot="public">
+          <name>buzzer_VOL0</name>
+          <initializer>= 0U</initializer>
+          <briefdescription>
+<para>0% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91a7d3e04241c26ab017b12038fc571d600" prot="public">
+          <name>buzzer_VOL10</name>
+          <initializer>= 1U</initializer>
+          <briefdescription>
+<para>10% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91af9b4720431d874ec0adefbcc8d00aa8d" prot="public">
+          <name>buzzer_VOL20</name>
+          <initializer>= 2U</initializer>
+          <briefdescription>
+<para>20% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91afefc2b752751e9d2ae4ddbdb0e2a82b9" prot="public">
+          <name>buzzer_VOL30</name>
+          <initializer>= 3U</initializer>
+          <briefdescription>
+<para>30% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91a84ef4037eea9214d42e4f20362cc1dbd" prot="public">
+          <name>buzzer_VOL40</name>
+          <initializer>= 4U</initializer>
+          <briefdescription>
+<para>40% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91a00ed03291365634a6d82927b116fb9a7" prot="public">
+          <name>buzzer_VOL50</name>
+          <initializer>= 5U</initializer>
+          <briefdescription>
+<para>50% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91ae8028756f161dc482ce8d40f1efd036a" prot="public">
+          <name>buzzer_VOL60</name>
+          <initializer>= 6U</initializer>
+          <briefdescription>
+<para>60% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91ae3b86ee55a6477810fb71a1f27889276" prot="public">
+          <name>buzzer_VOL70</name>
+          <initializer>= 7U</initializer>
+          <briefdescription>
+<para>70% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91a3129fb3bc1d51703172e426304b9e6cd" prot="public">
+          <name>buzzer_VOL80</name>
+          <initializer>= 8U</initializer>
+          <briefdescription>
+<para>80% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91ae58e435c1b40fb88233dabf927cd9486" prot="public">
+          <name>buzzer_VOL90</name>
+          <initializer>= 9U</initializer>
+          <briefdescription>
+<para>90% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___buzzer_1gga098bd7ee5be45b675db7728bc702bb91ae2f18c52584af4d838dac8273722d654" prot="public">
+          <name>buzzer_VOL100</name>
+          <initializer>= 10U</initializer>
+          <briefdescription>
+<para>100% </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Buzzer volume settings enum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="80" column="1" bodyfile="D:/doxygen/src/buzzer.h" bodystart="80" bodyend="92"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group___buzzer_1gaaf0d31641473ec9c5a03d128961cc91d" prot="public" static="no" mutable="no">
+        <type><ref refid="structbuzzer__pwm__instance__t" kindref="compound">buzzer_pwm_instance_t</ref></type>
+        <definition>buzzer_pwm_instance_t buzzer_t::pwm</definition>
+        <argsstring></argsstring>
+        <name>pwm</name>
+        <qualifiedname>buzzer_t::pwm</qualifiedname>
+        <briefdescription>
+<para>PWM instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="103" column="25" bodyfile="D:/doxygen/src/buzzer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1ga399c98024d133d2eaee38ddcf9547a18" prot="public" static="no" mutable="no">
+        <type><ref refid="structbuzzer__pwm__config__t" kindref="compound">buzzer_pwm_config_t</ref></type>
+        <definition>buzzer_pwm_config_t buzzer_t::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>buzzer_t::config</qualifiedname>
+        <briefdescription>
+<para>PWM configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="104" column="23" bodyfile="D:/doxygen/src/buzzer.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1ga4cae2a8a201c31a49e69b14e7f3900ec" prot="public" static="no" mutable="no">
+        <type><ref refid="group___buzzer_1ga098bd7ee5be45b675db7728bc702bb91" kindref="member">buzzer_volume_t</ref></type>
+        <definition>buzzer_volume_t buzzer_t::volume</definition>
+        <argsstring></argsstring>
+        <name>volume</name>
+        <qualifiedname>buzzer_t::volume</qualifiedname>
+        <briefdescription>
+<para>buzzer volume level </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="105" column="19" bodyfile="D:/doxygen/src/buzzer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1ga41c41caea32bf30f77f70ade95763f40" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t buzzer_note_t::note</definition>
+        <argsstring></argsstring>
+        <name>note</name>
+        <qualifiedname>buzzer_note_t::note</qualifiedname>
+        <briefdescription>
+<para>musical note </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="113" column="13" bodyfile="D:/doxygen/src/buzzer.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1ga22500cb8ca310967d94c301b94964790" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t buzzer_note_t::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>buzzer_note_t::duration</qualifiedname>
+        <briefdescription>
+<para>beat of the musical note </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="114" column="13" bodyfile="D:/doxygen/src/buzzer.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1gaee729cbb1d3fd7f08eddb0fcd0c9068b" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structbuzzer__note__t" kindref="compound">buzzer_note_t</ref> *</type>
+        <definition>const buzzer_note_t* buzzer_melody_t::melody</definition>
+        <argsstring></argsstring>
+        <name>melody</name>
+        <qualifiedname>buzzer_melody_t::melody</qualifiedname>
+        <briefdescription>
+<para>sequence of musical notes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="122" column="23" bodyfile="D:/doxygen/src/buzzer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1ga87b368a8e6f3427282679f5a4d873355" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t buzzer_melody_t::len</definition>
+        <argsstring></argsstring>
+        <name>len</name>
+        <qualifiedname>buzzer_melody_t::len</qualifiedname>
+        <briefdescription>
+<para>length of an array melody </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="123" column="12" bodyfile="D:/doxygen/src/buzzer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___buzzer_1gac901f1c3158766223b27e8a3f6fc979f" prot="public" static="no" mutable="no">
+        <type><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> *</type>
+        <definition>buzzer_t* buzzer_melody_t::buzzer</definition>
+        <argsstring></argsstring>
+        <name>buzzer</name>
+        <qualifiedname>buzzer_melody_t::buzzer</qualifiedname>
+        <briefdescription>
+<para>the instance of <ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref> object </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="D:/doxygen/src/buzzer.h" line="124" column="12" bodyfile="D:/doxygen/src/buzzer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Buzzer Driver. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Basic example for using Buzzer driver:</para>
+<para><programlisting filename=".c"><codeline><highlight class="preprocessor">#include<sp/>&quot;buzzer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structbuzzer__t" kindref="compound">buzzer_t</ref><sp/>buzzer<sp/>=<sp/><ref refid="group__buzzer__cfg_1gaddf17ead4555be743a088e91c9d2e3df" kindref="member">BUZZER_INIT_DEFAULT</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>Buzzer</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__buzzer_1ga83117835be9a2ed544accc629e7443f0" kindref="member">buzzer_init</ref>(&amp;buzzer);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Play<sp/>a<sp/>melody</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="group__buzzer_1ga64abb2a4bb49379433463bf7028453ff" kindref="member">buzzer_play_melody</ref>(&amp;buzzer_melody);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>
