@@ -1,5 +1,9 @@
 # BLE man-in-the-middle example #
 
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2.7-green)
+
 ## Summary ##
 
 This project shows the implementation of Man-In-The-Middle with BLE. It also demonstrates how to solve this vunerablility.

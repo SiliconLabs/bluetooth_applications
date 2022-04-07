@@ -1,6 +1,9 @@
 <!--Author: Balázs Leidecker -->
 
 # MIDI over BLE
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![GitHub](https://img.shields.io/badge/License-zlib-green)
 
 ## Description
 

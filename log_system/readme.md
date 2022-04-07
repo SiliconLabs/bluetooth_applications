@@ -1,5 +1,9 @@
 # Log System ##
- 
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+![GitHub](https://img.shields.io/badge/SDK-v3.1.1-green)
+
 ## Description ##
  
 Logging is very important for developing embedded products. This is especially true for connection-based wireless products because the use of breakpoints will probably result in dropped connections, whereas issues can be easily addressed by walking through the log.

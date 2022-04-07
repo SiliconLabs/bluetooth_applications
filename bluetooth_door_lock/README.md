@@ -1,5 +1,15 @@
 # Door lock example application with BLE
 
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v3.2.2-green)
+![GCC badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_gcc.json)
+[![GitHub](https://img.shields.io/badge/Mikroe-Cap%20Touch%202%20click-green)](https://www.mikroe.com/cap-touch-2-click)
+[![GitHub](https://img.shields.io/badge/Mikroe-BUZZ%202%20CLICK-green)](https://www.mikroe.com/buzz-2-click)
+[![GitHub](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout-green)](https://www.sparkfun.com/products/14532)
+
+
 ## Overview
 
 This project shows a demonstration of **Bluetooth door lock application** using [Silabs BGM220 Explorer Kit Board BRD4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit), [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532), [Cap Touch 2 Click MikroE board](https://www.mikroe.com/cap-touch-2-click), and [BUZZ 2 click Mikroe board](https://www.mikroe.com/buzz-2-click).

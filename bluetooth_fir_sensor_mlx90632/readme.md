@@ -1,5 +1,12 @@
 # MLX90632 IrThermo 3 click Bluetooth example #
 
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v3.1.2-green)
+![GCC badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_fir_sensor_mlx90632_gcc.json)
+[![GitHub](https://img.shields.io/badge/Mikroe-IRTHERMO%203%20CLICK-green)](https://www.mikroe.com/ir-thermo-3-click)
+
 ## Summary ##
 
 This example implements the Ambient temperature and the Object temperature service. It enables a device to connect and receive in every second the Object temperature values via Bluetooth. 

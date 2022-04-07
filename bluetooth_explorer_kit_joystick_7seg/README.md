@@ -1,5 +1,11 @@
 # Explorer Kit Bluetooth example using the I2C-bus Joystick and the SPI-bus 7-segment LED display #
-
+![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v3.1.1-green)
+![GCC badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_joystick_7seg_gcc.json)
+[![GitHub](https://img.shields.io/badge/Sparkfun-Qwiic%20Joystick-green)](https://www.sparkfun.com/products/15168)
+[![GitHub](https://img.shields.io/badge/Mikroe-UT%207%20SEG%20R%20CLICK-green)](https://www.mikroe.com/ut-s-7-seg-r-click)
 ## Description ##
 
 This project shows an example of Bluetooth using the Silicon Labs BGM220 Bluetooth Module Explorer Kit. It is using a Sparkfun Qwiic Joystick board and a UT-L 7-SEG R click board.
@@ -8,7 +14,7 @@ UT-L 7-SEG R click carries two SMD ultra thin 7-segment LED displays and the MAX
 
 For more information about the MAX6969 constant-current LED driver, see the [specification page](https://datasheets.maximintegrated.com/en/ds/MAX6969.pdf).
 
-The SparkFun Qwiic Joystick combines the convenience of the Qwiic connection system and an analog joystick that is similar to the analog joysticks on PS2 (PlayStation 2) controllers. Directional movements are simply measured with two 10 kΩ potentiometers, connected with a gimbal mechanism that separates the horizontal and vertical movements. This joystick also has a select button that is actuated when the joystick is pressed down. With the pre-installed firmware, the ATtiny85 acts as an intermediary (microcontroller) for the analog and digital inputs from the joystick. This allows the Qwiic Joystick to report its position over I2C. 
+The SparkFun Qwiic Joystick combines the convenience of the Qwiic connection system and an analog joystick that is similar to the analog joysticks on PS2 (PlayStation 2) controllers. Directional movements are simply measured with two 10 kΩ potentiometers, connected with a gimbal mechanism that separates the horizontal and vertical movements. This joystick also has a select button that is actuated when the joystick is pressed down. With the pre-installed firmware, the ATtiny85 acts as an intermediary (microcontroller) for the analog and digital inputs from the joystick. This allows the Qwiic Joystick to report its position over I2C.
 
 For more information about the SparkFun Qwiic Joystick, see the [specification page](https://learn.sparkfun.com/tutorials/qwiic-joystick-hookup-guide).
 
