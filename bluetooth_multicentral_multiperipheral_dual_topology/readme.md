@@ -10,9 +10,9 @@
 
 This code example has related User's Guides:
 
-* [Multi-Peripheral Topology](~/general/connections/multislave-topology)
-* [Multi-Central Topology](~/general/connections/multimaster-topology)
-* [Dual Topology](~/general/connections/dualtopology)
+* [Multi-Peripheral Topology](https://docs.silabs.com/bluetooth/latest/general/connections/multiperipheral-topology)
+* [Multi-Central Topology](https://docs.silabs.com/bluetooth/latest/general/connections/multicentral-topology)
+* [Dual Topology](https://docs.silabs.com/bluetooth/latest/general/connections/dualtopology)
 
 
 
@@ -199,10 +199,3 @@ To see the gathered temperature values, perform the following steps:
 5. Do the same for the second Temperature Measurement characteristic.
 
 ![Aggregated Temperature Values](images/image4.png)
-
-
-
-## Source
-
-* [app.c](src/app.c)
-* [gatt_configuration.btconf](src/gatt_configuration.btconf)
