@@ -1,0 +1,86 @@
+\hypertarget{people__counting__app_8c}{}\doxysection{people\+\_\+counting\+\_\+app.\+c File Reference}
+\label{people__counting__app_8c}\index{people\_counting\_app.c@{people\_counting\_app.c}}
+
+
+People counting application code.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}em\+\_\+common.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}app\+\_\+assert.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sl\+\_\+bluetooth.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}gatt\+\_\+db.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sl\+\_\+simple\+\_\+button\+\_\+instances.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}user\+\_\+config\+\_\+nvm3.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}oled.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}app.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}vl53l1x\+\_\+app.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}people\+\_\+counting\+\_\+app.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{people__counting__app_8c_afc3d101f633a076cc1ca84b85b6224b2}\label{people__counting__app_8c_afc3d101f633a076cc1ca84b85b6224b2}} 
+\#define {\bfseries TAG}~\char`\"{}people\+\_\+counting\char`\"{}
+\item 
+\mbox{\Hypertarget{people__counting__app_8c_aa1cfe5444875c8eca0ea6f6993977d6d}\label{people__counting__app_8c_aa1cfe5444875c8eca0ea6f6993977d6d}} 
+\#define {\bfseries log\+\_\+info}(...)
+\item 
+\mbox{\Hypertarget{people__counting__app_8c_a6ae72553ea9805dd87a463d6f710364d}\label{people__counting__app_8c_a6ae72553ea9805dd87a463d6f710364d}} 
+\#define {\bfseries log\+\_\+error}(...)
+\item 
+\mbox{\Hypertarget{people__counting__app_8c_a8c310f51f31f27f219d2d0d3bd6c9b5b}\label{people__counting__app_8c_a8c310f51f31f27f219d2d0d3bd6c9b5b}} 
+\#define {\bfseries led0\+\_\+on}()
+\item 
+\mbox{\Hypertarget{people__counting__app_8c_a4d9b4bb3d2b81f808703bcfa2eec4424}\label{people__counting__app_8c_a4d9b4bb3d2b81f808703bcfa2eec4424}} 
+\#define {\bfseries led0\+\_\+off}()
+\item 
+\#define {\bfseries INVALID\+\_\+\+BT\+\_\+\+HANDLE}~(0xff)
+\item 
+\#define {\bfseries PEOPLE\+\_\+\+COUNTING\+\_\+\+EVENT}~(1$<$$<$0)
+\item 
+\#define {\bfseries PEOPLE\+\_\+\+COUNTING\+\_\+\+BUTTON\+\_\+\+EVENT}~(1$<$$<$1)
+\item 
+\#define {\bfseries PEOPLE\+\_\+\+COUNTING\+\_\+\+SAMPLING\+\_\+\+EVENT}~(1$<$$<$2)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{group__people__counting__app_gabb82d93087ee6200d429ca1da02984a4}{sl\+\_\+button\+\_\+on\+\_\+change}} (const sl\+\_\+button\+\_\+t $\ast$handle)
+\item 
+void \mbox{\hyperlink{group__people__counting__app_ga46a96c98395c385adf7650c0da66dfc7}{people\+\_\+counting\+\_\+app\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{group__people__counting__app_ga5792c6551bd31a45ef656e024227b877}{people\+\_\+counting\+\_\+process\+\_\+evt\+\_\+external\+\_\+signal}} (uint32\+\_\+t extsignals)
+\item 
+void \mbox{\hyperlink{group__people__counting__app_ga7c95f3fbbd0ac624d3b015ea70daa47b}{people\+\_\+counting\+\_\+process\+\_\+evt\+\_\+gatt\+\_\+server\+\_\+user\+\_\+write\+\_\+request}} (sl\+\_\+bt\+\_\+evt\+\_\+gatt\+\_\+server\+\_\+user\+\_\+write\+\_\+request\+\_\+t $\ast$data)
+\item 
+void \mbox{\hyperlink{group__people__counting__app_ga5466292bb5416e03169829450d584f49}{people\+\_\+counting\+\_\+process\+\_\+evt\+\_\+gatt\+\_\+server\+\_\+user\+\_\+read\+\_\+request}} (sl\+\_\+bt\+\_\+evt\+\_\+gatt\+\_\+server\+\_\+user\+\_\+read\+\_\+request\+\_\+t $\ast$data)
+\item 
+void \mbox{\hyperlink{group__people__counting__app_ga2ece6945b9072143c9a553b3adc67dbc}{people\+\_\+counting\+\_\+process\+\_\+evt\+\_\+gatt\+\_\+server\+\_\+characteristic\+\_\+status}} (sl\+\_\+bt\+\_\+evt\+\_\+gatt\+\_\+server\+\_\+characteristic\+\_\+status\+\_\+t $\ast$data)
+\item 
+void \mbox{\hyperlink{group__people__counting__app_gaa88f48a85e5ee7e9a68f2059845250ed}{people\+\_\+counting\+\_\+set\+\_\+bt\+\_\+connection\+\_\+handle}} (uint8\+\_\+t connection)
+\item 
+void \mbox{\hyperlink{group__people__counting__app_ga9dbaa11bed4fd3aaf21ba589fa454774}{people\+\_\+counting\+\_\+reset\+\_\+bt\+\_\+connection\+\_\+handle}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+People counting application code. 
+
+\hypertarget{people__counting__app_8c_autotoc_md11}{}\doxysubsection{License}\label{people__counting__app_8c_autotoc_md11}
+{\bfseries{Copyright 2022 Silicon Laboratories Inc. www.\+silabs.\+com}}
+
+SPDX-\/\+License-\/\+Identifier\+: Zlib
+
+The licensor of this software is Silicon Laboratories Inc.
+
+This software is provided \textbackslash{}\textquotesingle{}as-\/is\textbackslash{}\textquotesingle{}, without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions\+:
+
+
+\begin{DoxyEnumerate}
+\item The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+\item Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+\item This notice may not be removed or altered from any source distribution.
+\end{DoxyEnumerate}\hypertarget{people__counting__app_8c_autotoc_md12}{}\doxysubsection{Experimental Quality}\label{people__counting__app_8c_autotoc_md12}
+This code has not been formally tested and is provided as-\/is. It is not suitable for production environments. In addition, this code will not be maintained and there may be no bug maintenance planned for these resources. Silicon Labs may update projects from time to time. 

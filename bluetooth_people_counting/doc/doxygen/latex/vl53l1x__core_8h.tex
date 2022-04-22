@@ -1,0 +1,404 @@
+\hypertarget{vl53l1x__core_8h}{}\doxysection{vl53l1x\+\_\+core.\+h File Reference}
+\label{vl53l1x__core_8h}\index{vl53l1x\_core.h@{vl53l1x\_core.h}}
+
+
+Functions definition.  
+
+
+{\ttfamily \#include \char`\"{}sl\+\_\+status.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_v_l53_l1_x___version__t}{VL53\+L1\+X\+\_\+\+Version\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em defines SW Version \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_v_l53_l1_x___result__t}{VL53\+L1\+X\+\_\+\+Result\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em defines packed reading results type \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a542371c8c3204d2a190bebed741a741e}\label{vl53l1x__core_8h_a542371c8c3204d2a190bebed741a741e}} 
+\#define {\bfseries VL53\+L1\+X\+\_\+\+IMPLEMENTATION\+\_\+\+VER\+\_\+\+MAJOR}~3
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aeb992f2c9bfd1c73dcfae9ebc7180fad}\label{vl53l1x__core_8h_aeb992f2c9bfd1c73dcfae9ebc7180fad}} 
+\#define {\bfseries VL53\+L1\+X\+\_\+\+IMPLEMENTATION\+\_\+\+VER\+\_\+\+MINOR}~5
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_abccaf6e0c198fe271bde715a90f23b34}\label{vl53l1x__core_8h_abccaf6e0c198fe271bde715a90f23b34}} 
+\#define {\bfseries VL53\+L1\+X\+\_\+\+IMPLEMENTATION\+\_\+\+VER\+\_\+\+SUB}~1
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aede005dde2f068571499b6f56a2e191f}\label{vl53l1x__core_8h_aede005dde2f068571499b6f56a2e191f}} 
+\#define {\bfseries VL53\+L1\+X\+\_\+\+IMPLEMENTATION\+\_\+\+VER\+\_\+\+REVISION}~0000
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a74625341a79e3484830c401d8947443c}\label{vl53l1x__core_8h_a74625341a79e3484830c401d8947443c}} 
+\#define {\bfseries SOFT\+\_\+\+RESET}~0x0000
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_af09585764ab1dde6627bad6098cd5e6e}\label{vl53l1x__core_8h_af09585764ab1dde6627bad6098cd5e6e}} 
+\#define {\bfseries VL53\+L1\+\_\+\+I2\+C\+\_\+\+SLAVE\+\_\+\+\_\+\+DEVICE\+\_\+\+ADDRESS}~0x0001
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a0b554c56b9617df6b957f26e407ce54d}\label{vl53l1x__core_8h_a0b554c56b9617df6b957f26e407ce54d}} 
+\#define {\bfseries VL53\+L1\+\_\+\+VHV\+\_\+\+CONFIG\+\_\+\+\_\+\+TIMEOUT\+\_\+\+MACROP\+\_\+\+LOOP\+\_\+\+BOUND}~0x0008
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a55aa3ef1d347f822cc5f6028f2ddf56f}\label{vl53l1x__core_8h_a55aa3ef1d347f822cc5f6028f2ddf56f}} 
+\#define {\bfseries ALGO\+\_\+\+\_\+\+CROSSTALK\+\_\+\+COMPENSATION\+\_\+\+PLANE\+\_\+\+OFFSET\+\_\+\+KCPS}~0x0016
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_af25151d720c6f6d003e61d92ad738c4c}\label{vl53l1x__core_8h_af25151d720c6f6d003e61d92ad738c4c}} 
+\#define {\bfseries ALGO\+\_\+\+\_\+\+CROSSTALK\+\_\+\+COMPENSATION\+\_\+\+X\+\_\+\+PLANE\+\_\+\+GRADIENT\+\_\+\+KCPS}~0x0018
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a25a78b1dc1070a5e72e19645f8f52d33}\label{vl53l1x__core_8h_a25a78b1dc1070a5e72e19645f8f52d33}} 
+\#define {\bfseries ALGO\+\_\+\+\_\+\+CROSSTALK\+\_\+\+COMPENSATION\+\_\+\+Y\+\_\+\+PLANE\+\_\+\+GRADIENT\+\_\+\+KCPS}~0x001A
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a2ab0e4617017e0bd940200ba07be4d34}\label{vl53l1x__core_8h_a2ab0e4617017e0bd940200ba07be4d34}} 
+\#define {\bfseries ALGO\+\_\+\+\_\+\+PART\+\_\+\+TO\+\_\+\+PART\+\_\+\+RANGE\+\_\+\+OFFSET\+\_\+\+MM}~0x001E
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a88617357dbed400268cfc2ee563f5396}\label{vl53l1x__core_8h_a88617357dbed400268cfc2ee563f5396}} 
+\#define {\bfseries MM\+\_\+\+CONFIG\+\_\+\+\_\+\+INNER\+\_\+\+OFFSET\+\_\+\+MM}~0x0020
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a3f7f279509c4971c0027dd4004007c2f}\label{vl53l1x__core_8h_a3f7f279509c4971c0027dd4004007c2f}} 
+\#define {\bfseries MM\+\_\+\+CONFIG\+\_\+\+\_\+\+OUTER\+\_\+\+OFFSET\+\_\+\+MM}~0x0022
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ac2b6c32911c2c553477f19bb3c25ce89}\label{vl53l1x__core_8h_ac2b6c32911c2c553477f19bb3c25ce89}} 
+\#define {\bfseries GPIO\+\_\+\+HV\+\_\+\+MUX\+\_\+\+\_\+\+CTRL}~0x0030
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a2806961b4373aaf95b11489324e8f84b}\label{vl53l1x__core_8h_a2806961b4373aaf95b11489324e8f84b}} 
+\#define {\bfseries GPIO\+\_\+\+\_\+\+TIO\+\_\+\+HV\+\_\+\+STATUS}~0x0031
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a97207a2ee20535cd0102a4bb05779127}\label{vl53l1x__core_8h_a97207a2ee20535cd0102a4bb05779127}} 
+\#define {\bfseries SYSTEM\+\_\+\+\_\+\+INTERRUPT\+\_\+\+CONFIG\+\_\+\+GPIO}~0x0046
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ab27d045e59238e549647e80fae3573f8}\label{vl53l1x__core_8h_ab27d045e59238e549647e80fae3573f8}} 
+\#define {\bfseries PHASECAL\+\_\+\+CONFIG\+\_\+\+\_\+\+TIMEOUT\+\_\+\+MACROP}~0x004B
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a02495d4260afeb98fc3ad68be4fe3c42}\label{vl53l1x__core_8h_a02495d4260afeb98fc3ad68be4fe3c42}} 
+\#define {\bfseries RANGE\+\_\+\+CONFIG\+\_\+\+\_\+\+TIMEOUT\+\_\+\+MACROP\+\_\+\+A\+\_\+\+HI}~0x005E
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a18bc9ac87e860bbc9106f09d8f35491e}\label{vl53l1x__core_8h_a18bc9ac87e860bbc9106f09d8f35491e}} 
+\#define {\bfseries RANGE\+\_\+\+CONFIG\+\_\+\+\_\+\+VCSEL\+\_\+\+PERIOD\+\_\+A}~0x0060
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ab18472732f386d61b67e5fa6e35a57e9}\label{vl53l1x__core_8h_ab18472732f386d61b67e5fa6e35a57e9}} 
+\#define {\bfseries RANGE\+\_\+\+CONFIG\+\_\+\+\_\+\+VCSEL\+\_\+\+PERIOD\+\_\+B}~0x0063
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ae73e835209b048757aab1021f6a72e41}\label{vl53l1x__core_8h_ae73e835209b048757aab1021f6a72e41}} 
+\#define {\bfseries RANGE\+\_\+\+CONFIG\+\_\+\+\_\+\+TIMEOUT\+\_\+\+MACROP\+\_\+\+B\+\_\+\+HI}~0x0061
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_abcec89cc9a8ff7a7392266f8470a2605}\label{vl53l1x__core_8h_abcec89cc9a8ff7a7392266f8470a2605}} 
+\#define {\bfseries RANGE\+\_\+\+CONFIG\+\_\+\+\_\+\+TIMEOUT\+\_\+\+MACROP\+\_\+\+B\+\_\+\+LO}~0x0062
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ab72c85000f194caedd5a9137e962fde4}\label{vl53l1x__core_8h_ab72c85000f194caedd5a9137e962fde4}} 
+\#define {\bfseries RANGE\+\_\+\+CONFIG\+\_\+\+\_\+\+SIGMA\+\_\+\+THRESH}~0x0064
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aad0f40d4cfe841c8ea1df480bda90151}\label{vl53l1x__core_8h_aad0f40d4cfe841c8ea1df480bda90151}} 
+\#define {\bfseries RANGE\+\_\+\+CONFIG\+\_\+\+\_\+\+MIN\+\_\+\+COUNT\+\_\+\+RATE\+\_\+\+RTN\+\_\+\+LIMIT\+\_\+\+MCPS}~0x0066
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ad7f3c335c97795f0220d04a8feadc3ca}\label{vl53l1x__core_8h_ad7f3c335c97795f0220d04a8feadc3ca}} 
+\#define {\bfseries RANGE\+\_\+\+CONFIG\+\_\+\+\_\+\+VALID\+\_\+\+PHASE\+\_\+\+HIGH}~0x0069
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_afaf7ce8aa0b5888276751194bcf5f931}\label{vl53l1x__core_8h_afaf7ce8aa0b5888276751194bcf5f931}} 
+\#define {\bfseries VL53\+L1\+\_\+\+SYSTEM\+\_\+\+\_\+\+INTERMEASUREMENT\+\_\+\+PERIOD}~0x006C
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aa430f8d2f8ee1a40476f5202f16807ae}\label{vl53l1x__core_8h_aa430f8d2f8ee1a40476f5202f16807ae}} 
+\#define {\bfseries SYSTEM\+\_\+\+\_\+\+THRESH\+\_\+\+HIGH}~0x0072
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a9ff4642b47201d4d821fecc72ff8513c}\label{vl53l1x__core_8h_a9ff4642b47201d4d821fecc72ff8513c}} 
+\#define {\bfseries SYSTEM\+\_\+\+\_\+\+THRESH\+\_\+\+LOW}~0x0074
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a6a16e9c2ee589cd21957f1302d6654f1}\label{vl53l1x__core_8h_a6a16e9c2ee589cd21957f1302d6654f1}} 
+\#define {\bfseries SD\+\_\+\+CONFIG\+\_\+\+\_\+\+WOI\+\_\+\+SD0}~0x0078
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aea5e68cc5ce6336be7979caf62305db2}\label{vl53l1x__core_8h_aea5e68cc5ce6336be7979caf62305db2}} 
+\#define {\bfseries SD\+\_\+\+CONFIG\+\_\+\+\_\+\+INITIAL\+\_\+\+PHASE\+\_\+\+SD0}~0x007A
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a706cd1aa011becfc35c7b496f599a30f}\label{vl53l1x__core_8h_a706cd1aa011becfc35c7b496f599a30f}} 
+\#define {\bfseries ROI\+\_\+\+CONFIG\+\_\+\+\_\+\+USER\+\_\+\+ROI\+\_\+\+CENTRE\+\_\+\+SPAD}~0x007F
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a279ad59723f100caf9bf056bbde528fa}\label{vl53l1x__core_8h_a279ad59723f100caf9bf056bbde528fa}} 
+\#define {\bfseries ROI\+\_\+\+CONFIG\+\_\+\+\_\+\+USER\+\_\+\+ROI\+\_\+\+REQUESTED\+\_\+\+GLOBAL\+\_\+\+XY\+\_\+\+SIZE}~0x0080
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ae05b913fc1e0f18186c4a2bd44ff49b2}\label{vl53l1x__core_8h_ae05b913fc1e0f18186c4a2bd44ff49b2}} 
+\#define {\bfseries SYSTEM\+\_\+\+\_\+\+SEQUENCE\+\_\+\+CONFIG}~0x0081
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a01651ee9d6f60f7829478d87cf82b3da}\label{vl53l1x__core_8h_a01651ee9d6f60f7829478d87cf82b3da}} 
+\#define {\bfseries VL53\+L1\+\_\+\+SYSTEM\+\_\+\+\_\+\+GROUPED\+\_\+\+PARAMETER\+\_\+\+HOLD}~0x0082
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a0151356cafc31665554f71d408c248a0}\label{vl53l1x__core_8h_a0151356cafc31665554f71d408c248a0}} 
+\#define {\bfseries SYSTEM\+\_\+\+\_\+\+INTERRUPT\+\_\+\+CLEAR}~0x0086
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aa430923f7d8ebfb9281163d17df1cc1e}\label{vl53l1x__core_8h_aa430923f7d8ebfb9281163d17df1cc1e}} 
+\#define {\bfseries SYSTEM\+\_\+\+\_\+\+MODE\+\_\+\+START}~0x0087
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a795c007a11b10559317dc29d6dd5b43e}\label{vl53l1x__core_8h_a795c007a11b10559317dc29d6dd5b43e}} 
+\#define {\bfseries VL53\+L1\+\_\+\+RESULT\+\_\+\+\_\+\+RANGE\+\_\+\+STATUS}~0x0089
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_afa93dea9a0d4065a9c4e246ee26daef0}\label{vl53l1x__core_8h_afa93dea9a0d4065a9c4e246ee26daef0}} 
+\#define {\bfseries VL53\+L1\+\_\+\+RESULT\+\_\+\+\_\+\+DSS\+\_\+\+ACTUAL\+\_\+\+EFFECTIVE\+\_\+\+SPADS\+\_\+\+SD0}~0x008C
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a8fec1c1688c009c83fd1729042522710}\label{vl53l1x__core_8h_a8fec1c1688c009c83fd1729042522710}} 
+\#define {\bfseries RESULT\+\_\+\+\_\+\+AMBIENT\+\_\+\+COUNT\+\_\+\+RATE\+\_\+\+MCPS\+\_\+\+SD}~0x0090
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a7ac26737f5a5eb4915af98c2be6fb7c2}\label{vl53l1x__core_8h_a7ac26737f5a5eb4915af98c2be6fb7c2}} 
+\#define {\bfseries VL53\+L1\+\_\+\+RESULT\+\_\+\+\_\+\+FINAL\+\_\+\+CROSSTALK\+\_\+\+CORRECTED\+\_\+\+RANGE\+\_\+\+MM\+\_\+\+SD0}~0x0096
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aa80215477cc3130e21769999b9a2cfd4}\label{vl53l1x__core_8h_aa80215477cc3130e21769999b9a2cfd4}} 
+\#define {\bfseries VL53\+L1\+\_\+\+RESULT\+\_\+\+\_\+\+PEAK\+\_\+\+SIGNAL\+\_\+\+COUNT\+\_\+\+RATE\+\_\+\+CROSSTALK\+\_\+\+CORRECTED\+\_\+\+MCPS\+\_\+\+SD0}~0x0098
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a80678a1ebe27c577e592c271e92194fe}\label{vl53l1x__core_8h_a80678a1ebe27c577e592c271e92194fe}} 
+\#define {\bfseries VL53\+L1\+\_\+\+RESULT\+\_\+\+\_\+\+OSC\+\_\+\+CALIBRATE\+\_\+\+VAL}~0x00\+DE
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a095d61baf5e40ecde589a5dbf17b391a}\label{vl53l1x__core_8h_a095d61baf5e40ecde589a5dbf17b391a}} 
+\#define {\bfseries VL53\+L1\+\_\+\+FIRMWARE\+\_\+\+\_\+\+SYSTEM\+\_\+\+STATUS}~0x00\+E5
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a6a27dfef0795b6688aacd6cd158939be}\label{vl53l1x__core_8h_a6a27dfef0795b6688aacd6cd158939be}} 
+\#define {\bfseries VL53\+L1\+\_\+\+IDENTIFICATION\+\_\+\+\_\+\+MODEL\+\_\+\+ID}~0x010F
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_af64a6267f55a636775a99c6c32b098b7}\label{vl53l1x__core_8h_af64a6267f55a636775a99c6c32b098b7}} 
+\#define {\bfseries VL53\+L1\+\_\+\+ROI\+\_\+\+CONFIG\+\_\+\+\_\+\+MODE\+\_\+\+ROI\+\_\+\+CENTRE\+\_\+\+SPAD}~0x013E
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ad10486521cd72ef6e4fce53ea6ac4714}\label{vl53l1x__core_8h_ad10486521cd72ef6e4fce53ea6ac4714}} 
+typedef sl\+\_\+status\+\_\+t {\bfseries VL53\+L1\+X\+\_\+\+ERROR}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a936f75dcf79520d291fca86d1ca1a8ef}\label{vl53l1x__core_8h_a936f75dcf79520d291fca86d1ca1a8ef}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+SWVersion} (\mbox{\hyperlink{struct_v_l53_l1_x___version__t}{VL53\+L1\+X\+\_\+\+Version\+\_\+t}} $\ast$p\+Version)
+\begin{DoxyCompactList}\small\item\em This function returns the SW driver version. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aa51394a17fcffda8918a9e14cce9ad9e}\label{vl53l1x__core_8h_aa51394a17fcffda8918a9e14cce9ad9e}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+I2\+CAddress} (uint16\+\_\+t, uint8\+\_\+t new\+\_\+address)
+\begin{DoxyCompactList}\small\item\em This function sets the sensor I2C address used in case multiple devices application, default address 0x52. \end{DoxyCompactList}\item 
+VL53\+L1\+X\+\_\+\+ERROR \mbox{\hyperlink{vl53l1x__core_8h_af0bf25a9ea2d412a2314be795411bbfb}{VL53\+L1\+X\+\_\+\+Sensor\+Init}} (uint16\+\_\+t dev)
+\begin{DoxyCompactList}\small\item\em This function loads the 135 bytes default values to initialize the sensor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ab4bae81bb4a10d4bba7ff1849d10cf5c}\label{vl53l1x__core_8h_ab4bae81bb4a10d4bba7ff1849d10cf5c}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Clear\+Interrupt} (uint16\+\_\+t dev)
+\begin{DoxyCompactList}\small\item\em This function clears the interrupt, to be called after a ranging data reading to arm the interrupt for the next data ready event. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ae20f224bdf2a9e5cab862084b0fe0005}\label{vl53l1x__core_8h_ae20f224bdf2a9e5cab862084b0fe0005}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+Interrupt\+Polarity} (uint16\+\_\+t dev, uint8\+\_\+t Int\+Pol)
+\begin{DoxyCompactList}\small\item\em This function programs the interrupt polarity~\newline
+1=active high (default), 0=active low. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_abb5bbbc8841002c408d89e54f79b8f50}\label{vl53l1x__core_8h_abb5bbbc8841002c408d89e54f79b8f50}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Interrupt\+Polarity} (uint16\+\_\+t dev, uint8\+\_\+t $\ast$p\+Int\+Pol)
+\begin{DoxyCompactList}\small\item\em This function returns the current interrupt polarity~\newline
+1=active high (default), 0=active low. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a59adb6ca7cf8cf1744dda9223e060d7a}\label{vl53l1x__core_8h_a59adb6ca7cf8cf1744dda9223e060d7a}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Start\+Ranging} (uint16\+\_\+t dev)
+\begin{DoxyCompactList}\small\item\em This function starts the ranging distance operation~\newline
+The ranging operation is continuous. The clear interrupt has to be done after each get data to allow the interrupt to raise when the next data is ready~\newline
+1=active high (default), 0=active low, use Set\+Interrupt\+Polarity() to change the interrupt polarity if required. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a39198465d18ebd1159a5378bf974ba85}\label{vl53l1x__core_8h_a39198465d18ebd1159a5378bf974ba85}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Stop\+Ranging} (uint16\+\_\+t dev)
+\begin{DoxyCompactList}\small\item\em This function stops the ranging. \end{DoxyCompactList}\item 
+VL53\+L1\+X\+\_\+\+ERROR \mbox{\hyperlink{vl53l1x__core_8h_a51f7cace95b9d5d8e1bd093ddb19a7dd}{VL53\+L1\+X\+\_\+\+Check\+For\+Data\+Ready}} (uint16\+\_\+t dev, uint8\+\_\+t $\ast$is\+Data\+Ready)
+\begin{DoxyCompactList}\small\item\em This function checks if the new ranging data is available by polling the dedicated register. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ac64d76b7addc2d0f1144b3e903e90c35}\label{vl53l1x__core_8h_ac64d76b7addc2d0f1144b3e903e90c35}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+Timing\+Budget\+In\+Ms} (uint16\+\_\+t dev, uint16\+\_\+t Timing\+Budget\+In\+Ms)
+\begin{DoxyCompactList}\small\item\em This function programs the timing budget in ms. Predefined values = 15, 20, 33, 50, 100(default), 200, 500. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ad8b0bde5821b2db422c9c04741d420ba}\label{vl53l1x__core_8h_ad8b0bde5821b2db422c9c04741d420ba}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Timing\+Budget\+In\+Ms} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$p\+Timing\+Budget\+In\+Ms)
+\begin{DoxyCompactList}\small\item\em This function returns the current timing budget in ms. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_acb5e44d02a44e0d878c306f32dd89bb2}\label{vl53l1x__core_8h_acb5e44d02a44e0d878c306f32dd89bb2}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+Distance\+Mode} (uint16\+\_\+t dev, uint16\+\_\+t Distance\+Mode)
+\begin{DoxyCompactList}\small\item\em This function programs the distance mode (1=short, 2=long(default)). Short mode max distance is limited to 1.\+3 m but better ambient immunity.~\newline
+Long mode can range up to 4 m in the dark with 200 ms timing budget. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a8785a4399732fe2b438e1ff83d431e05}\label{vl53l1x__core_8h_a8785a4399732fe2b438e1ff83d431e05}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Distance\+Mode} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$p\+Distance\+Mode)
+\begin{DoxyCompactList}\small\item\em This function returns the current distance mode (1=short, 2=long). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aafd7028e9b18f32dcc6f80477e3c9556}\label{vl53l1x__core_8h_aafd7028e9b18f32dcc6f80477e3c9556}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+Inter\+Measurement\+In\+Ms} (uint16\+\_\+t dev, uint32\+\_\+t Inter\+Measurement\+In\+Ms)
+\begin{DoxyCompactList}\small\item\em This function programs the Intermeasurement period in ms~\newline
+Intermeasurement period must be \texorpdfstring{$>$}{>}/= timing budget. This condition is not checked by the API, the customer has the duty to check the condition. Default = 100 ms. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a8ea2aeadbf3f07b4f147a201cdc5b14a}\label{vl53l1x__core_8h_a8ea2aeadbf3f07b4f147a201cdc5b14a}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Inter\+Measurement\+In\+Ms} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$p\+IM)
+\begin{DoxyCompactList}\small\item\em This function returns the Intermeasurement period in ms. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ab92b2593ea9db5c1b39fcaaff474ee16}\label{vl53l1x__core_8h_ab92b2593ea9db5c1b39fcaaff474ee16}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Boot\+State} (uint16\+\_\+t dev, uint8\+\_\+t $\ast$state)
+\begin{DoxyCompactList}\small\item\em This function returns the boot state of the device (1\+:booted, 0\+:not booted) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a2f85db4303998bd09d9732701559b7bb}\label{vl53l1x__core_8h_a2f85db4303998bd09d9732701559b7bb}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Sensor\+Id} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$id)
+\begin{DoxyCompactList}\small\item\em This function returns the sensor id, sensor Id must be 0x\+EEAC. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a06745c308363ee18e041ea8fa3c24eb5}\label{vl53l1x__core_8h_a06745c308363ee18e041ea8fa3c24eb5}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Distance} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$distance)
+\begin{DoxyCompactList}\small\item\em This function returns the distance measured by the sensor in mm. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a61d1ed3aa852150c583c2f24ed4f822b}\label{vl53l1x__core_8h_a61d1ed3aa852150c583c2f24ed4f822b}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Signal\+Per\+Spad} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$signal\+Per\+Sp)
+\begin{DoxyCompactList}\small\item\em This function returns the returned signal per SPAD in kcps/\+SPAD. With kcps stands for Kilo Count Per Second. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a04aa56326334ed04b8c74f76e39cdcb2}\label{vl53l1x__core_8h_a04aa56326334ed04b8c74f76e39cdcb2}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Ambient\+Per\+Spad} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$amb)
+\begin{DoxyCompactList}\small\item\em This function returns the ambient per SPAD in kcps/\+SPAD. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ae5dadde07f182a952a7c864037e5e345}\label{vl53l1x__core_8h_ae5dadde07f182a952a7c864037e5e345}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Signal\+Rate} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$signal\+Rate)
+\begin{DoxyCompactList}\small\item\em This function returns the returned signal in kcps. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a3a31d70330fb9cfc607eb53e9ccf0aba}\label{vl53l1x__core_8h_a3a31d70330fb9cfc607eb53e9ccf0aba}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Spad\+Nb} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$sp\+Nb)
+\begin{DoxyCompactList}\small\item\em This function returns the current number of enabled SPADs. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_aeca17868ef2662357e6daf2c41fc5e27}\label{vl53l1x__core_8h_aeca17868ef2662357e6daf2c41fc5e27}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Ambient\+Rate} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$amb\+Rate)
+\begin{DoxyCompactList}\small\item\em This function returns the ambient rate in kcps. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a4841930f2a37b1d6fbb962f7511ba06c}\label{vl53l1x__core_8h_a4841930f2a37b1d6fbb962f7511ba06c}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Range\+Status} (uint16\+\_\+t dev, uint8\+\_\+t $\ast$range\+Status)
+\begin{DoxyCompactList}\small\item\em This function returns the ranging status error ~\newline
+(0\+:no error, 1\+:sigma failed, 2\+:signal failed, ..., 7\+:wrap-\/around) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a527349738cae7da4384574cbbf1a3ecf}\label{vl53l1x__core_8h_a527349738cae7da4384574cbbf1a3ecf}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Result} (uint16\+\_\+t dev, \mbox{\hyperlink{struct_v_l53_l1_x___result__t}{VL53\+L1\+X\+\_\+\+Result\+\_\+t}} $\ast$p\+Result)
+\begin{DoxyCompactList}\small\item\em This function returns measurements and the range status in a single read access. \end{DoxyCompactList}\item 
+VL53\+L1\+X\+\_\+\+ERROR \mbox{\hyperlink{vl53l1x__core_8h_a511e76c692a3f6d2a64fa30b674eaa6b}{VL53\+L1\+X\+\_\+\+Set\+Offset}} (uint16\+\_\+t dev, int16\+\_\+t Offset\+Value)
+\begin{DoxyCompactList}\small\item\em This function programs the offset correction in mm. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a0f1c1da2494ddf9e68d909cc15b725b4}\label{vl53l1x__core_8h_a0f1c1da2494ddf9e68d909cc15b725b4}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Offset} (uint16\+\_\+t dev, int16\+\_\+t $\ast$Offset)
+\begin{DoxyCompactList}\small\item\em This function returns the programmed offset correction value in mm. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a8206a5ce1126b00d1d96dd6373ba6171}\label{vl53l1x__core_8h_a8206a5ce1126b00d1d96dd6373ba6171}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+Xtalk} (uint16\+\_\+t dev, uint16\+\_\+t Xtalk\+Value)
+\begin{DoxyCompactList}\small\item\em This function programs the xtalk correction value in cps (Count Per Second).~\newline
+This is the number of photons reflected back from the cover glass in cps. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a2f9abff4c02b7c00c27980a9563b5983}\label{vl53l1x__core_8h_a2f9abff4c02b7c00c27980a9563b5983}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Xtalk} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$Xtalk)
+\begin{DoxyCompactList}\small\item\em This function returns the current programmed xtalk correction value in cps. \end{DoxyCompactList}\item 
+VL53\+L1\+X\+\_\+\+ERROR \mbox{\hyperlink{vl53l1x__core_8h_a93effb186a00a1c05b82829d4e8a2e6e}{VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold}} (uint16\+\_\+t dev, uint16\+\_\+t Thresh\+Low, uint16\+\_\+t Thresh\+High, uint8\+\_\+t Window, uint8\+\_\+t Int\+On\+No\+Target)
+\begin{DoxyCompactList}\small\item\em This function programs the threshold detection mode~\newline
+Example\+:~\newline
+VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold(dev,100,300,0,1)\+: Below 100 ~\newline
+VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold(dev,100,300,1,1)\+: Above 300 ~\newline
+VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold(dev,100,300,2,1)\+: Out of window ~\newline
+VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold(dev,100,300,3,1)\+: In window ~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ac10c1d2f6d7357ec86bcb0574c8885cd}\label{vl53l1x__core_8h_ac10c1d2f6d7357ec86bcb0574c8885cd}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Distance\+Threshold\+Window} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$window)
+\begin{DoxyCompactList}\small\item\em This function returns the window detection mode (0=below; 1=above; 2=out; 3=in) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a9cc838791d06a457f4ba318286d7192d}\label{vl53l1x__core_8h_a9cc838791d06a457f4ba318286d7192d}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Distance\+Threshold\+Low} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$low)
+\begin{DoxyCompactList}\small\item\em This function returns the low threshold in mm. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_acc4c76b0f8ca23a0846a8acf5d18376d}\label{vl53l1x__core_8h_acc4c76b0f8ca23a0846a8acf5d18376d}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Distance\+Threshold\+High} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$high)
+\begin{DoxyCompactList}\small\item\em This function returns the high threshold in mm. \end{DoxyCompactList}\item 
+VL53\+L1\+X\+\_\+\+ERROR \mbox{\hyperlink{vl53l1x__core_8h_ab8103f06b26a3748336375e1c6381ab6}{VL53\+L1\+X\+\_\+\+Set\+ROI}} (uint16\+\_\+t dev, uint16\+\_\+t X, uint16\+\_\+t Y)
+\begin{DoxyCompactList}\small\item\em This function programs the ROI (Region of Interest)~\newline
+The ROI position is centered, only the ROI size can be reprogrammed.~\newline
+The smallest acceptable ROI size = 4~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a5907eab052463c151a31e7223698f680}\label{vl53l1x__core_8h_a5907eab052463c151a31e7223698f680}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+ROI\+\_\+\+XY} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$ROI\+\_\+X, uint16\+\_\+t $\ast$ROI\+\_\+Y)
+\begin{DoxyCompactList}\small\item\em This function returns width X and height Y. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a17e282e05c4929f630590d556a412b81}\label{vl53l1x__core_8h_a17e282e05c4929f630590d556a412b81}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+ROICenter} (uint16\+\_\+t dev, uint8\+\_\+t ROICenter)
+\begin{DoxyCompactList}\small\item\em This function programs the new user ROI center, please to be aware that there is no check in this function. if the ROI center vs ROI size is out of border the ranging function return error \#13. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a910b60acd6238719079fcfedd49b513e}\label{vl53l1x__core_8h_a910b60acd6238719079fcfedd49b513e}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+ROICenter} (uint16\+\_\+t dev, uint8\+\_\+t $\ast$ROICenter)
+\begin{DoxyCompactList}\small\item\em This function returns the current user ROI center. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_af3d8367a6cdfd21d98685c3b6df2b8cf}\label{vl53l1x__core_8h_af3d8367a6cdfd21d98685c3b6df2b8cf}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+Signal\+Threshold} (uint16\+\_\+t dev, uint16\+\_\+t signal)
+\begin{DoxyCompactList}\small\item\em This function programs a new signal threshold in kcps (default=1024 kcps~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a70eee98d23fb77355574e3b14ff6c731}\label{vl53l1x__core_8h_a70eee98d23fb77355574e3b14ff6c731}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Signal\+Threshold} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$signal)
+\begin{DoxyCompactList}\small\item\em This function returns the current signal threshold in kcps. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a3698367048ae3bb29b772b8969fd8043}\label{vl53l1x__core_8h_a3698367048ae3bb29b772b8969fd8043}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Set\+Sigma\+Threshold} (uint16\+\_\+t dev, uint16\+\_\+t sigma)
+\begin{DoxyCompactList}\small\item\em This function programs a new sigma threshold in mm (default=15 mm) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_a237827b94dec1ddb9f18ac78fee702b2}\label{vl53l1x__core_8h_a237827b94dec1ddb9f18ac78fee702b2}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Get\+Sigma\+Threshold} (uint16\+\_\+t dev, uint16\+\_\+t $\ast$signal)
+\begin{DoxyCompactList}\small\item\em This function returns the current sigma threshold in mm. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1x__core_8h_ae51c4079082446707d3fdffb8da65e7b}\label{vl53l1x__core_8h_ae51c4079082446707d3fdffb8da65e7b}} 
+VL53\+L1\+X\+\_\+\+ERROR {\bfseries VL53\+L1\+X\+\_\+\+Start\+Temperature\+Update} (uint16\+\_\+t dev)
+\begin{DoxyCompactList}\small\item\em This function performs the temperature calibration. It is recommended to call this function any time the temperature might have changed by more than 8 deg C without sensor ranging activity for an extended period. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Functions definition. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vl53l1x__core_8h_a51f7cace95b9d5d8e1bd093ddb19a7dd}\label{vl53l1x__core_8h_a51f7cace95b9d5d8e1bd093ddb19a7dd}} 
+\index{vl53l1x\_core.h@{vl53l1x\_core.h}!VL53L1X\_CheckForDataReady@{VL53L1X\_CheckForDataReady}}
+\index{VL53L1X\_CheckForDataReady@{VL53L1X\_CheckForDataReady}!vl53l1x\_core.h@{vl53l1x\_core.h}}
+\doxysubsubsection{\texorpdfstring{VL53L1X\_CheckForDataReady()}{VL53L1X\_CheckForDataReady()}}
+{\footnotesize\ttfamily VL53\+L1\+X\+\_\+\+ERROR VL53\+L1\+X\+\_\+\+Check\+For\+Data\+Ready (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{dev,  }\item[{uint8\+\_\+t $\ast$}]{is\+Data\+Ready }\end{DoxyParamCaption})}
+
+
+
+This function checks if the new ranging data is available by polling the dedicated register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & is\+Data\+Ready==0 -\/\texorpdfstring{$>$}{>} not ready; is\+Data\+Ready==1 -\/\texorpdfstring{$>$}{>} ready \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{vl53l1x__core_8h_af0bf25a9ea2d412a2314be795411bbfb}\label{vl53l1x__core_8h_af0bf25a9ea2d412a2314be795411bbfb}} 
+\index{vl53l1x\_core.h@{vl53l1x\_core.h}!VL53L1X\_SensorInit@{VL53L1X\_SensorInit}}
+\index{VL53L1X\_SensorInit@{VL53L1X\_SensorInit}!vl53l1x\_core.h@{vl53l1x\_core.h}}
+\doxysubsubsection{\texorpdfstring{VL53L1X\_SensorInit()}{VL53L1X\_SensorInit()}}
+{\footnotesize\ttfamily VL53\+L1\+X\+\_\+\+ERROR VL53\+L1\+X\+\_\+\+Sensor\+Init (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{dev }\end{DoxyParamCaption})}
+
+
+
+This function loads the 135 bytes default values to initialize the sensor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Device address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0\+:success, != 0\+:failed 
+\end{DoxyReturn}
+\mbox{\Hypertarget{vl53l1x__core_8h_a93effb186a00a1c05b82829d4e8a2e6e}\label{vl53l1x__core_8h_a93effb186a00a1c05b82829d4e8a2e6e}} 
+\index{vl53l1x\_core.h@{vl53l1x\_core.h}!VL53L1X\_SetDistanceThreshold@{VL53L1X\_SetDistanceThreshold}}
+\index{VL53L1X\_SetDistanceThreshold@{VL53L1X\_SetDistanceThreshold}!vl53l1x\_core.h@{vl53l1x\_core.h}}
+\doxysubsubsection{\texorpdfstring{VL53L1X\_SetDistanceThreshold()}{VL53L1X\_SetDistanceThreshold()}}
+{\footnotesize\ttfamily VL53\+L1\+X\+\_\+\+ERROR VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{dev,  }\item[{uint16\+\_\+t}]{Thresh\+Low,  }\item[{uint16\+\_\+t}]{Thresh\+High,  }\item[{uint8\+\_\+t}]{Window,  }\item[{uint8\+\_\+t}]{Int\+On\+No\+Target }\end{DoxyParamCaption})}
+
+
+
+This function programs the threshold detection mode~\newline
+Example\+:~\newline
+VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold(dev,100,300,0,1)\+: Below 100 ~\newline
+VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold(dev,100,300,1,1)\+: Above 300 ~\newline
+VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold(dev,100,300,2,1)\+: Out of window ~\newline
+VL53\+L1\+X\+\_\+\+Set\+Distance\+Threshold(dev,100,300,3,1)\+: In window ~\newline
+. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & \+: device address \\
+\hline
+{\em Thresh\+Low(in} & mm) \+: the threshold under which one the device raises an interrupt if Window = 0 \\
+\hline
+{\em Thresh\+High(in} & mm) \+: the threshold above which one the device raises an interrupt if Window = 1 \\
+\hline
+{\em Window} & detection mode \+: 0=below, 1=above, 2=out, 3=in \\
+\hline
+{\em Int\+On\+No\+Target} & = 0 (No longer used -\/ just use 0) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{vl53l1x__core_8h_a511e76c692a3f6d2a64fa30b674eaa6b}\label{vl53l1x__core_8h_a511e76c692a3f6d2a64fa30b674eaa6b}} 
+\index{vl53l1x\_core.h@{vl53l1x\_core.h}!VL53L1X\_SetOffset@{VL53L1X\_SetOffset}}
+\index{VL53L1X\_SetOffset@{VL53L1X\_SetOffset}!vl53l1x\_core.h@{vl53l1x\_core.h}}
+\doxysubsubsection{\texorpdfstring{VL53L1X\_SetOffset()}{VL53L1X\_SetOffset()}}
+{\footnotesize\ttfamily VL53\+L1\+X\+\_\+\+ERROR VL53\+L1\+X\+\_\+\+Set\+Offset (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{dev,  }\item[{int16\+\_\+t}]{Offset\+Value }\end{DoxyParamCaption})}
+
+
+
+This function programs the offset correction in mm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Offset\+Value\+:the} & offset correction value to program in mm \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{vl53l1x__core_8h_ab8103f06b26a3748336375e1c6381ab6}\label{vl53l1x__core_8h_ab8103f06b26a3748336375e1c6381ab6}} 
+\index{vl53l1x\_core.h@{vl53l1x\_core.h}!VL53L1X\_SetROI@{VL53L1X\_SetROI}}
+\index{VL53L1X\_SetROI@{VL53L1X\_SetROI}!vl53l1x\_core.h@{vl53l1x\_core.h}}
+\doxysubsubsection{\texorpdfstring{VL53L1X\_SetROI()}{VL53L1X\_SetROI()}}
+{\footnotesize\ttfamily VL53\+L1\+X\+\_\+\+ERROR VL53\+L1\+X\+\_\+\+Set\+ROI (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{dev,  }\item[{uint16\+\_\+t}]{X,  }\item[{uint16\+\_\+t}]{Y }\end{DoxyParamCaption})}
+
+
+
+This function programs the ROI (Region of Interest)~\newline
+The ROI position is centered, only the ROI size can be reprogrammed.~\newline
+The smallest acceptable ROI size = 4~\newline
+. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em X\+:\+ROI} & Width; Y=ROI Height \\
+\hline
+\end{DoxyParams}

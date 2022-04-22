@@ -1,0 +1,66 @@
+\hypertarget{vl53l1__platform_8h}{}\doxysection{vl53l1\+\_\+platform.\+h File Reference}
+\label{vl53l1__platform_8h}\index{vl53l1\_platform.h@{vl53l1\_platform.h}}
+
+
+Those platform functions are platform dependent and have to be implemented for the integrated platform.  
+
+
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}sl\+\_\+status.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sl\+\_\+i2cspm.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vl53l1__platform_8h_ab4148660fb4d89b56a4c3c250d47d7fd}{vl53l1x\+\_\+platform\+\_\+set\+\_\+i2cspm\+\_\+instance}} (sl\+\_\+i2cspm\+\_\+t $\ast$i2cspm\+\_\+instance)
+\begin{DoxyCompactList}\small\item\em This function sets the IC2\+SPM instance used by platform functions. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1__platform_8h_a2e37409e6708c5a3858796f0aeb75242}\label{vl53l1__platform_8h_a2e37409e6708c5a3858796f0aeb75242}} 
+sl\+\_\+status\+\_\+t {\bfseries VL53\+L1\+\_\+\+Read\+Multi} (uint16\+\_\+t dev, uint16\+\_\+t index, uint8\+\_\+t $\ast$pdata, uint32\+\_\+t count)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{vl53l1__platform_8h_a2e37409e6708c5a3858796f0aeb75242}{VL53\+L1\+\_\+\+Read\+Multi()}} definition.~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1__platform_8h_a903c1ec4103f80aa13051e36f2c18b92}\label{vl53l1__platform_8h_a903c1ec4103f80aa13051e36f2c18b92}} 
+sl\+\_\+status\+\_\+t {\bfseries VL53\+L1\+\_\+\+Wr\+Byte} (uint16\+\_\+t dev, uint16\+\_\+t index, uint8\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{vl53l1__platform_8h_a903c1ec4103f80aa13051e36f2c18b92}{VL53\+L1\+\_\+\+Wr\+Byte()}} definition.~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1__platform_8h_a7fae97f6c6d92d593c5a2a02e2dfbcc6}\label{vl53l1__platform_8h_a7fae97f6c6d92d593c5a2a02e2dfbcc6}} 
+sl\+\_\+status\+\_\+t {\bfseries VL53\+L1\+\_\+\+Wr\+Word} (uint16\+\_\+t dev, uint16\+\_\+t index, uint16\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em vl53l1\+\_\+write\+\_\+word() definition.~\newline
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1__platform_8h_abc6b7f0cfbcdfb8d1c36e015d2a2f1ef}\label{vl53l1__platform_8h_abc6b7f0cfbcdfb8d1c36e015d2a2f1ef}} 
+sl\+\_\+status\+\_\+t {\bfseries VL53\+L1\+\_\+\+Wr\+DWord} (uint16\+\_\+t dev, uint16\+\_\+t index, uint32\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{vl53l1__platform_8h_a7fae97f6c6d92d593c5a2a02e2dfbcc6}{VL53\+L1\+\_\+\+Wr\+Word()}} definition.~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1__platform_8h_a40726c5790d7050ee0ad4a2dbdc9932d}\label{vl53l1__platform_8h_a40726c5790d7050ee0ad4a2dbdc9932d}} 
+sl\+\_\+status\+\_\+t {\bfseries VL53\+L1\+\_\+\+Rd\+Byte} (uint16\+\_\+t dev, uint16\+\_\+t index, uint8\+\_\+t $\ast$pdata)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{vl53l1__platform_8h_a40726c5790d7050ee0ad4a2dbdc9932d}{VL53\+L1\+\_\+\+Rd\+Byte()}} definition.~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1__platform_8h_acf763f76c58b0080402e707e6bfe466f}\label{vl53l1__platform_8h_acf763f76c58b0080402e707e6bfe466f}} 
+sl\+\_\+status\+\_\+t {\bfseries VL53\+L1\+\_\+\+Rd\+Word} (uint16\+\_\+t dev, uint16\+\_\+t index, uint16\+\_\+t $\ast$pdata)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{vl53l1__platform_8h_acf763f76c58b0080402e707e6bfe466f}{VL53\+L1\+\_\+\+Rd\+Word()}} definition.~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{vl53l1__platform_8h_ae69a81db90cf8c62c7c6e8d820ad3cab}\label{vl53l1__platform_8h_ae69a81db90cf8c62c7c6e8d820ad3cab}} 
+sl\+\_\+status\+\_\+t {\bfseries VL53\+L1\+\_\+\+Rd\+DWord} (uint16\+\_\+t dev, uint16\+\_\+t index, uint32\+\_\+t $\ast$pdata)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{vl53l1__platform_8h_ae69a81db90cf8c62c7c6e8d820ad3cab}{VL53\+L1\+\_\+\+Rd\+DWord()}} definition.~\newline
+. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Those platform functions are platform dependent and have to be implemented for the integrated platform. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vl53l1__platform_8h_ab4148660fb4d89b56a4c3c250d47d7fd}\label{vl53l1__platform_8h_ab4148660fb4d89b56a4c3c250d47d7fd}} 
+\index{vl53l1\_platform.h@{vl53l1\_platform.h}!vl53l1x\_platform\_set\_i2cspm\_instance@{vl53l1x\_platform\_set\_i2cspm\_instance}}
+\index{vl53l1x\_platform\_set\_i2cspm\_instance@{vl53l1x\_platform\_set\_i2cspm\_instance}!vl53l1\_platform.h@{vl53l1\_platform.h}}
+\doxysubsubsection{\texorpdfstring{vl53l1x\_platform\_set\_i2cspm\_instance()}{vl53l1x\_platform\_set\_i2cspm\_instance()}}
+{\footnotesize\ttfamily void vl53l1x\+\_\+platform\+\_\+set\+\_\+i2cspm\+\_\+instance (\begin{DoxyParamCaption}\item[{sl\+\_\+i2cspm\+\_\+t $\ast$}]{i2cspm\+\_\+instance }\end{DoxyParamCaption})}
+
+
+
+This function sets the IC2\+SPM instance used by platform functions. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em i2cspm\+\_\+instance} & I2\+CSPM instance, default\+: VL53\+L1\+X\+\_\+\+CONFIG\+\_\+\+I2\+C\+\_\+\+INSTANCE \\
+\hline
+\end{DoxyParams}

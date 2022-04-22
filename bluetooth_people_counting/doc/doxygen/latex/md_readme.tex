@@ -1,0 +1,76 @@
+The Bluetooth So\+C-\/\+Empty example is a project that you can use as a template for any standalone Bluetooth application.\hypertarget{md_readme_autotoc_md16}{}\doxysection{Getting Started}\label{md_readme_autotoc_md16}
+To learn the Bluetooth technology basics, see \href{https://www.silabs.com/documents/public/user-guides/ug103-14-fundamentals-ble.pdf}{\texttt{ UG103.\+14\+: Bluetooth LE Fundamentals}}.
+
+To get started with Silicon Labs Bluetooth and Simplicity Studio, see \href{https://www.silabs.com/documents/public/quick-start-guides/qsg169-bluetooth-sdk-v3x-quick-start-guide.pdf}{\texttt{ QSG169\+: Bluetooth SDK v3.\+x Quick Start Guide}}.
+
+The term SoC stands for \char`\"{}\+System on Chip\char`\"{}, meaning that this is a standalone application that runs on the EFR32/\+BGM and does not require any external MCU or other active components to operate.
+
+As the name implies, the example is an (almost) empty template that has only the bare minimum to make a working Bluetooth application. This skeleton can be extended with the application logic.
+
+The development of a Bluetooth applications consist of three main steps\+:
+
+
+\begin{DoxyItemize}
+\item Designing the GATT database
+\item Responding to the events raised by the Bluetooth stack
+\item Implementing additional application logic
+\end{DoxyItemize}
+
+These steps are covered in the following sections. To learn more about programming an SoC application, see \href{https://www.silabs.com/documents/public/user-guides/ug434-bluetooth-c-soc-dev-guide-sdk-v3x.pdf}{\texttt{ UG434\+: Silicon Labs Bluetooth ® C Application Developer\textquotesingle{}s Guide for SDK v3.\+x}}.\hypertarget{md_readme_autotoc_md17}{}\doxysection{Designing the GATT Database}\label{md_readme_autotoc_md17}
+The SOC-\/empty example implements a basic GATT database. GATT definitions (services/characteristics) can be extended using the GATT Configurator, which can be found under Advanced Configurators in the Software Components tab of the Project Configurator. To open the Project Configurator, open the .slcp file of the project.
+
+
+
+To learn how to use the GATT Configurator, see \href{https://www.silabs.com/documents/public/user-guides/ug438-gatt-configurator-users-guide-sdk-v3x.pdf}{\texttt{ UG438\+: GATT Configurator User’s Guide for Bluetooth SDK v3.\+x}}.\hypertarget{md_readme_autotoc_md18}{}\doxysection{Responding to Bluetooth Events}\label{md_readme_autotoc_md18}
+A Bluetooth application is event driven. The Bluetooth stack generates events e.\+g., when a remote device connects or disconnects or when it writes a characteristic in the local GATT database. The application has to handle these events in the {\ttfamily \mbox{\hyperlink{app_8c_a216a3dab5c23792d8a559cd6ebd7a6bc}{sl\+\_\+bt\+\_\+on\+\_\+event()}}} function. The prototype of this function is implemented in {\itshape \mbox{\hyperlink{app_8c}{app.\+c}}}. To handle more events, the switch-\/case statement of this function is to be extended. For the list of Bluetooth events, see the online \href{https://docs.silabs.com/bluetooth/latest/}{\texttt{ Bluetooth API Reference}}.\hypertarget{md_readme_autotoc_md19}{}\doxysection{Implementing Application Logic}\label{md_readme_autotoc_md19}
+Additional application logic has to be implemented in the {\ttfamily \mbox{\hyperlink{app_8c_add3190cf715f513666f4be42874d91e2}{app\+\_\+init()}}} and {\ttfamily \mbox{\hyperlink{app_8c_a62b9d027d612c675bc9ae3c81102763f}{app\+\_\+process\+\_\+action()}}} functions. Find the definitions of these functions in {\itshape \mbox{\hyperlink{app_8c}{app.\+c}}}. The {\ttfamily \mbox{\hyperlink{app_8c_add3190cf715f513666f4be42874d91e2}{app\+\_\+init()}}} function is called once when the device is booted, and {\ttfamily \mbox{\hyperlink{app_8c_a62b9d027d612c675bc9ae3c81102763f}{app\+\_\+process\+\_\+action()}}} is called repeatedly in a while(1) loop. For example, you can poll peripherals in this function. To save energy and to have this function called at specific intervals only, for example once every second, use the services of the \href{https://docs.silabs.com/gecko-platform/latest/service/api/group-sleeptimer}{\texttt{ Sleeptimer}}. If you need a more sophisticated application, consider using RTOS (see \href{https://www.silabs.com/documents/public/application-notes/an1260-integrating-v3x-bluetooth-applications-with-rtos.pdf}{\texttt{ AN1260\+: Integrating v3.\+x Silicon Labs Bluetooth Applications with Real-\/\+Time Operating Systems}}).\hypertarget{md_readme_autotoc_md20}{}\doxysection{Features Already Added to the SOC-\/\+Empty Application}\label{md_readme_autotoc_md20}
+The SOC-\/\+Empty application is {\itshape {\bfseries{almost}}} empty. It implements a basic application to demonstrate how to handle events, how to use the GATT database, and how to add software components.
+
+
+\begin{DoxyItemize}
+\item A simple application is implemented in the event handler function that starts advertising on boot (and on connection\+\_\+closed event). This makes it possible for remote devices to find the device and connect to it.
+\item A simple GATT database is defined by adding Generic Access and Device Information services. This makes it possible for remote devices to read out some basic information such as the device name.
+\item The OTA DFU software component is added, which extends both the event handlers (see {\itshape sl\+\_\+ota\+\_\+dfu.\+c}) and the GATT database (see {\itshape ota\+\_\+dfu.\+xml}). This makes it possible to make Over-\/\+The-\/\+Air Device-\/\+Firmware-\/\+Upgrade without any additional application code.
+\end{DoxyItemize}\hypertarget{md_readme_autotoc_md21}{}\doxysection{Testing the SOC-\/\+Empty Application}\label{md_readme_autotoc_md21}
+As described above, an empty example does nothing except advertising and letting other devices connect and read its basic GATT database. To test this feature, do the following\+:
+
+
+\begin{DoxyEnumerate}
+\item Build and flash the So\+C-\/\+Empty example to your device.
+\item Make sure a bootloader is installed. See the Troubleshooting section.
+\item Download the {\bfseries{EFR Connect}} smartphone app, available on \href{https://apps.apple.com/us/app/efr-connect/id1030932759}{\texttt{ i\+OS}} and \href{https://play.google.com/store/apps/details?id=com.siliconlabs.bledemo}{\texttt{ Android}}.
+\item Open the app and choose the Bluetooth Browser. 
+\item Now you should find your device advertising as \char`\"{}\+Empty Example\char`\"{}. Tap {\bfseries{Connect}}. 
+\item The connection is opened, and the GATT database is automatically discovered. Find the device name characteristic under Generic Access service and try to read out the device name. 
+\end{DoxyEnumerate}\hypertarget{md_readme_autotoc_md22}{}\doxysection{Troubleshooting}\label{md_readme_autotoc_md22}
+Note that Software Example-\/based projects do not include a bootloader. However, they are configured to expect a bootloader to be present on the device. To get your application to work, either
+\begin{DoxyItemize}
+\item flash a bootloader to the device or
+\item uninstall the {\bfseries{OTA DFU}} and {\bfseries{Bootloader Application Interface}} software components.
+\end{DoxyItemize}
+
+To flash a bootloader, either create a bootloader project or run a precompiled {\bfseries{Demo}} on your device from the Launcher view. Precompiled demos flash both bootloader and application images to the device. Then flash your own application image to overwrite the demo application but leave the bootloader in place.
+
+
+\begin{DoxyItemize}
+\item To flash an OTA DFU-\/capable bootloader to the device, flash the {\bfseries{Bluetooth -\/ SoC Thermometer}} demo.
+\item To flash a UART DFU-\/capable bootloader to the device, flash the {\bfseries{Bluetooth -\/ NCP}} demo.
+\item For other bootloader types, create your own bootloader project and flash it to the device before flashing your application.
+\item When you flash your application image to the device, use the $\ast$.hex$\ast$ or $\ast$.s37$\ast$ output file. Flashing $\ast$.bin$\ast$ files may overwrite (erase) the bootloader.
+\item On Series 1 devices (EFR32x\+G1x), both first stage and second stage bootloaders have to be flashed. This can be done at once by flashing the {\itshape -\/combined.\+s37} file found in the bootloader project after building the project.
+\item For more information, see \href{https://www.silabs.com/documents/public/user-guides/ug103-06-fundamentals-bootloading.pdf}{\texttt{ UG103.\+6\+: Bootloader Fundamentals}} and \href{https://cn.silabs.com/documents/public/user-guides/ug489-gecko-bootloader-user-guide-gsdk-4.pdf}{\texttt{ UG489\+: Silicon Labs Gecko Bootloader User\textquotesingle{}s Guide for GSDK 4.\+0 and Higher}}.
+\end{DoxyItemize}
+
+Before programming the radio board mounted on the mainboard, make sure the power supply switch the AEM position (right side) as shown below.
+
+\hypertarget{md_readme_autotoc_md23}{}\doxysection{Resources}\label{md_readme_autotoc_md23}
+\href{https://docs.silabs.com/bluetooth/latest/}{\texttt{ Bluetooth Documentation}}
+
+\href{https://www.silabs.com/documents/public/user-guides/ug103-14-fundamentals-ble.pdf}{\texttt{ UG103.\+14\+: Bluetooth LE Fundamentals}}
+
+\href{https://www.silabs.com/documents/public/quick-start-guides/qsg169-bluetooth-sdk-v3x-quick-start-guide.pdf}{\texttt{ QSG169\+: Bluetooth SDK v3.\+x Quick Start Guide}}
+
+\href{https://www.silabs.com/documents/public/user-guides/ug434-bluetooth-c-soc-dev-guide-sdk-v3x.pdf}{\texttt{ UG434\+: Silicon Labs Bluetooth ® C Application Developer\textquotesingle{}s Guide for SDK v3.\+x}}
+
+\href{https://www.silabs.com/support/training/bluetooth}{\texttt{ Bluetooth Training}}\hypertarget{md_readme_autotoc_md24}{}\doxysection{Report Bugs \& Get Support}\label{md_readme_autotoc_md24}
+You are always encouraged and welcome to report any issues you found to us via \href{https://www.silabs.com/community}{\texttt{ Silicon Labs Community}}. 

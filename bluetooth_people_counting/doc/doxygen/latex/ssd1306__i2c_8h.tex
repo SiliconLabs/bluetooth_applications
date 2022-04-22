@@ -1,0 +1,107 @@
+\hypertarget{ssd1306__i2c_8h}{}\doxysection{ssd1306\+\_\+i2c.\+h File Reference}
+\label{ssd1306__i2c_8h}\index{ssd1306\_i2c.h@{ssd1306\_i2c.h}}
+
+
+I2C abstraction used by SSD1306.  
+
+
+{\ttfamily \#include \char`\"{}sl\+\_\+status.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ssd1306__i2c_8h_a6b6de8a95377240ac2b26b7dc2db89af}\label{ssd1306__i2c_8h_a6b6de8a95377240ac2b26b7dc2db89af}} 
+\#define {\bfseries SSD1306\+\_\+\+SLAVE\+\_\+\+ADDRESS}~0x3D
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{ssd1306__i2c_8h_a26d9eba9ee81a8c85683305253692057}{ssd1306\+\_\+i2c\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize the i2c interface. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{ssd1306__i2c_8h_acb3172b60fd1e3721b29f06efb544b5a}{ssd1306\+\_\+send\+\_\+command}} (const void $\ast$cmd, uint8\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Start an blocking command transmit transfer. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{ssd1306__i2c_8h_ab1e31e2022d34e4d16d67b40898618c2}{ssd1306\+\_\+send\+\_\+data}} (const void $\ast$data, uint8\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Start an blocking data transmit transfer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+I2C abstraction used by SSD1306. 
+
+\hypertarget{ssd1306__i2c_8h_autotoc_md48}{}\doxysubsection{License}\label{ssd1306__i2c_8h_autotoc_md48}
+{\bfseries{Copyright 2020 Silicon Laboratories Inc. www.\+silabs.\+com}}
+
+SPDX-\/\+License-\/\+Identifier\+: Zlib
+
+The licensor of this software is Silicon Laboratories Inc.
+
+This software is provided \textbackslash{}\textquotesingle{}as-\/is\textbackslash{}\textquotesingle{}, without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions\+:
+
+
+\begin{DoxyEnumerate}
+\item The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+\item Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+\item This notice may not be removed or altered from any source distribution.
+\end{DoxyEnumerate}
+
+EVALUATION QUALITY This code has been minimally tested to ensure that it builds with the specified dependency versions and is suitable as a demonstration for evaluation purposes only. This code will be maintained at the sole discretion of Silicon Labs. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{ssd1306__i2c_8h_a26d9eba9ee81a8c85683305253692057}\label{ssd1306__i2c_8h_a26d9eba9ee81a8c85683305253692057}} 
+\index{ssd1306\_i2c.h@{ssd1306\_i2c.h}!ssd1306\_i2c\_init@{ssd1306\_i2c\_init}}
+\index{ssd1306\_i2c\_init@{ssd1306\_i2c\_init}!ssd1306\_i2c.h@{ssd1306\_i2c.h}}
+\doxysubsubsection{\texorpdfstring{ssd1306\_i2c\_init()}{ssd1306\_i2c\_init()}}
+{\footnotesize\ttfamily void ssd1306\+\_\+i2c\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initialize the i2c interface. 
+
+@detail The driver instances will be initialized automatically, during the sl\+\_\+system\+\_\+init() call in \mbox{\hyperlink{main_8c}{main.\+c}}. \mbox{\Hypertarget{ssd1306__i2c_8h_acb3172b60fd1e3721b29f06efb544b5a}\label{ssd1306__i2c_8h_acb3172b60fd1e3721b29f06efb544b5a}} 
+\index{ssd1306\_i2c.h@{ssd1306\_i2c.h}!ssd1306\_send\_command@{ssd1306\_send\_command}}
+\index{ssd1306\_send\_command@{ssd1306\_send\_command}!ssd1306\_i2c.h@{ssd1306\_i2c.h}}
+\doxysubsubsection{\texorpdfstring{ssd1306\_send\_command()}{ssd1306\_send\_command()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t ssd1306\+\_\+send\+\_\+command (\begin{DoxyParamCaption}\item[{const void $\ast$}]{cmd,  }\item[{uint8\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+Start an blocking command transmit transfer. 
+
+\begin{DoxyNote}{Note}
+~\newline
+ This function is blocking and returns when the transfer is complete.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em command} & Transmit command buffer.\\
+\hline
+\mbox{\texttt{ in}}  & {\em len} & Number of bytes in transfer.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK on success or SL\+\_\+\+STATUS\+\_\+\+FAIL on failure 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ssd1306__i2c_8h_ab1e31e2022d34e4d16d67b40898618c2}\label{ssd1306__i2c_8h_ab1e31e2022d34e4d16d67b40898618c2}} 
+\index{ssd1306\_i2c.h@{ssd1306\_i2c.h}!ssd1306\_send\_data@{ssd1306\_send\_data}}
+\index{ssd1306\_send\_data@{ssd1306\_send\_data}!ssd1306\_i2c.h@{ssd1306\_i2c.h}}
+\doxysubsubsection{\texorpdfstring{ssd1306\_send\_data()}{ssd1306\_send\_data()}}
+{\footnotesize\ttfamily sl\+\_\+status\+\_\+t ssd1306\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{const void $\ast$}]{data,  }\item[{uint8\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+Start an blocking data transmit transfer. 
+
+\begin{DoxyNote}{Note}
+~\newline
+ This function is blocking and returns when the transfer is complete.
+\end{DoxyNote}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em data} & Transmit data buffer.\\
+\hline
+\mbox{\texttt{ in}}  & {\em count} & Number of bytes in transfer.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SL\+\_\+\+STATUS\+\_\+\+OK on success or SL\+\_\+\+STATUS\+\_\+\+FAIL on failure 
+\end{DoxyReturn}

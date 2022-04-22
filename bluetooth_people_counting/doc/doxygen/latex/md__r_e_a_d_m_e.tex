@@ -1,0 +1,236 @@
+\hypertarget{md__r_e_a_d_m_e_autotoc_md16}{}\doxysection{Overview}\label{md__r_e_a_d_m_e_autotoc_md16}
+This project aims to implement a people counting application that using Silabs development kits integrated with the BLE wireless stack and a VL53\+L1X distance sensors.
+
+The block diagram of this application is shown in the image below\+:
+
+
+
+More detailed information can be found in the section How it works.
+
+This code example referred to the following code examples. More detailed information can be found here\+:
+
+
+\begin{DoxyItemize}
+\item \href{https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/oled_ssd1306_i2c}{\texttt{ OLED SSD1306 driver}}
+\item \href{https://github.com/SiliconLabs/bluetooth_stack_features_staging/tree/master/security}{\texttt{ Bluetooth security feature}}
+\item \href{https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/distance_vl53l1x}{\texttt{ Distance sensor driver}}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md17}{}\doxysection{Gecko SDK Suite version}\label{md__r_e_a_d_m_e_autotoc_md17}
+GSDK v4.\+0.\+2\hypertarget{md__r_e_a_d_m_e_autotoc_md18}{}\doxysection{Hardware Required}\label{md__r_e_a_d_m_e_autotoc_md18}
+
+\begin{DoxyItemize}
+\item \href{https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit}{\texttt{ BGM220 Bluetooth Module Explorer Kit}}
+\item \href{https://www.sparkfun.com/products/14532}{\texttt{ Spark\+Fun Micro OLED Breakout (Qwiic) board}}
+\item \href{https://www.sparkfun.com/products/14722}{\texttt{ Spark\+Fun Distance Sensor Breakout}}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md19}{}\doxysection{Connections Required}\label{md__r_e_a_d_m_e_autotoc_md19}
+The hardware connection is shown in the image below\+:
+
+
+
+The I2C connection is make from BGM220 Bluetooth Module Explorer Kit to the Distance Sensor Breakout board and the Micro OLED Breakout by using the qwiic cable.\hypertarget{md__r_e_a_d_m_e_autotoc_md20}{}\doxysection{Setup}\label{md__r_e_a_d_m_e_autotoc_md20}
+To test this application, you can either import the provided {\ttfamily bluetooth\+\_\+people\+\_\+counting.\+sls} project file or start with an empty example project as the following\+:
+
+
+\begin{DoxyEnumerate}
+\item Create a {\bfseries{Bluetooth -\/ SoC Empty}} project for the {\bfseries{BGM220 Bluetooth Module Explorer Kit}} using Simplicity Studio 5.
+\item Copy all attached files in {\itshape inc} and {\itshape src} folders into the project root folder (overwriting existing \mbox{\hyperlink{app_8c}{app.\+c}}).
+\item Import the GATT configuration\+:
+\begin{DoxyItemize}
+\item Open the .slcp file in the project.
+\item Select the {\bfseries{CONFIGURATION TOOLS}} tab and open the {\bfseries{Bluetooth GATT Configurator}}.
+\item Find the Import button and import the attached \href{config/gatt_configuration.btconf}{\texttt{ gatt\+\_\+configuration.\+btconf}} file.
+\item Save the GATT configuration (ctrl-\/s).
+\end{DoxyItemize}
+\item Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components\+:
+\begin{DoxyItemize}
+\item Install {\bfseries{\mbox{[}Platform\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}Driver\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}I2\+CSPM\mbox{]}}} component with add new instance name\+: {\bfseries{qwiic}}. Set this component to use I2\+C1 peripheral, SCL to PD02 pin, SDA to PD03 pin.
+
+ 
+\item Install {\bfseries{\mbox{[}Platform\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}IO Stream\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}IO Stream\+: USART\mbox{]}}} component with the default instance name\+: {\bfseries{vcom}}.
+\item Install {\bfseries{\mbox{[}Platform\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}Driver\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}Button\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}Simple Button\mbox{]}}} component with the default instance name\+: {\bfseries{btn0}}.
+\item Install {\bfseries{\mbox{[}Platform\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}Driver\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}LED\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}Simple LED\mbox{]}}} component with the default instance name\+: {\bfseries{led0}}.
+\item Install {\bfseries{\mbox{[}Services\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}NVM3\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}NVM3 Default Instance\mbox{]}}} component.
+\item Install {\bfseries{\mbox{[}Application\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}Utility\mbox{]} \texorpdfstring{$>$}{>} \mbox{[}Log\mbox{]}}} component.
+\end{DoxyItemize}
+\item Build and flash the project to your device.
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md21}{}\doxysection{How it Works}\label{md__r_e_a_d_m_e_autotoc_md21}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md22}{}\doxysubsection{API overview}\label{md__r_e_a_d_m_e_autotoc_md22}
+A detailed description of each function can be found in \href{doc/doxygen/html/modules.html}{\texttt{ doc/doxygen}}.\hypertarget{md__r_e_a_d_m_e_autotoc_md23}{}\doxysubsection{GATT Configurator}\label{md__r_e_a_d_m_e_autotoc_md23}
+The application is based on the Bluetooth -\/ SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required.
+
+The GATT changes were adding a new custom service (Air Quality Monitor) using UUID {\ttfamily 3a79c933-\/c922-\/45c7-\/b5e7-\/9bdefd126dd9} which are 5 characteristics\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{People Entered So Far}}\+: UUID {\ttfamily cf88405b-\/e223-\/4976-\/82aa-\/78c6b305b0a8}
+\begin{DoxyItemize}
+\item \mbox{[}{\bfseries{Readable}}\mbox{]} -\/ Get total number of people enter the room
+\item \mbox{[}{\bfseries{Writable}}\mbox{]} -\/ Clear total number of people enter the room ~\newline
+
+\end{DoxyItemize}
+\item {\bfseries{People Count}}\+: UUID {\ttfamily 2b9837e1-\/5560-\/49e5-\/a8cf-\/2f3b0db0bd6b}
+\begin{DoxyItemize}
+\item \mbox{[}{\bfseries{Readable}}\mbox{]} -\/ Get number of people in the room
+\item \mbox{[}{\bfseries{Writable}}\mbox{]} -\/ Clear number of people in the room ~\newline
+
+\end{DoxyItemize}
+\item {\bfseries{Min Distance}}\+: UUID {\ttfamily f2f7c459-\/e623-\/4970-\/ab36-\/d3a4651a694e}
+\begin{DoxyItemize}
+\item \mbox{[}{\bfseries{Readable}}\mbox{]} -\/ Get minimum distance that is using by counting people algorithm (mm)
+\item \mbox{[}{\bfseries{Writable}}\mbox{]} -\/ Set minimum distance that is using by counting people algorithm (mm) ~\newline
+
+\end{DoxyItemize}
+\item {\bfseries{Max Distance}}\+: UUID {\ttfamily d0a946d7-\/a183-\/4cb7-\/a9cb-\/b9c879cdb6fa}
+\begin{DoxyItemize}
+\item \mbox{[}{\bfseries{Readable}}\mbox{]} -\/ Get maximum distance that is using by counting people algorithm (mm)
+\item \mbox{[}{\bfseries{Writable}}\mbox{]} -\/ Set maximum distance that is using by counting people algorithm (mm) ~\newline
+
+\end{DoxyItemize}
+\item {\bfseries{Distance Threshold}}\+: UUID {\ttfamily 0192bd9d-\/cb4f-\/49cc-\/b3dc-\/2d7facc9edcd}
+\begin{DoxyItemize}
+\item \mbox{[}{\bfseries{Readable}}\mbox{]} -\/ Get distance threshold that is using by counting people algorithm (mm)
+\item \mbox{[}{\bfseries{Writable}}\mbox{]} -\/ Set distance threshold that is using by counting people algorithm (mm)(mm) ~\newline
+
+\end{DoxyItemize}
+\item {\bfseries{Timing Budget}}\+: UUID {\ttfamily 01fb0e47-\/13c9-\/4369-\/88cc-\/07f58759a6a6}
+\begin{DoxyItemize}
+\item \mbox{[}{\bfseries{Readable}}\mbox{]} -\/ Get timing budget that is using by counting people algorithm (ms)
+\item \mbox{[}{\bfseries{Writable}}\mbox{]} -\/ Set timing budget that is using by counting people algorithm (ms) ~\newline
+
+\end{DoxyItemize}
+\item {\bfseries{Notification Status}}\+: UUID {\ttfamily ca89196b-\/76e2-\/41a0-\/9e41-\/342f4a2ff6f1}
+\begin{DoxyItemize}
+\item \mbox{[}{\bfseries{Readable}}\mbox{]} -\/ Get notification status
+\item \mbox{[}{\bfseries{Writable}}\mbox{]} -\/ Enable \& disable notification status
+\end{DoxyItemize}
+\item {\bfseries{Room capacity}}\+: UUID {\ttfamily c714d394-\/7e0d-\/4c6a-\/a864-\/1183046a244c}
+\begin{DoxyItemize}
+\item \mbox{[}{\bfseries{Readable}}\mbox{]} -\/ Get room capacity
+\item \mbox{[}{\bfseries{Writable}}\mbox{]} -\/ Set room capacity
+\item \mbox{[}{\bfseries{Notifiable}}\mbox{]} -\/ Get notification of room status( full or empty)
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md24}{}\doxysubsection{People Counting Implementation}\label{md__r_e_a_d_m_e_autotoc_md24}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md25}{}\doxysubsubsection{Application initialization}\label{md__r_e_a_d_m_e_autotoc_md25}
+ ~\newline
+\hypertarget{md__r_e_a_d_m_e_autotoc_md26}{}\doxysubsubsection{Sensor initialization}\label{md__r_e_a_d_m_e_autotoc_md26}
+ ~\newline
+\hypertarget{md__r_e_a_d_m_e_autotoc_md27}{}\doxysubsubsection{Sensor sampling}\label{md__r_e_a_d_m_e_autotoc_md27}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md28}{}\doxysubsubsection{Application Workflows}\label{md__r_e_a_d_m_e_autotoc_md28}
+
+\begin{DoxyEnumerate}
+\item Initialize the peripherals, the Bluetooth stack.
+\item Initialize and load the NVM3 configurations
+\item Wait for the VL53\+L1X sensor is booted and initialize the VL53\+L1X sensor with the configurations from NVM3\+:
+\begin{DoxyItemize}
+\item Distance mode\+: LONG
+\item Timing budget\+: 33 ms
+\item Region of interest SPADs\+: 8x16 ~\newline
+
+\end{DoxyItemize}
+\item Start ranging for the VL53\+L1X sensor.
+\item Initialize the OLED display.
+\item Start a periodic timer with period 1ms. The timer callback will fire an external event to ble stack and the event handler will do\+:
+\begin{DoxyItemize}
+\item Check if ranging data is ready.
+\item Get the new distance sample.
+\item Calculate people counting algorithm with new distance sample.
+\item Switch Region of interest( ROI) center to other zone( front or back)
+\end{DoxyItemize}
+\item Start a periodic timer with period 1000ms, The timer callback will fire an external event to ble stack and the event handler will display people counting data from the result of the counting algorithm calculation.
+\item After the {\itshape sl\+\_\+bt\+\_\+evt\+\_\+system\+\_\+boot\+\_\+id} event arrives, App sets up the security manager to bond with an i\+OS/\+Android device. And then start advertising.
+\item Handle GATT event to help user configure the counting algorithm and get the result from the algorithm calculation over the {\itshape EFR32 connect} mobile app
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md29}{}\doxysubsection{Counting algorithm}\label{md__r_e_a_d_m_e_autotoc_md29}
+The counting algorithm example relies on a list of states that have to occur in a certain order to detect if a person has crossed the specified area and in which direction this area has been crossed. These states are stored in a list and compared to two default lists of states that represent how the area is crossed in two different directions.
+
+When no-\/one is seen in either of the two zones, the list of states is reset. If we consider that a person detected in the front zone equals 2, and a person detected in the back zone equals 1, the algorithm adds the value of the two states and stores the result as soon as it changes.
+
+Eventually, if the consecutive states in the list are 0, 1, 3, 2, 0 or 0, 2, 3, 1, 0 this means a person has been detected in one direction or the other, as described in figure below. List of status values.
+
+ ~\newline
+
+
+Algorithm workflows
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md30}{}\doxysubsection{OLED Display}\label{md__r_e_a_d_m_e_autotoc_md30}
+
+\begin{DoxyItemize}
+\item Display current people count and the value of the entered people so far
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md31}{}\doxysubsection{Button}\label{md__r_e_a_d_m_e_autotoc_md31}
+
+\begin{DoxyItemize}
+\item Press button to clear current people count
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md32}{}\doxysubsection{Room status notification}\label{md__r_e_a_d_m_e_autotoc_md32}
+
+\begin{DoxyItemize}
+\item To receive status of room(full or empty), the user need to use the EFR Connect Mobile Application to enable notification
+\item If the number of people count is greater than room capacity then the device will send a \char`\"{}room is full\char`\"{} notification
+\item If the number of people count is zero then the device will send a \char`\"{}room is empty\char`\"{} notification
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md33}{}\doxysubsection{Reset the counting value}\label{md__r_e_a_d_m_e_autotoc_md33}
+
+\begin{DoxyItemize}
+\item To reset the number of total people entered the room infomation, the user need to use the EFR Connect Mobile Application to write 0 to the {\itshape People Entered So Far} characteristic
+\item To reset the number of people count infomation, the user need to use the EFR Connect Mobile Application to write 0 to the {\itshape People Count} characteristic
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md34}{}\doxysubsection{Use EFR Connect Mobile Application}\label{md__r_e_a_d_m_e_autotoc_md34}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md35}{}\doxysubsubsection{Connect to the device}\label{md__r_e_a_d_m_e_autotoc_md35}
+The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an i\+OS or Android smartphone with the EFR Connect app installed is required.
+
+Open the EFR Connect application on your smartphone and allow the permission request when opened for the first time. Click \mbox{[}Develop\mbox{]} -\/\texorpdfstring{$>$}{>} \mbox{[}Browser\mbox{]} and you will see a list of nearby devices which are sending Bluetooth advertisements. Find the one named {\itshape People Counting} and click the connect button on the right side. If app show the pairing request dialog, press {\bfseries{Pair}} button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
+
+{\bfseries{Note}}\+: The pairing process on Android and i\+OS devices is different. For more information, refer to bluetooth security.
+
+$\vert$  $\vert$ $\vert$$\vert$ $\vert$ -\/ $\vert$ -\/ $\vert$ -\/$\vert$\hypertarget{md__r_e_a_d_m_e_autotoc_md36}{}\doxysubsubsection{People entered so far count characteristic}\label{md__r_e_a_d_m_e_autotoc_md36}
+
+\begin{DoxyItemize}
+\item Read to get the current total people entered count
+\item Write {\itshape 00 00} to reset total people entered count
+\end{DoxyItemize}
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md37}{}\doxysubsubsection{People count characteristic}\label{md__r_e_a_d_m_e_autotoc_md37}
+
+\begin{DoxyItemize}
+\item Read to get the current people count
+\item Write {\itshape 00 00} to reset people count
+\end{DoxyItemize}
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md38}{}\doxysubsubsection{Min distance characteristic}\label{md__r_e_a_d_m_e_autotoc_md38}
+
+\begin{DoxyItemize}
+\item Read to get the current minimum distance setting
+\item Write to set minimum distance settings
+\end{DoxyItemize}
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md39}{}\doxysubsubsection{Max distance characteristic}\label{md__r_e_a_d_m_e_autotoc_md39}
+
+\begin{DoxyItemize}
+\item Read to get the current maximum distance setting
+\item Write to set maximum distance settings
+\end{DoxyItemize}
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md40}{}\doxysubsubsection{Max distance threshold characteristic}\label{md__r_e_a_d_m_e_autotoc_md40}
+
+\begin{DoxyItemize}
+\item Read to get the current distance threshold setting
+\item Write to set distance threshold setting ~\newline
+
+\end{DoxyItemize}
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md41}{}\doxysubsubsection{Timing budget characteristic}\label{md__r_e_a_d_m_e_autotoc_md41}
+
+\begin{DoxyItemize}
+\item Read to get the current timing budget setting
+\item Write to set timing budget setting ~\newline
+
+\end{DoxyItemize}
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md42}{}\doxysubsubsection{Notification status characteristic}\label{md__r_e_a_d_m_e_autotoc_md42}
+
+\begin{DoxyItemize}
+\item Read to get the current notification status setting
+\item Write to set notification status setting ~\newline
+
+\end{DoxyItemize}
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md43}{}\doxysection{.\+sls Projects Used}\label{md__r_e_a_d_m_e_autotoc_md43}
+
+\begin{DoxyItemize}
+\item \href{SimplicityStudio/bluetooth_people_counting.sls}{\texttt{ bluetooth\+\_\+people\+\_\+counting.\+sls}} 
+\end{DoxyItemize}

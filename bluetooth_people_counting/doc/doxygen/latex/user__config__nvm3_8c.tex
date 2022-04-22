@@ -1,0 +1,132 @@
+\hypertarget{user__config__nvm3_8c}{}\doxysection{user\+\_\+config\+\_\+nvm3.\+c File Reference}
+\label{user__config__nvm3_8c}\index{user\_config\_nvm3.c@{user\_config\_nvm3.c}}
+
+
+NVM3 application code.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}sl\+\_\+status.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}app\+\_\+assert.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}nvm3\+\_\+default.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}nvm3\+\_\+default\+\_\+config.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}user\+\_\+config\+\_\+nvm3.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{user__config__nvm3_8c_afc3d101f633a076cc1ca84b85b6224b2}\label{user__config__nvm3_8c_afc3d101f633a076cc1ca84b85b6224b2}} 
+\#define {\bfseries TAG}~\char`\"{}nvm3\char`\"{}
+\item 
+\mbox{\Hypertarget{user__config__nvm3_8c_aa1cfe5444875c8eca0ea6f6993977d6d}\label{user__config__nvm3_8c_aa1cfe5444875c8eca0ea6f6993977d6d}} 
+\#define {\bfseries log\+\_\+info}(...)
+\item 
+\mbox{\Hypertarget{user__config__nvm3_8c_a6ae72553ea9805dd87a463d6f710364d}\label{user__config__nvm3_8c_a6ae72553ea9805dd87a463d6f710364d}} 
+\#define {\bfseries log\+\_\+error}(...)
+\item 
+\#define {\bfseries PEOPLE\+\_\+\+ENTERED\+\_\+\+SO\+\_\+\+FAR\+\_\+\+KEY}~(NVM3\+\_\+\+KEY\+\_\+\+MIN)
+\item 
+\#define {\bfseries MIN\+\_\+\+DISTANCE\+\_\+\+KEY}~(NVM3\+\_\+\+KEY\+\_\+\+MIN+1)
+\item 
+\#define {\bfseries MAX\+\_\+\+DISTANCE\+\_\+\+KEY}~(NVM3\+\_\+\+KEY\+\_\+\+MIN+2)
+\item 
+\#define {\bfseries DISTANCE\+\_\+\+THRESHOLD\+\_\+\+KEY}~(NVM3\+\_\+\+KEY\+\_\+\+MIN+3)
+\item 
+\#define {\bfseries TIMING\+\_\+\+BUDGET\+\_\+\+KEY}~(NVM3\+\_\+\+KEY\+\_\+\+MIN+4)
+\item 
+\#define {\bfseries NOTIFICATION\+\_\+\+STATUS\+\_\+\+KEY}~(NVM3\+\_\+\+KEY\+\_\+\+MIN+5)
+\item 
+\#define {\bfseries ROOM\+\_\+\+CAPACITY\+\_\+\+KEY}~(NVM3\+\_\+\+KEY\+\_\+\+MIN+6)
+\item 
+\#define {\bfseries PEOPLE\+\_\+\+ENTERED\+\_\+\+SO\+\_\+\+FAR\+\_\+\+VALUE\+\_\+\+DEFAULT}~(0)
+\item 
+\#define {\bfseries MIN\+\_\+\+DISTANCE\+\_\+\+VALUE\+\_\+\+MIN}~(1)
+\item 
+\#define {\bfseries MIN\+\_\+\+DISTANCE\+\_\+\+VALUE\+\_\+\+MAX}~(3600)
+\item 
+\#define {\bfseries MIN\+\_\+\+DISTANCE\+\_\+\+VALUE\+\_\+\+DEFAULT}~(0)
+\item 
+\#define {\bfseries MAX\+\_\+\+DISTANCE\+\_\+\+VALUE\+\_\+\+MIN}~(1)
+\item 
+\#define {\bfseries MAX\+\_\+\+DISTANCE\+\_\+\+VALUE\+\_\+\+MAX}~(3600)
+\item 
+\#define {\bfseries MAX\+\_\+\+DISTANCE\+\_\+\+VALUE\+\_\+\+DEFAULT}~(2700)
+\item 
+\#define {\bfseries DISTANCE\+\_\+\+THRESHOLD\+\_\+\+VALUE\+\_\+\+MIN}~(1)
+\item 
+\#define {\bfseries DISTANCE\+\_\+\+THRESHOLD\+\_\+\+VALUE\+\_\+\+MAX}~(3600)
+\item 
+\#define {\bfseries DISTANCE\+\_\+\+THRESHOLD\+\_\+\+VALUE\+\_\+\+DEFAULT}~(1600)
+\item 
+\#define {\bfseries TIMING\+\_\+\+BUDGET\+\_\+\+VALUE\+\_\+\+MIN}~(20)
+\item 
+\#define {\bfseries TIMING\+\_\+\+BUDGET\+\_\+\+VALUE\+\_\+\+MAX}~(1000)
+\item 
+\#define {\bfseries TIMING\+\_\+\+BUDGET\+\_\+\+VALUE\+\_\+\+DEFAULT}~(33)
+\item 
+\#define {\bfseries NOTIFICATION\+\_\+\+STATUS\+\_\+\+DEFAULT}~(1)
+\item 
+\#define {\bfseries ROOM\+\_\+\+CAPACITY\+\_\+\+VALUE\+\_\+\+MIN}~(1)
+\item 
+\#define {\bfseries ROOM\+\_\+\+CAPACITY\+\_\+\+VALUE\+\_\+\+MAX}~(65534)
+\item 
+\#define {\bfseries ROOM\+\_\+\+CAPACITY\+\_\+\+VALUE\+\_\+\+DEFAULT}~(100)
+\item 
+\#define {\bfseries NVM3\+\_\+\+DEFAULT\+\_\+\+HANDLE}~nvm3\+\_\+default\+Handle
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{group__user__config__nvm3_gaa9b9590214a44acb138bdeef36f8a328}{user\+\_\+config\+\_\+nvm3\+\_\+init}} (void)
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga6979f36c954cdf0f27daaa1fc1446929}{user\+\_\+config\+\_\+nvm3\+\_\+set\+\_\+people\+\_\+entered\+\_\+so\+\_\+far}} (uint32\+\_\+t people\+\_\+count)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga11b288fe551b38618fafe4bf7db00618}{user\+\_\+config\+\_\+nvm3\+\_\+get\+\_\+people\+\_\+entered\+\_\+so\+\_\+far}} (void)
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga81189875139d3df4c8248f0a2dfd33b4}{user\+\_\+config\+\_\+nvm3\+\_\+set\+\_\+min\+\_\+distance}} (uint16\+\_\+t distance)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga8dab3f8569f304990a76d0741074afa7}{user\+\_\+config\+\_\+nvm3\+\_\+get\+\_\+min\+\_\+distance}} (void)
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_gaa6e2192a2dc276c4160f3d7a0c829586}{user\+\_\+config\+\_\+nvm3\+\_\+set\+\_\+max\+\_\+distance}} (uint16\+\_\+t distance)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga7b887838cab6782fdeeb035d694c3da7}{user\+\_\+config\+\_\+nvm3\+\_\+get\+\_\+max\+\_\+distance}} (void)
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_gae3cd817fa8dc52934f1503dd78f528a2}{user\+\_\+config\+\_\+nvm3\+\_\+set\+\_\+distance\+\_\+threshold}} (uint16\+\_\+t distance)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga7284803e19d4df694c36c64d0caeac9f}{user\+\_\+config\+\_\+nvm3\+\_\+get\+\_\+distance\+\_\+threshold}} (void)
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga32625dc3b2bf89b6f9ff9b144c2313dd}{user\+\_\+config\+\_\+nvm3\+\_\+set\+\_\+timing\+\_\+budget}} (uint16\+\_\+t timing\+\_\+budget)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga917eaa4646de0f1f1ddd5668c1431232}{user\+\_\+config\+\_\+nvm3\+\_\+get\+\_\+timing\+\_\+budget}} (void)
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_gad0e424495bfdda5460cbdfc47d2a6262}{user\+\_\+config\+\_\+nvm3\+\_\+set\+\_\+notification\+\_\+status}} (bool enable)
+\item 
+bool \mbox{\hyperlink{group__user__config__nvm3_gae410c23ef86b85869797f934ddc2b312}{user\+\_\+config\+\_\+nvm3\+\_\+get\+\_\+notification\+\_\+status}} (void)
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga73189cb767a518949da19a338eef7969}{user\+\_\+config\+\_\+nvm3\+\_\+set\+\_\+room\+\_\+capacity}} (uint16\+\_\+t room\+\_\+capacity)
+\item 
+uint16\+\_\+t \mbox{\hyperlink{group__user__config__nvm3_ga700409e3ebbd4de12925f88eef92de33}{user\+\_\+config\+\_\+nvm3\+\_\+get\+\_\+room\+\_\+capacity}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+NVM3 application code. 
+
+\hypertarget{user__config__nvm3_8c_autotoc_md49}{}\doxysubsection{License}\label{user__config__nvm3_8c_autotoc_md49}
+{\bfseries{Copyright 2022 Silicon Laboratories Inc. www.\+silabs.\+com}}
+
+SPDX-\/\+License-\/\+Identifier\+: Zlib
+
+The licensor of this software is Silicon Laboratories Inc.
+
+This software is provided \textbackslash{}\textquotesingle{}as-\/is\textbackslash{}\textquotesingle{}, without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions\+:
+
+
+\begin{DoxyEnumerate}
+\item The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+\item Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+\item This notice may not be removed or altered from any source distribution.
+\end{DoxyEnumerate}\hypertarget{user__config__nvm3_8c_autotoc_md50}{}\doxysubsection{Experimental Quality}\label{user__config__nvm3_8c_autotoc_md50}
+This code has not been formally tested and is provided as-\/is. It is not suitable for production environments. In addition, this code will not be maintained and there may be no bug maintenance planned for these resources. Silicon Labs may update projects from time to time. 

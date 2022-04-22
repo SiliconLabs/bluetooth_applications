@@ -1,0 +1,203 @@
+\hypertarget{vl53l1x__core_8h_source}{}\doxysection{vl53l1x\+\_\+core.\+h}
+\mbox{\hyperlink{vl53l1x__core_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * This file is part of VL53L1 Core}}
+\DoxyCodeLine{3 \textcolor{comment}{ *}}
+\DoxyCodeLine{4 \textcolor{comment}{ * Copyright (c) 2017, STMicroelectronics -\/ All Rights Reserved}}
+\DoxyCodeLine{5 \textcolor{comment}{ *}}
+\DoxyCodeLine{6 \textcolor{comment}{ * License terms: BSD 3-\/clause "{}New"{} or "{}Revised"{} License.}}
+\DoxyCodeLine{7 \textcolor{comment}{ *}}
+\DoxyCodeLine{8 \textcolor{comment}{ * Redistribution and use in source and binary forms, with or without}}
+\DoxyCodeLine{9 \textcolor{comment}{ * modification, are permitted provided that the following conditions are met:}}
+\DoxyCodeLine{10 \textcolor{comment}{ *}}
+\DoxyCodeLine{11 \textcolor{comment}{ * 1. Redistributions of source code must retain the above copyright notice, this}}
+\DoxyCodeLine{12 \textcolor{comment}{ * list of conditions and the following disclaimer.}}
+\DoxyCodeLine{13 \textcolor{comment}{ *}}
+\DoxyCodeLine{14 \textcolor{comment}{ * 2. Redistributions in binary form must reproduce the above copyright notice,}}
+\DoxyCodeLine{15 \textcolor{comment}{ * this list of conditions and the following disclaimer in the documentation}}
+\DoxyCodeLine{16 \textcolor{comment}{ * and/or other materials provided with the distribution.}}
+\DoxyCodeLine{17 \textcolor{comment}{ *}}
+\DoxyCodeLine{18 \textcolor{comment}{ * 3. Neither the name of the copyright holder nor the names of its contributors}}
+\DoxyCodeLine{19 \textcolor{comment}{ * may be used to endorse or promote products derived from this software}}
+\DoxyCodeLine{20 \textcolor{comment}{ * without specific prior written permission.}}
+\DoxyCodeLine{21 \textcolor{comment}{ *}}
+\DoxyCodeLine{22 \textcolor{comment}{ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "{}AS IS"{}}}
+\DoxyCodeLine{23 \textcolor{comment}{ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE}}
+\DoxyCodeLine{24 \textcolor{comment}{ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE}}
+\DoxyCodeLine{25 \textcolor{comment}{ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE}}
+\DoxyCodeLine{26 \textcolor{comment}{ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL}}
+\DoxyCodeLine{27 \textcolor{comment}{ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR}}
+\DoxyCodeLine{28 \textcolor{comment}{ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER}}
+\DoxyCodeLine{29 \textcolor{comment}{ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,}}
+\DoxyCodeLine{30 \textcolor{comment}{ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE}}
+\DoxyCodeLine{31 \textcolor{comment}{ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.}}
+\DoxyCodeLine{32 \textcolor{comment}{ *}}
+\DoxyCodeLine{33 \textcolor{comment}{ */}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#ifndef \_VL53L1X\_CORE\_H\_}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define \_VL53L1X\_CORE\_H\_}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#include "{}sl\_status.h"{}}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define VL53L1X\_IMPLEMENTATION\_VER\_MAJOR       3}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define VL53L1X\_IMPLEMENTATION\_VER\_MINOR       5}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#define VL53L1X\_IMPLEMENTATION\_VER\_SUB         1}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define VL53L1X\_IMPLEMENTATION\_VER\_REVISION  0000}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{keyword}{typedef} sl\_status\_t VL53L1X\_ERROR;}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#define SOFT\_RESET                                          0x0000}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define VL53L1\_I2C\_SLAVE\_\_DEVICE\_ADDRESS                    0x0001}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#define VL53L1\_VHV\_CONFIG\_\_TIMEOUT\_MACROP\_LOOP\_BOUND        0x0008}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define ALGO\_\_CROSSTALK\_COMPENSATION\_PLANE\_OFFSET\_KCPS      0x0016}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#define ALGO\_\_CROSSTALK\_COMPENSATION\_X\_PLANE\_GRADIENT\_KCPS  0x0018}}
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#define ALGO\_\_CROSSTALK\_COMPENSATION\_Y\_PLANE\_GRADIENT\_KCPS  0x001A}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#define ALGO\_\_PART\_TO\_PART\_RANGE\_OFFSET\_MM                  0x001E}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#define MM\_CONFIG\_\_INNER\_OFFSET\_MM                          0x0020}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define MM\_CONFIG\_\_OUTER\_OFFSET\_MM                          0x0022}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#define GPIO\_HV\_MUX\_\_CTRL                                   0x0030}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define GPIO\_\_TIO\_HV\_STATUS                                 0x0031}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#define SYSTEM\_\_INTERRUPT\_CONFIG\_GPIO                       0x0046}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#define PHASECAL\_CONFIG\_\_TIMEOUT\_MACROP                     0x004B}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#define RANGE\_CONFIG\_\_TIMEOUT\_MACROP\_A\_HI                   0x005E}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#define RANGE\_CONFIG\_\_VCSEL\_PERIOD\_A                        0x0060}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define RANGE\_CONFIG\_\_VCSEL\_PERIOD\_B                        0x0063}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define RANGE\_CONFIG\_\_TIMEOUT\_MACROP\_B\_HI                   0x0061}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#define RANGE\_CONFIG\_\_TIMEOUT\_MACROP\_B\_LO                   0x0062}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#define RANGE\_CONFIG\_\_SIGMA\_THRESH                          0x0064}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#define RANGE\_CONFIG\_\_MIN\_COUNT\_RATE\_RTN\_LIMIT\_MCPS         0x0066}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#define RANGE\_CONFIG\_\_VALID\_PHASE\_HIGH                      0x0069}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{\#define VL53L1\_SYSTEM\_\_INTERMEASUREMENT\_PERIOD              0x006C}}
+\DoxyCodeLine{74 \textcolor{preprocessor}{\#define SYSTEM\_\_THRESH\_HIGH                                 0x0072}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#define SYSTEM\_\_THRESH\_LOW                                  0x0074}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#define SD\_CONFIG\_\_WOI\_SD0                                  0x0078}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define SD\_CONFIG\_\_INITIAL\_PHASE\_SD0                        0x007A}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#define ROI\_CONFIG\_\_USER\_ROI\_CENTRE\_SPAD                    0x007F}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#define ROI\_CONFIG\_\_USER\_ROI\_REQUESTED\_GLOBAL\_XY\_SIZE       0x0080}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define SYSTEM\_\_SEQUENCE\_CONFIG                             0x0081}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#define VL53L1\_SYSTEM\_\_GROUPED\_PARAMETER\_HOLD               0x0082}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#define SYSTEM\_\_INTERRUPT\_CLEAR                             0x0086}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{\#define SYSTEM\_\_MODE\_START                                  0x0087}}
+\DoxyCodeLine{84 \textcolor{preprocessor}{\#define VL53L1\_RESULT\_\_RANGE\_STATUS                         0x0089}}
+\DoxyCodeLine{85 \textcolor{preprocessor}{\#define VL53L1\_RESULT\_\_DSS\_ACTUAL\_EFFECTIVE\_SPADS\_SD0       0x008C}}
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#define RESULT\_\_AMBIENT\_COUNT\_RATE\_MCPS\_SD                  0x0090}}
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#define VL53L1\_RESULT\_\_FINAL\_CROSSTALK\_CORRECTED\_RANGE\_MM\_SD0               0x0096}}
+\DoxyCodeLine{88 \textcolor{preprocessor}{\#define VL53L1\_RESULT\_\_PEAK\_SIGNAL\_COUNT\_RATE\_CROSSTALK\_CORRECTED\_MCPS\_SD0  0x0098}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#define VL53L1\_RESULT\_\_OSC\_CALIBRATE\_VAL                    0x00DE}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#define VL53L1\_FIRMWARE\_\_SYSTEM\_STATUS                      0x00E5}}
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#define VL53L1\_IDENTIFICATION\_\_MODEL\_ID                     0x010F}}
+\DoxyCodeLine{92 \textcolor{preprocessor}{\#define VL53L1\_ROI\_CONFIG\_\_MODE\_ROI\_CENTRE\_SPAD             0x013E}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \textcolor{comment}{/****************************************}}
+\DoxyCodeLine{95 \textcolor{comment}{ * PRIVATE define do not edit}}
+\DoxyCodeLine{96 \textcolor{comment}{ ****************************************/}}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{101 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{102 \{}
+\DoxyCodeLine{103     uint8\_t \mbox{\hyperlink{struct_v_l53_l1_x___version__t_a9c8962c09fa41401d393b28237062450}{major}}; }
+\DoxyCodeLine{104     uint8\_t \mbox{\hyperlink{struct_v_l53_l1_x___version__t_a6093fa9bbeaa6844ad571a842f4c0345}{minor}}; }
+\DoxyCodeLine{105     uint8\_t \mbox{\hyperlink{struct_v_l53_l1_x___version__t_a03c80c16cb2de79265289251f14a1643}{build}}; }
+\DoxyCodeLine{106     uint32\_t \mbox{\hyperlink{struct_v_l53_l1_x___version__t_a863c15a6ed6b8fca8cbd5b17c36e5f61}{revision}}; }
+\DoxyCodeLine{107 \} \mbox{\hyperlink{struct_v_l53_l1_x___version__t}{VL53L1X\_Version\_t}};}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{112 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{113 \{}
+\DoxyCodeLine{114     uint8\_t \mbox{\hyperlink{struct_v_l53_l1_x___result__t_ab728a6f4521ca376d9dbe0710158b2b5}{Status}}; }
+\DoxyCodeLine{115     uint16\_t \mbox{\hyperlink{struct_v_l53_l1_x___result__t_a23ecdffefa85822a03fdad882408165d}{Distance}}; }
+\DoxyCodeLine{116     uint16\_t \mbox{\hyperlink{struct_v_l53_l1_x___result__t_a25f7a69860763da776f6e4e678f00d8d}{Ambient}}; }
+\DoxyCodeLine{117     uint16\_t \mbox{\hyperlink{struct_v_l53_l1_x___result__t_a16cf31b3d24f20e85321bcfef7ecb5b7}{SigPerSPAD}};}
+\DoxyCodeLine{118     uint16\_t \mbox{\hyperlink{struct_v_l53_l1_x___result__t_a549c2710b0f17a249a84ecee103daf93}{NumSPADs}}; }
+\DoxyCodeLine{119 \} \mbox{\hyperlink{struct_v_l53_l1_x___result__t}{VL53L1X\_Result\_t}};}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{124 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a936f75dcf79520d291fca86d1ca1a8ef}{VL53L1X\_GetSWVersion}}(\mbox{\hyperlink{struct_v_l53_l1_x___version__t}{VL53L1X\_Version\_t}} *pVersion);}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{129 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_aa51394a17fcffda8918a9e14cce9ad9e}{VL53L1X\_SetI2CAddress}}(uint16\_t, uint8\_t new\_address);}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{136 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_af0bf25a9ea2d412a2314be795411bbfb}{VL53L1X\_SensorInit}}(uint16\_t dev);}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{142 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ab4bae81bb4a10d4bba7ff1849d10cf5c}{VL53L1X\_ClearInterrupt}}(uint16\_t dev);}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{148 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ae20f224bdf2a9e5cab862084b0fe0005}{VL53L1X\_SetInterruptPolarity}}(uint16\_t dev, uint8\_t IntPol);}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{154 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_abb5bbbc8841002c408d89e54f79b8f50}{VL53L1X\_GetInterruptPolarity}}(uint16\_t dev, uint8\_t *pIntPol);}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{161 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a59adb6ca7cf8cf1744dda9223e060d7a}{VL53L1X\_StartRanging}}(uint16\_t dev);}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{166 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a39198465d18ebd1159a5378bf974ba85}{VL53L1X\_StopRanging}}(uint16\_t dev);}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{172 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a51f7cace95b9d5d8e1bd093ddb19a7dd}{VL53L1X\_CheckForDataReady}}(uint16\_t dev, uint8\_t *isDataReady);}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{178 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ac64d76b7addc2d0f1144b3e903e90c35}{VL53L1X\_SetTimingBudgetInMs}}(uint16\_t dev,}
+\DoxyCodeLine{179         uint16\_t TimingBudgetInMs);}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{184 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ad8b0bde5821b2db422c9c04741d420ba}{VL53L1X\_GetTimingBudgetInMs}}(uint16\_t dev,}
+\DoxyCodeLine{185         uint16\_t *pTimingBudgetInMs);}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{192 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_acb5e44d02a44e0d878c306f32dd89bb2}{VL53L1X\_SetDistanceMode}}(uint16\_t dev, uint16\_t DistanceMode);}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{197 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a8785a4399732fe2b438e1ff83d431e05}{VL53L1X\_GetDistanceMode}}(uint16\_t dev, uint16\_t *pDistanceMode);}
+\DoxyCodeLine{198 }
+\DoxyCodeLine{204 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_aafd7028e9b18f32dcc6f80477e3c9556}{VL53L1X\_SetInterMeasurementInMs}}(uint16\_t dev,}
+\DoxyCodeLine{205         uint32\_t InterMeasurementInMs);}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{210 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a8ea2aeadbf3f07b4f147a201cdc5b14a}{VL53L1X\_GetInterMeasurementInMs}}(uint16\_t dev, uint16\_t *pIM);}
+\DoxyCodeLine{211 }
+\DoxyCodeLine{215 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ab92b2593ea9db5c1b39fcaaff474ee16}{VL53L1X\_BootState}}(uint16\_t dev, uint8\_t *state);}
+\DoxyCodeLine{216 }
+\DoxyCodeLine{220 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a2f85db4303998bd09d9732701559b7bb}{VL53L1X\_GetSensorId}}(uint16\_t dev, uint16\_t *\textcolor{keywordtype}{id});}
+\DoxyCodeLine{221 }
+\DoxyCodeLine{225 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a06745c308363ee18e041ea8fa3c24eb5}{VL53L1X\_GetDistance}}(uint16\_t dev, uint16\_t *distance);}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{231 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a61d1ed3aa852150c583c2f24ed4f822b}{VL53L1X\_GetSignalPerSpad}}(uint16\_t dev, uint16\_t *signalPerSp);}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{236 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a04aa56326334ed04b8c74f76e39cdcb2}{VL53L1X\_GetAmbientPerSpad}}(uint16\_t dev, uint16\_t *amb);}
+\DoxyCodeLine{237 }
+\DoxyCodeLine{241 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ae5dadde07f182a952a7c864037e5e345}{VL53L1X\_GetSignalRate}}(uint16\_t dev, uint16\_t *signalRate);}
+\DoxyCodeLine{242 }
+\DoxyCodeLine{246 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a3a31d70330fb9cfc607eb53e9ccf0aba}{VL53L1X\_GetSpadNb}}(uint16\_t dev, uint16\_t *spNb);}
+\DoxyCodeLine{247 }
+\DoxyCodeLine{251 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_aeca17868ef2662357e6daf2c41fc5e27}{VL53L1X\_GetAmbientRate}}(uint16\_t dev, uint16\_t *ambRate);}
+\DoxyCodeLine{252 }
+\DoxyCodeLine{257 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a4841930f2a37b1d6fbb962f7511ba06c}{VL53L1X\_GetRangeStatus}}(uint16\_t dev, uint8\_t *rangeStatus);}
+\DoxyCodeLine{258 }
+\DoxyCodeLine{262 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a527349738cae7da4384574cbbf1a3ecf}{VL53L1X\_GetResult}}(uint16\_t dev, \mbox{\hyperlink{struct_v_l53_l1_x___result__t}{VL53L1X\_Result\_t}} *pResult);}
+\DoxyCodeLine{263 }
+\DoxyCodeLine{268 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a511e76c692a3f6d2a64fa30b674eaa6b}{VL53L1X\_SetOffset}}(uint16\_t dev, int16\_t OffsetValue);}
+\DoxyCodeLine{269 }
+\DoxyCodeLine{273 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a0f1c1da2494ddf9e68d909cc15b725b4}{VL53L1X\_GetOffset}}(uint16\_t dev, int16\_t *Offset);}
+\DoxyCodeLine{274 }
+\DoxyCodeLine{279 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a8206a5ce1126b00d1d96dd6373ba6171}{VL53L1X\_SetXtalk}}(uint16\_t dev, uint16\_t XtalkValue);}
+\DoxyCodeLine{280 }
+\DoxyCodeLine{284 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a2f9abff4c02b7c00c27980a9563b5983}{VL53L1X\_GetXtalk}}(uint16\_t dev, uint16\_t *Xtalk);}
+\DoxyCodeLine{285 }
+\DoxyCodeLine{299 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a93effb186a00a1c05b82829d4e8a2e6e}{VL53L1X\_SetDistanceThreshold}}(uint16\_t dev, uint16\_t ThreshLow,}
+\DoxyCodeLine{300         uint16\_t ThreshHigh, uint8\_t Window, uint8\_t IntOnNoTarget);}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{305 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ac10c1d2f6d7357ec86bcb0574c8885cd}{VL53L1X\_GetDistanceThresholdWindow}}(uint16\_t dev, uint16\_t *window);}
+\DoxyCodeLine{306 }
+\DoxyCodeLine{310 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a9cc838791d06a457f4ba318286d7192d}{VL53L1X\_GetDistanceThresholdLow}}(uint16\_t dev, uint16\_t *low);}
+\DoxyCodeLine{311 }
+\DoxyCodeLine{315 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_acc4c76b0f8ca23a0846a8acf5d18376d}{VL53L1X\_GetDistanceThresholdHigh}}(uint16\_t dev, uint16\_t *high);}
+\DoxyCodeLine{316 }
+\DoxyCodeLine{323 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ab8103f06b26a3748336375e1c6381ab6}{VL53L1X\_SetROI}}(uint16\_t dev, uint16\_t X, uint16\_t Y);}
+\DoxyCodeLine{324 }
+\DoxyCodeLine{328 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a5907eab052463c151a31e7223698f680}{VL53L1X\_GetROI\_XY}}(uint16\_t dev, uint16\_t *ROI\_X, uint16\_t *ROI\_Y);}
+\DoxyCodeLine{329 }
+\DoxyCodeLine{334 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a17e282e05c4929f630590d556a412b81}{VL53L1X\_SetROICenter}}(uint16\_t dev, uint8\_t ROICenter);}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{339 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a910b60acd6238719079fcfedd49b513e}{VL53L1X\_GetROICenter}}(uint16\_t dev, uint8\_t *ROICenter);}
+\DoxyCodeLine{340 }
+\DoxyCodeLine{344 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_af3d8367a6cdfd21d98685c3b6df2b8cf}{VL53L1X\_SetSignalThreshold}}(uint16\_t dev, uint16\_t signal);}
+\DoxyCodeLine{345 }
+\DoxyCodeLine{349 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a70eee98d23fb77355574e3b14ff6c731}{VL53L1X\_GetSignalThreshold}}(uint16\_t dev, uint16\_t *signal);}
+\DoxyCodeLine{350 }
+\DoxyCodeLine{354 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a3698367048ae3bb29b772b8969fd8043}{VL53L1X\_SetSigmaThreshold}}(uint16\_t dev, uint16\_t sigma);}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{359 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_a237827b94dec1ddb9f18ac78fee702b2}{VL53L1X\_GetSigmaThreshold}}(uint16\_t dev, uint16\_t *signal);}
+\DoxyCodeLine{360 }
+\DoxyCodeLine{366 VL53L1X\_ERROR \mbox{\hyperlink{vl53l1x__core_8h_ae51c4079082446707d3fdffb8da65e7b}{VL53L1X\_StartTemperatureUpdate}}(uint16\_t dev);}
+\DoxyCodeLine{367 }
+\DoxyCodeLine{368 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

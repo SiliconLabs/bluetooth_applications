@@ -1,0 +1,76 @@
+\hypertarget{ssd1306_8c}{}\doxysection{ssd1306.\+c File Reference}
+\label{ssd1306_8c}\index{ssd1306.c@{ssd1306.c}}
+
+
+SSD1306 interface.  
+
+
+{\ttfamily \#include $<$ssd1306\+\_\+i2c.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}ssd1306.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ssd1306\+\_\+config.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_ga9e257f44e84df14548dcd47aa0f302ed}{ssd1306\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialization function for the ssd1306 device driver. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_ga0ee27f6af16c490d32351e6548f7fa00}{ssd1306\+\_\+draw}} (const void $\ast$data)
+\begin{DoxyCompactList}\small\item\em Draw total of rows to SSD1306. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{structssd1306__t}{ssd1306\+\_\+t}} $\ast$ \mbox{\hyperlink{group__ssd1306_gaa8ab0fc7d643bfb19bc976271e05c302}{ssd1306\+\_\+get}} (void)
+\begin{DoxyCompactList}\small\item\em Get a handle to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_gab7c65ce5700bf31278d26e702fec0d9f}{ssd1306\+\_\+set\+\_\+invert\+\_\+color}} (void)
+\begin{DoxyCompactList}\small\item\em Set a inversion color to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_ga2e14065a851496b547f9df0ff31ea126}{ssd1306\+\_\+set\+\_\+normal\+\_\+color}} (void)
+\begin{DoxyCompactList}\small\item\em Set a normal color to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_gafb9b61bdae55c762895489981001ccb3}{ssd1306\+\_\+set\+\_\+contrast}} (uint8\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Set a contrast to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_gabef9d9a87153adb072c8d60885251103}{ssd1306\+\_\+scroll\+\_\+right}} (uint8\+\_\+t start\+\_\+page\+\_\+addr, uint8\+\_\+t end\+\_\+page\+\_\+addr)
+\begin{DoxyCompactList}\small\item\em Set a Right Horizontal Scroll to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_gabd0bc93cb3c45c37ab26580d676dc9c1}{ssd1306\+\_\+scroll\+\_\+left}} (uint8\+\_\+t start\+\_\+page\+\_\+addr, uint8\+\_\+t end\+\_\+page\+\_\+addr)
+\begin{DoxyCompactList}\small\item\em Set a Left Horizontal Scroll to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_ga3d30d391604adabc2b8a9112d85a526c}{ssd1306\+\_\+scroll\+\_\+diag\+\_\+right}} (uint8\+\_\+t start\+\_\+page\+\_\+addr, uint8\+\_\+t end\+\_\+page\+\_\+addr)
+\begin{DoxyCompactList}\small\item\em Set a Vertical and Right Horizontal Scroll to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_ga8f17bd3b327d19cfdb5198ffed783a3e}{ssd1306\+\_\+scroll\+\_\+diag\+\_\+left}} (uint8\+\_\+t start\+\_\+page\+\_\+addr, uint8\+\_\+t end\+\_\+page\+\_\+addr)
+\begin{DoxyCompactList}\small\item\em Set a Vertical and Left Horizontal Scroll to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_ga93570a989592c7838cfd8df53571eacc}{ssd1306\+\_\+stop\+\_\+scroll}} (void)
+\begin{DoxyCompactList}\small\item\em Stop scroll to SSD1306. \end{DoxyCompactList}\item 
+sl\+\_\+status\+\_\+t \mbox{\hyperlink{group__ssd1306_gaa14603358aa1f814db8b008c42418d7d}{ssd1306\+\_\+enable\+\_\+display}} (bool on)
+\begin{DoxyCompactList}\small\item\em Set the display ON/\+OFF. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{ssd1306_8c_aa501393adee3052c7e6a83406dcccc9e}{cmd\+\_\+buff}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+SSD1306 interface. 
+
+\hypertarget{ssd1306_8c_autotoc_md44}{}\doxysubsection{License}\label{ssd1306_8c_autotoc_md44}
+{\bfseries{Copyright 2020 Silicon Laboratories Inc. www.\+silabs.\+com}}
+
+SPDX-\/\+License-\/\+Identifier\+: Zlib
+
+The licensor of this software is Silicon Laboratories Inc.
+
+This software is provided \textbackslash{}\textquotesingle{}as-\/is\textbackslash{}\textquotesingle{}, without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions\+:
+
+
+\begin{DoxyEnumerate}
+\item The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+\item Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+\item This notice may not be removed or altered from any source distribution.
+\end{DoxyEnumerate}
+
+EVALUATION QUALITY This code has been minimally tested to ensure that it builds with the specified dependency versions and is suitable as a demonstration for evaluation purposes only. This code will be maintained at the sole discretion of Silicon Labs. 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{ssd1306_8c_aa501393adee3052c7e6a83406dcccc9e}\label{ssd1306_8c_aa501393adee3052c7e6a83406dcccc9e}} 
+\index{ssd1306.c@{ssd1306.c}!cmd\_buff@{cmd\_buff}}
+\index{cmd\_buff@{cmd\_buff}!ssd1306.c@{ssd1306.c}}
+\doxysubsubsection{\texorpdfstring{cmd\_buff}{cmd\_buff}}
+{\footnotesize\ttfamily const uint8\+\_\+t cmd\+\_\+buff\mbox{[}$\,$\mbox{]}}
+
+buffer used to initialize ssd1306. 
