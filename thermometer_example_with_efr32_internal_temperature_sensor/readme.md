@@ -52,6 +52,10 @@ GSDK v3.1.1
 
 3. Open the .slcp file again. Select the "SOFTWARE COMPONENTS" tab and do the following changes:
 
+- Install the **ADC** component (found under Platform > Peripheral).
+
+![](images/install_adc.png)
+
 - Install **IO Stream: USART** component with the default instance name: **vcom**.
 
 ![](images/install_usart.png)

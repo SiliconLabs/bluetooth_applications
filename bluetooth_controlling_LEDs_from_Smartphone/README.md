@@ -161,7 +161,7 @@ All of the above is implemented in the attached app.c file. After setting up the
     ![board control configure](images/board_control_1.png)  
     ![board control configure](images/board_control_2.png)  
 
-    - Install the **Log** component (found under Bluetooth > Utility group)
+    - Install the **Log** component (found under Application > Utility group)
     ![add log](images/add_log.png)  
 
 4. Config **GATT** using **Bluetooth GATT Configurator** tool.
