@@ -261,11 +261,11 @@
         </inbodydescription>
         <location file="D:/doxygen/src/nvm3_user.h" line="149" column="9" declfile="D:/doxygen/src/nvm3_user.h" declline="149" declcolumn="9"/>
       </memberdef>
-      <memberdef kind="function" id="group__nvm3__user_1ga621a6292fb5e0938f86f3e95859a878f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__nvm3__user_1gadec58a3f7a301b7df98c4d85f116e109" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Ecode_t</type>
-        <definition>Ecode_t user_config_nvm3_get_threshold_co2</definition>
+        <definition>Ecode_t nvm3_user_get_threshold_co2</definition>
         <argsstring>(uint16_t *threshold_co2)</argsstring>
-        <name>user_config_nvm3_get_threshold_co2</name>
+        <name>nvm3_user_get_threshold_co2</name>
         <param>
           <type>uint16_t *</type>
           <declname>threshold_co2</declname>
@@ -291,11 +291,11 @@
         </inbodydescription>
         <location file="D:/doxygen/src/nvm3_user.h" line="161" column="9" declfile="D:/doxygen/src/nvm3_user.h" declline="161" declcolumn="9"/>
       </memberdef>
-      <memberdef kind="function" id="group__nvm3__user_1ga7ff22e20886e5822a688194f9163af33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__nvm3__user_1ga0bf70143f30ea822e61bb17f84f41ae8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Ecode_t</type>
-        <definition>Ecode_t user_config_nvm3_get_threshold_vocs</definition>
+        <definition>Ecode_t nvm3_user_get_threshold_vocs</definition>
         <argsstring>(uint16_t *threshold_vocs)</argsstring>
-        <name>user_config_nvm3_get_threshold_vocs</name>
+        <name>nvm3_user_get_threshold_vocs</name>
         <param>
           <type>uint16_t *</type>
           <declname>threshold_vocs</declname>
@@ -321,11 +321,11 @@
         </inbodydescription>
         <location file="D:/doxygen/src/nvm3_user.h" line="173" column="9" declfile="D:/doxygen/src/nvm3_user.h" declline="173" declcolumn="9"/>
       </memberdef>
-      <memberdef kind="function" id="group__nvm3__user_1ga9ef2f48f426f8b492c6eb1bdbc177bb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__nvm3__user_1ga18dc3d384843b19f070d5762d9d31af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void user_config_nvm3_process_action</definition>
+        <definition>void nvm3_user_process_action</definition>
         <argsstring>(void)</argsstring>
-        <name>user_config_nvm3_process_action</name>
+        <name>nvm3_user_process_action</name>
         <param>
           <type>void</type>
         </param>

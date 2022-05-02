@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['width_0',['width',['../structglib__font__t.html#a9be03e43a9554855741444e7804c9c41',1,'glib_font_t::width()'],['../structssd1306__t.html#a573ccc01d1f0be07498eb0b9ab5f3e31',1,'ssd1306_t::width()']]]
+  ['xsize_0',['xSize',['../structglib__display__geometry__t.html#a0c03ea59e3646154cf5f0560efab6d41',1,'glib_display_geometry_t']]]
 ];

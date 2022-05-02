@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['very_5fpoor_0',['VERY_POOR',['../group__air__quality__app.html#gga205b4dcdcf420258b96149842e0f52b2a0f6b251e60cddb8a8f50f729c3122a0c',1,'air_quality_app.h']]],
-  ['volume_1',['volume',['../group___buzzer.html#ga4cae2a8a201c31a49e69b14e7f3900ec',1,'buzzer_t']]]
+  ['width_0',['width',['../structglib__font__t.html#a9be03e43a9554855741444e7804c9c41',1,'glib_font_t::width()'],['../structssd1306__t.html#a573ccc01d1f0be07498eb0b9ab5f3e31',1,'ssd1306_t::width()']]]
 ];

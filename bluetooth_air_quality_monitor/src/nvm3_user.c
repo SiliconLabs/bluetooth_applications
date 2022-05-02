@@ -50,7 +50,7 @@
 #define THRESHOLD_VOCS_PPB_KEY              (NVM3_KEY_MIN + 4)
 
 // Use the default nvm3 handle from nvm3_default.h
-#define NVM3_DEFAULT_HANDLE nvm3_defaultHandle
+#define NVM3_DEFAULT_HANDLE                 nvm3_defaultHandle
 
 /*******************************************************************************
  **************************   LOCAL FUNCTIONS   ********************************
@@ -71,15 +71,15 @@ static Ecode_t nvm3_user_read_byte(nvm3_ObjectKey_t key, uint8_t *u8_value)
                            &type,
                            &len);
 
-  if(err != ECODE_NVM3_OK) {
+  if (err != ECODE_NVM3_OK) {
     return err;
   }
 
   if (type == NVM3_OBJECTTYPE_DATA) {
     return nvm3_readData(NVM3_DEFAULT_HANDLE,
-                        key,
-                        u8_value,
-                        sizeof(uint8_t));
+                         key,
+                         u8_value,
+                         sizeof(uint8_t));
   }
 
   return ECODE_NVM3_ERR_OBJECT_IS_NOT_DATA;
@@ -97,36 +97,35 @@ static Ecode_t nvm3_user_read_word(nvm3_ObjectKey_t key, uint16_t *u16_value)
                            &type,
                            &len);
 
-  if(err != ECODE_NVM3_OK) {
+  if (err != ECODE_NVM3_OK) {
     return err;
   }
 
   if (type == NVM3_OBJECTTYPE_DATA) {
       return nvm3_readData(NVM3_DEFAULT_HANDLE,
-                          key,
-                          u16_value,
-                          sizeof(uint16_t));
+                           key,
+                           u16_value,
+                           sizeof(uint16_t));
   }
 
   return ECODE_NVM3_ERR_OBJECT_IS_NOT_DATA;
 }
 
 static void nvm3_user_init_byte(nvm3_ObjectKey_t key,
-                              uint8_t min_value,
-                              uint8_t max_value,
-                              uint8_t default_value)
+                                uint8_t min_value,
+                                uint8_t max_value,
+                                uint8_t default_value)
 {
   Ecode_t err;
   uint8_t read_value;
 
   // check if the designated keys contain data, and initialise if needed.
   err = nvm3_user_read_byte(key, &read_value);
-  if (err == ECODE_NVM3_OK
-      && read_value >= min_value
-      && read_value <= max_value) {
+  if ((err == ECODE_NVM3_OK)
+      && (read_value >= min_value)
+      && (read_value <= max_value)) {
     return;
-  }
-  else {
+  } else {
     nvm3_deleteObject(NVM3_DEFAULT_HANDLE, key);
   }
 
@@ -137,21 +136,20 @@ static void nvm3_user_init_byte(nvm3_ObjectKey_t key,
 }
 
 static void nvm3_user_init_word(nvm3_ObjectKey_t key,
-                               uint16_t min_value,
-                               uint16_t max_value,
-                               uint16_t default_value)
+                                uint16_t min_value,
+                                uint16_t max_value,
+                                uint16_t default_value)
 {
   Ecode_t err;
   uint16_t read_value;
 
   // check if the designated keys contain data, and initialise if needed.
   err = nvm3_user_read_word(key, &read_value);
-  if (err == ECODE_NVM3_OK
-      && read_value >= min_value
-      && read_value <= max_value) {
+  if ((err == ECODE_NVM3_OK)
+      && (read_value >= min_value)
+      && (read_value <= max_value)) {
     return;
-  }
-  else {
+  } else {
     nvm3_deleteObject(NVM3_DEFAULT_HANDLE, key);
   }
 
@@ -161,12 +159,9 @@ static void nvm3_user_init_word(nvm3_ObjectKey_t key,
                  sizeof(default_value));
 }
 
-
 /*******************************************************************************
  **************************   GLOBAL FUNCTIONS   *******************************
  ******************************************************************************/
-
-
 
 /***************************************************************************//**
  * Initialize NVM3 example.
@@ -233,7 +228,6 @@ Ecode_t nvm3_user_get_notification_active(uint8_t *enable)
   Ecode_t err;
 
   err = nvm3_user_read_byte(IS_NOTIFICATION_ACTIVE_KEY, enable);
-
   return err;
 }
 
@@ -244,9 +238,9 @@ Ecode_t nvm3_user_set_update_period(uint8_t period_sec)
 {
   Ecode_t err;
 
-  if( period_sec > UPDATE_PERIOD_IN_SECOND_MAX
-      || period_sec < UPDATE_PERIOD_IN_SECOND_MIN){
-      return ECODE_NVM3_ERR_PARAMETER;
+  if ((period_sec > UPDATE_PERIOD_IN_SECOND_MAX)
+      || (period_sec < UPDATE_PERIOD_IN_SECOND_MIN)) {
+    return ECODE_NVM3_ERR_PARAMETER;
   }
   err = nvm3_writeData(NVM3_DEFAULT_HANDLE,
                        UPDATE_PERIOD_IN_SECOND_KEY,
@@ -263,7 +257,6 @@ Ecode_t nvm3_user_get_update_period(uint8_t *update_period)
   Ecode_t err;
 
   err = nvm3_user_read_byte(UPDATE_PERIOD_IN_SECOND_KEY, update_period);
-
   return err;
 }
 
@@ -274,7 +267,7 @@ Ecode_t nvm3_user_set_buzzer_volume(uint8_t volume)
 {
   Ecode_t err;
 
-  if ( (volume > BUZZER_VOLUME_MAX) || (volume < BUZZER_VOLUME_MIN)) {
+  if ((volume > BUZZER_VOLUME_MAX) || (volume < BUZZER_VOLUME_MIN)) {
     return ECODE_NVM3_ERR_PARAMETER;
   }
   err = nvm3_writeData(NVM3_DEFAULT_HANDLE,
@@ -292,7 +285,6 @@ Ecode_t nvm3_user_get_buzzer_volume(uint8_t *volume)
   Ecode_t err;
 
   err = nvm3_user_read_byte(BUZZER_VOLUME_KEY, volume);
-
   return err;
 }
 
@@ -303,8 +295,8 @@ Ecode_t nvm3_user_set_threshold_co2(uint16_t threshold_co2)
 {
   Ecode_t err;
 
-  if( threshold_co2 > THRESHOLD_CO2_PPM_MAX
-      || threshold_co2 < THRESHOLD_CO2_PPM_MIN) {
+  if ((threshold_co2 > THRESHOLD_CO2_PPM_MAX)
+      || (threshold_co2 < THRESHOLD_CO2_PPM_MIN)) {
     return ECODE_NVM3_ERR_PARAMETER;
   }
 
@@ -318,11 +310,11 @@ Ecode_t nvm3_user_set_threshold_co2(uint16_t threshold_co2)
 /***************************************************************************//**
  *  Get the notification threshold for CO2 level in ppm from NVM.
  ******************************************************************************/
-Ecode_t user_config_nvm3_get_threshold_co2(uint16_t *threshold_co2)
+Ecode_t nvm3_user_get_threshold_co2(uint16_t *threshold_co2)
 {
   Ecode_t err;
-  err = nvm3_user_read_word(THRESHOLD_CO2_PPM_KEY, threshold_co2);
 
+  err = nvm3_user_read_word(THRESHOLD_CO2_PPM_KEY, threshold_co2);
   return err;
 }
 
@@ -333,8 +325,8 @@ Ecode_t nvm3_user_set_threshold_vocs(uint16_t threshold_vocs)
 {
   Ecode_t err;
 
-  if( threshold_vocs > THRESHOLD_VOCS_PPB_MAX
-      || threshold_vocs < THRESHOLD_VOCS_PPB_MIN){
+  if ((threshold_vocs > THRESHOLD_VOCS_PPB_MAX)
+      || (threshold_vocs < THRESHOLD_VOCS_PPB_MIN)) {
     return ECODE_NVM3_ERR_PARAMETER;
   }
   err = nvm3_writeData(NVM3_DEFAULT_HANDLE,
@@ -347,19 +339,18 @@ Ecode_t nvm3_user_set_threshold_vocs(uint16_t threshold_vocs)
 /***************************************************************************//**
  *  Get the notification threshold for VOCs level in ppb from NVM.
  ******************************************************************************/
-Ecode_t user_config_nvm3_get_threshold_vocs(uint16_t *threshold_vocs)
+Ecode_t nvm3_user_get_threshold_vocs(uint16_t *threshold_vocs)
 {
   Ecode_t err;
 
   err = nvm3_user_read_word(THRESHOLD_VOCS_PPB_KEY, threshold_vocs);
-
   return err;
 }
 
 /***************************************************************************//**
  * NVM3 ticking function.
  ******************************************************************************/
-void user_config_nvm3_process_action(void)
+void nvm3_user_process_action(void)
 {
   // Check if NVM3 controller can release any out-of-date objects
   // to free up memory.

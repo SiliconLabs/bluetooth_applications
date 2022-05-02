@@ -136,9 +136,6 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
                    address.addr[1],
                    address.addr[0]);
 
-//      sc = sl_bt_sm_delete_bondings();
-//      app_assert_status(sc);
-
       // Maximum allowed bonding count: 8
       // New bonding will overwrite the bonding that was used the longest time ago
       sc = sl_bt_sm_store_bonding_configuration(8, 2);
@@ -257,8 +254,7 @@ static void connection_opened_handler(sl_bt_msg_t *evt)
     app_log_info("+ Increasing security\r\n");
     sc = sl_bt_sm_increase_security(active_connection_id);
     app_assert_status(sc);
-  }
-  else {
+  } else {
     app_log_info("+ Already Bonded (ID: %d)\r\n", ble_bonding_handle);
   }
 }
@@ -297,14 +293,14 @@ static void sm_bonding_failed_handler(sl_bt_msg_t *evt)
           reason,
           ble_bonding_handle);
 
-  if ((reason == SL_STATUS_BT_SMP_PASSKEY_ENTRY_FAILED) ||
-      (reason == SL_STATUS_TIMEOUT)) {
-    app_log_info("+ Increasing security... because reason is 0x%04x\r\n", reason);
+  if ((reason == SL_STATUS_BT_SMP_PASSKEY_ENTRY_FAILED)
+      || (reason == SL_STATUS_TIMEOUT)) {
+    app_log_info("+ Increasing security... because reason is 0x%04x\r\n",
+                 reason);
     sc = sl_bt_sm_increase_security(connection_handle);
     app_assert_status(sc);
-  }
-  else if ((reason == SL_STATUS_BT_SMP_PAIRING_NOT_SUPPORTED) ||
-      (reason == SL_STATUS_BT_CTRL_PIN_OR_KEY_MISSING)) {
+  } else if ((reason == SL_STATUS_BT_SMP_PAIRING_NOT_SUPPORTED) 
+             || (reason == SL_STATUS_BT_CTRL_PIN_OR_KEY_MISSING)) {
     if (ble_bonding_handle != 0xff) {
       app_log_info("+ Broken bond, deleting ID:%d...\r\n", ble_bonding_handle);
 
@@ -316,8 +312,7 @@ static void sm_bonding_failed_handler(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       ble_bonding_handle = 0xff;
-    }
-    else {
+    } else {
       app_log_info("+ Increasing security in one second...\r\n");
 
       sc = sl_bt_sm_increase_security(connection_handle);
@@ -330,14 +325,12 @@ static void sm_bonding_failed_handler(sl_bt_msg_t *evt)
         app_assert_status(sc);
       }
     }
-  }
-  else if (reason == SL_STATUS_BT_SMP_UNSPECIFIED_REASON) {
+  } else if (reason == SL_STATUS_BT_SMP_UNSPECIFIED_REASON) {
     app_log_info("+ Increasing security... because reason is 0x0308\r\n");
 
     sc = sl_bt_sm_increase_security(connection_handle);
     app_assert_status(sc);
-  }
-  else{
+  } else {
     app_log_info("+ Close connection : %d",
             evt->data.evt_sm_bonding_failed.connection);
 
@@ -363,7 +356,8 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
   uint8_t connection_handle = evt->data.evt_connection_parameters.connection;
-  uint8_t security_level = evt->data.evt_connection_parameters.security_mode + 1;
+  uint8_t security_level = evt->data.evt_connection_parameters.security_mode
+                           + 1;
   uint16_t tx_size = evt->data.evt_connection_parameters.txsize;
   uint16_t timeout = evt->data.evt_connection_parameters.timeout;
 
@@ -384,15 +378,13 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
 
       sc = sl_bt_sm_increase_security(connection_handle);
       app_assert_status(sc);
-    }
-    else {
+    } else {
       app_log_info("+ Increasing security..\r\n");
 
       sc = sl_bt_sm_increase_security(connection_handle);
       app_assert_status(sc);
     }
-  }
-  else {
+  } else {
     app_log_info("[OK]      Bluetooth Stack Event : CONNECTION PARAMETERS : \
                   MTU = %d, SecLvl : %d, Timeout : %d\r\n",
                   tx_size,

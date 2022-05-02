@@ -145,7 +145,11 @@ The Initialization software flow is as follows:
 
 3. Every time the timer expires, an Air quality monitor event handler retrieve and process the measured air quality data as described below:
 
-![Flow diagram](doc/images/timer_event.png)
+    ![Flow diagram](doc/images/timer_event.png)
+
+4. When the BTN0 button is pressed, the software checks the notification feature status, and buzzer state in accordance with the flowchart below:
+
+    ![Flow diagram](doc/images/btn0.png)
 
 ### OLED Display ###
 

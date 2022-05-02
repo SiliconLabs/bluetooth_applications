@@ -77,26 +77,25 @@
  * @brief
  *    Typedef for holding application configuration parameters.
  ******************************************************************************/
-typedef struct
-{
-  uint8_t notification_data;		///<  Notification status (0: disabled, 1: enabled)
-  uint8_t buzzer_data;				///<  Buzzer volume (0-10)
+typedef struct {
+  uint8_t notification_data;		    ///<  Notification status (0: disabled, 1: enabled)
+  uint8_t buzzer_data;				      ///<  Buzzer volume (0-10)
   uint8_t measurement_period_data;	///<  Measurement update period in s (1-30)
-  uint16_t threshold_co2_ppm;		///<  co2 threshold value in ppm.
-  uint16_t threshold_voc_ppb;		///<  vocs threshold value in ppb.
+  uint16_t threshold_co2_ppm;		    ///<  co2 threshold value in ppm.
+  uint16_t threshold_voc_ppb;		    ///<  vocs threshold value in ppb.
 } air_quality_data_t;
 
 /***************************************************************************//**
  * @brief
  *    Return codes for the status of air quality index function.
  ******************************************************************************/
-typedef enum air_quality_status{
+typedef enum air_quality_status {
   EXCELLENT   = 1,	///< The air inside is as fresh as the air outside.
   FINE        = 2, 	///< The air quality inside remains at harmless levels.
   MODERATE    = 3,	///< The air quality inside has reached conspicuous levels.
   POOR        = 4,	///< The air quality inside has reached precarious levels.
   VERY_POOR   = 5,	///< The air quality inside has reached unacceptable levels.
-  SEVERE      = 6	///< The air quality inside has exceeded maximum workplace concentration values.
+  SEVERE      = 6	  ///< The air quality inside has exceeded maximum workplace concentration values.
 } air_quality_status_t;
 
 /**************************************************************************//**

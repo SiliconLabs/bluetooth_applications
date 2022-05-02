@@ -158,7 +158,7 @@ Ecode_t nvm3_user_get_buzzer_volume(uint8_t *volume);
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t user_config_nvm3_get_threshold_co2(uint16_t *threshold_co2);
+Ecode_t nvm3_user_get_threshold_co2(uint16_t *threshold_co2);
 
 /***************************************************************************//**
  * @brief
@@ -170,12 +170,12 @@ Ecode_t user_config_nvm3_get_threshold_co2(uint16_t *threshold_co2);
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t user_config_nvm3_get_threshold_vocs(uint16_t *threshold_vocs);
+Ecode_t nvm3_user_get_threshold_vocs(uint16_t *threshold_vocs);
 
 /***************************************************************************//**
  * NVM3 ticking function.
  ******************************************************************************/
-void user_config_nvm3_process_action(void);
+void nvm3_user_process_action(void);
 
 /** @} */
 

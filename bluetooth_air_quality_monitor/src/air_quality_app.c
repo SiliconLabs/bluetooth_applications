@@ -53,13 +53,13 @@
 
 // Status of air quality index
 const char air_quality_status_text[][12] = {
-		"           ",
-		" EXCELLENT ",
-		"   FINE    ",
-		" MODERATE  ",
-		"   POOR    ",
-		" VERY POOR ",
-		"  SEVERE   "
+  "           ",
+  " EXCELLENT ",
+  "   FINE    ",
+  " MODERATE  ",
+  "   POOR    ",
+  " VERY POOR ",
+  "  SEVERE   "
 };
 
 // Buffer to store measurement data.
@@ -86,7 +86,7 @@ static buzzer_t buzzer = BUZZER_INIT_DEFAULT;
 static sl_sleeptimer_timer_handle_t air_quality_monitor_periodic_timer;
 // Periodic timer callback.
 static void air_quality_monitor_callback(sl_sleeptimer_timer_handle_t *handle,
-		void *data);
+                                         void *data);
 
 static void oled_app_init(void);
 static air_quality_status_t air_quality_co2_status(uint16_t data);
@@ -107,202 +107,207 @@ static uint16_t air_quality_moving_average(uint16_t *data);
  * To draw an image or custom bitmaps on the oled, the glib_draw_bmp()
  * function can be used.
  * */
-const uint8_t silicon_labs_logo[] = { 0xFF, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-		0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-		0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x81, 0x81, 0x81, 0x81, 0x81, 0x01,
-		0x41, 0x01, 0x01, 0x01, 0x01, 0x01, 0x81, 0x81, 0x81, 0x81, 0x01, 0x01,
-		0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x81,
-		0x81, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0xFF, 0xFF, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x80, 0xC0, 0xE0, 0xE0, 0xF0, 0xF0, 0xF8, 0xF8,
-		0x3C, 0x1C, 0x0C, 0x06, 0x06, 0x02, 0x02, 0x03, 0x01, 0x01, 0x61, 0xF0,
-		0xF8, 0xFC, 0xFC, 0x7E, 0x7E, 0x7F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F,
-		0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x7E, 0x76, 0x60, 0xE0, 0xE0,
-		0xE0, 0xF0, 0xF0, 0xF8, 0xFD, 0xFF, 0xFF, 0xFE, 0xFC, 0x78, 0x00, 0x00,
-		0xFF, 0xFF, 0x00, 0x00, 0x00, 0x3C, 0x7E, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-		0x7F, 0x3F, 0x1F, 0x1F, 0x0E, 0x0C, 0x1C, 0x1C, 0xFC, 0xF8, 0xF8, 0xF8,
-		0xF8, 0xF8, 0xF8, 0xF8, 0xF8, 0xF9, 0xF9, 0xF9, 0xF9, 0xF9, 0xF9, 0xF9,
-		0xFD, 0xFF, 0x7F, 0x7E, 0x3E, 0x1C, 0x00, 0x00, 0x00, 0x00, 0x80, 0x80,
-		0x40, 0x40, 0x60, 0x30, 0x39, 0x1F, 0x1F, 0x0F, 0x0F, 0x07, 0x03, 0x01,
-		0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x01, 0x03, 0x03, 0x03, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-		0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
-		0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0xCC,
-		0x12, 0x12, 0x12, 0xE4, 0x00, 0xFE, 0x00, 0xFE, 0x00, 0x00, 0x00, 0x00,
-		0xFE, 0x00, 0x78, 0x84, 0x02, 0x02, 0x02, 0xCC, 0x00, 0x78, 0x84, 0x02,
-		0x02, 0x84, 0x78, 0x00, 0xFE, 0x04, 0x18, 0x60, 0x80, 0xFE, 0x00, 0x00,
-		0x00, 0xFE, 0x00, 0x00, 0x00, 0x00, 0x80, 0x7C, 0x42, 0x7C, 0x80, 0x00,
-		0xFE, 0x12, 0x12, 0x12, 0xEC, 0x00, 0xCC, 0x12, 0x12, 0x12, 0xE4, 0x00,
-		0xFF, 0xFF, 0x80, 0x80, 0x81, 0x81, 0x81, 0x80, 0x80, 0x81, 0x80, 0x81,
-		0x81, 0x81, 0x81, 0x80, 0x81, 0x80, 0x80, 0x80, 0x81, 0x81, 0x81, 0x80,
-		0x80, 0x80, 0x80, 0x81, 0x81, 0x80, 0x80, 0x80, 0x81, 0x80, 0x80, 0x80,
-		0x80, 0x81, 0x80, 0x80, 0x80, 0x81, 0x81, 0x81, 0x81, 0x80, 0x81, 0x80,
-		0x80, 0x80, 0x81, 0x80, 0x81, 0x81, 0x81, 0x81, 0x80, 0x80, 0x80, 0x81,
-		0x81, 0x81, 0x80, 0x80, 0xFF };
+const uint8_t silicon_labs_logo[] = {
+  0xFF, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x81,
+  0x81, 0x81, 0x81, 0x81, 0x01, 0x41, 0x01, 0x01, 0x01, 0x01, 0x01, 0x81, 0x81,
+  0x81, 0x81, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x81, 0x81, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0xFF, 0xFF,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0xC0, 0xE0, 0xE0, 0xF0, 0xF0, 0xF8,
+  0xF8, 0x3C, 0x1C, 0x0C, 0x06, 0x06, 0x02, 0x02, 0x03, 0x01, 0x01, 0x61, 0xF0,
+  0xF8, 0xFC, 0xFC, 0x7E, 0x7E, 0x7F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F,
+  0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x7E, 0x76, 0x60, 0xE0, 0xE0, 0xE0, 0xF0,
+  0xF0, 0xF8, 0xFD, 0xFF, 0xFF, 0xFE, 0xFC, 0x78, 0x00, 0x00, 0xFF, 0xFF, 0x00,
+  0x00, 0x00, 0x3C, 0x7E, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x3F, 0x1F, 0x1F,
+  0x0E, 0x0C, 0x1C, 0x1C, 0xFC, 0xF8, 0xF8, 0xF8, 0xF8, 0xF8, 0xF8, 0xF8, 0xF8,
+  0xF9, 0xF9, 0xF9, 0xF9, 0xF9, 0xF9, 0xF9, 0xFD, 0xFF, 0x7F, 0x7E, 0x3E, 0x1C,
+  0x00, 0x00, 0x00, 0x00, 0x80, 0x80, 0x40, 0x40, 0x60, 0x30, 0x39, 0x1F, 0x1F,
+  0x0F, 0x0F, 0x07, 0x03, 0x01, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x01, 0x03, 0x03, 0x03, 0x06, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+  0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0xCC, 0x12,
+  0x12, 0x12, 0xE4, 0x00, 0xFE, 0x00, 0xFE, 0x00, 0x00, 0x00, 0x00, 0xFE, 0x00,
+  0x78, 0x84, 0x02, 0x02, 0x02, 0xCC, 0x00, 0x78, 0x84, 0x02, 0x02, 0x84, 0x78,
+  0x00, 0xFE, 0x04, 0x18, 0x60, 0x80, 0xFE, 0x00, 0x00, 0x00, 0xFE, 0x00, 0x00,
+  0x00, 0x00, 0x80, 0x7C, 0x42, 0x7C, 0x80, 0x00, 0xFE, 0x12, 0x12, 0x12, 0xEC,
+  0x00, 0xCC, 0x12, 0x12, 0x12, 0xE4, 0x00, 0xFF, 0xFF, 0x80, 0x80, 0x81, 0x81,
+  0x81, 0x80, 0x80, 0x81, 0x80, 0x81, 0x81, 0x81, 0x81, 0x80, 0x81, 0x80, 0x80,
+  0x80, 0x81, 0x81, 0x81, 0x80, 0x80, 0x80, 0x80, 0x81, 0x81, 0x80, 0x80, 0x80,
+  0x81, 0x80, 0x80, 0x80, 0x80, 0x81, 0x80, 0x80, 0x80, 0x81, 0x81, 0x81, 0x81,
+  0x80, 0x81, 0x80, 0x80, 0x80, 0x81, 0x80, 0x81, 0x81, 0x81, 0x81, 0x80, 0x80,
+  0x80, 0x81, 0x81, 0x81, 0x80, 0x80, 0xFF
+  };
 
 /***************************************************************************//**
  * Initialize the AIR QUALITY application.
  ******************************************************************************/
-sl_status_t air_quality_app_init(void) {
-	sl_status_t status;
-	Ecode_t err;
+sl_status_t air_quality_app_init(void)
+{
+  sl_status_t status;
+  Ecode_t err;
 
-	// Initialize the oled
-	oled_app_init();
+  // Initialize the oled
+  oled_app_init();
 
-	// Load configuration from NVM
-	err = nvm3_load_configuration();
-	if (err != ECODE_NVM3_OK) {
-		return SL_STATUS_FAIL;
-	}
+  // Load configuration from NVM
+  err = nvm3_load_configuration();
+  if (err != ECODE_NVM3_OK) {
+    return SL_STATUS_FAIL;
+  }
 
-	// Initialize the buzzer
-	status = buzzer_init(&buzzer);
-	if (status != SL_STATUS_OK) {
-		return status;
-	}
-	// Set buzzer volume
-	status = buzzer_set_volume(&buzzer, air_quality_data.buzzer_data);
-	if (status != SL_STATUS_OK) {
-		return status;
-	}
+  // Initialize the buzzer
+  status = buzzer_init(&buzzer);
+  if (status != SL_STATUS_OK) {
+    return status;
+  }
+  // Set buzzer volume
+  status = buzzer_set_volume(&buzzer, air_quality_data.buzzer_data);
+  if (status != SL_STATUS_OK) {
+    return status;
+  }
 
-	// Initialize sensor and set measure mode
-	status = sl_ccs811_init(sl_i2cspm_sensor_gas);
-	if (status != SL_STATUS_OK) {
-		return status;
-	}
-	status = sl_ccs811_set_measure_mode(sl_i2cspm_sensor_gas,
-	CCS811_MEASURE_MODE_DRIVE_MODE_1SEC);
-	if (status != SL_STATUS_OK) {
-		return status;
-	}
+  // Initialize sensor and set measure mode
+  status = sl_ccs811_init(sl_i2cspm_sensor_gas);
+  if (status != SL_STATUS_OK) {
+    return status;
+  }
+  status = sl_ccs811_set_measure_mode(sl_i2cspm_sensor_gas,
+                                      CCS811_MEASURE_MODE_DRIVE_MODE_1SEC);
+  if (status != SL_STATUS_OK) {
+    return status;
+  }
 
-	// Start timer used for periodic measurement.
-	app_log_info("Starting timer used for periodic measurement.\r\n");
-	status = sl_sleeptimer_start_periodic_timer_ms(
-			&air_quality_monitor_periodic_timer,
-			air_quality_data.measurement_period_data * 1000,
-			air_quality_monitor_callback,
-			NULL, 0,
-			SL_SLEEPTIMER_NO_HIGH_PRECISION_HF_CLOCKS_REQUIRED_FLAG);
-	return status;
+  // Start timer used for periodic measurement.
+  app_log_info("Starting timer used for periodic measurement.\r\n");
+  status = sl_sleeptimer_start_periodic_timer_ms(
+    &air_quality_monitor_periodic_timer,
+    air_quality_data.measurement_period_data * 1000,
+    air_quality_monitor_callback,
+    NULL,
+    0,
+    SL_SLEEPTIMER_NO_HIGH_PRECISION_HF_CLOCKS_REQUIRED_FLAG);
+  return status;
 }
 
 /***************************************************************************//**
  * Initialize and Load configuration from NVM
  ******************************************************************************/
-static Ecode_t nvm3_load_configuration(void) {
-	Ecode_t err;
+static Ecode_t nvm3_load_configuration(void)
+{
+  Ecode_t err;
 
-	// Load configuration from NVM
-	nvm3_user_init();
+  // Load configuration from NVM
+  nvm3_user_init();
 
-	app_log_info("Loading parameters from NVM...\n");
+  app_log_info("Loading parameters from NVM...\n");
 
-	err = nvm3_user_get_notification_active(
-			&air_quality_data.notification_data);
-	if (err != ECODE_NVM3_OK) {
-		return err;
-	}
-	app_log_info("Loaded from NVM. Notification status = %d\r\n",
-			air_quality_data.notification_data);
+  err = nvm3_user_get_notification_active(
+    &air_quality_data.notification_data);
+  if (err != ECODE_NVM3_OK) {
+    return err;
+  }
+  app_log_info("Loaded from NVM. Notification status = %d\r\n",
+               air_quality_data.notification_data);
 
-	err = nvm3_user_get_update_period(
-			&air_quality_data.measurement_period_data);
-	if (err != ECODE_NVM3_OK) {
-		return err;
-	}
-	app_log_info("Loaded from NVM. "
-			"Air quality monitor sleep timer period = %ds\r\n",
-			air_quality_data.measurement_period_data);
+  err = nvm3_user_get_update_period(
+    &air_quality_data.measurement_period_data);
+  if (err != ECODE_NVM3_OK) {
+    return err;
+  }
+  app_log_info("Loaded from NVM. "
+               "Air quality monitor sleep timer period = %ds\r\n",
+               air_quality_data.measurement_period_data);
 
-	err = nvm3_user_get_buzzer_volume(&air_quality_data.buzzer_data);
-	if (err != ECODE_NVM3_OK) {
-		return err;
-	}
-	app_log_info("Loaded from NVM. Buzzer volume = %d\r\n",
-			air_quality_data.buzzer_data);
+  err = nvm3_user_get_buzzer_volume(&air_quality_data.buzzer_data);
+  if (err != ECODE_NVM3_OK) {
+    return err;
+  }
+  app_log_info("Loaded from NVM. Buzzer volume = %d\r\n",
+               air_quality_data.buzzer_data);
 
-	err = user_config_nvm3_get_threshold_co2(
-			&air_quality_data.threshold_co2_ppm);
-	if (err != ECODE_NVM3_OK) {
-		return err;
-	}
-	app_log_info("Loaded from NVM. "
-			"Notification threshold for CO2 level = %dppm\r\n",
-			air_quality_data.threshold_co2_ppm);
+  err = nvm3_user_get_threshold_co2(
+    &air_quality_data.threshold_co2_ppm);
+  if (err != ECODE_NVM3_OK) {
+    return err;
+  }
+  app_log_info("Loaded from NVM. "
+               "Notification threshold for CO2 level = %dppm\r\n",
+               air_quality_data.threshold_co2_ppm);
 
-	err = user_config_nvm3_get_threshold_vocs(
-			&air_quality_data.threshold_voc_ppb);
-	if (err != ECODE_NVM3_OK) {
-		return err;
-	}
-	app_log_info("Loaded from NVM. "
-			"Notification threshold for VOCs level = %dppb\r\n",
-			air_quality_data.threshold_voc_ppb);
+  err = nvm3_user_get_threshold_vocs(
+    &air_quality_data.threshold_voc_ppb);
+  if (err != ECODE_NVM3_OK) {
+    return err;
+  }
+  app_log_info("Loaded from NVM. "
+               "Notification threshold for VOCs level = %dppb\r\n",
+               air_quality_data.threshold_voc_ppb);
 
-	return ECODE_NVM3_OK;
+  return ECODE_NVM3_OK;
 }
 
 /***************************************************************************//**
  * Process Bluetooth external events.
  ******************************************************************************/
-void air_quality_process_event(uint32_t event_flags) {
-	if (event_flags & AIR_QUALITY_MONITOR_EVENT) {
-		air_quality_monitor_event_handler();
-	}
+void air_quality_process_event(uint32_t event_flags) 
+{
+  if (event_flags & AIR_QUALITY_MONITOR_EVENT) {
+    air_quality_monitor_event_handler();
+  }
 
-	if (event_flags & AIR_QUALITY_MONITOR_BUTTON_EVENT) {
-		air_quality_monitor_button_event_handler();
-	}
+  if (event_flags & AIR_QUALITY_MONITOR_BUTTON_EVENT) {
+    air_quality_monitor_button_event_handler();
+  }
 }
 
 /***************************************************************************//**
  * Air quality monitor event handler retrieve and
  * process the measured air quality data.
  ******************************************************************************/
-static void air_quality_monitor_event_handler(void) {
-	uint16_t eco2;
-	uint16_t tvoc;
+static void air_quality_monitor_event_handler(void)
+{
+  uint16_t eco2;
+  uint16_t tvoc;
 
-	if (sl_ccs811_is_data_available(sl_i2cspm_sensor_gas)) {
-		uint8_t index = samples_counter % DATA_BUFFER_SIZE;
-		// Get measurement data from the CCS811
-		sl_ccs811_get_measurement(sl_i2cspm_sensor_gas, &eco2, &tvoc);
+  if (sl_ccs811_is_data_available(sl_i2cspm_sensor_gas)) {
+    uint8_t index = samples_counter % DATA_BUFFER_SIZE;
+    // Get measurement data from the CCS811
+    sl_ccs811_get_measurement(sl_i2cspm_sensor_gas, &eco2, &tvoc);
 
-		// Store measurement data.
-		// appends a new value to the measurement data, removes the oldest one.
-		co2_buffer[index] = eco2;
-		tvoc_buffer[index] = tvoc;
-		samples_counter++;
+    // Store measurement data.
+    // appends a new value to the measurement data, removes the oldest one.
+    co2_buffer[index] = eco2;
+    tvoc_buffer[index] = tvoc;
+    samples_counter++;
 
-		// Run limit check and alarm logic
-		air_quality_data_process();
+    // Run limit check and alarm logic
+    air_quality_data_process();
 
-		// Update display data
-		air_quality_update_display();
-	}
+    // Update display data
+    air_quality_update_display();
+  }
 }
 
 /***************************************************************************//**
  * This event handler checks the BTN0's status. When the button is released,
  * it checks the notification feature status.
  ******************************************************************************/
-static void air_quality_monitor_button_event_handler(void) {
-	app_log_info("> BTN0 Button released. Change notification status.\n");
-	// For the button logic, enable notification if it is disabled
-	if (0 == air_quality_data.notification_data) {
-		air_quality_data.notification_data = 1;
-		// Disable notification if it is enabled
-	} else {
-		air_quality_data.notification_data = 0;
-		// Deactivate buzzer if it is active
-		if (true == is_buzzer_active) {
-			buzzer_deactivate();
-		}
-	}
+static void air_quality_monitor_button_event_handler(void)
+{
+  app_log_info("> BTN0 Button released. Change notification status.\n");
+  // For the button logic, enable notification if it is disabled
+  if (0 == air_quality_data.notification_data) {
+    air_quality_data.notification_data = 1;
+    // Disable notification if it is enabled
+  } else {
+    air_quality_data.notification_data = 0;
+    // Deactivate buzzer if it is active
+    if (true == is_buzzer_active) {
+      buzzer_deactivate();
+    }
+  }
 }
 
 /***************************************************************************//**
@@ -310,23 +315,26 @@ static void air_quality_monitor_button_event_handler(void) {
  * Button state changed callback
  * @param[in] handle Button event handle
  ******************************************************************************/
-void sl_button_on_change(const sl_button_t *handle) {
-	// Button released.
-	if (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_RELEASED) {
-		if (&sl_button_btn0 == handle) {
-			sl_bt_external_signal(AIR_QUALITY_MONITOR_BUTTON_EVENT);
-		}
-	}
+void sl_button_on_change(const sl_button_t *handle)
+{
+  // Button released.
+  if (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_RELEASED) {
+    if (&sl_button_btn0 == handle) {
+      sl_bt_external_signal(AIR_QUALITY_MONITOR_BUTTON_EVENT);
+    }
+  }
 }
 
-static void buzzer_activate(void) {
-	is_buzzer_active = true;
-	buzzer_begin_sound(&buzzer, BUZZER_NOTE_Eb8);
+static void buzzer_activate(void)
+{
+  is_buzzer_active = true;
+  buzzer_begin_sound(&buzzer, BUZZER_NOTE_Eb8);
 }
 
-static void buzzer_deactivate(void) {
-	is_buzzer_active = false;
-	buzzer_end_sound(&buzzer);
+static void buzzer_deactivate(void)
+{
+  is_buzzer_active = false;
+  buzzer_end_sound(&buzzer);
 }
 
 /***************************************************************************//**
@@ -335,235 +343,242 @@ static void buzzer_deactivate(void) {
  * Or used to send a notification
  ******************************************************************************/
 static void air_quality_monitor_callback(sl_sleeptimer_timer_handle_t *timer,
-		void *data) {
-	(void) data;
+                                         void                         *data)
+{
+  (void) data;
 
-	if (timer == &air_quality_monitor_periodic_timer) {
-		sl_bt_external_signal(AIR_QUALITY_MONITOR_EVENT);
-	}
+  if (timer == &air_quality_monitor_periodic_timer) {
+    sl_bt_external_signal(AIR_QUALITY_MONITOR_EVENT);
+  }
 }
 
 /*******************************************************************************
  *   Function to handle read data
  ******************************************************************************/
-void air_quality_user_read_callback(sl_bt_msg_t *evt) {
-	sl_status_t sc;
-	uint16_t characteristic_size = 0;
-	const uint8_t *characteristic_ptr = NULL;
-	uint16_t sent_len;
+void air_quality_user_read_callback(sl_bt_msg_t *evt)
+{
+  sl_status_t sc;
+  uint16_t characteristic_size = 0;
+  const uint8_t *characteristic_ptr = NULL;
+  uint16_t sent_len;
 
-	switch (evt->data.evt_gatt_server_user_read_request.characteristic) {
+  switch (evt->data.evt_gatt_server_user_read_request.characteristic) {
+    // Notification characteristics value read
+    case gattdb_notification_data:
+      characteristic_size = sizeof(air_quality_data.notification_data);
+      characteristic_ptr =
+        (const uint8_t*) &air_quality_data.notification_data;
+      break;
 
-	// Notification characteristics value read
-	case gattdb_notification_data:
-		characteristic_size = sizeof(air_quality_data.notification_data);
-		characteristic_ptr =
-				(const uint8_t*) &air_quality_data.notification_data;
-		break;
+    // co2 characteristics value read
+    case gattdb_co2_data:
+      characteristic_size = sizeof(co2);
+      characteristic_ptr = (const uint8_t*) &co2;
+      break;
 
-		// co2 characteristics value read
-	case gattdb_co2_data:
-		characteristic_size = sizeof(co2);
-		characteristic_ptr = (const uint8_t*) &co2;
-		break;
+    // vocs characteristics value read
+    case gattdb_voc_data:
+      characteristic_size = sizeof(vocs);
+      characteristic_ptr = (const uint8_t*) &vocs;
+      break;
 
-		// vocs characteristics value read
-	case gattdb_voc_data:
-		characteristic_size = sizeof(vocs);
-		characteristic_ptr = (const uint8_t*) &vocs;
-		break;
+    // Buzzer volume characteristics value read
+    case gattdb_buzzer_data:
+      characteristic_size = sizeof(air_quality_data.buzzer_data);
+      characteristic_ptr = (const uint8_t*) &air_quality_data.buzzer_data;
+      break;
 
-		// Buzzer volume characteristics value read
-	case gattdb_buzzer_data:
-		characteristic_size = sizeof(air_quality_data.buzzer_data);
-		characteristic_ptr = (const uint8_t*) &air_quality_data.buzzer_data;
-		break;
+    // Measurement period data characteristics value read
+    case gattdb_measurement_period_data:
+      characteristic_size = sizeof(air_quality_data.measurement_period_data);
+      characteristic_ptr =
+        (const uint8_t*) &air_quality_data.measurement_period_data;
+      break;
 
-		// Measurement period data characteristics value read
-	case gattdb_measurement_period_data:
-		characteristic_size = sizeof(air_quality_data.measurement_period_data);
-		characteristic_ptr =
-				(const uint8_t*) &air_quality_data.measurement_period_data;
-		break;
+    // Do nothing
+    default:
+      break;
+  }
 
-		// Do nothing
-	default:
-		break;
-	}
-
-	// Send response
-	sc = sl_bt_gatt_server_send_user_read_response(
-			evt->data.evt_gatt_server_user_read_request.connection,
-			evt->data.evt_gatt_server_user_read_request.characteristic,
-			(uint8_t) 0x00, /* SUCCESS */
-			characteristic_size, characteristic_ptr, &sent_len);
-	app_assert_status(sc);
+    // Send response
+  sc = sl_bt_gatt_server_send_user_read_response(
+    evt->data.evt_gatt_server_user_read_request.connection,
+    evt->data.evt_gatt_server_user_read_request.characteristic,
+    (uint8_t) 0x00,               /* SUCCESS */
+    characteristic_size, characteristic_ptr, &sent_len);
+  app_assert_status(sc);
 }
 
 /*******************************************************************************
  *   Function to handle write data
  ******************************************************************************/
-void air_quality_user_write_callback(sl_bt_msg_t *evt) {
-	uint8_t response_code = 0;
-	sl_status_t status;
-	Ecode_t err;
-	uint16_t len = evt->data.evt_gatt_server_user_write_request.value.len;
+void air_quality_user_write_callback(sl_bt_msg_t *evt)
+{
+  uint8_t response_code = 0;
+  sl_status_t status;
+  Ecode_t err;
+  uint16_t len = evt->data.evt_gatt_server_user_write_request.value.len;
 
-	switch (evt->data.evt_gatt_server_user_write_request.characteristic) {
-	// Notification characteristic written
-	case gattdb_notification_data: {
-		uint8_t notification =
-				evt->data.evt_gatt_server_user_write_request.value.data[0];
-		if (len > NOTIFICATION_ATT_LENGTH) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
-			break;
-		}
+  switch (evt->data.evt_gatt_server_user_write_request.characteristic) {
+    // Notification characteristic written
+    case gattdb_notification_data:
+    {
+      uint8_t notification =
+        evt->data.evt_gatt_server_user_write_request.value.data[0];
+      if (len > NOTIFICATION_ATT_LENGTH) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        break;
+      }
 
-		if (notification > IS_NOTIFICATION_ACTIVE_MAX) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
-			break;
-		}
-		// Store value in the runtime configuration structure
-		if (notification) {
-			air_quality_data.notification_data = 1;
-		} else {
-			air_quality_data.notification_data = 0;
-			// Deactivate buzzer if it is active
-			if (true == is_buzzer_active) {
-				buzzer_deactivate();
-			}
-		}
+      if (notification > IS_NOTIFICATION_ACTIVE_MAX) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
+        break;
+      }
+      // Store value in the runtime configuration structure
+      if (notification) {
+        air_quality_data.notification_data = 1;
+      } else {
+        air_quality_data.notification_data = 0;
+        // Deactivate buzzer if it is active
+        if (true == is_buzzer_active) {
+          buzzer_deactivate();
+        }
+      }
 
-		err = nvm3_user_set_notification_active(
-				air_quality_data.notification_data);
-		app_log_status(err);
-		app_log("Write characteristic, ID: %x, value: %d\n",
-				evt->data.evt_gatt_server_user_read_request.characteristic,
-				notification);
-	}
-		break;
+      err = nvm3_user_set_notification_active(
+        air_quality_data.notification_data);
+      app_log_status(err);
+      app_log("Write characteristic, ID: %x, value: %d\n",
+              evt->data.evt_gatt_server_user_read_request.characteristic,
+              notification);
+      break;
+    }
 
-	case gattdb_buzzer_data: {
-		uint8_t buzzer_data =
-				evt->data.evt_gatt_server_user_write_request.value.data[0];
+    case gattdb_buzzer_data:
+    {
+      uint8_t buzzer_data =
+        evt->data.evt_gatt_server_user_write_request.value.data[0];
 
-		if (len > BUZZER_ATT_LENGTH) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
-			break;
-		}
+      if (len > BUZZER_ATT_LENGTH) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        break;
+      }
 
-		if ((buzzer_data > BUZZER_VOLUME_MAX)
-				|| (buzzer_data < BUZZER_VOLUME_MIN)) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
-			break;
-		}
-		// Store value in the runtime configuration structure
-		air_quality_data.buzzer_data = buzzer_data;
-		err = nvm3_user_set_buzzer_volume(buzzer_data);
-		app_log_status(err);
-		status = buzzer_set_volume(&buzzer, buzzer_data);
-		app_log_status(status);
-		app_log("Write characteristic, ID: %x, value: %d\n",
-				evt->data.evt_gatt_server_user_read_request.characteristic,
-				buzzer_data);
-	}
-		break;
+      if ((buzzer_data > BUZZER_VOLUME_MAX)
+          || (buzzer_data < BUZZER_VOLUME_MIN)) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
+        break;
+      }
+      // Store value in the runtime configuration structure
+      air_quality_data.buzzer_data = buzzer_data;
+      err = nvm3_user_set_buzzer_volume(buzzer_data);
+      app_log_status(err);
+      status = buzzer_set_volume(&buzzer, buzzer_data);
+      app_log_status(status);
+      app_log("Write characteristic, ID: %x, value: %d\n",
+              evt->data.evt_gatt_server_user_read_request.characteristic,
+              buzzer_data);
+      break;
+    }
 
-	case gattdb_co2_data: {
-		uint16_t threshold_co2 =
-				(evt->data.evt_gatt_server_user_write_request.value.data[1] << 8)
-						| evt->data.evt_gatt_server_user_write_request.value.data[0];
+    case gattdb_co2_data:
+    {
+      uint16_t threshold_co2 =
+        (evt->data.evt_gatt_server_user_write_request.value.data[1] << 8)
+        | evt->data.evt_gatt_server_user_write_request.value.data[0];
 
-		if (len > CO2_ATT_LENGTH) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
-			break;
-		}
+      if (len > CO2_ATT_LENGTH) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        break;
+      }
 
-		if ((threshold_co2 > THRESHOLD_CO2_PPM_MAX)
-				|| (threshold_co2 < THRESHOLD_CO2_PPM_MIN)) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
-			break;
-		}
-		// Store value in the runtime configuration structure
-		air_quality_data.threshold_co2_ppm = threshold_co2;
-		err = nvm3_user_set_threshold_co2(threshold_co2);
-		app_log_status(err);
-		app_log("Write characteristic, ID: %x, value: %d\n",
-				evt->data.evt_gatt_server_user_read_request.characteristic,
-				threshold_co2);
-	}
-		break;
+      if ((threshold_co2 > THRESHOLD_CO2_PPM_MAX)
+          || (threshold_co2 < THRESHOLD_CO2_PPM_MIN)) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
+        break;
+      }
+      // Store value in the runtime configuration structure
+      air_quality_data.threshold_co2_ppm = threshold_co2;
+      err = nvm3_user_set_threshold_co2(threshold_co2);
+      app_log_status(err);
+      app_log("Write characteristic, ID: %x, value: %d\n",
+              evt->data.evt_gatt_server_user_read_request.characteristic,
+              threshold_co2);
+      break;
+    }
 
-	case gattdb_voc_data: {
-		uint16_t threshold_voc =
-				(evt->data.evt_gatt_server_user_write_request.value.data[1] << 8)
-						| evt->data.evt_gatt_server_user_write_request.value.data[0];
+    case gattdb_voc_data:
+    {
+      uint16_t threshold_voc =
+        (evt->data.evt_gatt_server_user_write_request.value.data[1] << 8)
+        | evt->data.evt_gatt_server_user_write_request.value.data[0];
 
-		if (len > VOC_ATT_LENGTH) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
-			break;
-		}
+      if (len > VOC_ATT_LENGTH) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        break;
+      }
 
-		if ((threshold_voc > THRESHOLD_VOCS_PPB_MAX)
-				|| (threshold_voc < THRESHOLD_VOCS_PPB_MIN)) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
-			break;
-		}
-		// Store value in the runtime configuration structure
-		air_quality_data.threshold_voc_ppb = threshold_voc;
-		err = nvm3_user_set_threshold_vocs(threshold_voc);
-		app_log_status(err);
-		app_log("Write characteristic, ID: %x, value: %d\n",
-				evt->data.evt_gatt_server_user_read_request.characteristic,
-				threshold_voc);
-	}
-		break;
+      if ((threshold_voc > THRESHOLD_VOCS_PPB_MAX)
+          || (threshold_voc < THRESHOLD_VOCS_PPB_MIN)) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
+        break;
+      }
+      // Store value in the runtime configuration structure
+      air_quality_data.threshold_voc_ppb = threshold_voc;
+      err = nvm3_user_set_threshold_vocs(threshold_voc);
+      app_log_status(err);
+      app_log("Write characteristic, ID: %x, value: %d\n",
+              evt->data.evt_gatt_server_user_read_request.characteristic,
+              threshold_voc);
+      break;
+    }
 
-	case gattdb_measurement_period_data: {
-		uint8_t update_period =
-				evt->data.evt_gatt_server_user_write_request.value.data[0];
+    case gattdb_measurement_period_data:
+    {
+      uint8_t update_period =
+        evt->data.evt_gatt_server_user_write_request.value.data[0];
 
-		if (len > UPDATE_PERIOD_ATT_LENGTH) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
-			break;
-		}
+      if (len > UPDATE_PERIOD_ATT_LENGTH) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        break;
+      }
 
-		if ((update_period > UPDATE_PERIOD_IN_SECOND_MAX)
-				|| (update_period < UPDATE_PERIOD_IN_SECOND_MIN)) {
-			response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
-			break;
-		}
-		// Store value in the runtime configuration structure
-		air_quality_data.measurement_period_data = update_period;
-		err = nvm3_user_set_update_period(update_period);
-		app_log_status(err);
-		app_log("Write characteristic, ID: %x, value: %d\n",
-				evt->data.evt_gatt_server_user_read_request.characteristic,
-				update_period);
-		// Start timer used for periodic measurement.
-		app_log("Restarting timer for periodic measurement.\r\n");
-		status = sl_sleeptimer_restart_periodic_timer_ms(
-				&air_quality_monitor_periodic_timer, update_period * 1000,
-				air_quality_monitor_callback,
-				NULL, 0,
-				SL_SLEEPTIMER_NO_HIGH_PRECISION_HF_CLOCKS_REQUIRED_FLAG);
-		app_log_status(status);
-	}
-		break;
+      if ((update_period > UPDATE_PERIOD_IN_SECOND_MAX)
+          || (update_period < UPDATE_PERIOD_IN_SECOND_MIN)) {
+        response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
+        break;
+      }
+      // Store value in the runtime configuration structure
+      air_quality_data.measurement_period_data = update_period;
+      err = nvm3_user_set_update_period(update_period);
+      app_log_status(err);
+      app_log("Write characteristic, ID: %x, value: %d\n",
+              evt->data.evt_gatt_server_user_read_request.characteristic,
+              update_period);
+      // Start timer used for periodic measurement.
+      app_log("Restarting timer for periodic measurement.\r\n");
+      status = sl_sleeptimer_restart_periodic_timer_ms(
+        &air_quality_monitor_periodic_timer, update_period * 1000,
+        air_quality_monitor_callback,
+        NULL, 
+        0,
+        SL_SLEEPTIMER_NO_HIGH_PRECISION_HF_CLOCKS_REQUIRED_FLAG);
+      app_log_status(status);
+      break;
+    }
 
-		// Write operation not permitted by default
-	default: {
-		response_code = (uint8_t) SL_STATUS_BT_ATT_VALUE_NOT_ALLOWED;
-	}
-		break;
-	}
+    // Write operation not permitted by default
+    default:
+      response_code = (uint8_t) SL_STATUS_BT_ATT_VALUE_NOT_ALLOWED;
+      break;
+  }
 
-	// Send response
-	status = sl_bt_gatt_server_send_user_write_response(
-			evt->data.evt_gatt_server_user_write_request.connection,
-			evt->data.evt_gatt_server_user_write_request.characteristic,
-			response_code);
-	app_assert_status(status);
+  // Send response
+  status = sl_bt_gatt_server_send_user_write_response(
+    evt->data.evt_gatt_server_user_write_request.connection,
+    evt->data.evt_gatt_server_user_write_request.characteristic,
+    response_code);
+  app_assert_status(status);
 }
 
 /***************************************************************************//**
@@ -577,31 +592,32 @@ void air_quality_user_write_callback(sl_bt_msg_t *evt) {
  * @return
  *  Returns sample filtered.
  ******************************************************************************/
-static uint16_t air_quality_moving_average(uint16_t *data) {
-	uint32_t sum = 0;
-	uint16_t min, max;
-	uint8_t i;
+static uint16_t air_quality_moving_average(uint16_t *data)
+{
+  uint32_t sum = 0;
+  uint16_t min, max;
+  uint8_t i;
 
-	// Calculate average value
-	min = max = data[0];
-	for (i = 0; i < samples_counter && i < DATA_BUFFER_SIZE; i++) {
-		sum += data[i];
-		if (data[i] > max) {
-			max = data[i];
-		}
+  // Calculate average value
+  min = max = data[0];
+  for (i = 0; i < samples_counter && i < DATA_BUFFER_SIZE; i++) {
+    sum += data[i];
+    if (data[i] > max) {
+      max = data[i];
+    }
 
-		if (data[i] < min) {
-			min = data[i];
-		}
-	}
+    if (data[i] < min) {
+      min = data[i];
+    }
+  }
 
-	// Exclude  min. and max. values
-	if (i > 2) {
-		i -= 2;
-		sum = sum - (min + max);
-	}
+  // Exclude  min. and max. values
+  if (i > 2) {
+    i -= 2;
+    sum = sum - (min + max);
+  }
 
-	return (uint16_t) (sum / i);
+  return (uint16_t) (sum / i);
 }
 
 /***************************************************************************//**
@@ -609,90 +625,92 @@ static uint16_t air_quality_moving_average(uint16_t *data) {
  * the configured thresholds. If the measured value(s) are above
  * the configured thresholds => the buzzer will be activated.
  ******************************************************************************/
-static void air_quality_data_process(void) {
+static void air_quality_data_process(void)
+{
+  co2 = air_quality_moving_average(co2_buffer);
+  vocs = air_quality_moving_average(tvoc_buffer);
 
-	co2 = air_quality_moving_average(co2_buffer);
-	vocs = air_quality_moving_average(tvoc_buffer);
+  // Ignore if notification is not enable
+  if (0 == air_quality_data.notification_data) {
+    return;
+  }
 
-	// Ignore if notification is not enable
-	if (0 == air_quality_data.notification_data) {
-		return;
-	}
-
-	// Check thresholds
-	if ((co2 > air_quality_data.threshold_co2_ppm)
-			|| (vocs > air_quality_data.threshold_voc_ppb)) {
-		// Activate buzzer if it is not activated
-		if (false == is_buzzer_active) {
-			buzzer_activate();
-		}
-	} else {
-		// deactivate buzzer if it is active
-		if (true == is_buzzer_active) {
-			buzzer_deactivate();
-		}
-	}
+  // Check thresholds
+  if ((co2 > air_quality_data.threshold_co2_ppm)
+      || (vocs > air_quality_data.threshold_voc_ppb)) {
+    // Activate buzzer if it is not activated
+    if (false == is_buzzer_active) {
+      buzzer_activate();
+    }
+  } else {
+    // deactivate buzzer if it is active
+    if (true == is_buzzer_active) {
+      buzzer_deactivate();
+    }
+  }
 }
 
 /***************************************************************************//**
  * Initialize OLED display.
  ******************************************************************************/
-static void oled_app_init(void) {
-	/* Initialize the OLED display */
-	glib_init();
+static void oled_app_init(void)
+{
+  /* Initialize the OLED display */
+  glib_init();
 
-	glib_context.backgroundColor = Black;
-	glib_context.foregroundColor = White;
+  glib_context.backgroundColor = Black;
+  glib_context.foregroundColor = White;
 
-	/* Fill lcd with background color */
-	glib_clear(&glib_context);
+  /* Fill lcd with background color */
+  glib_clear(&glib_context);
 
-	glib_draw_bmp(&glib_context, silicon_labs_logo);
-	sl_sleeptimer_delay_millisecond(5000);
+  glib_draw_bmp(&glib_context, silicon_labs_logo);
+  sl_sleeptimer_delay_millisecond(5000);
 
-	/* Fill lcd with background color */
-	glib_clear(&glib_context);
-	/* Use Narrow font */
-	glib_set_font(&glib_context, (glib_font_t*) &glib_font_6x8);
+  /* Fill lcd with background color */
+  glib_clear(&glib_context);
 
-	glib_draw_string(&glib_context, "AIR", 0, 0);
-	glib_draw_string(&glib_context, "QUALITY", 21, 0);
-	glib_draw_line(&glib_context, 0, 10, 63, 10);
-	glib_draw_string(&glib_context, "CO2", 0, 14);
-	glib_draw_string(&glib_context, "ppm", 45, 14);
-	glib_draw_string(&glib_context, "VOC", 0, 26);
-	glib_draw_string(&glib_context, "ppb", 45, 26);
-	glib_draw_line(&glib_context, 0, 36, 63, 36);
-	glib_draw_string(&glib_context, air_quality_status_text[0], 0, 39);
-	glib_update_display();
+  /* Use Narrow font */
+  glib_set_font(&glib_context, (glib_font_t*) &glib_font_6x8);
+
+  glib_draw_string(&glib_context, "AIR", 0, 0);
+  glib_draw_string(&glib_context, "QUALITY", 21, 0);
+  glib_draw_line(&glib_context, 0, 10, 63, 10);
+  glib_draw_string(&glib_context, "CO2", 0, 14);
+  glib_draw_string(&glib_context, "ppm", 45, 14);
+  glib_draw_string(&glib_context, "VOC", 0, 26);
+  glib_draw_string(&glib_context, "ppb", 45, 26);
+  glib_draw_line(&glib_context, 0, 36, 63, 36);
+  glib_draw_string(&glib_context, air_quality_status_text[0], 0, 39);
+  glib_update_display();
 }
 
 /***************************************************************************//**
  * Update the Air Quality Demo LCD Display
  ******************************************************************************/
-static void air_quality_update_display(void) {
-
-	uint8_t co2_text_buffer[32];
-	uint8_t vocs_text_buffer[32];
-	air_quality_status_t co2_status, voc_status, status;
+static void air_quality_update_display(void)
+{
+  uint8_t co2_text_buffer[32];
+  uint8_t vocs_text_buffer[32];
+  air_quality_status_t co2_status, voc_status, status;
 
 	// The equivalent CO2 (eCO2) output range for CCS811 is from 400ppm up to 8192ppm.
 	// The equivalent VOC (VOCs) output range for CCS811 is from 0ppm up to 1187ppb.
-	sprintf((char*) co2_text_buffer, "%4d", co2);
-	sprintf((char*) vocs_text_buffer, "%4d", vocs);
-	glib_draw_string(&glib_context, (char*) co2_text_buffer, 20, 13);
-	glib_draw_string(&glib_context, (char*) vocs_text_buffer, 20, 25);
+  sprintf((char*) co2_text_buffer, "%4d", co2);
+  sprintf((char*) vocs_text_buffer, "%4d", vocs);
+  glib_draw_string(&glib_context, (char*) co2_text_buffer, 20, 13);
+  glib_draw_string(&glib_context, (char*) vocs_text_buffer, 20, 25);
 
-	// Get status of air quality index.
-	co2_status = air_quality_co2_status(co2);
-	voc_status = air_quality_voc_status(vocs);
+  // Get status of air quality index.
+  co2_status = air_quality_co2_status(co2);
+  voc_status = air_quality_voc_status(vocs);
 
-	// The overall air quality index for indoors is thus
-	// based on the worst air quality index rating among them
-	status = (co2_status < voc_status ? voc_status : co2_status);
-	glib_draw_string(&glib_context, air_quality_status_text[status], 0, 39);
+  // The overall air quality index for indoors is thus
+  // based on the worst air quality index rating among them
+  status = (co2_status < voc_status ? voc_status : co2_status);
+  glib_draw_string(&glib_context, air_quality_status_text[status], 0, 39);
 
-	glib_update_display();
+  glib_update_display();
 }
 
 /***************************************************************************//**
@@ -705,20 +723,21 @@ static void air_quality_update_display(void) {
  *  https://www.breeze-technologies.de/blog/calculating-an-actionable-indoor-air-quality-index/
  *
  ******************************************************************************/
-static air_quality_status_t air_quality_co2_status(uint16_t data) {
-	if (data < 400) {
-		return EXCELLENT;
-	} else if (data < 1000) {
-		return FINE;
-	} else if (data < 1500) {
-		return MODERATE;
-	} else if (data < 2000) {
-		return POOR;
-	} else if (data < 5000) {
-		return VERY_POOR;
-	}
+static air_quality_status_t air_quality_co2_status(uint16_t data)
+{
+  if (data < 400) {
+    return EXCELLENT;
+  } else if (data < 1000) {
+    return FINE;
+  } else if (data < 1500) {
+    return MODERATE;
+  } else if (data < 2000) {
+    return POOR;
+  } else if (data < 5000) {
+    return VERY_POOR;
+  }
 
-	return SEVERE;
+  return SEVERE;
 }
 
 /***************************************************************************//**
@@ -731,18 +750,19 @@ static air_quality_status_t air_quality_co2_status(uint16_t data) {
  *  https://www.breeze-technologies.de/blog/calculating-an-actionable-indoor-air-quality-index/
  *
  ******************************************************************************/
-static air_quality_status_t air_quality_voc_status(uint16_t data) {
-	if (data < 50) {
-		return EXCELLENT;
-	} else if (data < 100) {
-		return FINE;
-	} else if (data < 150) {
-		return MODERATE;
-	} else if (data < 200) {
-		return POOR;
-	} else if (data < 300) {
-		return VERY_POOR;
-	}
+static air_quality_status_t air_quality_voc_status(uint16_t data)
+{
+  if (data < 50) {
+    return EXCELLENT;
+  } else if (data < 100) {
+    return FINE;
+  } else if (data < 150) {
+    return MODERATE;
+  } else if (data < 200) {
+    return POOR;
+  } else if (data < 300) {
+    return VERY_POOR;
+  }
 
-	return SEVERE;
+  return SEVERE;
 }

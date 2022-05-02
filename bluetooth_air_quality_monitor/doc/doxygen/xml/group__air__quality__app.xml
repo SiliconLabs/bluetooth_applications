@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/doxygen/src/air_quality_app.h" line="93" column="1" bodyfile="D:/doxygen/src/air_quality_app.h" bodystart="93" bodyend="100"/>
+        <location file="D:/doxygen/src/air_quality_app.h" line="92" column="1" bodyfile="D:/doxygen/src/air_quality_app.h" bodystart="92" bodyend="99"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/doxygen/src/air_quality_app.h" line="109" column="13" declfile="D:/doxygen/src/air_quality_app.h" declline="109" declcolumn="13"/>
+        <location file="D:/doxygen/src/air_quality_app.h" line="108" column="13" declfile="D:/doxygen/src/air_quality_app.h" declline="108" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__air__quality__app_1ga504549f78553d576470b2e9d93b7635b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/doxygen/src/air_quality_app.h" line="121" column="6" declfile="D:/doxygen/src/air_quality_app.h" declline="121" declcolumn="6"/>
+        <location file="D:/doxygen/src/air_quality_app.h" line="120" column="6" declfile="D:/doxygen/src/air_quality_app.h" declline="120" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="group__air__quality__app_1ga027629353d7be48cb1b9e5f0f632d154" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -138,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/doxygen/src/air_quality_app.h" line="133" column="6" declfile="D:/doxygen/src/air_quality_app.h" declline="133" declcolumn="6"/>
+        <location file="D:/doxygen/src/air_quality_app.h" line="132" column="6" declfile="D:/doxygen/src/air_quality_app.h" declline="132" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="group__air__quality__app_1ga51ca16c4d2d877db7f5cc72fb39292c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -155,7 +155,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="D:/doxygen/src/air_quality_app.h" line="145" column="6" declfile="D:/doxygen/src/air_quality_app.h" declline="145" declcolumn="6"/>
+        <location file="D:/doxygen/src/air_quality_app.h" line="144" column="6" declfile="D:/doxygen/src/air_quality_app.h" declline="144" declcolumn="6"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

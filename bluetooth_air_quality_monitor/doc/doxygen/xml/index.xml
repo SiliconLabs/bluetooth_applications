@@ -220,9 +220,9 @@
     <member refid="group__nvm3__user_1gaa7e5930b416056f13ce17d7b00057e97" kind="function"><name>nvm3_user_get_notification_active</name></member>
     <member refid="group__nvm3__user_1gadc9c9e0c69881f76b00d442ae0f7da08" kind="function"><name>nvm3_user_get_update_period</name></member>
     <member refid="group__nvm3__user_1gaa3348a65ba3ec236d7b5d3bcde14e23c" kind="function"><name>nvm3_user_get_buzzer_volume</name></member>
-    <member refid="group__nvm3__user_1ga621a6292fb5e0938f86f3e95859a878f" kind="function"><name>user_config_nvm3_get_threshold_co2</name></member>
-    <member refid="group__nvm3__user_1ga7ff22e20886e5822a688194f9163af33" kind="function"><name>user_config_nvm3_get_threshold_vocs</name></member>
-    <member refid="group__nvm3__user_1ga9ef2f48f426f8b492c6eb1bdbc177bb9" kind="function"><name>user_config_nvm3_process_action</name></member>
+    <member refid="group__nvm3__user_1gadec58a3f7a301b7df98c4d85f116e109" kind="function"><name>nvm3_user_get_threshold_co2</name></member>
+    <member refid="group__nvm3__user_1ga0bf70143f30ea822e61bb17f84f41ae8" kind="function"><name>nvm3_user_get_threshold_vocs</name></member>
+    <member refid="group__nvm3__user_1ga18dc3d384843b19f070d5762d9d31af6" kind="function"><name>nvm3_user_process_action</name></member>
   </compound>
   <compound refid="ssd1306_8h" kind="file"><name>ssd1306.h</name>
     <member refid="ssd1306_8h_1abe457a5fa79469c69e09444f9faa239a" kind="define"><name>SSD1306_SETCONTRAST</name></member>
@@ -363,9 +363,9 @@
     <member refid="group__nvm3__user_1gaa7e5930b416056f13ce17d7b00057e97" kind="function"><name>nvm3_user_get_notification_active</name></member>
     <member refid="group__nvm3__user_1gadc9c9e0c69881f76b00d442ae0f7da08" kind="function"><name>nvm3_user_get_update_period</name></member>
     <member refid="group__nvm3__user_1gaa3348a65ba3ec236d7b5d3bcde14e23c" kind="function"><name>nvm3_user_get_buzzer_volume</name></member>
-    <member refid="group__nvm3__user_1ga621a6292fb5e0938f86f3e95859a878f" kind="function"><name>user_config_nvm3_get_threshold_co2</name></member>
-    <member refid="group__nvm3__user_1ga7ff22e20886e5822a688194f9163af33" kind="function"><name>user_config_nvm3_get_threshold_vocs</name></member>
-    <member refid="group__nvm3__user_1ga9ef2f48f426f8b492c6eb1bdbc177bb9" kind="function"><name>user_config_nvm3_process_action</name></member>
+    <member refid="group__nvm3__user_1gadec58a3f7a301b7df98c4d85f116e109" kind="function"><name>nvm3_user_get_threshold_co2</name></member>
+    <member refid="group__nvm3__user_1ga0bf70143f30ea822e61bb17f84f41ae8" kind="function"><name>nvm3_user_get_threshold_vocs</name></member>
+    <member refid="group__nvm3__user_1ga18dc3d384843b19f070d5762d9d31af6" kind="function"><name>nvm3_user_process_action</name></member>
   </compound>
   <compound refid="group__ssd1306" kind="group"><name>ssd1306</name>
     <member refid="group__ssd1306_1ga9e257f44e84df14548dcd47aa0f302ed" kind="function"><name>ssd1306_init</name></member>
