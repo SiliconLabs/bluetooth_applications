@@ -130,7 +130,7 @@ typedef struct buzzer_pwm_config {
   buzzer_pwm_polarity_t polarity; /**< PWM polarity */
 } buzzer_pwm_config_t;
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Initializes PWM driver.
  *
@@ -142,10 +142,11 @@ typedef struct buzzer_pwm_config {
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
-sl_status_t buzzer_pwm_init(buzzer_pwm_instance_t *pwm, buzzer_pwm_config_t *config);
+ ******************************************************************************/
+sl_status_t buzzer_pwm_init(buzzer_pwm_instance_t *pwm,
+                            buzzer_pwm_config_t *config);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Deinitializes PWM driver.
  *
@@ -154,28 +155,28 @@ sl_status_t buzzer_pwm_init(buzzer_pwm_instance_t *pwm, buzzer_pwm_config_t *con
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t buzzer_pwm_deinit(buzzer_pwm_instance_t *pwm);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Starts generating PWM waveform
  *
  * @param[in] pwm
  *   PWM driver instance
- *****************************************************************************/
+ ******************************************************************************/
 void buzzer_pwm_start(buzzer_pwm_instance_t *pwm);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Stops generating PWM waveform
  *
  * @param[in] pwm
  *   PWM driver instance
- *****************************************************************************/
+ ******************************************************************************/
 void buzzer_pwm_stop(buzzer_pwm_instance_t *pwm);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Sets duty cycle for PWM waveform.
  *
@@ -185,10 +186,10 @@ void buzzer_pwm_stop(buzzer_pwm_instance_t *pwm);
  * @param[in] percent
  *   Percent of the PWM period waveform is in the state defined
  *   as the active polarity in the driver configuration
- *****************************************************************************/
+ ******************************************************************************/
 void buzzer_pwm_set_duty_cycle(buzzer_pwm_instance_t *pwm, uint8_t percent);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *    Gets duty cycle for PWM waveform.
  *
@@ -198,10 +199,10 @@ void buzzer_pwm_set_duty_cycle(buzzer_pwm_instance_t *pwm, uint8_t percent);
  * @return
  *    Percent of the PWM period waveform is in the state defined
  *    as the active polarity in the driver configuration
- *****************************************************************************/
+ ******************************************************************************/
 uint8_t buzzer_pwm_get_duty_cycle(buzzer_pwm_instance_t *pwm);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *    Sets the frequency for PWM.
  *
@@ -210,10 +211,10 @@ uint8_t buzzer_pwm_get_duty_cycle(buzzer_pwm_instance_t *pwm);
  *
  * @param[in] freq
  *    The Frequency for PWM
- *****************************************************************************/
+ ******************************************************************************/
 void buzzer_pwm_set_frequency(buzzer_pwm_instance_t *pwm, uint32_t freq);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *    Gets the frequency for PWM.
  *
@@ -223,10 +224,10 @@ void buzzer_pwm_set_frequency(buzzer_pwm_instance_t *pwm, uint32_t freq);
  * @return
  *    The frequency of the PWM period waveform is in the state defined
  *    as the active polarity in the driver configuration
- *****************************************************************************/
+ ******************************************************************************/
 uint32_t buzzer_pwm_get_frequency(buzzer_pwm_instance_t *pwm);
 
-/** @} (end addtogroup pwm) */
+/** @} (end addtogroup buzzer PWM Driver) */
 
 #ifdef __cplusplus
 }

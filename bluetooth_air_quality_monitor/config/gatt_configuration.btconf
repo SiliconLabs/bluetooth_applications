@@ -63,8 +63,8 @@
       </properties>
     </characteristic>
     
-    <!--VOC-->
-    <characteristic const="false" id="voc_data" name="VOC" sourceId="custom.type" uuid="ec099dd9-7887-4ca6-a169-92a5e9ed7926">
+    <!--tVOC-->
+    <characteristic const="false" id="tvoc_data" name="tVOC" sourceId="custom.type" uuid="ec099dd9-7887-4ca6-a169-92a5e9ed7926">
       <informativeText>Custom characteristic for VOC</informativeText>
       <value length="0" type="user" variable_length="false"/>
       <properties>

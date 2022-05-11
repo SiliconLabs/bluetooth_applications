@@ -37,29 +37,29 @@
 #include "ssd1306.h"
 #include "ssd1306_config.h"
 
-/** ssd1306 instance. */
+// ssd1306 instance.
 static ssd1306_t ssd1306_instance = {
   .width = SSD1306_DISPLAY_WIDTH,
   .height = SSD1306_DISPLAY_HEIGHT,
 };
 
-/** buffer used to initialize ssd1306. */
+// Buffer used to initialize ssd1306.
 const uint8_t cmd_buff[] = {
-      SSD1306_DISPLAYOFF, /* 0xAE Set OLED Display Off */
+      SSD1306_DISPLAYOFF, // 0xAE Set OLED Display Off
 
-      SSD1306_SETDISPLAYCLOCKDIV, /* 0xD5 Set Display Clock Divide Ratio/Oscillator Frequency */
-      0x80, /* the suggested ratio 0x80 */
+      SSD1306_SETDISPLAYCLOCKDIV, // 0xD5 Set Display Clock Divide Ratio/Oscillator Frequency
+      0x80, // The suggested ratio 0x80
 
-      SSD1306_SETMULTIPLEX, /* 0xA8 Set Multiplex Ratio */
-      0x2F, /* = oled_height/8 - 1 */
+      SSD1306_SETMULTIPLEX, // 0xA8 Set Multiplex Ratio
+      0x2F, // = oled_height/8 - 1
 
-      SSD1306_SETDISPLAYOFFSET, /* 0xD3 Set Display Offset */
+      SSD1306_SETDISPLAYOFFSET, // 0xD3 Set Display Offset
       0x00,
 
-      SSD1306_SETSTARTLINE, /* 0x40 set start line address - CHECK */
+      SSD1306_SETSTARTLINE, // 0x40 set start line address - CHECK
 
-      SSD1306_CHARGEPUMP, /* 0x8D Set Charge Pump */
-      0x14, /* 0x14 Enable Charge Pump */
+      SSD1306_CHARGEPUMP, // 0x8D Set Charge Pump
+      0x14, // 0x14 Enable Charge Pump
 
       SSD1306_NORMALDISPLAY, /* 0xA6 set normal color
                                 0xA7 set inverse color */
@@ -73,36 +73,36 @@ const uint8_t cmd_buff[] = {
       SSD1306_COMSCANDEC, /* 0xC8 Set COM Output Scan Direction
                              0xC0 Mirror vertically */
 
-      SSD1306_SETCOMPINS, /* 0xDA Set COM Pins Hardware Configuration */
+      SSD1306_SETCOMPINS, // 0xDA Set COM Pins Hardware Configuration
       0x12,
 
-      SSD1306_SETCONTRAST, /* 0x81 Set Contrast Control */
+      SSD1306_SETCONTRAST, // 0x81 Set Contrast Control
       0x8F,
 
-      SSD1306_SETPRECHARGE, /* 0xD9 Set Pre-Charge Period */
+      SSD1306_SETPRECHARGE, // 0xD9 Set Pre-Charge Period
       0xF1,
 
-      SSD1306_SETVCOMDETECT, /* 0xDB Set VCOMH Deselect Level */
+      SSD1306_SETVCOMDETECT, // 0xDB Set VCOMH Deselect Level
       0x40,
 
-      SSD1306_DEACTIVATE_SCROLL, /* Stop scroll */
+      SSD1306_DEACTIVATE_SCROLL, // Stop scroll
 
-      SSD1306_DISPLAYON    /*  0xAF Set OLED Display On */
+      SSD1306_DISPLAYON // 0xAF Set OLED Display On
 };
 
-/** Flag to monitor is this driver has been initialized. The ssd1306_instance
- *  is only valid after initialized=true. */
+// Flag to monitor is this driver has been initialized. 
+// The ssd1306_instance is only valid after initialized = true.
 static bool initialized = false;
 
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Initialization function for the ssd1306 device driver.
  *
  * @return
  *   If all operations completed sucessfully SL_STATUS_OK is returned. On
  *   failure a different status code is returned specifying the error.
-*****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_init(void)
 {
   sl_status_t sc;
@@ -115,7 +115,7 @@ sl_status_t ssd1306_init(void)
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Draw total of rows to SSD1306.
  *
@@ -125,7 +125,7 @@ sl_status_t ssd1306_init(void)
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_draw(const void *data)
 {
   sl_status_t sc = SL_STATUS_OK;
@@ -134,17 +134,17 @@ sl_status_t ssd1306_draw(const void *data)
   uint8_t cmd;
   uint8_t no_pages = SSD1306_DISPLAY_HEIGHT / 8;
 
-  /* Get start address to draw from */
+  // Get start address to draw from
   for ( i = 0; i < no_pages; i++ ) {
-  /* Send update command and first line address */
-    cmd = 0xB0 + i;  /* Set the current RAM page address. */
+    // Send update command and first line address
+    cmd = 0xB0 + i; // Set the current RAM page address.
     sc += ssd1306_send_command(&cmd, 1);
-    cmd = 0x00;  /* Set Lower Column Start Address for Page Addressing Mode */
+    cmd = 0x00; // Set Lower Column Start Address for Page Addressing Mode
     sc += ssd1306_send_command(&cmd, 1);
-    cmd = 0x12;  /* Set Higher Column Start Address for Page Addressing Mode */
+    cmd = 0x12; // Set Higher Column Start Address for Page Addressing Mode
     sc += ssd1306_send_command(&cmd, 1);
 
-  /* Send pixels for this page */
+    // Send pixels for this page
     sc += ssd1306_send_data(ptr, SSD1306_DISPLAY_WIDTH);
     ptr += SSD1306_DISPLAY_WIDTH;
   }
@@ -155,61 +155,59 @@ sl_status_t ssd1306_draw(const void *data)
   return SL_STATUS_OK;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Get a handle to SSD1306.
  *
  * @return
  *   Pointer to a SSD1306 structure or NULL if no SSD1306 is initialized
  *   yet.
- *****************************************************************************/
+ ******************************************************************************/
 const ssd1306_t *ssd1306_get(void)
 {
   if (initialized) {
     return &ssd1306_instance;
-  }
-  else {
+  } else {
     return NULL;
   }
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a inversion color to SSD1306.
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_set_invert_color(void)
 {
   sl_status_t sc;
   uint8_t cmd;
 
-  cmd = SSD1306_INVERTDISPLAY;  //  0xA7 - set inverse color
+  cmd = SSD1306_INVERTDISPLAY; // 0xA7 - set inverse color
   sc = ssd1306_send_command(&cmd, 1);
-
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a normal color to SSD1306.
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_set_normal_color(void)
 {
   sl_status_t sc;
   uint8_t cmd;
 
-  cmd = SSD1306_NORMALDISPLAY;  //  0xA6 - set normal color
+  cmd = SSD1306_NORMALDISPLAY; // 0xA6 - set normal color
   sc = ssd1306_send_command(&cmd, 1);
 
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a contrast to SSD1306.
  *
@@ -219,7 +217,7 @@ sl_status_t ssd1306_set_normal_color(void)
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_set_contrast(uint8_t value)
 {
   sl_status_t sc;
@@ -233,7 +231,7 @@ sl_status_t ssd1306_set_contrast(uint8_t value)
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a Right Horizontal Scroll to SSD1306.
  *
@@ -245,19 +243,19 @@ sl_status_t ssd1306_set_contrast(uint8_t value)
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_scroll_right(uint8_t start_page_addr, uint8_t end_page_addr)
 {
   sl_status_t sc;
   uint8_t cmd_buff[8] = {
-      SSD1306_RIGHT_HORIZONTAL_SCROLL, //   0x26 Right Horizontal scroll
-      0x00,                            //  Dummy byte
-      start_page_addr,                 //  Set start page address
-      0x00,                            //  Set time interval between each scroll
-      end_page_addr,                   //  Set end page address
-      0x00,                            //  Dummy byte
-      0xFF,                            //  Dummy byte
-      SSD1306_ACTIVATE_SCROLL         // 0x2F Activate scroll
+      SSD1306_RIGHT_HORIZONTAL_SCROLL, // 0x26 Right Horizontal scroll
+      0x00,                            // Dummy byte
+      start_page_addr,                 // Set start page address
+      0x00,                            // Set time interval between each scroll
+      end_page_addr,                   // Set end page address
+      0x00,                            // Dummy byte
+      0xFF,                            // Dummy byte
+      SSD1306_ACTIVATE_SCROLL          // 0x2F Activate scroll
   };
 
   sc = ssd1306_send_command(cmd_buff, 8);
@@ -265,7 +263,7 @@ sl_status_t ssd1306_scroll_right(uint8_t start_page_addr, uint8_t end_page_addr)
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a Left Horizontal Scroll to SSD1306.
  *
@@ -277,19 +275,19 @@ sl_status_t ssd1306_scroll_right(uint8_t start_page_addr, uint8_t end_page_addr)
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_scroll_left(uint8_t start_page_addr, uint8_t end_page_addr)
 {
   sl_status_t sc;
   uint8_t cmd_buff[8] = {
-      SSD1306_LEFT_HORIZONTAL_SCROLL, //   0x27 Left Horizontal scroll
-      0x00,                            //  Dummy byte
-      start_page_addr,                 //  Set start page address
-      0x00,                            //  Set time interval between each scroll
-      end_page_addr,                   //  Set end page address
-      0x00,                            //  Dummy byte
-      0xFF,                            //  Dummy byte
-      SSD1306_ACTIVATE_SCROLL         // 0x2F Activate scroll
+      SSD1306_LEFT_HORIZONTAL_SCROLL,  // 0x27 Left Horizontal scroll
+      0x00,                            // Dummy byte
+      start_page_addr,                 // Set start page address
+      0x00,                            // Set time interval between each scroll
+      end_page_addr,                   // Set end page address
+      0x00,                            // Dummy byte
+      0xFF,                            // Dummy byte
+      SSD1306_ACTIVATE_SCROLL          // 0x2F Activate scroll
   };
 
   sc = ssd1306_send_command(cmd_buff, 8);
@@ -297,7 +295,7 @@ sl_status_t ssd1306_scroll_left(uint8_t start_page_addr, uint8_t end_page_addr)
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a Vertical and Right Horizontal Scroll to SSD1306.
  *
@@ -309,20 +307,21 @@ sl_status_t ssd1306_scroll_left(uint8_t start_page_addr, uint8_t end_page_addr)
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
-sl_status_t ssd1306_scroll_diag_right(uint8_t start_page_addr, uint8_t end_page_addr)
+ ******************************************************************************/
+sl_status_t ssd1306_scroll_diag_right(uint8_t start_page_addr,
+                                      uint8_t end_page_addr)
 {
   sl_status_t sc;
   uint8_t cmd_buff[10] = {
-      SSD1306_SET_VERTICAL_SCROLL_AREA, //   0xA3 Right Horizontal scroll
-      0x00,                             //  Set No. of rows in top fixed area
-      SSD1306_DISPLAY_HEIGHT,           //  Set No. of rows in scroll area
-      SSD1306_VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL, //  0x29 Vertical and Right Horizontal Scroll
-      0x00,                             //  Dummy byte
-      start_page_addr,                  //  Set start page address
-      0x00,                             //  Set time interval between each scroll
-      end_page_addr,                    //  Set end page address
-      0x01,                             //  Vertical scrolling offset
+      SSD1306_SET_VERTICAL_SCROLL_AREA, // 0xA3 Right Horizontal scroll
+      0x00,                             // Set No. of rows in top fixed area
+      SSD1306_DISPLAY_HEIGHT,           // Set No. of rows in scroll area
+      SSD1306_VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL, // 0x29 Vertical and Right Horizontal Scroll
+      0x00,                             // Dummy byte
+      start_page_addr,                  // Set start page address
+      0x00,                             // Set time interval between each scroll
+      end_page_addr,                    // Set end page address
+      0x01,                             // Vertical scrolling offset
       SSD1306_ACTIVATE_SCROLL           // 0x2F Activate scroll
   };
 
@@ -331,7 +330,7 @@ sl_status_t ssd1306_scroll_diag_right(uint8_t start_page_addr, uint8_t end_page_
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a Vertical and Left Horizontal Scroll to SSD1306.
  *
@@ -343,20 +342,21 @@ sl_status_t ssd1306_scroll_diag_right(uint8_t start_page_addr, uint8_t end_page_
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
-sl_status_t ssd1306_scroll_diag_left(uint8_t start_page_addr, uint8_t end_page_addr)
+ ******************************************************************************/
+sl_status_t ssd1306_scroll_diag_left(uint8_t start_page_addr, 
+                                     uint8_t end_page_addr)
 {
   sl_status_t sc;
   uint8_t cmd_buff[10] = {
-      SSD1306_SET_VERTICAL_SCROLL_AREA, //   0xA3 Right Horizontal scroll
-      0x00,                             //  Set No. of rows in top fixed area
-      SSD1306_DISPLAY_HEIGHT,           //  Set No. of rows in scroll area
-      SSD1306_VERTICAL_AND_LEFT_HORIZONTAL_SCROLL, //  0x2A Vertical and Left Horizontal Scroll
-      0x00,                             //  Dummy byte
-      start_page_addr,                  //  Set start page address
-      0x00,                             //  Set time interval between each scroll
-      end_page_addr,                    //  Set end page address
-      0x01,                             //  Vertical scrolling offset
+      SSD1306_SET_VERTICAL_SCROLL_AREA, // 0xA3 Right Horizontal scroll
+      0x00,                             // Set No. of rows in top fixed area
+      SSD1306_DISPLAY_HEIGHT,           // Set No. of rows in scroll area
+      SSD1306_VERTICAL_AND_LEFT_HORIZONTAL_SCROLL, // 0x2A Vertical and Left Horizontal Scroll
+      0x00,                             // Dummy byte
+      start_page_addr,                  // Set start page address
+      0x00,                             // Set time interval between each scroll
+      end_page_addr,                    // Set end page address
+      0x01,                             // Vertical scrolling offset
       SSD1306_ACTIVATE_SCROLL           // 0x2F Activate scroll
   };
 
@@ -365,25 +365,24 @@ sl_status_t ssd1306_scroll_diag_left(uint8_t start_page_addr, uint8_t end_page_a
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Stop scroll to SSD1306.
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_stop_scroll(void)
 {
   sl_status_t sc;
   uint8_t cmd;
 
-  cmd = SSD1306_DEACTIVATE_SCROLL;   //  0x2E Deactivate scroll
+  cmd = SSD1306_DEACTIVATE_SCROLL;   // 0x2E Deactivate scroll
   sc = ssd1306_send_command(&cmd, 1);
-
   return sc;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set the display ON/OFF.
  *
@@ -392,20 +391,17 @@ sl_status_t ssd1306_stop_scroll(void)
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_enable_display(bool on)
 {
   sl_status_t sc;
   uint8_t cmd;
 
-  if (on == true) {
+  if(on == true) {
     cmd = SSD1306_DISPLAYON;
-  }
-  else {
+  } else {
     cmd = SSD1306_DISPLAYOFF;
   }
-
   sc =  ssd1306_send_command(&cmd, 1);
-
   return sc;
 }

@@ -1,6 +1,6 @@
 /***************************************************************************//**
- * @file
- * @brief Core application logic.
+ * @file app.c
+ * @brief Core application logic source file.
  *******************************************************************************
  * # License
  * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
@@ -54,9 +54,9 @@ static void connection_closed_handler(sl_bt_msg_t *evt);
 static void sm_bonding_failed_handler(sl_bt_msg_t *evt);
 static void sm_confirm_bonding_handler(sl_bt_msg_t *evt);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * Application Init.
- *****************************************************************************/
+ ******************************************************************************/
 SL_WEAK void app_init(void)
 {
   sl_status_t status;
@@ -68,12 +68,11 @@ SL_WEAK void app_init(void)
   }
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * Application Process Action.
- *****************************************************************************/
+ ******************************************************************************/
 SL_WEAK void app_process_action(void)
 {
-//  air_quality_loop();
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
   // This is called infinitely.                                              //
@@ -81,12 +80,12 @@ SL_WEAK void app_process_action(void)
   /////////////////////////////////////////////////////////////////////////////
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * Bluetooth stack event handler.
  * This overrides the dummy weak implementation.
  *
  * @param[in] evt Event coming from the Bluetooth stack.
- *****************************************************************************/
+ ******************************************************************************/
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
@@ -209,7 +208,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
     // Service the gatt server user write request event
     case sl_bt_evt_gatt_server_user_write_request_id:
-      /* Service write handlers */
+      // Service write handlers
       air_quality_user_write_callback(evt);
       break;
 
@@ -356,8 +355,7 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
   uint8_t connection_handle = evt->data.evt_connection_parameters.connection;
-  uint8_t security_level = evt->data.evt_connection_parameters.security_mode
-                           + 1;
+  uint8_t security_level = evt->data.evt_connection_parameters.security_mode + 1;
   uint16_t tx_size = evt->data.evt_connection_parameters.txsize;
   uint16_t timeout = evt->data.evt_connection_parameters.timeout;
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
  * @file air_quality_app.h
- * @brief Header file of air_quality_app.c
+ * @brief Define driver structures and APIs for the air_quality_app.c
  *******************************************************************************
  * # License
  * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
@@ -45,7 +45,7 @@
 #define NOTIFICATION_ATT_LENGTH             (1)
 #define BUZZER_ATT_LENGTH                   (1)
 #define CO2_ATT_LENGTH                      (2)
-#define VOC_ATT_LENGTH                      (2)
+#define TVOC_ATT_LENGTH                     (2)
 #define UPDATE_PERIOD_ATT_LENGTH            (1)
 
 #define IS_NOTIFICATION_ACTIVE_MIN          (0)
@@ -64,9 +64,9 @@
 #define THRESHOLD_CO2_PPM_MAX               (8192)
 #define THRESHOLD_CO2_PPM_DEFAULT           (1000)
 
-#define THRESHOLD_VOCS_PPB_MIN              (1)
-#define THRESHOLD_VOCS_PPB_MAX              (1187)
-#define THRESHOLD_VOCS_PPB_DEFAULT          (100)
+#define THRESHOLD_TVOC_PPB_MIN              (1)
+#define THRESHOLD_TVOC_PPB_MAX              (1187)
+#define THRESHOLD_TVOC_PPB_DEFAULT          (100)
 
 /***************************************************************************//**
  * @addtogroup air_quality_app
@@ -78,11 +78,11 @@
  *    Typedef for holding application configuration parameters.
  ******************************************************************************/
 typedef struct {
-  uint8_t notification_data;		    ///<  Notification status (0: disabled, 1: enabled)
-  uint8_t buzzer_data;				      ///<  Buzzer volume (0-10)
-  uint8_t measurement_period_data;	///<  Measurement update period in s (1-30)
-  uint16_t threshold_co2_ppm;		    ///<  co2 threshold value in ppm.
-  uint16_t threshold_voc_ppb;		    ///<  vocs threshold value in ppb.
+  uint8_t notification_data;       ///<  Notification status (0: disabled, 1: enabled)
+  uint8_t buzzer_data;             ///<  Buzzer volume (0-10)
+  uint8_t measurement_period_data; ///<  Measurement update period in s (1-30)
+  uint16_t threshold_co2_ppm;      ///<  co2 threshold value in ppm.
+  uint16_t threshold_tvoc_ppb;     ///<  tvoc threshold value in ppb.
 } air_quality_data_t;
 
 /***************************************************************************//**
@@ -90,24 +90,24 @@ typedef struct {
  *    Return codes for the status of air quality index function.
  ******************************************************************************/
 typedef enum air_quality_status {
-  EXCELLENT   = 1,	///< The air inside is as fresh as the air outside.
-  FINE        = 2, 	///< The air quality inside remains at harmless levels.
-  MODERATE    = 3,	///< The air quality inside has reached conspicuous levels.
-  POOR        = 4,	///< The air quality inside has reached precarious levels.
-  VERY_POOR   = 5,	///< The air quality inside has reached unacceptable levels.
-  SEVERE      = 6	  ///< The air quality inside has exceeded maximum workplace concentration values.
+  EXCELLENT   = 1, ///< The air inside is as fresh as the air outside.
+  FINE        = 2, ///< The air quality inside remains at harmless levels.
+  MODERATE    = 3, ///< The air quality inside has reached conspicuous levels.
+  POOR        = 4, ///< The air quality inside has reached precarious levels.
+  VERY_POOR   = 5, ///< The air quality inside has reached unacceptable levels.
+  SEVERE      = 6  ///< The air quality inside has exceeded maximum workplace concentration values.
 } air_quality_status_t;
 
-/**************************************************************************//**
+/*********************************************************************&*****//**
  * @brief
  *   Initialize the AIR QUALITY application.
  *
  * @return
  *   @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure
- *****************************************************************************/
+ ********************************************************************&*********/
 sl_status_t air_quality_app_init(void);
 
-/**************************************************************************//**
+/*******************************************************************&*******//**
  * @brief
  *   Process Bluetooth external events.
  *
@@ -116,7 +116,7 @@ sl_status_t air_quality_app_init(void);
  *
  * @return
  *   None
- *****************************************************************************/
+ *******************************************************************&**********/
 void air_quality_process_event(uint32_t event_flags);
 
 /*******************************************************************************

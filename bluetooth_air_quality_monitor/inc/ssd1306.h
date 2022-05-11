@@ -2,30 +2,30 @@
  * @file ssd1306.h
  * @brief SSD1306 interface
  *******************************************************************************
-* # License
-* <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
-*******************************************************************************
-*
-* SPDX-License-Identifier: Zlib
-*
-* The licensor of this software is Silicon Laboratories Inc.
-*
-* This software is provided \'as-is\', without any express or implied
-* warranty. In no event will the authors be held liable for any damages
-* arising from the use of this software.
-*
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-*
-* 1. The origin of this software must not be misrepresented; you must not
-*    claim that you wrote the original software. If you use this software
-*    in a product, an acknowledgment in the product documentation would be
-*    appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-*    misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*
+ * # License
+ * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
+ *
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided \'as-is\', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
  *******************************************************************************
  * # Evaluation Quality
  * This code has been minimally tested to ensure that it builds and is suitable
@@ -47,7 +47,7 @@
 extern "C" {
 #endif
 
-/* Fundamental Command */
+// Fundamental Command
 #define SSD1306_SETCONTRAST                           0x81
 #define SSD1306_DISPLAYALLON_RESUME                   0xA4
 #define SSD1306_DISPLAYALLON                          0xA5
@@ -56,7 +56,7 @@ extern "C" {
 #define SSD1306_DISPLAYOFF                            0xAE
 #define SSD1306_DISPLAYON                             0xAF
 
-/* Scrolling Command */
+// Scrolling Command
 #define SSD1306_RIGHT_HORIZONTAL_SCROLL               0x26
 #define SSD1306_LEFT_HORIZONTAL_SCROLL                0x27
 #define SSD1306_VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL  0x29
@@ -65,14 +65,14 @@ extern "C" {
 #define SSD1306_ACTIVATE_SCROLL                       0x2F
 #define SSD1306_SET_VERTICAL_SCROLL_AREA              0xA3
 
-/* Addressing Setting Command */
+// Addressing Setting Command
 #define SSD1306_SETLOWCOLUMN                          0x00
 #define SSD1306_SETHIGHCOLUMN                         0x10
 #define SSD1306_MEMORYMODE                            0x20
 #define SSD1306_COLUMNADDR                            0x21
 #define SSD1306_PAGEADDR                              0x22
 
-/* Hardware Configuration Command */
+// Hardware Configuration Command
 #define SSD1306_SETSTARTLINE                          0x40
 #define SSD1306_SEGREMAP                              0xA0
 #define SSD1306_SETSEGMENTREMAP                       0xA1
@@ -85,7 +85,7 @@ extern "C" {
 #define SSD1306_SETPRECHARGE                          0xD9
 #define SSD1306_SETVCOMDETECT                         0xDB
 
-/* Charge Pump Command */
+// Charge Pump Command
 #define SSD1306_CHARGEPUMP                            0x8D
 
 /***************************************************************************//**
@@ -102,17 +102,17 @@ typedef struct ssd1306_t {
   unsigned short height;      ///< Display pixel height
 } ssd1306_t;
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Initialization function for the ssd1306 device driver.
  *
  * @return
  *   If all operations completed sucessfully SL_STATUS_OK is returned. On
  *   failure a different status code is returned specifying the error.
-*****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_init(void);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Draw total of rows to SSD1306.
  *
@@ -122,38 +122,38 @@ sl_status_t ssd1306_init(void);
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_draw(const void *data);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Get a handle to SSD1306.
  *
  * @return
  *   Pointer to a SSD1306 structure or NULL if no SSD1306 is initialized
  *   yet.
- *****************************************************************************/
+ ******************************************************************************/
 const ssd1306_t *ssd1306_get(void);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a inversion color to SSD1306.
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_set_invert_color(void);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a normal color to SSD1306.
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_set_normal_color(void);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a contrast to SSD1306.
  *
@@ -163,10 +163,10 @@ sl_status_t ssd1306_set_normal_color(void);
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_set_contrast(uint8_t value);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a Right Horizontal Scroll to SSD1306.
  *
@@ -178,10 +178,11 @@ sl_status_t ssd1306_set_contrast(uint8_t value);
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
-sl_status_t ssd1306_scroll_right(uint8_t start_page_addr, uint8_t end_page_addr);
+ ******************************************************************************/
+sl_status_t ssd1306_scroll_right(uint8_t start_page_addr,
+                                 uint8_t end_page_addr);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a Left Horizontal Scroll to SSD1306.
  *
@@ -193,10 +194,11 @@ sl_status_t ssd1306_scroll_right(uint8_t start_page_addr, uint8_t end_page_addr)
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
-sl_status_t ssd1306_scroll_left(uint8_t start_page_addr, uint8_t end_page_addr);
+ ******************************************************************************/
+sl_status_t ssd1306_scroll_left(uint8_t start_page_addr,
+                                uint8_t end_page_addr);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a Vertical and Right Horizontal Scroll to SSD1306.
  *
@@ -208,10 +210,11 @@ sl_status_t ssd1306_scroll_left(uint8_t start_page_addr, uint8_t end_page_addr);
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
-sl_status_t ssd1306_scroll_diag_right(uint8_t start_page_addr, uint8_t end_page_addr);
+ ******************************************************************************/
+sl_status_t ssd1306_scroll_diag_right(uint8_t start_page_addr,
+                                      uint8_t end_page_addr);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set a Vertical and Left Horizontal Scroll to SSD1306.
  *
@@ -223,19 +226,20 @@ sl_status_t ssd1306_scroll_diag_right(uint8_t start_page_addr, uint8_t end_page_
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
-sl_status_t ssd1306_scroll_diag_left(uint8_t start_page_addr, uint8_t end_page_addr);
+ ******************************************************************************/
+sl_status_t ssd1306_scroll_diag_left(uint8_t start_page_addr,
+                                     uint8_t end_page_addr);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Stop scroll to SSD1306.
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_stop_scroll(void);
 
-/**************************************************************************//**
+/***************************************************************************//**
  * @brief
  *   Set the display ON/OFF.
  *
@@ -244,7 +248,7 @@ sl_status_t ssd1306_stop_scroll(void);
  *
  * @return
  *   SL_STATUS_OK if there are no errors.
- *****************************************************************************/
+ ******************************************************************************/
 sl_status_t ssd1306_enable_display(bool on);
 
 #ifdef __cplusplus

@@ -1,6 +1,6 @@
 /***************************************************************************//**
- * @file nvm3_user
- * @brief define driver structures and APIs for the NVM3
+ * @file nvm3_user.h
+ * @brief Define driver structures and APIs for the NVM3
  *******************************************************************************
  * # License
  * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
@@ -34,8 +34,8 @@
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 
-#ifndef NVM3_APP_H
-#define NVM3_APP_H
+#ifndef NVM3_USER_H
+#define NVM3_USER_H
 
 #include "nvm3_default.h"
 
@@ -102,15 +102,15 @@ Ecode_t nvm3_user_set_threshold_co2(uint16_t threshold_co2);
 
 /***************************************************************************//**
  * @brief
- *  Set the notification threshold for VOCs level in ppb to NVM.
+ *  Set the notification threshold for TVOC level in ppb to NVM.
  *
- * @param[in] threshold_vocs
+ * @param[in] threshold_tvoc
  *   Data to write.
  *
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_user_set_threshold_vocs(uint16_t threshold_vocs);
+Ecode_t nvm3_user_set_threshold_tvoc(uint16_t threshold_tvoc);
 
 /***************************************************************************//**
  * @brief
@@ -162,15 +162,15 @@ Ecode_t nvm3_user_get_threshold_co2(uint16_t *threshold_co2);
 
 /***************************************************************************//**
  * @brief
- *  Get the notification threshold for VOCs level in ppb from NVM.
+ *  Get the notification threshold for TVOC level in ppb from NVM.
  *
- * @param[out] threshold_co2
+ * @param[out] threshold_tvoc
  *   The notification threshold for CO2 level in ppm.
  *
  * @return
  *   @ref ECODE_NVM3_OK on success or a NVM3 @ref Ecode_t on failure.
  ******************************************************************************/
-Ecode_t nvm3_user_get_threshold_vocs(uint16_t *threshold_vocs);
+Ecode_t nvm3_user_get_threshold_tvoc(uint16_t *threshold_tvoc);
 
 /***************************************************************************//**
  * NVM3 ticking function.
@@ -179,4 +179,4 @@ void nvm3_user_process_action(void);
 
 /** @} */
 
-#endif  // NVM3_APP_H
+#endif  // NVM3_USER_H

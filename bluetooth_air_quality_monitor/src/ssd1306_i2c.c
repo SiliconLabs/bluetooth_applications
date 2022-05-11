@@ -32,7 +32,7 @@
  * as a demonstration for evaluation purposes only. This code will be maintained
  * at the sole discretion of Silicon Labs.
  ******************************************************************************/
-#include <ssd1306_i2c.h>
+#include "ssd1306_i2c.h"
 #include "sl_i2cspm.h"
 #include "sl_i2cspm_qwiic_config.h"
 
@@ -43,7 +43,7 @@
  * @detail
  *  The driver instances will be initialized automatically,
  *  during the sl_system_init() call in main.c.
- *****************************************************************************/
+ ******************************************************************************/
 void ssd1306_i2c_init(void)
 {
   return;
@@ -75,7 +75,7 @@ sl_status_t ssd1306_send_command(const void *cmd, uint8_t len)
 
   seq.addr  = SSD1306_SLAVE_ADDRESS << 1;
   seq.flags = I2C_FLAG_WRITE;
-  /* Select register and data to write */
+  // Select register and data to write
   i2c_write_data[0] = 0x00; // 0x00 for cmd, 0x40 for data
   for (int i = 0; i < len; i++) {
     i2c_write_data[i + 1] = ptr[i];
@@ -83,7 +83,7 @@ sl_status_t ssd1306_send_command(const void *cmd, uint8_t len)
 
   seq.buf[0].data = i2c_write_data;
   seq.buf[0].len  = len + 1;
-  /* Select location/length of data to be read */
+  // Select location/length of data to be read
   seq.buf[1].data = i2c_read_data;
   seq.buf[1].len  = 0;
   ret = I2CSPM_Transfer(SL_I2CSPM_QWIIC_PERIPHERAL, &seq);
@@ -120,14 +120,14 @@ sl_status_t ssd1306_send_data(const void *data, uint8_t len)
 
   seq.addr  = SSD1306_SLAVE_ADDRESS << 1;
   seq.flags = I2C_FLAG_WRITE;
-  /* Select register and data to write */
+  // Select register and data to write
   i2c_write_data[0] = 0x40; // 0x00 for cmd, 0x40 for data
   for (int i = 0; i < len; i++) {
     i2c_write_data[i+1] = ptr[i];
   }
   seq.buf[0].data = i2c_write_data;
   seq.buf[0].len  = len + 1;
-  /* Select location/length of data to be read */
+  // Select location/length of data to be read
   seq.buf[1].data = i2c_read_data;
   seq.buf[1].len  = 0;
   ret = I2CSPM_Transfer(SL_I2CSPM_QWIIC_PERIPHERAL, &seq);

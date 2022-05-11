@@ -2,11 +2,11 @@
 
 ## Overview ##
 
-This project aims to implement an air quality monitor and notification system using Silabs development kits and external sensors integrated with the BLE wireless stack.
+This project aims to implement an air quality monitor and notification system using Silicon Laboratories development kits and external sensors integrated with the BLE wireless stack.
 
 The block diagram of this application is shown in the image below:
 
-![system overview](doc/images/system_overview.png)
+![system overview](images/system_overview.png)
 
 More detailed information can be found in the section [How it works](#how-it-works).
 
@@ -34,16 +34,20 @@ GSDK v4.0.2
 
 The hardware connection is shown in the image below:
 
-![hardware connection](doc/images/hardware_connection.png)
+![hardware connection](images/hardware_connection.png)
 
-The Thunderboard Sense 2 and the MikroE Buzzer 2 Click can be plugged into the the Silabs Click Shield directly via the Thunderboard socket and the mikroBus socket respectively. To connect the Thunderboard with the SparkFun Micro OLED Breakout (Qwiic) board we can use some [Wire Jumpers Female to Female](https://www.mikroe.com/wire-jumpers-female-to-female-30cm-10pcs) as shown in the table below:.
+The Thunderboard Sense 2 and the MikroE Buzzer 2 Click can be plugged into the the Silabs Click Shield directly via the Thunderboard socket and the mikroBus socket respectively. To connect the Thunderboard with the SparkFun Micro OLED Breakout (Qwiic) board we can use some [Flexible Qwiic Cable - Female Jumper](https://www.sparkfun.com/products/17261) as shown in the table below:
 
-| Silabs click Shield markings     |  SparkFun Micro OLED Breakout Pins |
-|----------------------------------|:----------------------------------:|
-| EXP HEADER PIN 1  - 3V3          |  3V3                               |
-| EXP HEADER PIN 2 - GND           |  GND                               |
-| EXP HEADER PIN 15 - SDA          |  SDA                               |
-| EXP HEADER PIN 16 - SCL          |  SCL                               |
+| EFR32BG22 Thunderboard Kit markings |  Qwiic cables color scheme  |
+|-------------------------------------|:---------------------------:|
+| GND - EXP1                          |  Red - 3.3V                 |
+| 3V3 - EXP2                          |  Black - GND                |
+| PC6 - EXP7                          |  Yellow - SCL               |
+| PC7 - EXP9                          |  Blue - SDA                 |
+
+ Silabs Click Shield schematic is shown as below.
+
+![hardware connection](images/thunderboard_qwiic_shield.png)
 
 ## Setup ##
 
@@ -67,17 +71,17 @@ To test this application, you can either import the provided `bluetooth_air_qual
 
     - Install **[Platform] > [Driver] > [I2CSPM]** component with the default instance name: **sensor_gas**.
 
-        ![i2c sensor gas](doc/images/i2c_sensor_gas.png)
+        ![i2c sensor gas](images/i2c_sensor_gas.png)
 
     - Set **Enable Air Quality sensor** in **[Platform] > [Board Control]** component.
 
-        ![board control](doc/images/board_control.png)
+        ![board control](images/board_control.png)
 
     - Install **[Platform] > [Board Drivers] > [CCS811 - Gas/Air Quality Sensor]** component.
 
     - Install **[Platform] > [Driver] > [I2CSPM]** component with add new instance name: **qwiic**. Set this component to use I2C0 peripheral, SCL to PC11 pin, SDA to PC10 pin.
 
-        ![i2c qwiic](doc/images/i2c_qwiic.png)
+        ![i2c qwiic](images/i2c_qwiic.png)
 
     - Install **[Platform] > [Peripheral] > [TIMER]** component
 
@@ -93,9 +97,9 @@ To test this application, you can either import the provided `bluetooth_air_qual
 
 ## How it Works ##
 
-### API overview ###
+### Application Overview ###
 
-A detailed description of each function can be found in [doc/doxygen](doc/doxygen/html/modules.html).
+![app overview](images/overview.png)
 
 ### GATT Configurator ###
 
@@ -121,11 +125,11 @@ The GATT changes were adding a new custom service (Air Quality Monitor) using UU
 
   - [**Writable with response**] - Set CO2 Threshold (ppm)
 
-- **VOCs**: UUID `ec099dd9-7887-4ca6-a169-92a5e9ed7926`
+- **tVOC**: UUID `ec099dd9-7887-4ca6-a169-92a5e9ed7926`
 
-  - [**Readable**] - Get latest measured VOCs level (ppb)
+  - [**Readable**] - Get latest measured tVOC level (ppb)
 
-  - [**Writable with response**] - Set VOCs Threshold (ppb)
+  - [**Writable with response**] - Set tVOC Threshold (ppb)
 
 - **Measurement update period**: UUID `98205b49-a9e1-4bfc-a18d-60d36798397f`
 
@@ -137,7 +141,7 @@ The GATT changes were adding a new custom service (Air Quality Monitor) using UU
 
 The Initialization software flow is as follows:
 
-![Flow diagram](doc/images/work_flow.png)
+![Flow diagram](images/work_flow.png)
 
 1. First, the software initializes the peripherals, the Bluetooth stack, and logging to the virtual COM port.
 
@@ -145,11 +149,11 @@ The Initialization software flow is as follows:
 
 3. Every time the timer expires, an Air quality monitor event handler retrieve and process the measured air quality data as described below:
 
-    ![Flow diagram](doc/images/timer_event.png)
+    ![Flow diagram](images/timer_event.png)
 
 4. When the BTN0 button is pressed, the software checks the notification feature status, and buzzer state in accordance with the flowchart below:
 
-    ![Flow diagram](doc/images/btn0.png)
+    ![Flow diagram](images/btn0.png)
 
 ### OLED Display ###
 
@@ -157,7 +161,7 @@ Measured values are displayed on the OLED display:
 
 - CO2 (ppm)
 
-- VOCs (ppb)
+- tVOC (ppb)
 
 - Air quality that matches with the levels described in the following document: [calculating an actionable indoor air quality index](https://www.breeze-technologies.de/blog/calculating-an-actionable-indoor-air-quality-index/).
 
@@ -165,11 +169,11 @@ More detailed information can be found in the section [Testing](#testing).
 
 ### Testing ###
 
-Upon reset, the application will display the Silicon Labs's logo on the OLED screen for five seconds. Then you can check the measured CO2 and VOCs values on the OLED screen. You should expect a similar output to the one below.
+Upon reset, the application will display the Silicon Labs's logo on the OLED screen for a few seconds. Then you can check the measured CO2 and tVOC values on the OLED screen. You should expect a similar output to the one below.
 
-![OLED display](doc/images/display.png)
+![OLED display](images/display.png)
 
-**Note:** The measured CO2 and VOCs values will be more accurate after the sensor is warmed up.
+**Note:** The measured CO2 and tVOC values will be more accurate after the sensor is warmed up.
 
 Follow the below steps to test the example with the EFR Connect app:
 
@@ -177,7 +181,7 @@ Follow the below steps to test the example with the EFR Connect app:
 
 2. Find your device in the Bluetooth Browser, advertising as Air Quality, and tap Connect. Then you need accept the pairing request when connected for the first time.
 
-    ![pair request](doc/images/pairing_request.png)
+    ![pair request](images/pairing_request.png)
 
 3. Find the unknown service at the above of the OTA service.
 
@@ -185,7 +189,7 @@ Follow the below steps to test the example with the EFR Connect app:
 
 5. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
 
-    ![logs](doc/images/logs.png)
+    ![logs](images/logs.png)
 
 ## .sls Projects Used ##
 

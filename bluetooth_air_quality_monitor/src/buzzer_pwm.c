@@ -110,7 +110,8 @@ static CMU_Clock_TypeDef get_timer_clock(TIMER_TypeDef *timer)
   return timer_clock;
 }
 
-sl_status_t buzzer_pwm_init(buzzer_pwm_instance_t *pwm, buzzer_pwm_config_t *config)
+sl_status_t buzzer_pwm_init(buzzer_pwm_instance_t *pwm,
+                            buzzer_pwm_config_t *config)
 {
   uint32_t tmrpresc, inputCount;
   bool prescFound = false;
@@ -134,15 +135,15 @@ sl_status_t buzzer_pwm_init(buzzer_pwm_instance_t *pwm, buzzer_pwm_config_t *con
   TIMER_InitCC(pwm->timer, pwm->channel, &channel_init);
 
   // Configure CC channel pinout
-#if defined(_TIMER_ROUTE_MASK)
+#if defined(_SILICON_LABS_32B_SERIES_0)
   BUS_RegMaskedWrite(&pwm->timer->ROUTE,
                      _TIMER_ROUTE_LOCATION_MASK,
                      pwm->location << _TIMER_ROUTE_LOCATION_SHIFT);
-#elif defined(_TIMER_ROUTELOC0_MASK)
+#elif defined(_SILICON_LABS_32B_SERIES_1)
   BUS_RegMaskedWrite(&pwm->timer->ROUTELOC0,
                      _TIMER_ROUTELOC0_CC0LOC_MASK << (pwm->channel * 8U),
                      pwm->location << (pwm->channel * 8U));
-#elif defined(_GPIO_TIMER_ROUTEEN_MASK)
+#elif defined(_SILICON_LABS_32B_SERIES_2)
   volatile uint32_t * route_register = &GPIO->TIMERROUTE[TIMER_NUM(pwm->timer)].CC0ROUTE;
   route_register += pwm->channel;
   *route_register = (pwm->port << _GPIO_TIMER_CC0ROUTE_PORT_SHIFT)
@@ -168,10 +169,9 @@ sl_status_t buzzer_pwm_init(buzzer_pwm_instance_t *pwm, buzzer_pwm_config_t *con
        */
       inputCount = (CMU_ClockFreqGet(timer_clock) >> tmrpresc) / 50;
 
-      if(inputCount < _TIMER_CNT_MASK){
+      if (inputCount < _TIMER_CNT_MASK) {
           prescFound = true;
-      }
-      else{
+      } else {
           tmrpresc++;
       }
   }
@@ -196,11 +196,11 @@ sl_status_t buzzer_pwm_deinit(buzzer_pwm_instance_t *pwm)
   // Reset TIMER routes
   buzzer_pwm_stop(pwm);
 
-#if defined(_TIMER_ROUTE_MASK)
+#if defined(_SILICON_LABS_32B_SERIES_0)
   BUS_RegMaskedClear(&pwm->timer->ROUTE, _TIMER_ROUTE_LOCATION_MASK);
-#elif defined(_TIMER_ROUTELOC0_MASK)
+#elif defined(_SILICON_LABS_32B_SERIES_1)
   BUS_RegMaskedClear(&pwm->timer->ROUTELOC0, _TIMER_ROUTELOC0_CC0LOC_MASK << (pwm->channel * 8));
-#elif defined(_GPIO_TIMER_ROUTEEN_MASK)
+#elif defined(_SILICON_LABS_32B_SERIES_2)
   volatile uint32_t * route_register = &GPIO->TIMERROUTE[TIMER_NUM(pwm->timer)].CC0ROUTE;
   route_register += pwm->channel;
   *route_register = 0;
@@ -226,13 +226,13 @@ sl_status_t buzzer_pwm_deinit(buzzer_pwm_instance_t *pwm)
 void buzzer_pwm_start(buzzer_pwm_instance_t *pwm)
 {
   // Enable PWM output
-#if defined(_TIMER_ROUTE_MASK)
+#if defined(_SILICON_LABS_32B_SERIES_0)
   BUS_RegMaskedSet(&pwm->timer->ROUTE,
                    1 << (pwm->channel + _TIMER_ROUTE_CC0PEN_SHIFT));
-#elif defined(_TIMER_ROUTELOC0_MASK)
+#elif defined(_SILICON_LABS_32B_SERIES_1)
   BUS_RegMaskedSet(&pwm->timer->ROUTEPEN,
                    1 << (pwm->channel + _TIMER_ROUTEPEN_CC0PEN_SHIFT));
-#elif defined(_GPIO_TIMER_ROUTEEN_MASK)
+#elif defined(_SILICON_LABS_32B_SERIES_2)
   GPIO->TIMERROUTE_SET[TIMER_NUM(pwm->timer)].ROUTEEN = 1 << (pwm->channel + _GPIO_TIMER_ROUTEEN_CC0PEN_SHIFT);
 #else
 #error "Unknown route setting"
@@ -242,13 +242,13 @@ void buzzer_pwm_start(buzzer_pwm_instance_t *pwm)
 void buzzer_pwm_stop(buzzer_pwm_instance_t *pwm)
 {
   // Disable PWM output
-#if defined(_TIMER_ROUTE_MASK)
+#if defined(_SILICON_LABS_32B_SERIES_0)
   BUS_RegMaskedClear(&pwm->timer->ROUTE,
                      1 << (pwm->channel + _TIMER_ROUTE_CC0PEN_SHIFT));
-#elif defined(_TIMER_ROUTELOC0_MASK)
+#elif defined(_SILICON_LABS_32B_SERIES_1)
   BUS_RegMaskedClear(&pwm->timer->ROUTEPEN,
                      1 << (pwm->channel + _TIMER_ROUTEPEN_CC0PEN_SHIFT));
-#elif defined(_GPIO_TIMER_ROUTEEN_MASK)
+#elif defined(_SILICON_LABS_32B_SERIES_2)
   GPIO->TIMERROUTE_CLR[TIMER_NUM(pwm->timer)].ROUTEEN = 1 << (pwm->channel + _GPIO_TIMER_ROUTEEN_CC0PEN_SHIFT);
 #else
 #error "Unknown route setting"

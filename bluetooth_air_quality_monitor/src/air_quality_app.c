@@ -70,8 +70,8 @@ static uint32_t samples_counter;
 // CO2 result from the CCS811.
 static uint16_t co2;
 
-// VOCs result from the CCS811.
-static uint16_t vocs;
+// tVOC result from the CCS811.
+static uint16_t tvoc;
 
 // Application data
 static air_quality_data_t air_quality_data;
@@ -90,7 +90,7 @@ static void air_quality_monitor_callback(sl_sleeptimer_timer_handle_t *handle,
 
 static void oled_app_init(void);
 static air_quality_status_t air_quality_co2_status(uint16_t data);
-static air_quality_status_t air_quality_voc_status(uint16_t data);
+static air_quality_status_t air_quality_tvoc_status(uint16_t data);
 
 static void buzzer_activate(void);
 static void buzzer_deactivate(void);
@@ -203,16 +203,14 @@ static Ecode_t nvm3_load_configuration(void)
 
   app_log_info("Loading parameters from NVM...\n");
 
-  err = nvm3_user_get_notification_active(
-    &air_quality_data.notification_data);
+  err = nvm3_user_get_notification_active(&air_quality_data.notification_data);
   if (err != ECODE_NVM3_OK) {
     return err;
   }
   app_log_info("Loaded from NVM. Notification status = %d\r\n",
                air_quality_data.notification_data);
 
-  err = nvm3_user_get_update_period(
-    &air_quality_data.measurement_period_data);
+  err = nvm3_user_get_update_period(&air_quality_data.measurement_period_data);
   if (err != ECODE_NVM3_OK) {
     return err;
   }
@@ -227,8 +225,7 @@ static Ecode_t nvm3_load_configuration(void)
   app_log_info("Loaded from NVM. Buzzer volume = %d\r\n",
                air_quality_data.buzzer_data);
 
-  err = nvm3_user_get_threshold_co2(
-    &air_quality_data.threshold_co2_ppm);
+  err = nvm3_user_get_threshold_co2(&air_quality_data.threshold_co2_ppm);
   if (err != ECODE_NVM3_OK) {
     return err;
   }
@@ -236,14 +233,13 @@ static Ecode_t nvm3_load_configuration(void)
                "Notification threshold for CO2 level = %dppm\r\n",
                air_quality_data.threshold_co2_ppm);
 
-  err = nvm3_user_get_threshold_vocs(
-    &air_quality_data.threshold_voc_ppb);
+  err = nvm3_user_get_threshold_tvoc(&air_quality_data.threshold_tvoc_ppb);
   if (err != ECODE_NVM3_OK) {
     return err;
   }
   app_log_info("Loaded from NVM. "
-               "Notification threshold for VOCs level = %dppb\r\n",
-               air_quality_data.threshold_voc_ppb);
+               "Notification threshold for tVOC level = %dppb\r\n",
+               air_quality_data.threshold_tvoc_ppb);
 
   return ECODE_NVM3_OK;
 }
@@ -268,18 +264,18 @@ void air_quality_process_event(uint32_t event_flags)
  ******************************************************************************/
 static void air_quality_monitor_event_handler(void)
 {
-  uint16_t eco2;
-  uint16_t tvoc;
+  uint16_t _eco2;
+  uint16_t _tvoc;
 
   if (sl_ccs811_is_data_available(sl_i2cspm_sensor_gas)) {
     uint8_t index = samples_counter % DATA_BUFFER_SIZE;
     // Get measurement data from the CCS811
-    sl_ccs811_get_measurement(sl_i2cspm_sensor_gas, &eco2, &tvoc);
+    sl_ccs811_get_measurement(sl_i2cspm_sensor_gas, &_eco2, &_tvoc);
 
     // Store measurement data.
     // appends a new value to the measurement data, removes the oldest one.
-    co2_buffer[index] = eco2;
-    tvoc_buffer[index] = tvoc;
+    co2_buffer[index] = _eco2;
+    tvoc_buffer[index] = _tvoc;
     samples_counter++;
 
     // Run limit check and alarm logic
@@ -313,7 +309,8 @@ static void air_quality_monitor_button_event_handler(void)
 /***************************************************************************//**
  * Simple Button
  * Button state changed callback
- * @param[in] handle Button event handle
+ * @param[in] handle 
+ *    Button event handle
  ******************************************************************************/
 void sl_button_on_change(const sl_button_t *handle)
 {
@@ -376,10 +373,10 @@ void air_quality_user_read_callback(sl_bt_msg_t *evt)
       characteristic_ptr = (const uint8_t*) &co2;
       break;
 
-    // vocs characteristics value read
-    case gattdb_voc_data:
-      characteristic_size = sizeof(vocs);
-      characteristic_ptr = (const uint8_t*) &vocs;
+    // tvoc characteristics value read
+    case gattdb_tvoc_data:
+      characteristic_size = sizeof(tvoc);
+      characteristic_ptr = (const uint8_t*) &tvoc;
       break;
 
     // Buzzer volume characteristics value read
@@ -404,7 +401,7 @@ void air_quality_user_read_callback(sl_bt_msg_t *evt)
   sc = sl_bt_gatt_server_send_user_read_response(
     evt->data.evt_gatt_server_user_read_request.connection,
     evt->data.evt_gatt_server_user_read_request.characteristic,
-    (uint8_t) 0x00,               /* SUCCESS */
+    (uint8_t) 0x00, // SUCCESS
     characteristic_size, characteristic_ptr, &sent_len);
   app_assert_status(sc);
 }
@@ -507,29 +504,29 @@ void air_quality_user_write_callback(sl_bt_msg_t *evt)
       break;
     }
 
-    case gattdb_voc_data:
+    case gattdb_tvoc_data:
     {
-      uint16_t threshold_voc =
+      uint16_t threshold_tvoc =
         (evt->data.evt_gatt_server_user_write_request.value.data[1] << 8)
         | evt->data.evt_gatt_server_user_write_request.value.data[0];
 
-      if (len > VOC_ATT_LENGTH) {
+      if (len > TVOC_ATT_LENGTH) {
         response_code = (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
         break;
       }
 
-      if ((threshold_voc > THRESHOLD_VOCS_PPB_MAX)
-          || (threshold_voc < THRESHOLD_VOCS_PPB_MIN)) {
+      if ((threshold_tvoc > THRESHOLD_TVOC_PPB_MAX)
+          || (threshold_tvoc < THRESHOLD_TVOC_PPB_MIN)) {
         response_code = (uint8_t) SL_STATUS_BT_ATT_OUT_OF_RANGE;
         break;
       }
       // Store value in the runtime configuration structure
-      air_quality_data.threshold_voc_ppb = threshold_voc;
-      err = nvm3_user_set_threshold_vocs(threshold_voc);
+      air_quality_data.threshold_tvoc_ppb = threshold_tvoc;
+      err = nvm3_user_set_threshold_tvoc(threshold_tvoc);
       app_log_status(err);
       app_log("Write characteristic, ID: %x, value: %d\n",
               evt->data.evt_gatt_server_user_read_request.characteristic,
-              threshold_voc);
+              threshold_tvoc);
       break;
     }
 
@@ -628,7 +625,7 @@ static uint16_t air_quality_moving_average(uint16_t *data)
 static void air_quality_data_process(void)
 {
   co2 = air_quality_moving_average(co2_buffer);
-  vocs = air_quality_moving_average(tvoc_buffer);
+  tvoc = air_quality_moving_average(tvoc_buffer);
 
   // Ignore if notification is not enable
   if (0 == air_quality_data.notification_data) {
@@ -637,7 +634,7 @@ static void air_quality_data_process(void)
 
   // Check thresholds
   if ((co2 > air_quality_data.threshold_co2_ppm)
-      || (vocs > air_quality_data.threshold_voc_ppb)) {
+      || (tvoc > air_quality_data.threshold_tvoc_ppb)) {
     // Activate buzzer if it is not activated
     if (false == is_buzzer_active) {
       buzzer_activate();
@@ -655,22 +652,22 @@ static void air_quality_data_process(void)
  ******************************************************************************/
 static void oled_app_init(void)
 {
-  /* Initialize the OLED display */
+  // Initialize the OLED display
   glib_init();
 
   glib_context.backgroundColor = Black;
   glib_context.foregroundColor = White;
 
-  /* Fill lcd with background color */
+  // Fill lcd with background color
   glib_clear(&glib_context);
 
   glib_draw_bmp(&glib_context, silicon_labs_logo);
-  sl_sleeptimer_delay_millisecond(5000);
+  sl_sleeptimer_delay_millisecond(1000);
 
-  /* Fill lcd with background color */
+  // Fill lcd with background color
   glib_clear(&glib_context);
 
-  /* Use Narrow font */
+  // Use Narrow font
   glib_set_font(&glib_context, (glib_font_t*) &glib_font_6x8);
 
   glib_draw_string(&glib_context, "AIR", 0, 0);
@@ -691,23 +688,23 @@ static void oled_app_init(void)
 static void air_quality_update_display(void)
 {
   uint8_t co2_text_buffer[32];
-  uint8_t vocs_text_buffer[32];
-  air_quality_status_t co2_status, voc_status, status;
+  uint8_t tvoc_text_buffer[32];
+  air_quality_status_t co2_status, tvoc_status, status;
 
 	// The equivalent CO2 (eCO2) output range for CCS811 is from 400ppm up to 8192ppm.
-	// The equivalent VOC (VOCs) output range for CCS811 is from 0ppm up to 1187ppb.
+	// The equivalent tVOC (tVOC) output range for CCS811 is from 0ppm up to 1187ppb.
   sprintf((char*) co2_text_buffer, "%4d", co2);
-  sprintf((char*) vocs_text_buffer, "%4d", vocs);
+  sprintf((char*) tvoc_text_buffer, "%4d", tvoc);
   glib_draw_string(&glib_context, (char*) co2_text_buffer, 20, 13);
-  glib_draw_string(&glib_context, (char*) vocs_text_buffer, 20, 25);
+  glib_draw_string(&glib_context, (char*) tvoc_text_buffer, 20, 25);
 
   // Get status of air quality index.
   co2_status = air_quality_co2_status(co2);
-  voc_status = air_quality_voc_status(vocs);
+  tvoc_status = air_quality_tvoc_status(tvoc);
 
   // The overall air quality index for indoors is thus
   // based on the worst air quality index rating among them
-  status = (co2_status < voc_status ? voc_status : co2_status);
+  status = (co2_status < tvoc_status ? tvoc_status : co2_status);
   glib_draw_string(&glib_context, air_quality_status_text[status], 0, 39);
 
   glib_update_display();
@@ -750,7 +747,7 @@ static air_quality_status_t air_quality_co2_status(uint16_t data)
  *  https://www.breeze-technologies.de/blog/calculating-an-actionable-indoor-air-quality-index/
  *
  ******************************************************************************/
-static air_quality_status_t air_quality_voc_status(uint16_t data)
+static air_quality_status_t air_quality_tvoc_status(uint16_t data)
 {
   if (data < 50) {
     return EXCELLENT;

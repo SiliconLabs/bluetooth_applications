@@ -1,6 +1,6 @@
 /***************************************************************************//**
  * @file nvm3_user.c
- * @brief
+ * @brief NVM3 functions
  *******************************************************************************
  * # License
  * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
@@ -33,10 +33,11 @@
  * maintained and there may be no bug maintenance planned for these resources.
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
-#include <nvm3_user.h>
 #include <string.h>
-#include "air_quality_app.h"
+
 #include "nvm3_default_config.h"
+#include <nvm3_user.h>
+#include "air_quality_app.h"
 
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
@@ -47,7 +48,7 @@
 #define UPDATE_PERIOD_IN_SECOND_KEY         (NVM3_KEY_MIN + 1)
 #define BUZZER_VOLUME_KEY                   (NVM3_KEY_MIN + 2)
 #define THRESHOLD_CO2_PPM_KEY               (NVM3_KEY_MIN + 3)
-#define THRESHOLD_VOCS_PPB_KEY              (NVM3_KEY_MIN + 4)
+#define THRESHOLD_TVOC_PPB_KEY              (NVM3_KEY_MIN + 4)
 
 // Use the default nvm3 handle from nvm3_default.h
 #define NVM3_DEFAULT_HANDLE                 nvm3_defaultHandle
@@ -65,7 +66,7 @@ static Ecode_t nvm3_user_read_byte(nvm3_ObjectKey_t key, uint8_t *u8_value)
   size_t len;
   Ecode_t err;
 
-  // check if the designated keys contain data, and initialise if needed.
+  // Check if the designated keys contain data, and initialise if needed.
   err = nvm3_getObjectInfo(NVM3_DEFAULT_HANDLE,
                            key,
                            &type,
@@ -91,7 +92,7 @@ static Ecode_t nvm3_user_read_word(nvm3_ObjectKey_t key, uint16_t *u16_value)
   size_t len;
   Ecode_t err;
 
-  // check if the designated keys contain data, and initialise if needed.
+  // Check if the designated keys contain data, and initialise if needed.
   err = nvm3_getObjectInfo(NVM3_DEFAULT_HANDLE,
                            key,
                            &type,
@@ -119,7 +120,7 @@ static void nvm3_user_init_byte(nvm3_ObjectKey_t key,
   Ecode_t err;
   uint8_t read_value;
 
-  // check if the designated keys contain data, and initialise if needed.
+  // Check if the designated keys contain data, and initialise if needed.
   err = nvm3_user_read_byte(key, &read_value);
   if ((err == ECODE_NVM3_OK)
       && (read_value >= min_value)
@@ -143,7 +144,7 @@ static void nvm3_user_init_word(nvm3_ObjectKey_t key,
   Ecode_t err;
   uint16_t read_value;
 
-  // check if the designated keys contain data, and initialise if needed.
+  // Check if the designated keys contain data, and initialise if needed.
   err = nvm3_user_read_word(key, &read_value);
   if ((err == ECODE_NVM3_OK)
       && (read_value >= min_value)
@@ -198,11 +199,11 @@ void nvm3_user_init(void)
                       THRESHOLD_CO2_PPM_MAX,
                       THRESHOLD_CO2_PPM_DEFAULT);
 
-  // Initialise the vocs threshold config.
-  nvm3_user_init_word(THRESHOLD_VOCS_PPB_KEY,
-                      THRESHOLD_VOCS_PPB_MIN,
-                      THRESHOLD_VOCS_PPB_MAX,
-                      THRESHOLD_VOCS_PPB_DEFAULT);
+  // Initialise the tvoc threshold config.
+  nvm3_user_init_word(THRESHOLD_TVOC_PPB_KEY,
+                      THRESHOLD_TVOC_PPB_MIN,
+                      THRESHOLD_TVOC_PPB_MAX,
+                      THRESHOLD_TVOC_PPB_DEFAULT);
 }
 
 /***************************************************************************//**
@@ -319,31 +320,31 @@ Ecode_t nvm3_user_get_threshold_co2(uint16_t *threshold_co2)
 }
 
 /***************************************************************************//**
- *  Set the notification threshold for VOCs level in ppb to NVM.
+ *  Set the notification threshold for tVOC level in ppb to NVM.
  ******************************************************************************/
-Ecode_t nvm3_user_set_threshold_vocs(uint16_t threshold_vocs)
+Ecode_t nvm3_user_set_threshold_tvoc(uint16_t threshold_tvoc)
 {
   Ecode_t err;
 
-  if ((threshold_vocs > THRESHOLD_VOCS_PPB_MAX)
-      || (threshold_vocs < THRESHOLD_VOCS_PPB_MIN)) {
+  if ((threshold_tvoc > THRESHOLD_TVOC_PPB_MAX)
+      || (threshold_tvoc < THRESHOLD_TVOC_PPB_MIN)) {
     return ECODE_NVM3_ERR_PARAMETER;
   }
   err = nvm3_writeData(NVM3_DEFAULT_HANDLE,
-                       THRESHOLD_VOCS_PPB_KEY,
-                       (unsigned char *)&threshold_vocs,
-                       sizeof(threshold_vocs));
+                       THRESHOLD_TVOC_PPB_KEY,
+                       (unsigned char *)&threshold_tvoc,
+                       sizeof(threshold_tvoc));
   return err;
 }
 
 /***************************************************************************//**
- *  Get the notification threshold for VOCs level in ppb from NVM.
+ *  Get the notification threshold for tVOC level in ppb from NVM.
  ******************************************************************************/
-Ecode_t nvm3_user_get_threshold_vocs(uint16_t *threshold_vocs)
+Ecode_t nvm3_user_get_threshold_tvoc(uint16_t *threshold_tvoc)
 {
   Ecode_t err;
 
-  err = nvm3_user_read_word(THRESHOLD_VOCS_PPB_KEY, threshold_vocs);
+  err = nvm3_user_read_word(THRESHOLD_TVOC_PPB_KEY, threshold_tvoc);
   return err;
 }
 
