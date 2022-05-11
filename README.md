@@ -31,7 +31,7 @@ The Silicon Labs Bluetooth stack allows for a wide variety applications to be bu
 - IR Generator (InfraRed)
 - Log system example using UART(VCOM) or RTT with message levels
 - Explorer Kit BLE accelerometer example using SPI bus BMA400 accelerometer
-
+- BLE Air Quality Monitor example using CCS811 sensor
 
 ## Documentation ##
 
