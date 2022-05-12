@@ -143,17 +143,17 @@ static uint8_t ble_bonding_handle = 0xFF;
 // -----------------------------------------------------------------------------
 // Public function definitions
 
-/**************************************************************************//**
+/***************************************************************************//**
  * Application Init.
- *****************************************************************************/
+ ******************************************************************************/
 void app_init(void)
 {
   people_counting_app_init();
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * Application Process Action.
- *****************************************************************************/
+ ******************************************************************************/
 void app_process_action(void)
 {
 
@@ -239,13 +239,12 @@ static void connection_opened_handler(sl_bt_msg_t *evt)
 
 #if ALWAYS_INCRASE_SECURITY
   active_connection_id = evt->data.evt_connection_opened.connection;
-  if (ble_bonding_handle == 0xFF){
+  if (ble_bonding_handle == 0xFF) {
     log_info("+ Increasing security\r\n");
 
     sc = sl_bt_sm_increase_security(active_connection_id);
     app_assert_status(sc);
-  }
-  else {
+  } else {
     log_info("+ Already Bonded (ID: %d)\r\n", ble_bonding_handle);
   }
 #endif
@@ -274,7 +273,6 @@ static void connection_closed_handler(sl_bt_msg_t *evt)
 // Service the parameters event
 static void connection_parameters_handler(sl_bt_msg_t *evt)
 {
-  (void) evt;
   sl_status_t sc;
   uint8_t connection_handle = evt->data.evt_connection_parameters.connection;
   uint8_t security_level = evt->data.evt_connection_parameters.security_mode + 1;
@@ -284,7 +282,7 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
   log_info("Bluetooth Stack Event : CONNECTION Parameters ID\r\n");
 
   // If security is less than 2 increase so devices can bond
-  if (security_level == 0){
+  if (security_level == 0) {
       log_info("Bluetooth Stack Event : CONNECTION PARAMETERS : MTU = %d, \
               SecLvl : %d, timeout : %d\r\n",
               tx_size,
@@ -292,21 +290,19 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
               timeout);
       log_info("+ Bonding Handle is: 0x%04X\r\n", ble_bonding_handle);
 
-      if (ble_bonding_handle == 0xFF){
+      if (ble_bonding_handle == 0xFF) {
           log_info("+ Increasing security.\r\n");
 
           sc = sl_bt_sm_increase_security(connection_handle);
           app_assert_status(sc);
           // start timer.
-      }
-      else{
+      } else {
           log_info("+ Increasing security..\r\n");
 
           sc = sl_bt_sm_increase_security(connection_handle);
           app_assert_status(sc);
       }
-  }
-  else{
+  } else {
       log_info("[OK]      Bluetooth Stack Event : CONNECTION PARAMETERS : \
               MTU = %d, SecLvl : %d, Timeout : %d\r\n",
               tx_size,
@@ -330,16 +326,15 @@ static void sm_bonding_failed_handler(sl_bt_msg_t *evt)
           reason,
           ble_bonding_handle);
 
-  if ((reason == SL_STATUS_BT_SMP_PASSKEY_ENTRY_FAILED) ||
-      (reason == SL_STATUS_TIMEOUT)){
+  if ((reason == SL_STATUS_BT_SMP_PASSKEY_ENTRY_FAILED)
+       || (reason == SL_STATUS_TIMEOUT)) {
       log_info("+ Increasing security... because reason is 0x%04x\r\n", reason);
 
       sc = sl_bt_sm_increase_security(connection_handle);
       app_assert_status(sc);
-  }
-  else if ((reason == SL_STATUS_BT_SMP_PAIRING_NOT_SUPPORTED) ||
-      (reason == SL_STATUS_BT_CTRL_PIN_OR_KEY_MISSING)){
-      if (ble_bonding_handle != 0xFF){
+  } else if ((reason == SL_STATUS_BT_SMP_PAIRING_NOT_SUPPORTED)
+              || (reason == SL_STATUS_BT_CTRL_PIN_OR_KEY_MISSING)) {
+      if (ble_bonding_handle != 0xFF) {
           log_info("+ Broken bond, deleting ID:%d...\r\n", ble_bonding_handle);
 
           sc = sl_bt_sm_delete_bonding(ble_bonding_handle);
@@ -350,29 +345,26 @@ static void sm_bonding_failed_handler(sl_bt_msg_t *evt)
           app_assert_status(sc);
 
           ble_bonding_handle = 0xFF;
-      }
-      else {
+      } else {
           log_info("+ Increasing security in one second...\r\n");
 
           sc = sl_bt_sm_increase_security(connection_handle);
           log_info("Result... = 0x%04X\r\n", (int)sc);
           app_assert_status(sc);
 
-          if (sc == SL_STATUS_INVALID_STATE){
+          if (sc == SL_STATUS_INVALID_STATE) {
               log_info("+ Trying to increase security again");
 
               sc = sl_bt_sm_increase_security(connection_handle);
               app_assert_status(sc);
           }
       }
-  }
-  else if (reason == SL_STATUS_BT_SMP_UNSPECIFIED_REASON){
+  } else if (reason == SL_STATUS_BT_SMP_UNSPECIFIED_REASON) {
       log_info("+ Increasing security... because reason is 0x0308\r\n");
 
       sc = sl_bt_sm_increase_security(connection_handle);
       app_assert_status(sc);
-  }
-  else{
+  } else {
       log_info("+ Close connection : %d",
               evt->data.evt_sm_bonding_failed.connection);
 
@@ -394,12 +386,12 @@ static void sm_confirm_bonding_handler(sl_bt_msg_t *evt)
   app_assert_status(sc);
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * Bluetooth stack event handler.
  * This overrides the dummy weak implementation.
  *
  * @param[in] evt Event coming from the Bluetooth stack.
- *****************************************************************************/
+ ******************************************************************************/
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   switch (SL_BT_MSG_ID(evt->header)) {

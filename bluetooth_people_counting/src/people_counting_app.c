@@ -113,24 +113,19 @@ static void people_counting_oled_display_callback(
 static void people_counting_sensor_sampling_callback(
     sl_sleeptimer_timer_handle_t *timer, void *data);
 
-/***************************************************************************//**
- * Callback on button change.
- ******************************************************************************/
-void sl_button_on_change(const sl_button_t *handle);
-
 
 // -----------------------------------------------------------------------------
 // Public function definitions
 
-/**************************************************************************//**
+/***************************************************************************//**
  * Application Init.
- *****************************************************************************/
+ ******************************************************************************/
 void people_counting_app_init(void)
 {
   // Load configuration from NVM
   user_config_nvm3_init();
 
-  vl53l1_app_init();
+  vl53l1x_app_init();
 
   oled_app_init();
 
@@ -151,9 +146,9 @@ void people_counting_app_init(void)
                                         0);
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * People Counting Application Process External Signal.
- *****************************************************************************/
+ ******************************************************************************/
 void people_counting_process_evt_external_signal(uint32_t extsignals)
 {
   if (extsignals & PEOPLE_COUNTING_BUTTON_EVENT) {
@@ -165,13 +160,13 @@ void people_counting_process_evt_external_signal(uint32_t extsignals)
   }
 
   if (extsignals & PEOPLE_COUNTING_SAMPLING_EVENT) {
-    vl53l1_app_process_action();
+    vl53l1x_app_process_action();
   }
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * People Counting Application Process GATT Server User Write request.
- *****************************************************************************/
+ ******************************************************************************/
 void people_counting_process_evt_gatt_server_user_write_request(
     sl_bt_evt_gatt_server_user_write_request_t *data)
 {
@@ -182,13 +177,13 @@ void people_counting_process_evt_gatt_server_user_write_request(
   switch (data->characteristic) {
     case gattdb_people_entered_so_far: {
       log_info("GATT: write: Clear people entered so far counter");
-      vl53l1_app_clear_people_entered_so_far();
+      vl53l1x_app_clear_people_entered_so_far();
       sc = SL_STATUS_OK;
       break;
     }
     case gattdb_people_count: {
       log_info("GATT: write: Clear people counter\r\n");
-      vl53l1_app_clear_people_count();
+      vl53l1x_app_clear_people_count();
       sc = SL_STATUS_OK;
       break;
     }
@@ -199,12 +194,10 @@ void people_counting_process_evt_gatt_server_user_write_request(
         log_info("GATT: write:  min_distance: %d\r\n", value);
         if (SL_STATUS_OK == user_config_nvm3_set_min_distance(value)) {
           sc = SL_STATUS_OK;
-        }
-        else {
+        } else {
           sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
         }
-      }
-      else {
+      } else {
         sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
       }
       break;
@@ -216,12 +209,10 @@ void people_counting_process_evt_gatt_server_user_write_request(
         log_info("GATT: write: max_distance: %d\r\n", value);
         if (SL_STATUS_OK == user_config_nvm3_set_max_distance(value)) {
           sc = SL_STATUS_OK;
-        }
-        else {
+        } else {
           sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
         }
-      }
-      else {
+      } else {
         sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
       }
       break;
@@ -233,12 +224,10 @@ void people_counting_process_evt_gatt_server_user_write_request(
         log_info("GATT: write: distance_threshold: %d\r\n", value);
         if (SL_STATUS_OK == user_config_nvm3_set_distance_threshold(value)) {
           sc = SL_STATUS_OK;
-        }
-        else {
+        } else {
           sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
         }
-      }
-      else {
+      } else {
         sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
       }
       break;
@@ -248,14 +237,12 @@ void people_counting_process_evt_gatt_server_user_write_request(
         uint16_t value = (data->value.data[1] << 8)
                          | (data->value.data[0]);
         log_info("GATT: write: timing_budget: %d\r\n", value);
-        if (SL_STATUS_OK == vl53l1_app_change_timing_budget_in_ms(value)) {
+        if (SL_STATUS_OK == vl53l1x_app_change_timing_budget_in_ms(value)) {
           sc = SL_STATUS_OK;
-        }
-        else {
+        } else {
           sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
         }
-      }
-      else {
+      } else {
         sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
       }
       break;
@@ -269,16 +256,13 @@ void people_counting_process_evt_gatt_server_user_write_request(
           sc = SL_STATUS_OK;
           if (notification) {
             notification_status = true;
-          }
-          else {
+          } else {
             notification_status = false;
           }
-        }
-        else {
+        } else {
             sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
         }
-      }
-      else {
+      } else {
           sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
       }
       break;
@@ -289,12 +273,10 @@ void people_counting_process_evt_gatt_server_user_write_request(
             log_info("GATT: write: room capacity: %d\r\n", value);
             if (SL_STATUS_OK == user_config_nvm3_set_room_capacity(value)) {
               sc = SL_STATUS_OK;
-            }
-            else {
+            } else {
               sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
             }
-          }
-          else {
+          } else {
             sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
           }
           break;
@@ -308,9 +290,9 @@ void people_counting_process_evt_gatt_server_user_write_request(
   app_assert_status(sc);
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * People Counting Application Process GATT Server User Read request.
- *****************************************************************************/
+ ******************************************************************************/
 void people_counting_process_evt_gatt_server_user_read_request(
     sl_bt_evt_gatt_server_user_read_request_t *data)
 {
@@ -320,7 +302,7 @@ void people_counting_process_evt_gatt_server_user_read_request(
   // Handle Voice configuration characteristics.
   switch (data->characteristic) {
     case gattdb_people_entered_so_far: {
-      uint32_t value = vl53l1_app_get_people_entered_so_far();
+      uint32_t value = vl53l1x_app_get_people_entered_so_far();
       log_info("GATT: read: people_entered_so_far: %lu\r\n", value);
       // Send gatt response.
       sc = sl_bt_gatt_server_send_user_read_response(
@@ -334,7 +316,7 @@ void people_counting_process_evt_gatt_server_user_read_request(
       break;
     }
     case gattdb_people_count: {
-      uint16_t value = vl53l1_app_get_people_count();
+      uint16_t value = vl53l1x_app_get_people_count();
       log_info("GATT: read: people_count: %d\r\n", value);
       // Send gatt response.
       sc = sl_bt_gatt_server_send_user_read_response(
@@ -436,9 +418,9 @@ void people_counting_process_evt_gatt_server_user_read_request(
   }
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * People Counting Application Process GATT Server User Read request.
- *****************************************************************************/
+ ******************************************************************************/
 void people_counting_process_evt_gatt_server_characteristic_status(
     sl_bt_evt_gatt_server_characteristic_status_t *data)
 {
@@ -451,8 +433,7 @@ void people_counting_process_evt_gatt_server_characteristic_status(
       if (sl_bt_gatt_notification == data->client_config_flags) {
         // notification enabled.
         notification_status = true;
-      }
-      else {
+      } else {
         // notification disabled.
         notification_status = false;
       }
@@ -460,17 +441,17 @@ void people_counting_process_evt_gatt_server_characteristic_status(
   }
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * People Counting Application Set Current Bluetooth Connection Handle.
- *****************************************************************************/
+ ******************************************************************************/
 void people_counting_set_bt_connection_handle(uint8_t connection)
 {
   bt_connection_handle = connection;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * People Counting Application Reset Current Bluetooth Connection Handle.
- *****************************************************************************/
+ ******************************************************************************/
 void people_counting_reset_bt_connection_handle(void)
 {
   bt_connection_handle = INVALID_BT_HANDLE;
@@ -494,8 +475,8 @@ static void send_notification_data_u16(uint16_t characteristic, uint16_t data)
 
 static void people_counting_event_handler(void)
 {
-  uint16_t people_count = vl53l1_app_get_people_count();
-  uint32_t people_entered_so_far = vl53l1_app_get_people_entered_so_far();
+  uint16_t people_count = vl53l1x_app_get_people_count();
+  uint32_t people_entered_so_far = vl53l1x_app_get_people_entered_so_far();
 
   // Only display & notify people count when their value is changed
   if ( people_count != last_people_count
@@ -524,7 +505,7 @@ static void people_counting_event_handler(void)
 
 static void people_counting_button_handler(void)
 {
-  vl53l1_app_clear_people_count();
+  vl53l1x_app_clear_people_count();
 }
 
 /***************************************************************************//**

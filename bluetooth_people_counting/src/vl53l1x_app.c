@@ -85,11 +85,11 @@
 #define LEFT                      0
 #define RIGHT                     1
 
-#define DISTANCES_ARRAY_SIZE      10   // nb of samples
+#define DISTANCES_ARRAY_SIZE      10   // number of samples
 #define DISTANCE_MODE             VL53L1X_DISTANCE_MODE_LONG
 
-#define FRONT_ZONE_CENTER                            175
-#define BACK_ZONE_CENTER                             231
+#define FRONT_ZONE_CENTER         175
+#define BACK_ZONE_CENTER          231
 
 // -----------------------------------------------------------------------------
 // Private variables
@@ -115,10 +115,10 @@ static uint16_t process_people_counting_data(int16_t distance, uint8_t zone);
 // -----------------------------------------------------------------------------
 // Public function definitions
 
-/**************************************************************************//**
+/***************************************************************************//**
  * Application Init.
- *****************************************************************************/
-void vl53l1_app_init(void)
+ ******************************************************************************/
+void vl53l1x_app_init(void)
 {
   sl_status_t sc;
   uint8_t boot_state;
@@ -170,10 +170,10 @@ void vl53l1_app_init(void)
   app_assert_status(sc);
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * VL53L1X Process Action.
- *****************************************************************************/
-void vl53l1_app_process_action(void)
+ ******************************************************************************/
+void vl53l1x_app_process_action(void)
 {
   uint8_t is_data_ready = 0;
   uint8_t range_status = 0;
@@ -233,7 +233,6 @@ void vl53l1_app_process_action(void)
     // add new ranged distance sample to the people counting algorithm
     people_count = process_people_counting_data(distance, zone);
 
-
     zone++;
     zone %= 2;
 
@@ -242,59 +241,59 @@ void vl53l1_app_process_action(void)
   }
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * VL53L1X Get People Count.
- *****************************************************************************/
-uint16_t vl53l1_app_get_people_count(void)
+ ******************************************************************************/
+uint16_t vl53l1x_app_get_people_count(void)
 {
   return people_count;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * VL53L1X Get Measured Distance.
- *****************************************************************************/
-uint16_t vl53l1_app_get_current_measured_distance(void)
+ ******************************************************************************/
+uint16_t vl53l1x_app_get_current_measured_distance(void)
 {
   return measured_distance;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * VL53L1X Clear People Count.
- *****************************************************************************/
-void vl53l1_app_clear_people_count(void)
+ ******************************************************************************/
+void vl53l1x_app_clear_people_count(void)
 {
   people_count = 0;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * VL53L1X Get People Entered So Far.
- *****************************************************************************/
-uint32_t vl53l1_app_get_people_entered_so_far(void)
+ ******************************************************************************/
+uint32_t vl53l1x_app_get_people_entered_so_far(void)
 {
   return people_entered_so_far;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * VL53L1X Get Invalid Count.
- *****************************************************************************/
-uint32_t vl53l1_app_get_invalid_count(void)
+ ******************************************************************************/
+uint32_t vl53l1x_app_get_invalid_count(void)
 {
   return invalid_count;
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * VL53L1X Clear People Entered So Far Counter.
- *****************************************************************************/
-void vl53l1_app_clear_people_entered_so_far(void)
+ ******************************************************************************/
+void vl53l1x_app_clear_people_entered_so_far(void)
 {
   people_entered_so_far = 0;
   user_config_nvm3_set_people_entered_so_far(0);
 }
 
-/**************************************************************************//**
+/***************************************************************************//**
  * VL53L1X Change Timing Budget.
- *****************************************************************************/
-sl_status_t vl53l1_app_change_timing_budget_in_ms(uint16_t timing_budget)
+ ******************************************************************************/
+sl_status_t vl53l1x_app_change_timing_budget_in_ms(uint16_t timing_budget)
 {
   change_timing_budget(timing_budget);
   return user_config_nvm3_set_timing_budget(timing_budget);
@@ -372,8 +371,7 @@ static uint16_t process_people_counting_data(int16_t distance, uint8_t zone)
       // store current zone status
       left_previous_status = current_zone_status;
     }
-  }
-  else {
+  } else {
 
     if (current_zone_status != right_previous_status) {
 
@@ -419,8 +417,7 @@ static uint16_t process_people_counting_data(int16_t distance, uint8_t zone)
           distances_sample_count[0] = 0;
           distances_sample_count[1] = 0;
           log_info("Someone In, People Count=%d\r\n", people_count);
-        }
-        else if ((path_track[1] == 2)
+        } else if ((path_track[1] == 2)
                    && (path_track[2] == 3)
                    && (path_track[3] == 1)) {
           // People exit the room
@@ -432,19 +429,17 @@ static uint16_t process_people_counting_data(int16_t distance, uint8_t zone)
           distances_sample_count[0] = 0;
           distances_sample_count[1] = 0;
           log_info("Someone Out, People Count=%d\r\n", people_count);
-        }
-        else {
+        } else {
           // reset the table filling size also in case of unexpected path
-//          distances_sample_count[0] = 0;
-//          distances_sample_count[1] = 0;
+          distances_sample_count[0] = 0;
+          distances_sample_count[1] = 0;
           log_info("Invalid path\r\n");
         }
       }
 
       path_track_filling_size = 1;
       led0_off();
-    }
-    else {
+    } else {
       // update path_track
       // example of path_track update
       // 0

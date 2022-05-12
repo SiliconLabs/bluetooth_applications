@@ -2,11 +2,11 @@
 
 ## Overview
 
-This project aims to implement a people counting application using Silabs development kits integrated with the BLE wireless stack and a VL53L1X distance sensors.
+This project aims to implement a people counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensors.
 
 The block diagram of this application is shown in the image below:
 
-![overview](doc/images/overview.png)
+![overview](images/overview.png)
 
 More detailed information can be found in the section [How it works](#how-it-works).
 
@@ -32,9 +32,9 @@ GSDK v4.0.2
 
 The hardware connection is shown in the image below:
 
-![hardware connection](doc/images/hardware_connection.jpg)
+![hardware connection](images/hardware_connection.png)
 
-The I2C connection is make from BGM220 Bluetooth Module Explorer Kit to the Distance Sensor Breakout board and the Micro OLED Breakout by using the qwiic cable.
+The I2C connection is made from the BGM220 Bluetooth Module Explorer Kit to the Distance Sensor Breakout board and the Micro OLED Breakout by using the qwiic cable.
 
 ## Setup
 
@@ -56,10 +56,9 @@ To test this application, you can either import the provided `bluetooth_people_c
 
 4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
 
-    - Install **[Platform] > [Driver] > [I2CSPM]** component with add new instance name: **qwiic**. Set this component to use I2C1 peripheral, SCL to PD02 pin, SDA to PD03 pin.
+    - Install **[Platform] > [Driver] > [I2CSPM]** component with the default instance name: **qwiic**. Set this component to use I2C1 peripheral, SCL to PD02 pin, SDA to PD03 pin.
 
-        ![i2c qwiic](doc/images/i2c_qwiic.png)
-        ![i2c qwiic setting](doc/images/qwiic_settings.png)
+        ![i2c qwiic](images/i2c_qwiic.png)
 
     - Install **[Platform] > [IO Stream] > [IO Stream: USART]** component with the default instance name: **vcom**.
 
@@ -73,17 +72,19 @@ To test this application, you can either import the provided `bluetooth_people_c
 
 5. Build and flash the project to your device.
 
+    *Note*: You need to create the bootloader project and flash it to the device before flashing the application. When flash the application image to the device, use the .hex or .s37 output file. Flashing the .bin files may overwrite (erase) the bootloader.
+
 ## How it Works
 
-### API overview
+### Application overview
 
-A detailed description of each function can be found in [doc/doxygen](doc/doxygen/html/modules.html).
+![Application overview](images/application_overview.png)
 
 ### GATT Configurator
 
 The application is based on the Bluetooth - SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required.
 
-The GATT changes were adding a new custom service (Air Quality Monitor) using UUID `3a79c933-c922-45c7-b5e7-9bdefd126dd9` which are 5 characteristics:
+The GATT changes were adding a new custom service (People Counting) using UUID `66332ec5-990b-4f16-84b0-89790a6620c8` which are 8 characteristics:
 
 - **People Entered So Far**: UUID `cf88405b-e223-4976-82aa-78c6b305b0a8`
 
@@ -135,15 +136,15 @@ The GATT changes were adding a new custom service (Air Quality Monitor) using UU
 
 #### Application initialization
 
-![Application init](doc/images/app_init.png)  
+![Application init](images/app_init.png)  
 
 #### Sensor initialization
 
-![Sensor init](doc/images/sensor_init.png)  
+![Sensor init](images/sensor_init.png)  
 
 #### Sensor sampling
 
-![Sensor sampling](doc/images/sampling_workflows.png)
+![Sensor sampling](images/sampling_workflows.png)
 
 #### Application Workflows
 
@@ -171,7 +172,7 @@ The GATT changes were adding a new custom service (Air Quality Monitor) using UU
 
     - Calculate people counting algorithm with new distance sample.
 
-    - Switch Region of interest( ROI) center to other zone( front or back)
+    - Switch Region of interest (ROI) center to other zone (front or back)
 
 7. Start a periodic timer with period 1000ms, The timer callback will fire an external event to ble stack and the event handler will display people counting data from the result of the counting algorithm calculation.
 
@@ -188,15 +189,17 @@ If we consider that a person detected in the front zone equals 2, and a person d
 
 Eventually, if the consecutive states in the list are 0, 1, 3, 2, 0 or 0, 2, 3, 1, 0 this means a person has been detected in one direction or the other, as described in figure below. List of status values.
 
-![Counting Algorithm](doc/images/counting_algorithm.png)  
+![Counting Algorithm](images/counting_algorithm.png)  
 
 Algorithm workflows
 
-![Algorithm workflows](doc/images/algorithm_workflows.png)
+![Algorithm workflows](images/algorithm_workflows.png)
 
 ### OLED Display
 
 - Display current people count and the value of the entered people so far
+  
+  ![OLED display](images/oled_display.png)
 
 ### Button
 
@@ -204,14 +207,14 @@ Algorithm workflows
 
 ### Room status notification
 
-- To receive status of room(full or empty), the user need to use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to enable notification
+- To receive status of room (full or empty), the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to enable notification
 - If the number of people count is greater than room capacity then the device will send a "room is full" notification
 - If the number of people count is zero then the device will send a "room is empty" notification
 
 ### Reset the counting value
 
-- To reset the number of total people entered the room infomation, the user need to use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Entered So Far* characteristic
-- To reset the number of people count infomation, the user need to use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Count* characteristic
+- To reset the number of total people entered the room infomation, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Entered So Far* characteristic
+- To reset the number of people count infomation, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Count* characteristic
 
 ### Use EFR Connect Mobile Application
 
@@ -223,7 +226,7 @@ Open the EFR Connect application on your smartphone and allow the permission req
 
 **Note**: The pairing process on Android and iOS devices is different. For more information, refer to bluetooth security.
 
-| ![EFR32 Connect App](doc/images/efr32_connect_app1.png) | ![EFR32 Connect App](doc/images/efr32_connect_app2.png)|![EFR32 Connect App](doc/images/efr32_connect_app3.png)|
+| ![EFR32 Connect App](images/efr32_connect_app1.png) | ![EFR32 Connect App](images/efr32_connect_app2.png)|![EFR32 Connect App](images/efr32_connect_app3.png)|
 | - | - | -|
 
 #### Read/Write characteristics

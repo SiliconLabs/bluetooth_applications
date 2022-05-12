@@ -519,8 +519,7 @@ static void conf_data_u8_init(nvm3_ObjectKey_t key,
       && (read_value >= min_value)
       && (read_value <= max_value)) {
     return;
-  }
-  else {
+  } else {
       nvm3_deleteObject(NVM3_DEFAULT_HANDLE, key);
   }
   // Write default value
@@ -544,8 +543,7 @@ static void conf_data_u16_init(nvm3_ObjectKey_t key,
       && (read_value >= min_value)
       && (read_value <= max_value)) {
     return;
-  }
-  else {
+  } else {
       nvm3_deleteObject(NVM3_DEFAULT_HANDLE, key);
   }
   // Write default value
@@ -565,8 +563,7 @@ static void conf_counter_init(nvm3_ObjectKey_t key,
   err = conf_data_counter_read(key, &read_value);
   if (err == ECODE_NVM3_OK) {
     return;
-  }
-  else {
+  } else {
       nvm3_deleteObject(NVM3_DEFAULT_HANDLE, key);
   }
   // Write default value

@@ -34,32 +34,163 @@
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 
-#ifndef NVM3_APP_H
-#define NVM3_APP_H
+#ifndef NVM3_USER_CONFIG_H
+#define NVM3_USER_CONFIG_H
 
 #include <stdbool.h>
 
 /***************************************************************************//**
- * Initialize NVM3 example
+ * @brief
+ *    Initialize the nvm3 module for the people counting configuration.
+ *
  ******************************************************************************/
 void user_config_nvm3_init(void);
 
+/***************************************************************************//**
+ * @brief
+ *    Set people entered the room so far value to the nvm3 entry.
+ *
+ * @param[in] people_count
+ *    People entered the room so far value to set.
+ *
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure.
+ ******************************************************************************/
 sl_status_t user_config_nvm3_set_people_entered_so_far(uint32_t people_count);
+
+/***************************************************************************//**
+ * @brief
+ *    Set minimum distance to the nvm3 entry.
+ *
+ * @param[in] distance
+ *    Distance value to set.
+ *
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure.
+ ******************************************************************************/
 sl_status_t user_config_nvm3_set_min_distance(uint16_t distance);
+
+/***************************************************************************//**
+ * @brief
+ *    Set maximum distance to the nvm3 entry.
+ *
+ * @param[in] distance
+ *    Distance value to set.
+ *
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure.
+ ******************************************************************************/
 sl_status_t user_config_nvm3_set_max_distance(uint16_t distance);
+
+/***************************************************************************//**
+ * @brief
+ *    Set max distance threshold to the nvm3 entry.
+ *
+ * @param[in] distance
+ *    Distance value to set.
+ *
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure.
+ ******************************************************************************/
 sl_status_t user_config_nvm3_set_distance_threshold(uint16_t distance);
+
+/***************************************************************************//**
+ * @brief
+ *    Set timing budget to the nvm3 entry.
+ *
+ * @param[in] timing_budget
+ *    Timing budget value to set.
+ *
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure.
+ ******************************************************************************/
 sl_status_t user_config_nvm3_set_timing_budget(uint16_t timing_budget);
+
+/***************************************************************************//**
+ * @brief
+ *    Set notification status to the nvm3 entry.
+ *
+ * @param[in] enable
+ *    Enable or disable.
+ *
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure.
+ ******************************************************************************/
 sl_status_t user_config_nvm3_set_notification_status(bool enable);
-sl_status_t user_config_nvm3_toggle_notification_status(void);
+
+/***************************************************************************//**
+ * @brief
+ *    Set room capacity to the nvm3 entry.
+ *
+ * @param[in] room_capacity
+ *    Room capacity value.
+ *
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure.
+ ******************************************************************************/
 sl_status_t user_config_nvm3_set_room_capacity(uint16_t room_capacity);
 
-
+/***************************************************************************//**
+ * @brief
+ *    Get people entered the room so far value from the nvm3 entry.
+ *
+ * @return
+ *    The value of people entered the room so far.
+ ******************************************************************************/
 uint32_t user_config_nvm3_get_people_entered_so_far(void);
+
+/***************************************************************************//**
+ * @brief
+ *    Get minimum distance value from the nvm3 entry.
+ *
+ * @return
+ *    The value of minimum distance.
+ ******************************************************************************/
 uint16_t user_config_nvm3_get_min_distance(void);
+
+/***************************************************************************//**
+ * @brief
+ *    Get maximum distance value from the nvm3 entry.
+ *
+ * @return
+ *    The value of maximum distance.
+ ******************************************************************************/
 uint16_t user_config_nvm3_get_max_distance(void);
+
+/***************************************************************************//**
+ * @brief
+ *    Get distance threshold value from the nvm3 entry.
+ *
+ * @return
+ *    The value of distance threshold.
+ ******************************************************************************/
 uint16_t user_config_nvm3_get_distance_threshold(void);
+
+/***************************************************************************//**
+ * @brief
+ *    Get timing budget value from the nvm3 entry.
+ *
+ * @return
+ *    The value of timing budget.
+ ******************************************************************************/
 uint16_t user_config_nvm3_get_timing_budget(void);
+
+/***************************************************************************//**
+ * @brief
+ *    Get notification status value from the nvm3 entry.
+ *
+ * @return
+ *    The value of notification status.
+ ******************************************************************************/
 bool user_config_nvm3_get_notification_status(void);
+
+/***************************************************************************//**
+ * @brief
+ *    Get room capacity value from the nvm3 entry.
+ *
+ * @return
+ *    The value of room capacity.
+ ******************************************************************************/
 uint16_t user_config_nvm3_get_room_capacity(void);
 
-#endif  // NVM3_APP_H
+#endif  // NVM3_USER_CONFIG_H

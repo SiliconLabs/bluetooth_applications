@@ -34,20 +34,29 @@
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 
-#ifndef OLED_APP_H
-#define OLED_APP_H
-
-#include <stdbool.h>
+#ifndef OLED_H
+#define OLED_H
 
 /***************************************************************************//**
- * Initialize NVM3 example
+ * @brief
+ *  Initialize the OLED display.
+ *
  ******************************************************************************/
 void oled_app_init(void);
 
-void oled_show_people_count(uint32_t people_count, uint32_t people_entered_so_far);
-
 /***************************************************************************//**
- * NVM3 ticking function
+ * @brief
+ *  Show the number of people count and people entered the room so far on the
+ *  OLED display
+ *
+ * @param[in] people_count
+ *  The number of people count
+ *
+ * @param[in] people_entered_so_far
+ *  The number of people entered the room so far
+ *
  ******************************************************************************/
+void oled_show_people_count(uint32_t people_count,
+                            uint32_t people_entered_so_far);
 
-#endif  // OLED_APP_H
+#endif  // OLED_H

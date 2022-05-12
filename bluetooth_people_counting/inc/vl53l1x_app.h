@@ -37,26 +37,76 @@
 #ifndef VL53L1X_APP_H
 #define VL53L1X_APP_H
 
-/**************************************************************************//**
- * Application Init.
- *****************************************************************************/
-void vl53l1_app_init(void);
+/***************************************************************************//**
+ * @brief
+ *    Initialize VL53L1x application.
+ *
+ ******************************************************************************/
+void vl53l1x_app_init(void);
 
-/**************************************************************************//**
- * Application Process Action.
- *****************************************************************************/
-void vl53l1_app_process_action(void);
+/***************************************************************************//**
+ * @brief
+ *   Get sampling data from the VL53L1x sensor and process people counting
+ *   algorithm.
+ *
+ ******************************************************************************/
+void vl53l1x_app_process_action(void);
 
-uint16_t vl53l1_app_get_current_measured_distance(void);
+/***************************************************************************//**
+ * @brief
+ *    Get current measured distance.
+ *
+ * @return
+ *    Current measured distance.
+ *
+ ******************************************************************************/
+uint16_t vl53l1x_app_get_current_measured_distance(void);
 
-uint16_t vl53l1_app_get_people_count(void);
-uint32_t vl53l1_app_get_people_entered_so_far(void);
+/***************************************************************************//**
+ * @brief
+ *    Get current people count.
+ *
+ * @return
+ *    Current people count.
+ *
+ ******************************************************************************/
+uint16_t vl53l1x_app_get_people_count(void);
 
-void vl53l1_app_clear_people_count(void);
-void vl53l1_app_clear_people_entered_so_far();
+/***************************************************************************//**
+ * @brief
+ *    Get current people entered so far.
+ *
+ * @return
+ *    Current people entered so far.
+ *
+ ******************************************************************************/
+uint32_t vl53l1x_app_get_people_entered_so_far(void);
 
-uint32_t vl53l1_app_get_measured_period_ms(void); // TODO: remove this
+/***************************************************************************//**
+ * @brief
+ *   Clear current number of people count.
+ *
+ ******************************************************************************/
+void vl53l1x_app_clear_people_count(void);
 
-sl_status_t vl53l1_app_change_timing_budget_in_ms(uint16_t timing_budget);
+/***************************************************************************//**
+ * @brief
+ *   Clear current number of people entered so far.
+ *
+ ******************************************************************************/
+void vl53l1x_app_clear_people_entered_so_far();
+
+/***************************************************************************//**
+ * @brief
+ *    Change current timing budget.
+ *
+ * @param[in] timing_budget
+ *    The timing budget of VL53L1x
+ *
+ * @return
+ *    @ref SL_STATUS_OK on success or @ref SL_STATUS_FAIL on failure.
+ *
+ ******************************************************************************/
+sl_status_t vl53l1x_app_change_timing_budget_in_ms(uint16_t timing_budget);
 
 #endif // VL53L1X_APP_H

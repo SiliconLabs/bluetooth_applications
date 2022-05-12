@@ -37,28 +37,76 @@
 #ifndef PEOPLE_COUNTING_APP_H
 #define PEOPLE_COUNTING_APP_H
 
-/**************************************************************************//**
- * Application Init.
- *****************************************************************************/
+/***************************************************************************//**
+ * @brief
+ *  Initialize the people counting application.
+ *
+ ******************************************************************************/
 void people_counting_app_init(void);
 
-/**************************************************************************//**
- * Application Process Action.
- *****************************************************************************/
-void people_counting_app_process_action(void);
-
-/**************************************************************************//**
- * Application Process Action.
- *****************************************************************************/
+/***************************************************************************//**
+ * @brief
+ *    Handle bluetooth event external signal,
+ *    that trigger by people counting module.
+ *
+ * @param[in] extsignals
+ *    Event flags.
+ *
+ ******************************************************************************/
 void people_counting_process_evt_external_signal(uint32_t extsignals);
+
+/***************************************************************************//**
+ * @brief
+ *    Handle bluetooth gatt user write request event,
+ *    that is used by people counting module.
+ *
+ * @param[in] data
+ *    User write request data.
+ *
+ ******************************************************************************/
 void people_counting_process_evt_gatt_server_user_write_request(
     sl_bt_evt_gatt_server_user_write_request_t *data);
+
+/***************************************************************************//**
+ * @brief
+ *    Handle bluetooth gatt user read request event,
+ *    that is used by people counting module.
+ *
+ * @param[in] data
+ *    User read request data.
+ *
+ ******************************************************************************/
 void people_counting_process_evt_gatt_server_user_read_request(
     sl_bt_evt_gatt_server_user_read_request_t *data);
+
+/***************************************************************************//**
+ * @brief
+ *    Handle bluetooth gatt characteristic notification status event,
+ *    that is used by people counting module.
+ *
+ * @param[in] data
+ *    Characteristic status data.
+ *
+ ******************************************************************************/
 void people_counting_process_evt_gatt_server_characteristic_status(
     sl_bt_evt_gatt_server_characteristic_status_t *data);
 
+/***************************************************************************//**
+ * @brief
+ *    Set bluetooth connection handle to send notify.
+ *
+ * @param[in] connection
+ *    Connection handle.
+ *
+ ******************************************************************************/
 void people_counting_set_bt_connection_handle(uint8_t connection);
+
+/***************************************************************************//**
+ * @brief
+ *    Reset bluetooth handle to invalid handle
+ *    to disable characteristic notification
+ *
+ ******************************************************************************/
 void people_counting_reset_bt_connection_handle();
 
-#endif // APP_H
+#endif // PEOPLE_COUNTING_APP_H
