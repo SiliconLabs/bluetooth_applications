@@ -45,8 +45,8 @@
 // use applog for the log printing
 #if defined(SL_CATALOG_APP_LOG_PRESENT) && APP_LOG_ENABLE
 #include "app_log.h"
-#define log_info(fmt, ...)  app_log_info("[" TAG "]" fmt, ##__VA_ARGS__)
-#define log_error(fmt, ...) app_log_error("[" TAG "]" fmt, ##__VA_ARGS__)
+#define log_info(fmt, ...)  app_log_info("[" TAG "] " fmt, ##__VA_ARGS__)
+#define log_error(fmt, ...) app_log_error("[" TAG "] " fmt, ##__VA_ARGS__)
 // use stdio printf for the log printing
 #elif defined(SL_CATALOG_RETARGET_STDIO_PRESENT)
 #define log_info(fmt, ...)   printf("[" TAG "]" fmt, ##__VA_ARGS__)

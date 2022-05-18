@@ -48,12 +48,12 @@
 // use applog for the log printing
 #if defined(SL_CATALOG_APP_LOG_PRESENT) && APP_LOG_ENABLE
 #include "app_log.h"
-#define log_info(fmt, ...)  app_log_info("[" TAG "]" fmt, ##__VA_ARGS__)
-#define log_error(fmt, ...) app_log_error("[" TAG "]" fmt, ##__VA_ARGS__)
+#define log_info(fmt, ...)  app_log_info("[" TAG "] " fmt, ##__VA_ARGS__)
+#define log_error(fmt, ...) app_log_error("[" TAG "] " fmt, ##__VA_ARGS__)
 // use stdio printf for the log printing
 #elif defined(SL_CATALOG_RETARGET_STDIO_PRESENT)
-#define log_info(fmt, ...)   printf("[" TAG "]" fmt, ##__VA_ARGS__)
-#define log_error(fmt, ...)  printf("[" TAG "]" fmt, ##__VA_ARGS__)
+#define log_info(fmt, ...)   printf("[" TAG "] " fmt, ##__VA_ARGS__)
+#define log_error(fmt, ...)  printf("[" TAG "] " fmt, ##__VA_ARGS__)
 #else  // the logging is disabled
 #define log_info(...)
 #define log_error(...)
@@ -70,13 +70,13 @@
 // Defines
 
 // Max and min keys for data objects
-#define PEOPLE_ENTERED_SO_FAR_KEY  (NVM3_KEY_MIN)
-#define MIN_DISTANCE_KEY          (NVM3_KEY_MIN+1)
-#define MAX_DISTANCE_KEY          (NVM3_KEY_MIN+2)
-#define DISTANCE_THRESHOLD_KEY    (NVM3_KEY_MIN+3)
-#define TIMING_BUDGET_KEY         (NVM3_KEY_MIN+4)
-#define NOTIFICATION_STATUS_KEY   (NVM3_KEY_MIN+5)
-#define ROOM_CAPACITY_KEY         (NVM3_KEY_MIN+6)
+#define PEOPLE_ENTERED_SO_FAR_KEY   (NVM3_KEY_MIN)
+#define MIN_DISTANCE_KEY            (NVM3_KEY_MIN+1)
+#define MAX_DISTANCE_KEY            (NVM3_KEY_MIN+2)
+#define DISTANCE_THRESHOLD_KEY      (NVM3_KEY_MIN+3)
+#define TIMING_BUDGET_KEY           (NVM3_KEY_MIN+4)
+#define NOTIFICATION_STATUS_KEY     (NVM3_KEY_MIN+5)
+#define ROOM_CAPACITY_KEY           (NVM3_KEY_MIN+6)
 
 #define PEOPLE_ENTERED_SO_FAR_VALUE_DEFAULT  (0)
 

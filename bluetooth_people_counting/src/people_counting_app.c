@@ -54,12 +54,12 @@
 // use applog for the log printing
 #if defined(SL_CATALOG_APP_LOG_PRESENT) && APP_LOG_ENABLE
 #include "app_log.h"
-#define log_info(fmt, ...)  app_log_info("[" TAG "]" fmt, ##__VA_ARGS__)
-#define log_error(fmt, ...) app_log_error("[" TAG "]" fmt, ##__VA_ARGS__)
+#define log_info(fmt, ...)  app_log_info("[" TAG "] " fmt, ##__VA_ARGS__)
+#define log_error(fmt, ...) app_log_error("[" TAG "] " fmt, ##__VA_ARGS__)
 // use stdio printf for the log printing
 #elif defined(SL_CATALOG_RETARGET_STDIO_PRESENT)
-#define log_info(fmt, ...)   printf("[" TAG "]" fmt, ##__VA_ARGS__)
-#define log_error(fmt, ...)  printf("[" TAG "]" fmt, ##__VA_ARGS__)
+#define log_info(fmt, ...)   printf("[" TAG "] " fmt, ##__VA_ARGS__)
+#define log_error(fmt, ...)  printf("[" TAG "] " fmt, ##__VA_ARGS__)
 #else  // the logging is disabled
 #define log_info(...)
 #define log_error(...)
@@ -493,7 +493,7 @@ static void people_counting_event_handler(void)
 
       if (people_count == 0) {
         // notify room is empty
-          send_notification_data_u16(gattdb_notification_status, 0);
+        send_notification_data_u16(gattdb_room_capacity, 0);
       }
 
       if (people_count > user_config_nvm3_get_room_capacity()) {

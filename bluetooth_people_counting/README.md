@@ -189,7 +189,7 @@ If we consider that a person detected in the front zone equals 2, and a person d
 
 Eventually, if the consecutive states in the list are 0, 1, 3, 2, 0 or 0, 2, 3, 1, 0 this means a person has been detected in one direction or the other, as described in figure below. List of status values.
 
-![Counting Algorithm](images/counting_algorithm.png)  
+![Counting Algorithm](images/people_counting_algorithm.jpg)  
 
 Algorithm workflows
 
@@ -213,8 +213,8 @@ Algorithm workflows
 
 ### Reset the counting value
 
-- To reset the number of total people entered the room infomation, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Entered So Far* characteristic
-- To reset the number of people count infomation, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Count* characteristic
+- To reset the number of total people entered the room, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Entered So Far* characteristic
+- To reset the number of people count, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Count* characteristic
 
 ### Use EFR Connect Mobile Application
 
