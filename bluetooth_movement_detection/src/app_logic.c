@@ -75,77 +75,105 @@ md_feature_t md_features[] = MD_FEATURES;
 
 
 // Local application logic functions
-static void _md_load_config_from_nvm(void);
-static void _gpio_init(void);
-static void _check_object_moving(void);
-static void _handle_detected_moving(void);
+static void md_load_config_from_nvm(void);
+static void md_print_config(void);
+static void gpio_init(void);
+static void check_object_moving(void);
+static void handle_detected_moving(void);
 
 // Local accelerometer sensor related functions.
-static void _acc_sensor_init(void);
-static void _acc_sensor_enter_lp_mode(void);
-static void _acc_sensor_set_auto_wakeup_int(bool is_auto_wakup_en);
+static void acc_sensor_init(void);
+static void acc_sensor_enter_lp_mode(void);
+static void acc_sensor_en_auto_wakeup_int(void);
+static void acc_sensor_dis_auto_wakeup_int(void);
 
 /***************************************************************************//**
  * Initializes GPIO and register the callback
  ******************************************************************************/
-static void _gpio_init(void)
+static void gpio_init(void)
 {
   GPIOINT_Init();
-  GPIO_ExtIntConfig(gpioPortB, BMA400_INT_PIN, BMA400_INT_PIN, true, false, true);
-  GPIO_PinModeSet(gpioPortB, BMA400_INT_PIN, gpioModeInputPull, (unsigned int)1);
-  GPIOINT_CallbackRegister(BMA400_INT_PIN, app_external_int_auto_wakeup_callback);
+  GPIO_ExtIntConfig(gpioPortB,
+                    BMA400_INT_PIN,
+                    BMA400_INT_PIN,
+                    true,
+                    false,
+                    true);
+  GPIO_PinModeSet(gpioPortB,
+                  BMA400_INT_PIN,
+                  gpioModeInputPull,
+                  (unsigned int)1);
+  GPIOINT_CallbackRegister(BMA400_INT_PIN,
+                           app_external_int_auto_wakeup_callback);
 }
 
 /***************************************************************************//**
  * Load configuration from NVM
  ******************************************************************************/
-static void _md_load_config_from_nvm(void)
+static void md_load_config_from_nvm(void)
 {
+  sl_status_t status;
   size_t data_length = 0;
-  uint8_t data[4];
+  uint8_t data[4] = {0};
 
   app_log("Loading parameters from NVM...\n");
 
   // Load parameters from NVM, or use the default values
   for (int i = 0; i < MD_BLE_FEATURE_LENGTH; i++) {
     // Try to load a parameter from NVM
-    sl_bt_nvm_load(md_features[i].nvm_key,
-                   md_features[i].data_length, &data_length, data);
+    status = sl_bt_nvm_load(md_features[i].nvm_key,
+                        md_features[i].data_length, &data_length, data);
 
     // Check if there is valid data with the given key
-    if (md_features[i].data_length == data_length) {
+    if ((status == SL_STATUS_OK)
+        && (md_features[i].data_length == data_length)) {
       // Data has a valid length
       // Copy data into the runtime configuration structure
       memcpy(md_features[i].data, data,
              md_features[i].data_length);
 
-      app_log("> For char ID %d, parameter loaded from NVM.\n",
+      app_log("> For char ID %d, parameter loaded successfully from NVM.\n",
+              md_features[i].char_id);
+    } else {
+      app_log("> For char ID %d, failed to load parameter.\n",
               md_features[i].char_id);
     }
   }
 }
 
 /***************************************************************************//**
+ * Print configuration value.
+ ******************************************************************************/
+static void md_print_config(void)
+{
+  app_log("wakeup time period = %d (ms)\r\n",md_config.wake_up_time_period);
+  app_log("threshold = %d (lsb)\r\n",md_config.movement_threshold);
+  app_log("notification time = %d (ms)\r\n",md_config.notification_time);
+  app_log("notification break time = %d (ms)\r\n",
+          md_config.notification_break_time);
+}
+
+/***************************************************************************//**
  * Initializes sensor BMA400
  ******************************************************************************/
-static void _acc_sensor_init(void)
+static void acc_sensor_init(void)
 {
   struct bma400_sensor_conf conf;
   struct bma400_device_conf dev_conf[2];
   struct bma400_int_enable int_en;
-  int8_t ret;
+  int8_t ret = 0;
 
-  ret = bma400_i2c_init(sl_i2cspm_mikroe, BMA400_I2C_ADDRESS_SDO_HIGH, &bma);
+  ret |= bma400_i2c_init(sl_i2cspm_mikroe, BMA400_I2C_ADDRESS_SDO_HIGH, &bma);
   app_log_status(ret);
-  ret = bma400_soft_reset(&bma);
+  ret |= bma400_soft_reset(&bma);
   app_log_status(ret);
 
-  ret = bma400_init(&bma);
+  ret |= bma400_init(&bma);
   app_log_status(ret);
   app_log("chip id = %d\n\r", bma.chip_id);
 
   // Put accelerometer sensor in normal mode before configuration.
-  ret = bma400_set_power_mode(BMA400_MODE_NORMAL, &bma);
+  ret += bma400_set_power_mode(BMA400_MODE_NORMAL, &bma);
   app_log_status(ret);
 
   // Configure accelerometer data.
@@ -153,7 +181,7 @@ static void _acc_sensor_init(void)
   conf.param.accel.odr = BMA400_ODR_100HZ;
   conf.param.accel.range = BMA400_RANGE_2G;
   conf.param.accel.data_src = BMA400_DATA_SRC_ACCEL_FILT_1;
-  ret = bma400_set_sensor_conf(&conf, 1, &bma);
+  ret |= bma400_set_sensor_conf(&conf, 1, &bma);
   app_log_status(ret);
 
   // Configure auto wake-up interrupt.
@@ -168,27 +196,31 @@ static void _acc_sensor_init(void)
   dev_conf[1].param.int_conf.int_chan = BMA400_INT_CHANNEL_1;
   dev_conf[1].param.int_conf.pin_conf = BMA400_INT_PUSH_PULL_ACTIVE_1;
 
-  ret = bma400_set_device_conf(dev_conf, 2, &bma);
+  ret |= bma400_set_device_conf(dev_conf, 2, &bma);
   app_log_status(ret);
 
   // Enable auto wakeup interrupt.
   int_en.type = BMA400_AUTO_WAKEUP_EN;
   int_en.conf = BMA400_ENABLE;
-  ret = bma400_enable_interrupt(&int_en, 1, &bma);
+  ret |= bma400_enable_interrupt(&int_en, 1, &bma);
   app_log_status(ret);
 
   // Put sensor in low power mode.
-  ret = bma400_set_power_mode(BMA400_MODE_LOW_POWER, &bma);
+  ret |= bma400_set_power_mode(BMA400_MODE_LOW_POWER, &bma);
   app_log_status(ret);
 
-  app_log("Init BMA400 done!\r\n");
+  if (ret == BMA400_OK) {
+    app_log("Init BMA400 done!\r\n");
+  }
 }
 
 /***************************************************************************//**
  * Check if the object is moving or not
  ******************************************************************************/
-static void _check_object_moving(void)
+static void check_object_moving(void)
 {
+  sl_status_t status;
+
   md_runtime_data.sample_counter += 1;
   if (md_runtime_data.sample_counter >= MD_SAMPLES_COUNT_THRESHOLD) {
     if (md_runtime_data.movement_counter >= MD_MOVEMENT_COUNT_THRESHOLD) {
@@ -196,51 +228,59 @@ static void _check_object_moving(void)
       app_log("Moving is detected\r\n");
 
       // Disable auto wakeup interrupt until break time is over.
-      _acc_sensor_set_auto_wakeup_int(false);
+      acc_sensor_dis_auto_wakeup_int();
       GPIO_IntDisable(1 << BMA400_INT_PIN);
 
-      _handle_detected_moving();
+      handle_detected_moving();
     } else {
       app_log("Moving is not detected\r\n");
     }
 
     app_log("Stop checking\r\n");
-    sl_status_t sc;
-    sc = sl_sleeptimer_stop_timer(&md_runtime_data.wake_up_period_timer_handle);
-    app_assert_status(sc);
+    status = sl_sleeptimer_stop_timer(
+      &md_runtime_data.wake_up_period_timer_handle);
+    app_assert_status(status);
     md_runtime_data.sample_counter = 0;
     md_runtime_data.movement_counter = 0;
   }
-  _acc_sensor_enter_lp_mode();
+  acc_sensor_enter_lp_mode();
 }
 
 /***************************************************************************//**
  * Handles movement detection
  ******************************************************************************/
-static void _handle_detected_moving(void)
+static void handle_detected_moving(void)
 {
-  sl_status_t sc;
+  sl_status_t status;
 
-  sc = sl_sleeptimer_start_timer_ms(&md_runtime_data.notify_timer_handle,
-                                    md_config.notification_time,
-                                    app_sleep_timer_notify_callback,
-                                    NULL,
-                                    0,
-                                    0);
-  app_assert_status(sc);
-  sc = sl_sleeptimer_start_periodic_timer_ms(&md_runtime_data.blink_led_timer_handle,
-                                             MD_INTERVAL_BLINK_NOTIFY,
-                                             app_sleep_timer_blink_led_callback,
-                                             NULL,
-                                             0,
-                                             0);
-  app_assert_status(sc);
+  status = sl_sleeptimer_start_timer_ms(
+    &md_runtime_data.notify_timer_handle,
+    md_config.notification_time,
+    app_sleep_timer_notify_callback,
+    NULL,
+    0,
+    0);
+  if (status != SL_STATUS_OK) {
+    app_log("Start notify timer failed\r\n");
+  }
+  app_assert_status(status);
+  status = sl_sleeptimer_start_periodic_timer_ms(
+    &md_runtime_data.blink_led_timer_handle,
+    MD_INTERVAL_BLINK_NOTIFY,
+    app_sleep_timer_blink_led_callback,
+    NULL,
+    0,
+    0);
+  if (status != SL_STATUS_OK) {
+    app_log("Start blink led timer failed\r\n");
+  }                                             
+  app_assert_status(status);
 }
 
 /***************************************************************************//**
  * Sets the low power mode to the sensor
  ******************************************************************************/
-static void _acc_sensor_enter_lp_mode(void)
+static void acc_sensor_enter_lp_mode(void)
 {
   int8_t ret;
 
@@ -249,15 +289,29 @@ static void _acc_sensor_enter_lp_mode(void)
 }
 
 /***************************************************************************//**
- * Enable/Disable the auto wake-up to the sensor
+ * Enable the auto wake-up to the sensor
  ******************************************************************************/
-static void _acc_sensor_set_auto_wakeup_int(bool is_auto_wakup_en)
+static void acc_sensor_en_auto_wakeup_int(void)
 {
   struct bma400_int_enable int_en;
   int8_t ret;
 
   int_en.type = BMA400_AUTO_WAKEUP_EN;
-  int_en.conf = is_auto_wakup_en ? BMA400_ENABLE : BMA400_DISABLE;
+  int_en.conf = BMA400_ENABLE;
+  ret = bma400_enable_interrupt(&int_en, 1, &bma);
+  app_log_status(ret);
+}
+
+/***************************************************************************//**
+ * Disable the auto wake-up to the sensor
+ ******************************************************************************/
+static void acc_sensor_dis_auto_wakeup_int(void)
+{
+  struct bma400_int_enable int_en;
+  int8_t ret;
+
+  int_en.type = BMA400_AUTO_WAKEUP_EN;
+  int_en.conf = BMA400_DISABLE;
   ret = bma400_enable_interrupt(&int_en, 1, &bma);
   app_log_status(ret);
 }
@@ -268,18 +322,20 @@ static void _acc_sensor_set_auto_wakeup_int(bool is_auto_wakup_en)
  ******************************************************************************/
 void app_logic_reset_last_req_conf_timer(void)
 {
-  sl_status_t sc;
+  sl_status_t status;
 
-  sc = sl_sleeptimer_stop_timer(&md_runtime_data.last_req_conf_timer_handle);
-  app_assert_status(sc);
+  status = sl_sleeptimer_stop_timer(
+    &md_runtime_data.last_req_conf_timer_handle);
+  app_assert_status(status);
 
-  sc = sl_sleeptimer_start_timer_ms(&md_runtime_data.last_req_conf_timer_handle,
-                                    MD_LAST_REQ_TIMEOUT_MS,
-                                    app_sleep_timer_last_req_conf_callback,
-                                    NULL,
-                                    0,
-                                    0);
-  app_assert_status(sc);
+  status = sl_sleeptimer_start_timer_ms(
+    &md_runtime_data.last_req_conf_timer_handle,
+    MD_LAST_REQ_TIMEOUT_MS,
+    app_sleep_timer_last_req_conf_callback,
+    NULL,
+    0,
+    0);
+  app_assert_status(status);
 }
 
 /***************************************************************************//**
@@ -287,19 +343,21 @@ void app_logic_reset_last_req_conf_timer(void)
  ******************************************************************************/
 void app_logic_handle_notify_timer(void)
 {
-  sl_status_t sc;
+  sl_status_t status;
 
-  sc = sl_sleeptimer_stop_timer(&md_runtime_data.blink_led_timer_handle);
-  app_assert_status(sc);
+  status = sl_sleeptimer_stop_timer(&md_runtime_data.blink_led_timer_handle);
+  app_assert_status(status);
 
   sl_simple_led_turn_off(sl_led_led0.context);
 
-  sc = sl_sleeptimer_start_timer_ms(&md_runtime_data.notify_break_timer_handle,
-                                    md_config.notification_break_time,
-                                    app_sleep_timer_notify_break_callback,
-                                    NULL,
-                                    0,
-                                    0);
+  status = sl_sleeptimer_start_timer_ms(
+    &md_runtime_data.notify_break_timer_handle,
+    md_config.notification_break_time,
+    app_sleep_timer_notify_break_callback,
+    NULL,
+    0,
+    0);
+  app_assert_status(status);
 }
 
 /***************************************************************************//**
@@ -310,10 +368,10 @@ void app_logic_handle_notify_break_timer(void)
   app_log("Break time is over\r\n");
 
   // Enable auto wakeup interrupt because break time is over.
-  _acc_sensor_set_auto_wakeup_int(true);
+  acc_sensor_en_auto_wakeup_int();
   GPIO_IntEnable(1 << BMA400_INT_PIN);
 
-  _acc_sensor_enter_lp_mode();
+  acc_sensor_enter_lp_mode();
   md_runtime_data.movement_flag = false;
 }
 
@@ -323,11 +381,8 @@ void app_logic_handle_notify_break_timer(void)
  ******************************************************************************/
 void app_logic_init(void)
 {
-  _md_load_config_from_nvm();
-  app_log("wakeup time period = %d (ms)\r\n",md_config.wake_up_time_period);
-  app_log("threshold = %d (lsb)\r\n",md_config.movement_threshold);
-  app_log("notification time = %d (ms)\r\n",md_config.notification_time);
-  app_log("notification break time = %d (ms)\r\n",md_config.notification_break_time);
+  md_load_config_from_nvm();
+  md_print_config();
 }
 
 /***************************************************************************//**
@@ -336,7 +391,7 @@ void app_logic_init(void)
  ******************************************************************************/
 movement_detection_mode_t app_logic_handle_system_boot_evt(void)
 {
-  sl_status_t sc;
+  sl_status_t status;
 
   // If BTN0 is held down then choose configuration mode.
   if (sl_simple_button_get_state(&sl_button_btn0)
@@ -346,19 +401,20 @@ movement_detection_mode_t app_logic_handle_system_boot_evt(void)
     sl_simple_led_turn_on(sl_led_led0.context);
 
     // Start last request configuration timer.
-    sc = sl_sleeptimer_start_timer_ms(&md_runtime_data.last_req_conf_timer_handle,
-                                      MD_LAST_REQ_TIMEOUT_MS,
-                                      app_sleep_timer_last_req_conf_callback,
-                                      NULL,
-                                      0,
-                                      0);
-    app_assert_status(sc);
+    status = sl_sleeptimer_start_timer_ms(
+      &md_runtime_data.last_req_conf_timer_handle,
+      MD_LAST_REQ_TIMEOUT_MS,
+      app_sleep_timer_last_req_conf_callback,
+      NULL,
+      0,
+      0);
+    app_assert_status(status);
 
     return MD_CONFIGURED_MODE;
   } else {
     // Device enters normal mode.
-    _acc_sensor_init();
-    _gpio_init();
+    acc_sensor_init();
+    gpio_init();
     return MD_NORMAL_MODE;
   }
 }
@@ -369,7 +425,7 @@ movement_detection_mode_t app_logic_handle_system_boot_evt(void)
 void app_logic_handle_acc_wakeup_evt(void)
 {
   sl_status_t ret;
-  uint16_t int_status;
+  uint16_t int_status = 0;
   int8_t bma_ret;
 
   bma_ret = bma400_get_interrupt_status(&int_status, &bma);
@@ -383,22 +439,23 @@ void app_logic_handle_acc_wakeup_evt(void)
   if (md_runtime_data.movement_counter == 0) {
     app_log("Start checking\r\n");
     // Start wake-up time period timer.
-    ret = sl_sleeptimer_start_periodic_timer_ms(&md_runtime_data.wake_up_period_timer_handle,
-                                                md_config.wake_up_time_period,
-                                                app_sleep_timer_wakeup_period_callback,
-                                                NULL,
-                                                0,
-                                                0);
+    ret = sl_sleeptimer_start_periodic_timer_ms(
+      &md_runtime_data.wake_up_period_timer_handle,
+      md_config.wake_up_time_period,
+      app_sleep_timer_wakeup_period_callback,
+      NULL,
+      0,
+      0);
     app_assert_status(ret);
 
-    _check_object_moving();
+    check_object_moving();
   } else {
-    _acc_sensor_enter_lp_mode();
+    acc_sensor_enter_lp_mode();
   }
   md_runtime_data.movement_counter += 1;
 
   // Disable auto wakeup interrupt.
-  _acc_sensor_set_auto_wakeup_int(false);
+  acc_sensor_dis_auto_wakeup_int();
   GPIO_IntDisable(1 << BMA400_INT_PIN);
 }
 
@@ -408,8 +465,8 @@ void app_logic_handle_acc_wakeup_evt(void)
 void app_logic_handle_wakeup_time_period_evt(void)
 {
   // Enable auto wakeup interrupt.
-  _acc_sensor_set_auto_wakeup_int(true);
+  acc_sensor_en_auto_wakeup_int();
   GPIO_IntEnable(1 << BMA400_INT_PIN);
 
-  _check_object_moving();
+  check_object_moving();
 }

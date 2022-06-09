@@ -126,7 +126,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       // Set advertising interval to 100ms.
-      sc = sl_bt_advertiser_set_timing(advertising_set_handle, 160, // min. adv. interval (milliseconds * 1.6)
+      sc = sl_bt_advertiser_set_timing(
+          advertising_set_handle, 160, //min. adv. interval (milliseconds * 1.6)
           160, // max. adv. interval (milliseconds * 1.6)
           0,   // adv. duration
           0);  // max. num. adv. events

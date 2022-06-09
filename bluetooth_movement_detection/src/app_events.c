@@ -50,16 +50,17 @@
 #include "app_config.h"
 #include "app_ble_events.h"
 
-static void convert_integer_to_ascii(uint8_t *string, int input, uint16_t *len);
+static void 
+convert_integer_to_aret_codeii(uint8_t *string, int input, uint16_t *len);
 
 /***************************************************************************//**
  * Handles BLE user read/write requests for the configured characteristics.
  ******************************************************************************/
 void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 {
-  sl_status_t sc;
+  sl_status_t ret_code;
   uint16_t length = 0;
-  uint8_t ascii_buffer[16];
+  uint8_t aret_codeii_buffer[16];
   int temp_int = 0;
   md_feature_t *feature = NULL;
 
@@ -88,8 +89,8 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
           (sizeof(uint8_t) == feature->data_length ?
               *((uint8_t* )(feature->data)) : *((uint16_t* )(feature->data))));
 
-      // Convert integers to ASCII string
-      convert_integer_to_ascii(ascii_buffer,
+      // Convert integers to Aret_codeII string
+      convert_integer_to_aret_codeii(aret_codeii_buffer,
           (sizeof(uint8_t) == feature->data_length ?
               *((uint8_t*) (feature->data)) : *((uint16_t*) (feature->data))),
           &length);
@@ -99,13 +100,13 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
           evt->data.evt_gatt_server_user_read_request.connection,
           evt->data.evt_gatt_server_user_read_request.characteristic,
           SL_STATUS_OK, /* SUCCESS */
-          length, ascii_buffer, &length);
+          length, aret_codeii_buffer, &length);
 
     } else {
 
       // Check value length
       if (evt->data.evt_gatt_server_user_write_request.value.len
-          > sizeof(ascii_buffer)) {
+          > sizeof(aret_codeii_buffer)) {
         // Send invalid attribute value length error
         sl_bt_gatt_server_send_user_write_response(
             evt->data.evt_gatt_server_user_read_request.connection,
@@ -114,11 +115,11 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 
       } else {
         // Copy received data into a buffer
-        memcpy(ascii_buffer,
+        memcpy(aret_codeii_buffer,
             evt->data.evt_gatt_server_user_write_request.value.data,
             evt->data.evt_gatt_server_user_write_request.value.len);
 
-        // Convert ASCII to integer
+        // Convert Aret_codeII to integer
         temp_int = atoi(
             (char*) evt->data.evt_gatt_server_user_write_request.value.data);
 
@@ -137,15 +138,17 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
           }
 
           // Store value in NVM
-          sc = sl_bt_nvm_erase(feature->nvm_key);
+          ret_code = sl_bt_nvm_erase(feature->nvm_key);
           app_assert(
-              (sc == SL_STATUS_OK) || (sc == SL_STATUS_BT_PS_KEY_NOT_FOUND),
-              "[E: 0x%04x] Failed to Erase NVM\n", (int ) sc);
+              (ret_code == SL_STATUS_OK) 
+              || (ret_code == SL_STATUS_BT_PS_KEY_NOT_FOUND),
+              "[E: 0x%04x] Failed to Erase NVM\n", (int ) ret_code);
 
-          sc = sl_bt_nvm_save(feature->nvm_key, feature->data_length,
+          ret_code = sl_bt_nvm_save(feature->nvm_key, feature->data_length,
               feature->data);
-          app_assert(sc == SL_STATUS_OK, "[E: 0x%04x] Failed to write NVM\n",
-              (int ) sc);
+          app_assert(ret_code == SL_STATUS_OK,
+              "[E: 0x%04x] Failed to write NVM\n",
+              (int ) ret_code);
 
           // Send write operation successful status
           sl_bt_gatt_server_send_user_write_response(
@@ -208,7 +211,8 @@ void app_event_handler_on_external_event(sl_bt_msg_t *evt)
   }
 }
 
-static void convert_integer_to_ascii(uint8_t *string, int input, uint16_t *len)
+static void 
+convert_integer_to_aret_codeii(uint8_t *string, int input, uint16_t *len)
 {
   sprintf((char*) string, "%d", input);
   *len = strlen((const char*) string);
