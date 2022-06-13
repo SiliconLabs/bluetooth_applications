@@ -49,43 +49,43 @@ extern "C" {
  * @brief
  *    This function handles the last request timeout timer  expiration event.
  ******************************************************************************/
-void 
-app_sleep_timer_last_req_conf_callback(sl_sleeptimer_timer_handle_t *handle,
-                                       void *data);
+void app_sleep_timer_last_req_conf_callback(
+                         sl_sleeptimer_timer_handle_t *handle,
+                         void *data);
 
 /**************************************************************************//**
  * Callback when the wake-up time period timer expire
  *****************************************************************************/
-void 
-app_sleep_timer_wakeup_period_callback(sl_sleeptimer_timer_handle_t *handle,
-                                       void *data);
+void app_sleep_timer_wakeup_period_callback(
+                         sl_sleeptimer_timer_handle_t *handle,
+                         void *data);
 
 /**************************************************************************//**
  * Callback when the sensor's auto wake-up interrupt fires.
  *****************************************************************************/
-void 
-app_external_int_auto_wakeup_callback(uint8_t intNo);
+void app_external_int_auto_wakeup_callback(
+                         uint8_t intNo);
 
 /**************************************************************************//**
  * Callback when the blink led timer expire.
  *****************************************************************************/
-void 
-app_sleep_timer_blink_led_callback(sl_sleeptimer_timer_handle_t *handle,
-                                   void *data);
+void app_sleep_timer_blink_led_callback(
+                         sl_sleeptimer_timer_handle_t *handle,
+                         void *data);
 
 /**************************************************************************//**
  * Callback when the notify timer expire.
  *****************************************************************************/
-void 
-app_sleep_timer_notify_callback(sl_sleeptimer_timer_handle_t *handle,
-                                void *data);
+void app_sleep_timer_notify_callback(
+                         sl_sleeptimer_timer_handle_t *handle,
+                         void *data);
 
 /**************************************************************************//**
  * Callback when the notify break timer expire.
  *****************************************************************************/
-void 
-app_sleep_timer_notify_break_callback(sl_sleeptimer_timer_handle_t *handle,
-                                      void *data);
+void app_sleep_timer_notify_break_callback(
+                         sl_sleeptimer_timer_handle_t *handle,
+                         void *data);
 
 #ifdef __cplusplus
 }

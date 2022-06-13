@@ -50,17 +50,19 @@
 #include "app_config.h"
 #include "app_ble_events.h"
 
-static void 
-convert_integer_to_aret_codeii(uint8_t *string, int input, uint16_t *len);
+static void convert_integer_to_ascii(
+                                uint8_t *string,
+                                int input,
+                                uint16_t *len);
 
 /***************************************************************************//**
  * Handles BLE user read/write requests for the configured characteristics.
  ******************************************************************************/
 void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 {
-  sl_status_t ret_code;
+  sl_status_t sc;
   uint16_t length = 0;
-  uint8_t aret_codeii_buffer[16];
+  uint8_t ascii_buffer[16];
   int temp_int = 0;
   md_feature_t *feature = NULL;
 
@@ -69,10 +71,10 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 
     if ((BLE_CHAR_ACCESS_TYPE_READ == access_type
         && evt->data.evt_gatt_server_user_read_request.characteristic
-            == md_features[i].char_id)
+        == md_features[i].char_id)
         || (BLE_CHAR_ACCESS_TYPE_WRITE == access_type
-            && evt->data.evt_gatt_server_user_write_request.characteristic
-                == md_features[i].char_id)) {
+        && evt->data.evt_gatt_server_user_write_request.characteristic
+        == md_features[i].char_id)) {
       // Set current feature
       feature = &md_features[i];
       break;
@@ -84,51 +86,56 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
   if (NULL != feature) {
     if (BLE_CHAR_ACCESS_TYPE_READ == access_type) {
 
-      app_log("Read characteristic, ID: %x, value: %d\n",
-          evt->data.evt_gatt_server_user_read_request.characteristic,
-          (sizeof(uint8_t) == feature->data_length ?
-              *((uint8_t* )(feature->data)) : *((uint16_t* )(feature->data))));
+      app_log(
+        "Read characteristic, ID: %x, value: %d\n",
+        evt->data.evt_gatt_server_user_read_request.characteristic,
+        (sizeof(uint8_t) == feature->data_length ?
+        *((uint8_t* )(feature->data)) : *((uint16_t* )(feature->data))));
 
-      // Convert integers to Aret_codeII string
-      convert_integer_to_aret_codeii(aret_codeii_buffer,
-          (sizeof(uint8_t) == feature->data_length ?
-              *((uint8_t*) (feature->data)) : *((uint16_t*) (feature->data))),
-          &length);
+      // Convert integers to ASCII string
+      convert_integer_to_ascii(
+        ascii_buffer,
+        (sizeof(uint8_t) == feature->data_length ?
+        *((uint8_t*) (feature->data)) : *((uint16_t*) (feature->data))),
+        &length);
 
       // Send response
       sl_bt_gatt_server_send_user_read_response(
-          evt->data.evt_gatt_server_user_read_request.connection,
-          evt->data.evt_gatt_server_user_read_request.characteristic,
-          SL_STATUS_OK, /* SUCCESS */
-          length, aret_codeii_buffer, &length);
+        evt->data.evt_gatt_server_user_read_request.connection,
+        evt->data.evt_gatt_server_user_read_request.characteristic,
+        SL_STATUS_OK, /* SUCCESS */
+        length, 
+        ascii_buffer,
+        &length);
 
     } else {
 
       // Check value length
       if (evt->data.evt_gatt_server_user_write_request.value.len
-          > sizeof(aret_codeii_buffer)) {
+          > sizeof(ascii_buffer)) {
         // Send invalid attribute value length error
         sl_bt_gatt_server_send_user_write_response(
-            evt->data.evt_gatt_server_user_read_request.connection,
-            evt->data.evt_gatt_server_user_read_request.characteristic,
-            (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH);
+          evt->data.evt_gatt_server_user_read_request.connection,
+          evt->data.evt_gatt_server_user_read_request.characteristic,
+          (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH);
 
       } else {
         // Copy received data into a buffer
-        memcpy(aret_codeii_buffer,
-            evt->data.evt_gatt_server_user_write_request.value.data,
-            evt->data.evt_gatt_server_user_write_request.value.len);
+        memcpy(ascii_buffer,
+          evt->data.evt_gatt_server_user_write_request.value.data,
+          evt->data.evt_gatt_server_user_write_request.value.len);
 
-        // Convert Aret_codeII to integer
+        // Convert ASCII to integer
         temp_int = atoi(
             (char*) evt->data.evt_gatt_server_user_write_request.value.data);
 
         // Check value range
         if (temp_int >= feature->value_min && temp_int <= feature->value_max) {
 
-          app_log("Write characteristic, ID: %x, value: %d\n",
-              evt->data.evt_gatt_server_user_read_request.characteristic,
-              temp_int);
+          app_log(
+            "Write characteristic, ID: %x, value: %d\n",
+            evt->data.evt_gatt_server_user_read_request.characteristic,
+            temp_int);
 
           // Store value in the runtime configuration structure
           if (sizeof(uint8_t) == feature->data_length) {
@@ -138,31 +145,34 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
           }
 
           // Store value in NVM
-          ret_code = sl_bt_nvm_erase(feature->nvm_key);
+          sc = sl_bt_nvm_erase(feature->nvm_key);
           app_assert(
-              (ret_code == SL_STATUS_OK) 
-              || (ret_code == SL_STATUS_BT_PS_KEY_NOT_FOUND),
-              "[E: 0x%04x] Failed to Erase NVM\n", (int ) ret_code);
+              (sc == SL_STATUS_OK) || (sc == SL_STATUS_BT_PS_KEY_NOT_FOUND),
+              "[E: 0x%04x] Failed to Erase NVM\n",
+              (int ) sc);
 
-          ret_code = sl_bt_nvm_save(feature->nvm_key, feature->data_length,
-              feature->data);
-          app_assert(ret_code == SL_STATUS_OK,
-              "[E: 0x%04x] Failed to write NVM\n",
-              (int ) ret_code);
+          sc = sl_bt_nvm_save(
+                 feature->nvm_key,
+                 feature->data_length,
+                 feature->data);
+          app_assert(
+            sc == SL_STATUS_OK,
+            "[E: 0x%04x] Failed to write NVM\n",
+            (int ) sc);
 
           // Send write operation successful status
           sl_bt_gatt_server_send_user_write_response(
-              evt->data.evt_gatt_server_user_read_request.connection,
-              evt->data.evt_gatt_server_user_read_request.characteristic,
-              SL_STATUS_OK /* SUCCESS */);
+            evt->data.evt_gatt_server_user_read_request.connection,
+            evt->data.evt_gatt_server_user_read_request.characteristic,
+            SL_STATUS_OK /* SUCCESS */);
 
         } else {
 
           // Send value not allowed error
           sl_bt_gatt_server_send_user_write_response(
-              evt->data.evt_gatt_server_user_read_request.connection,
-              evt->data.evt_gatt_server_user_read_request.characteristic,
-              (uint8_t) SL_STATUS_BT_ATT_VALUE_NOT_ALLOWED);
+            evt->data.evt_gatt_server_user_read_request.connection,
+            evt->data.evt_gatt_server_user_read_request.characteristic,
+            (uint8_t) SL_STATUS_BT_ATT_VALUE_NOT_ALLOWED);
         }
       }
 
@@ -171,15 +181,15 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
     // Send request not supported
     if (BLE_CHAR_ACCESS_TYPE_READ == access_type) {
       sl_bt_gatt_server_send_user_read_response(
-          evt->data.evt_gatt_server_user_read_request.connection,
-          evt->data.evt_gatt_server_user_read_request.characteristic,
-          (uint8_t) SL_STATUS_BT_ATT_REQUEST_NOT_SUPPORTED, 0, NULL,
-          NULL);
+        evt->data.evt_gatt_server_user_read_request.connection,
+        evt->data.evt_gatt_server_user_read_request.characteristic,
+        (uint8_t) SL_STATUS_BT_ATT_REQUEST_NOT_SUPPORTED, 0, NULL,
+        NULL);
     } else {
       sl_bt_gatt_server_send_user_write_response(
-          evt->data.evt_gatt_server_user_read_request.connection,
-          evt->data.evt_gatt_server_user_read_request.characteristic,
-          (uint8_t) SL_STATUS_BT_ATT_REQUEST_NOT_SUPPORTED);
+        evt->data.evt_gatt_server_user_read_request.connection,
+        evt->data.evt_gatt_server_user_read_request.characteristic,
+        (uint8_t) SL_STATUS_BT_ATT_REQUEST_NOT_SUPPORTED);
     }
   }
 
@@ -211,8 +221,10 @@ void app_event_handler_on_external_event(sl_bt_msg_t *evt)
   }
 }
 
-static void 
-convert_integer_to_aret_codeii(uint8_t *string, int input, uint16_t *len)
+static void convert_integer_to_ascii(
+                                uint8_t *string,
+                                int input,
+                                uint16_t *len)
 {
   sprintf((char*) string, "%d", input);
   *len = strlen((const char*) string);

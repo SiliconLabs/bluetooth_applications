@@ -84,10 +84,15 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       // Print Bluetooth address
-      app_log("Bluetooth %s address: %02X:%02X:%02X:%02X:%02X:%02X\r\n",
-          address_type ? "static random" : "public device", address.addr[5],
-          address.addr[4], address.addr[3], address.addr[2], address.addr[1],
-          address.addr[0]);
+      app_log(
+        "Bluetooth %s address: %02X:%02X:%02X:%02X:%02X:%02X\r\n",
+        address_type ? "static random" : "public device",
+        address.addr[5],
+        address.addr[4],
+        address.addr[3],
+        address.addr[2],
+        address.addr[1],
+        address.addr[0]);
 
       // Pad and reverse unique ID to get System ID.
       system_id[0] = address.addr[5];
@@ -99,8 +104,11 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       system_id[6] = address.addr[1];
       system_id[7] = address.addr[0];
 
-      sc = sl_bt_gatt_server_write_attribute_value(gattdb_system_id, 0,
-          sizeof(system_id), system_id);
+      sc = sl_bt_gatt_server_write_attribute_value(
+             gattdb_system_id, 
+             0,
+             sizeof(system_id),
+             system_id);
       app_assert_status(sc);
 
       ////////////////////////////////////////////////////////////////////////
@@ -127,15 +135,17 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       // Set advertising interval to 100ms.
       sc = sl_bt_advertiser_set_timing(
-          advertising_set_handle, 160, //min. adv. interval (milliseconds * 1.6)
-          160, // max. adv. interval (milliseconds * 1.6)
-          0,   // adv. duration
-          0);  // max. num. adv. events
+             advertising_set_handle,
+             160, //min. adv. interval (milliseconds * 1.6)
+             160, // max. adv. interval (milliseconds * 1.6)
+             0,   // adv. duration
+             0);  // max. num. adv. events
       app_assert_status(sc);
       // Start general advertising and enable connections.
-      sc = sl_bt_advertiser_start(advertising_set_handle,
-          sl_bt_advertiser_general_discoverable,
-          sl_bt_advertiser_connectable_scannable);
+      sc = sl_bt_advertiser_start(
+             advertising_set_handle,
+             sl_bt_advertiser_general_discoverable,
+             sl_bt_advertiser_connectable_scannable);
       app_assert_status(sc);
     }
     break;
@@ -249,12 +259,15 @@ static void ble_connection_closed_handler(sl_bt_msg_t *evt)
   // Reset bonding handle variable to avoid deleting wrong bonding info
   ble_bonding_handle = 0xff;
 
-  app_log("BLE Stack Event : CONNECTION CLOSED (reason: 0x%04X)\r\n",
-      evt->data.evt_connection_closed.reason);
+  app_log(
+    "BLE Stack Event : CONNECTION CLOSED (reason: 0x%04X)\r\n",
+    evt->data.evt_connection_closed.reason);
 
   // Restart advertising after client has disconnected.
-  sc = sl_bt_advertiser_start(advertising_set_handle,
-      advertiser_general_discoverable, advertiser_connectable_scannable);
+  sc = sl_bt_advertiser_start(
+         advertising_set_handle,
+         advertiser_general_discoverable,
+         advertiser_connectable_scannable);
   app_assert_status(sc);
 }
 
@@ -272,9 +285,11 @@ static void ble_connection_parameters_handler(sl_bt_msg_t *evt)
   // If security is less than 2 increase so devices can bond
   if (security_level <= 2) {
     app_log(
-        "BLE Stack Event : CONNECTION PARAMETERS : MTU = %d, \
-	              SecLvl : %d, timeout : %d\r\n",
-        tx_size, security_level, timeout);
+      "BLE Stack Event : CONNECTION PARAMETERS : MTU = %d, \
+      SecLvl : %d, timeout : %d\r\n",
+      tx_size,
+      security_level,
+      timeout);
     app_log("+ Bonding Handle is: 0x%04X\r\n", ble_bonding_handle);
 
     if (0xff == ble_bonding_handle) {
@@ -291,9 +306,11 @@ static void ble_connection_parameters_handler(sl_bt_msg_t *evt)
     }
   } else {
     app_log(
-        "[OK]      BLE Stack Event : CONNECTION PARAMETERS : \
-	              MTU = %d, SecLvl : %d, Timeout : %d\r\n",
-        tx_size, security_level, timeout);
+      "[OK]      BLE Stack Event : CONNECTION PARAMETERS : \
+	    MTU = %d, SecLvl : %d, Timeout : %d\r\n",
+      tx_size,
+      security_level, 
+      timeout);
   }
 }
 
@@ -306,9 +323,11 @@ static void ble_sm_bonding_failed_handler(sl_bt_msg_t *evt)
   uint16_t reason = evt->data.evt_sm_bonding_failed.reason;
 
   app_log(
-      "BLE Stack Event : BONDING FAILED (connection: %d, \
-	          reason: 0x%04X, bondingHandle: 0x%04X)\r\n",
-      connection_handle, reason, ble_bonding_handle);
+    "BLE Stack Event : BONDING FAILED (connection: %d, \
+	  reason: 0x%04X, bondingHandle: 0x%04X)\r\n",
+    connection_handle,
+    reason,
+    ble_bonding_handle);
 
   switch (reason) {
 
@@ -329,7 +348,7 @@ static void ble_sm_bonding_failed_handler(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       sc = sl_bt_sm_increase_security(
-          evt->data.evt_connection_opened.connection);
+             evt->data.evt_connection_opened.connection);
       app_assert_status(sc);
 
       ble_bonding_handle = 0xff;
@@ -357,8 +376,9 @@ static void ble_sm_bonding_failed_handler(sl_bt_msg_t *evt)
     break;
 
   default:
-    app_log("+ Close connection : %d",
-        evt->data.evt_sm_bonding_failed.connection);
+    app_log(
+      "+ Close connection : %d",
+      evt->data.evt_sm_bonding_failed.connection);
 
     sc = sl_bt_connection_close(evt->data.evt_sm_bonding_failed.connection);
     app_assert_status(sc);
