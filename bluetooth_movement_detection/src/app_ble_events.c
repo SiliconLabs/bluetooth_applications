@@ -307,7 +307,7 @@ static void ble_connection_parameters_handler(sl_bt_msg_t *evt)
   } else {
     app_log(
       "[OK]      BLE Stack Event : CONNECTION PARAMETERS : \
-	    MTU = %d, SecLvl : %d, Timeout : %d\r\n",
+      MTU = %d, SecLvl : %d, Timeout : %d\r\n",
       tx_size,
       security_level, 
       timeout);
@@ -324,7 +324,7 @@ static void ble_sm_bonding_failed_handler(sl_bt_msg_t *evt)
 
   app_log(
     "BLE Stack Event : BONDING FAILED (connection: %d, \
-	  reason: 0x%04X, bondingHandle: 0x%04X)\r\n",
+    reason: 0x%04X, bondingHandle: 0x%04X)\r\n",
     connection_handle,
     reason,
     ble_bonding_handle);

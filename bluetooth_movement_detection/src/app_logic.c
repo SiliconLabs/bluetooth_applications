@@ -171,17 +171,17 @@ static void acc_sensor_init(void)
   int8_t ret = 0;
 
   ret = bma400_i2c_init(sl_i2cspm_mikroe, BMA400_I2C_ADDRESS_SDO_HIGH, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
   ret = bma400_soft_reset(&bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 
   ret = bma400_init(&bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
   app_log("chip id = %d\n\r", bma.chip_id);
 
   // Put accelerometer sensor in normal mode before configuration.
   ret = bma400_set_power_mode(BMA400_MODE_NORMAL, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 
   // Configure accelerometer data.
   conf.type = BMA400_ACCEL;
@@ -189,7 +189,7 @@ static void acc_sensor_init(void)
   conf.param.accel.range = BMA400_RANGE_2G;
   conf.param.accel.data_src = BMA400_DATA_SRC_ACCEL_FILT_1;
   ret = bma400_set_sensor_conf(&conf, 1, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 
   // Configure auto wake-up interrupt.
   dev_conf[0].type = BMA400_AUTOWAKEUP_INT;
@@ -204,17 +204,17 @@ static void acc_sensor_init(void)
   dev_conf[1].param.int_conf.pin_conf = BMA400_INT_PUSH_PULL_ACTIVE_1;
 
   ret = bma400_set_device_conf(dev_conf, 2, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 
   // Enable auto wakeup interrupt.
   int_en.type = BMA400_AUTO_WAKEUP_EN;
   int_en.conf = BMA400_ENABLE;
   ret = bma400_enable_interrupt(&int_en, 1, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 
   // Put sensor in low power mode.
   ret = bma400_set_power_mode(BMA400_MODE_LOW_POWER, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 
   app_log("Init BMA400 done!\r\n");
 }
@@ -290,7 +290,7 @@ static void acc_sensor_enter_lp_mode(void)
   int8_t ret;
 
   ret = bma400_set_power_mode(BMA400_MODE_LOW_POWER, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 }
 
 /***************************************************************************//**
@@ -304,7 +304,7 @@ static void acc_sensor_enable_auto_wakeup_int(void)
   int_en.type = BMA400_AUTO_WAKEUP_EN;
   int_en.conf = BMA400_ENABLE;
   ret = bma400_enable_interrupt(&int_en, 1, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 }
 
 /***************************************************************************//**
@@ -318,7 +318,7 @@ static void acc_sensor_disable_auto_wakeup_int(void)
   int_en.type = BMA400_AUTO_WAKEUP_EN;
   int_en.conf = BMA400_DISABLE;
   ret = bma400_enable_interrupt(&int_en, 1, &bma);
-  app_assert_status(ret);
+  app_assert_status((sl_status_t)ret);
 }
 
 /***************************************************************************//**
@@ -434,7 +434,7 @@ void app_logic_handle_acc_wakeup_evt(void)
   int8_t bma_ret;
 
   bma_ret = bma400_get_interrupt_status(&int_status, &bma);
-  app_assert_status(bma_ret);
+  app_assert_status((sl_status_t)bma_ret);
 
   // Ignore if interrupt source is not sensor auto wakeup.
   if ((int_status & BMA400_ASSERTED_WAKEUP_INT) == 0) {
