@@ -121,29 +121,25 @@ static void md_load_config_from_nvm(void)
   // Load parameters from NVM, or use the default values
   for (int i = 0; i < MD_BLE_FEATURE_LENGTH; i++) {
     // Try to load a parameter from NVM
-    status = sl_bt_nvm_load(
-              md_features[i].nvm_key,
-              md_features[i].data_length,
-              &data_length,
-              data);
+    status = sl_bt_nvm_load(md_features[i].nvm_key,
+                            md_features[i].data_length,
+                            &data_length,
+                            data);
 
     // Check if there is valid data with the given key
     if ((status == SL_STATUS_OK)
         && (md_features[i].data_length == data_length)) {
       // Data has a valid length
       // Copy data into the runtime configuration structure
-      memcpy(
-        md_features[i].data,
-        data,
-        md_features[i].data_length);
+      memcpy(md_features[i].data,
+             data,
+             md_features[i].data_length);
 
-      app_log(
-        "> For char ID %d, parameter loaded successfully from NVM.\n",
-        md_features[i].char_id);
+      app_log("> For char ID %d, parameter loaded successfully from NVM.\n",
+              md_features[i].char_id);
     } else {
-      app_log(
-        "> For char ID %d, failed to load parameter.\n",
-        md_features[i].char_id);
+      app_log("> For char ID %d, failed to load parameter.\n",
+              md_features[i].char_id);
     }
   }
 }
@@ -258,13 +254,12 @@ static void handle_detected_moving(void)
 {
   sl_status_t status;
 
-  status = sl_sleeptimer_start_timer_ms(
-    &md_runtime_data.notify_timer_handle,
-    md_config.notification_time,
-    app_sleep_timer_notify_callback,
-    NULL,
-    0,
-    0);
+  status = sl_sleeptimer_start_timer_ms(&md_runtime_data.notify_timer_handle,
+                                        md_config.notification_time,
+                                        app_sleep_timer_notify_callback,
+                                        NULL,
+                                        0,
+                                        0);
   if (status != SL_STATUS_OK) {
     app_log("Start notify timer failed\r\n");
   }

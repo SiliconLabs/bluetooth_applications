@@ -86,11 +86,10 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
   if (NULL != feature) {
     if (BLE_CHAR_ACCESS_TYPE_READ == access_type) {
 
-      app_log(
-        "Read characteristic, ID: %x, value: %d\n",
-        evt->data.evt_gatt_server_user_read_request.characteristic,
-        (sizeof(uint8_t) == feature->data_length ?
-        *((uint8_t* )(feature->data)) : *((uint16_t* )(feature->data))));
+      app_log("Read characteristic, ID: %x, value: %d\n",
+              evt->data.evt_gatt_server_user_read_request.characteristic,
+              (sizeof(uint8_t) == feature->data_length ?
+              *((uint8_t* )(feature->data)) : *((uint16_t* )(feature->data))));
 
       // Convert integers to ASCII string
       convert_integer_to_ascii(
@@ -121,7 +120,8 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 
       } else {
         // Copy received data into a buffer
-        memcpy(ascii_buffer,
+        memcpy(
+          ascii_buffer,
           evt->data.evt_gatt_server_user_write_request.value.data,
           evt->data.evt_gatt_server_user_write_request.value.len);
 
@@ -151,14 +151,12 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
               "[E: 0x%04x] Failed to Erase NVM\n",
               (int ) sc);
 
-          sc = sl_bt_nvm_save(
-                 feature->nvm_key,
-                 feature->data_length,
-                 feature->data);
-          app_assert(
-            sc == SL_STATUS_OK,
-            "[E: 0x%04x] Failed to write NVM\n",
-            (int ) sc);
+          sc = sl_bt_nvm_save(feature->nvm_key,
+                              feature->data_length,
+                              feature->data);
+          app_assert(sc == SL_STATUS_OK,
+                     "[E: 0x%04x] Failed to write NVM\n",
+                     (int ) sc);
 
           // Send write operation successful status
           sl_bt_gatt_server_send_user_write_response(
