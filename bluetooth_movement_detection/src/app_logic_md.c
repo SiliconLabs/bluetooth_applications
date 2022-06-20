@@ -55,7 +55,7 @@
 #include "sl_sleeptimer.h"
 
 #include "app_config.h"
-#include "app_logic.h"
+#include "app_logic_md.h"
 #include "app_callbacks.h"
 
 // Led blinking notify interval.
@@ -320,7 +320,7 @@ static void acc_sensor_disable_auto_wakeup_int(void)
  * Resets configuration time so that the configuration timeout
  * is not exceeded.
  ******************************************************************************/
-void app_logic_reset_last_req_conf_timer(void)
+void app_logic_md_reset_last_req_conf_timer(void)
 {
   sl_status_t status;
 
@@ -341,7 +341,7 @@ void app_logic_reset_last_req_conf_timer(void)
 /***************************************************************************//**
  * Handles notification timer expired event.
  ******************************************************************************/
-void app_logic_handle_notify_timer(void)
+void app_logic_md_handle_notify_timer(void)
 {
   sl_status_t status;
 
@@ -363,7 +363,7 @@ void app_logic_handle_notify_timer(void)
 /***************************************************************************//**
  * Handles the expired event of notification breaking timer.
  ******************************************************************************/
-void app_logic_handle_notify_break_timer(void)
+void app_logic_md_handle_notify_break_timer(void)
 {
   app_log("Break time is over\r\n");
 
@@ -379,7 +379,7 @@ void app_logic_handle_notify_break_timer(void)
  * Initializes the external drivers, configures the
  * accelerometer sensor and set the application parameters.
  ******************************************************************************/
-void app_logic_init(void)
+void app_logic_md_init(void)
 {
   md_load_config_from_nvm();
   md_print_config();
@@ -389,7 +389,7 @@ void app_logic_init(void)
  * Handle system boot event, check button 0 is pressed or
  * not and determines device enter configure mode or normal mode.
  ******************************************************************************/
-movement_detection_mode_t app_logic_handle_system_boot_evt(void)
+movement_detection_mode_t app_logic_md_handle_system_boot_evt(void)
 {
   sl_status_t status;
 
@@ -422,7 +422,7 @@ movement_detection_mode_t app_logic_handle_system_boot_evt(void)
 /***************************************************************************//**
  * Handles the wake-up event of accelerometer sensor.
  ******************************************************************************/
-void app_logic_handle_acc_wakeup_evt(void)
+void app_logic_md_handle_acc_wakeup_evt(void)
 {
   sl_status_t ret;
   uint16_t int_status = 0;
@@ -462,7 +462,7 @@ void app_logic_handle_acc_wakeup_evt(void)
 /***************************************************************************//**
  * Handles the wake-up time period event.
  ******************************************************************************/
-void app_logic_handle_wakeup_time_period_evt(void)
+void app_logic_md_handle_wakeup_time_period_evt(void)
 {
   // Enable auto wakeup interrupt.
   acc_sensor_enable_auto_wakeup_int();

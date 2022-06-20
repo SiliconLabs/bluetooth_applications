@@ -46,7 +46,7 @@
 
 #include "app_events.h"
 #include "app_callbacks.h"
-#include "app_logic.h"
+#include "app_logic_md.h"
 #include "app_config.h"
 #include "app_ble_events.h"
 
@@ -192,7 +192,7 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
   }
 
   // Reset last request timeout timer.
-  app_logic_reset_last_req_conf_timer();
+  app_logic_md_reset_last_req_conf_timer();
 }
 
 /***************************************************************************//**
@@ -206,16 +206,16 @@ void app_event_handler_on_external_event(sl_bt_msg_t *evt)
     sl_bt_system_reset(0);
   } else if (evt->data.evt_system_external_signal.extsignals
       & MD_ACC_WAKEUP_EVENT) {
-      app_logic_handle_acc_wakeup_evt();
+    app_logic_md_handle_acc_wakeup_evt();
   } else if (evt->data.evt_system_external_signal.extsignals
       & MD_WAKEUP_PERIOD_TIMER_EVENT) {
-      app_logic_handle_wakeup_time_period_evt();
+    app_logic_md_handle_wakeup_time_period_evt();
   } else if (evt->data.evt_system_external_signal.extsignals
       & MD_NOTIFY_TIMER_EVENT) {
-    app_logic_handle_notify_timer();
+    app_logic_md_handle_notify_timer();
   } else if (evt->data.evt_system_external_signal.extsignals
       & MD_NOTIFY_BREAK_TIMER_EVENT) {
-    app_logic_handle_notify_break_timer();
+    app_logic_md_handle_notify_break_timer();
   }
 }
 

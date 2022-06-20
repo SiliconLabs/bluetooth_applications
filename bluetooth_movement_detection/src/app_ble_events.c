@@ -36,6 +36,7 @@
  * Silicon Labs may update projects from time to time.
  *
  ******************************************************************************/
+#include <app_logic_md.h>
 #include "em_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
@@ -43,7 +44,6 @@
 
 #include "app_config.h"
 #include "app_ble_events.h"
-#include "app_logic.h"
 #include "app_events.h"
 
 // The advertising set handle allocated from Bluetooth stack.
@@ -78,7 +78,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
   // Do not call any stack command before receiving this boot event!
   case sl_bt_evt_system_boot_id:
 
-    if (MD_CONFIGURED_MODE == app_logic_handle_system_boot_evt()) {
+    if (MD_CONFIGURED_MODE == app_logic_md_handle_system_boot_evt()) {
       // Extract unique ID from BT Address.
       sc = sl_bt_system_get_identity_address(&address, &address_type);
       app_assert_status(sc);

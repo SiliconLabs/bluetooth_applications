@@ -84,7 +84,7 @@ typedef enum movement_detection_mode {
  *    This function initializes the external drivers, configures the
  *    accelerometer sensor and set the application parameters.
  ******************************************************************************/
-void app_logic_init(void);
+void app_logic_md_init(void);
 
 /***************************************************************************//**
  * @brief
@@ -94,20 +94,20 @@ void app_logic_init(void);
  * @return
  *  MD_CONFIGURED_MODE when button 0 is pressed, otherwise MD_NORMAL_MODE.
  ******************************************************************************/
-movement_detection_mode_t app_logic_handle_system_boot_evt(void);
+movement_detection_mode_t app_logic_md_handle_system_boot_evt(void);
 
 /***************************************************************************//**
  * @brief
  *    This function resets configuration time so that the configuration timeout
  *    is not exceeded.
  ******************************************************************************/
-void app_logic_reset_last_req_conf_timer(void);
+void app_logic_md_reset_last_req_conf_timer(void);
 
 /***************************************************************************//**
  * @brief
  *    This function handles the wake-up event of accelerometer sensor.
  ******************************************************************************/
-void app_logic_handle_acc_wakeup_evt(void);
+void app_logic_md_handle_acc_wakeup_evt(void);
 
 /***************************************************************************//**
  * @brief
@@ -115,28 +115,21 @@ void app_logic_handle_acc_wakeup_evt(void);
  *    accelerometer sensor's fifo and check whether the device is continuously
  *    moving or not.
  ******************************************************************************/
-void app_logic_handle_wakeup_time_period_evt(void);
+void app_logic_md_handle_wakeup_time_period_evt(void);
 
 /***************************************************************************//**
  * @brief
  *    This function handles notification timer expired event. It stops blinking
  *    notification and start sensor's breaking time.
  ******************************************************************************/
-void app_logic_handle_notify_timer(void);
-
-/***************************************************************************//**
- * @brief
- *    This function handles the expired event of blink led timer. It toggles
- *    the led0 state.
- ******************************************************************************/
-void app_logic_handle_blink_led_periodic_timer(void);
+void app_logic_md_handle_notify_timer(void);
 
 /***************************************************************************//**
  * @brief
  *    This function handles the expired event of notification breaking timer.
  *    It enables accelerometer's auto wake-up interrupt again.
  ******************************************************************************/
-void app_logic_handle_notify_break_timer(void);
+void app_logic_md_handle_notify_break_timer(void);
 
 #ifdef __cplusplus
 }
