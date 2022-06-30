@@ -110,8 +110,8 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
 /***************************************************************************//**
  * Enters configuration mode
  * prints out current configuration parameters
- * set up and start advertisements
- * starts timeout timer
+ * sets up and starts advertisements
+ * starts configuration mode timeout timer
  *******************************************************************************/
 void enter_config_mode()
 {
@@ -141,24 +141,17 @@ void enter_config_mode()
   app_assert_status(sc);
 
   // Start config mode timeout
-  sl_sleeptimer_start_timer_ms(&config_mode_timeout_timer,
-  CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
+  sl_sleeptimer_start_timer_ms(&config_mode_timeout_timer, CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
 }
 
 /***************************************************************************//**
  * Enters Normal mode
- * Set up and start scanner
- * Set up and start advertisements
+ * Sets up and starts custom advertisements
  *******************************************************************************/
 void enter_normal_mode()
 {
   sl_status_t sc;
   IP_config_mode = false;
-
-//  // Set up and start scanning
-//  sc = sl_bt_scanner_set_timing(sl_bt_gap_1m_phy, 50, 100); // 100ms scan interval, 100ms scan window
-//  sc = sl_bt_scanner_set_mode(sl_bt_gap_1m_phy, 1); // active scanning
-//  sc = sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
 
   // Set up advertisement
   sc = sl_bt_advertiser_create_set(&normalMode_advertising_set_handle);
@@ -212,10 +205,8 @@ void IPGW_step()
 void IPGW_init()
 {
   app_log("\nIndoor Positioning - Gateway\n");
-
   app_log("Loading Configuration\n");
   update_local_config();
-
 }
 
 /* ------------------------------------------------------------------- */
@@ -333,7 +324,6 @@ void IPGW_event_handler(sl_bt_msg_t *evt)
 
   switch (SL_BT_MSG_ID(evt->header)) {
     case sl_bt_evt_system_boot_id:
-
       // Extract unique ID from BT Address.
       sc = sl_bt_system_get_identity_address(&address, &address_type);
       app_assert_status(sc);
@@ -353,9 +343,9 @@ void IPGW_event_handler(sl_bt_msg_t *evt)
 
       // Create device name string
       sprintf(IPGW_config_data.device_name, "IPGW_%.2X%.2X", address.addr[0], address.addr[1]);
-
       app_log("Device unique name: %s\n", IPGW_config_data.device_name);
 
+      // Enable pairing
       sc = sl_bt_sm_set_bondable_mode(1);
       app_assert_status(sc);
 
@@ -390,10 +380,13 @@ void IPGW_event_handler(sl_bt_msg_t *evt)
         request_data[i] = evt->data.evt_gatt_server_attribute_value.value.data[i];
       }
 
+      // Store new value in NVM
       nvm3_writeData(nvm3_defaultHandle, nvm_key, request_data, evt->data.evt_gatt_server_attribute_value.value.len);
 
+      // Update current configuration values
       update_local_config();
 
+      // Reset configuration mode timeout as there was a user action
       sc = sl_sleeptimer_restart_timer_ms(&config_mode_timeout_timer, CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
       app_assert_status(sc);
       break;

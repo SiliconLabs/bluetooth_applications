@@ -10,10 +10,16 @@
 // -----------------------------------------------------------------------------
 #include "indoor_positioning.h"
 
+
+// -----------------------------------------------------------------------------
+//                          Static Function Declarations
+// -----------------------------------------------------------------------------
 static void oled_init(void);
 static void oled_display_config(void);
 static void oled_update_info(void);
 static void oled_display_service_unavailable(void);
+static void validate_new_configuration_value(uint8_t *request_data, IPAS_config_keys_enum_t nvm_key);
+
 // -----------------------------------------------------------------------------
 //                                Global Variables
 // -----------------------------------------------------------------------------
@@ -84,6 +90,7 @@ void config_mode_timeout_cb()
 void indoor_positioning_trigger_timer_cb()
 {
   app_log("\nIndoor Positioning triggered\n");
+  reset_IP_state();
   IP_start_positioning = true;
 }
 
@@ -103,6 +110,25 @@ void gateway_finder_timeout_cb()
 /* ------------------------------------------------------------------- */
 /* --------------------------- Advertising --------------------------- */
 /* ------------------------------------------------------------------- */
+
+/***************************************************************************//**
+ * Returns true if minimal number of RSSI measurements for all required gateways are available
+ *******************************************************************************/
+bool indoor_positioning_service_available()
+{
+  bool service_available = true;
+
+  if(gateway_counter > 0){
+    // Loop through gateway data - Check if enough samples are gathered
+    for (uint8_t i = 0; i < gateway_counter; i++) {
+      if (false == gateway_data_storage[i].measurements_ready) {
+        service_available = false;
+      }
+    }
+    return service_available;
+  }
+  return false;
+}
 
 /***************************************************************************//**
  * Creates custom advertising package with current asset related data
@@ -146,9 +172,11 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
   pData->data_size = 3 + (1 + pData->len_manuf) + (1 + pData->len_name);
 }
 
+
 /* ------------------------------------------------------------------- */
 /* -------------------- Gateway finder & Sampling -------------------- */
 /* ------------------------------------------------------------------- */
+
 /***************************************************************************//**
  * Creates an entry in the stored gateways array if the gateway is not yet stored
  ******************************************************************************/
@@ -210,29 +238,10 @@ void clear_gateways()
   gateway_counter = 0;
 }
 
+
 /* ------------------------------------------------------------------- */
 /* ------------------- Indoor Positioning - Asset -------------------- */
 /* ------------------------------------------------------------------- */
-
-/***************************************************************************//**
- * Returns true if minimal number of RSSI measurements for all required gateways are available
- *******************************************************************************/
-bool indoor_positioning_service_available()
-{
-  bool service_available = true;
-
-  if(gateway_counter > 0){
-    // Loop through gateway data - Check if enough samples are gathered
-    for (uint8_t i = 0; i < gateway_counter; i++) {
-      if (false == gateway_data_storage[i].measurements_ready) {
-        service_available = false;
-      }
-    }
-    return service_available;
-  }
-  return false;
-
-}
 
 /***************************************************************************//**
  * Called periodically by the application
@@ -280,14 +289,14 @@ void IPAS_step()
     app_log("No gateways were found\n");
     oled_display_service_unavailable();
 
-    reset_flags();
+    reset_IP_state();
   }
 }
 
 /***************************************************************************//**
  * Resets Indoor Positioning flags
  *******************************************************************************/
-void reset_flags()
+void reset_IP_state()
 {
   IP_ready = false;
   IP_start_positioning = false;
@@ -301,7 +310,18 @@ void reset_flags()
 *******************************************************************************/
 void IPAS_enable_service()
 {
+  sl_status_t sc;
+  bool is_timer_running = false;
+
   IP_service_enabled = true;
+  sc = sl_sleeptimer_is_timer_running(&IP_find_current_room_periodic_timer, &is_timer_running);
+  if(!is_timer_running)
+  {
+    sc = sl_sleeptimer_start_periodic_timer_ms(&IP_find_current_room_periodic_timer, (IPAS_config_data.reporting_interval * 1000), indoor_positioning_trigger_timer_cb, (void*) NULL, 0, 0);
+    app_assert_status(sc);
+  }
+
+  reset_IP_state();
 }
 
 /***************************************************************************//**
@@ -309,7 +329,19 @@ void IPAS_enable_service()
 *******************************************************************************/
 void IPAS_disable_service()
 {
+  sl_status_t sc;
+  bool is_timer_running = false;
+
   IP_service_enabled = false;
+
+  sc = sl_sleeptimer_is_timer_running(&IP_find_current_room_periodic_timer, &is_timer_running);
+  if(is_timer_running)
+  {
+    sc = sl_sleeptimer_stop_timer(&IP_find_current_room_periodic_timer);
+    app_assert_status(sc);
+  }
+
+  reset_IP_state();
 }
 
 /***************************************************************************//**
@@ -337,13 +369,13 @@ void enter_config_mode()
   IP_config_mode = true;
 
   // Print current configuration parameters
-  app_log("NetworkU_ID: %ld | Reporting interval: %ld\n",
-          IPAS_config_data.network_UID, IPAS_config_data.reporting_interval);
+  app_log("NetworkU_ID: %ld | Reporting interval: %ld\n", IPAS_config_data.network_UID, IPAS_config_data.reporting_interval);
 
   // Set up advertisement
   sc = sl_bt_advertiser_create_set(&configMode_advertising_set_handle);
   app_assert_status(sc);
 
+  // Update Device Name in GATT database
   sc = sl_bt_gatt_server_write_attribute_value(gattdb_device_name, 0, DEVICENAME_LENGTH, (const uint8_t*) IPAS_config_data.device_name);
   app_assert_status(sc);
 
@@ -361,6 +393,7 @@ void enter_config_mode()
   // Start configuration mode timeout timer
   sl_sleeptimer_start_timer_ms(&IP_config_mode_timeout_timer, CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
 
+  // Display configuration values on the OLED display
   oled_display_config();
 }
 
@@ -462,7 +495,7 @@ void calculate_position()
   oled_update_info();
 
   // Reset IP flags
-  reset_flags();
+  reset_IP_state();
 
   app_log("Indoor position calculation finished\n");
   app_log("Asset is in room: %s\n", current_room_name);
@@ -646,6 +679,29 @@ void update_gatt_entries()
 /* ------------------------------------------------------------------- */
 
 /***************************************************************************//**
+ * Validates and modifies configuration entries if necessary
+ * to a valid or default value
+ * @param request_data - Pointer to the requested, new configuration value array
+ * @param nvm_key - configuration key identifying the configuration entry
+ ******************************************************************************/
+static void validate_new_configuration_value(uint8_t *request_data, IPAS_config_keys_enum_t nvm_key)
+{
+  if(nvm_key == IPAS_config_key_reportingInterval)
+  {
+    uint16_t temp_reporting_interval;
+    memcpy(&temp_reporting_interval, request_data, sizeof(IPAS_config_data.reporting_interval));
+
+    // Ensure that the reporting interval leaves enough time to calculate a position before triggered again
+    // Invalid (less than required) values will be replaced with the minimum reporting interval in the application and in the GATT database also
+    if(temp_reporting_interval < MINIMUM_REPORTING_INTERVAL)
+    {
+      temp_reporting_interval = MINIMUM_REPORTING_INTERVAL;
+      memcpy(request_data, &temp_reporting_interval, sizeof(temp_reporting_interval));
+    }
+  }
+}
+
+/***************************************************************************//**
  * Initializes OLED display
  ******************************************************************************/
 static void oled_init(void)
@@ -669,6 +725,9 @@ static void oled_init(void)
   glib_update_display();
 }
 
+/***************************************************************************//**
+ * Displays current configuration values on the OLED display
+ ******************************************************************************/
 static void oled_display_config(void)
 {
   char network_uid[12];
@@ -677,7 +736,7 @@ static void oled_display_config(void)
   sprintf(network_uid, "UID:%ld", IPAS_config_data.network_UID);
   sprintf(report_interval, "int:%d", IPAS_config_data.reporting_interval);
 
-  /* Fill lcd with background color */
+  /* Fill oled with background color */
   glib_clear(&glib_context);
 
   glib_draw_string(&glib_context, IPAS_config_data.device_name, 0, 2);
@@ -689,8 +748,6 @@ static void oled_display_config(void)
 
 /***************************************************************************//**
  * Updates asset info on the OLED display
- * @param[in] x-pos - X coordinate of the asset
- * @param[in] y-pos - Y coordinate of the asset
  ******************************************************************************/
 static void oled_update_info()
 {
@@ -704,6 +761,9 @@ static void oled_update_info()
   glib_update_display();
 }
 
+/***************************************************************************//**
+ * Displays "Waiting for gateways" message on the OLED display
+ ******************************************************************************/
 static void oled_display_service_unavailable(void)
 {
   /* Fill lcd with background color */
@@ -756,9 +816,9 @@ void IPAS_event_handler(sl_bt_msg_t *evt)
 
       // Create device name string
       sprintf(IPAS_config_data.device_name, "IPAS_%.2X%.2X", address.addr[5], address.addr[4]);
-
       app_log("Device unique name: %s\n", IPAS_config_data.device_name);
 
+      // Enable pairing
       sc = sl_bt_sm_set_bondable_mode(1);
       app_assert_status(sc);
 
@@ -792,6 +852,9 @@ void IPAS_event_handler(sl_bt_msg_t *evt)
       // Copy received raw data into a byte array
       memcpy(request_data, evt->data.evt_gatt_server_attribute_value.value.data, evt->data.evt_gatt_server_attribute_value.value.len);
 
+      // Check if the new configuration value is valid if necessary
+      validate_new_configuration_value(request_data, nvm_key);
+
       // Store new GATT entry value
       nvm3_writeData(nvm3_defaultHandle, nvm_key, request_data, evt->data.evt_gatt_server_attribute_value.value.len);
 
@@ -801,6 +864,7 @@ void IPAS_event_handler(sl_bt_msg_t *evt)
       // Reset configuration mode timeout
       sc = sl_sleeptimer_restart_timer_ms(&IP_config_mode_timeout_timer, CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
       app_assert_status(sc);
+
       break;
     case sl_bt_evt_scanner_scan_report_id:
       //Check for network UID in the beginning of data field. First 6 bytes are flags and company ID. Data field starts at index 7.

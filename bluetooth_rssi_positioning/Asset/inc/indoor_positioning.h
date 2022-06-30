@@ -44,18 +44,18 @@ extern "C" {
 // -----------------------------------------------------------------------------
 //                              Macros and Typedefs
 // -----------------------------------------------------------------------------
-#define CONFIG_MODE_TIMEOUT_MS				120000 	// 2 minutes
-#define GATEWAY_FINDER_TIMEOUT_MS	        5000	// 5 seconds
-#define ADVERTISER_TIMEOUT_MS		        3000	// 3 seconds
-#define COMPANY_ID			                0x0047
-#define DEVICENAME_LENGTH   		        9
-#define ROOM_NAME_LENGTH                    10
-#define REQUIRED_NUM_OF_RSSI_SAMPLES	    10
+#define CONFIG_MODE_TIMEOUT_MS				(120000)    // 2 minutes
+#define GATEWAY_FINDER_TIMEOUT_MS	        (5000)	    // 5 seconds
+#define MINIMUM_REPORTING_INTERVAL          ((GATEWAY_FINDER_TIMEOUT_MS / 1000) + 3) // 3seconds after the gateway finding finished
+#define COMPANY_ID			                (0x0047)
+#define DEVICENAME_LENGTH   		        (9)
+#define ROOM_NAME_LENGTH                    (10)
+#define REQUIRED_NUM_OF_RSSI_SAMPLES	    (10)
 
-#define GW_DATA_INDEX_NET_ID                7
-#define GW_DATA_INDEX_ROOM_ID               11
-#define GW_DATA_INDEX_ROOM_NAME             13
-#define GW_DATA_INDEX_DEV_NAME              23
+#define GW_DATA_INDEX_NET_ID                (7)
+#define GW_DATA_INDEX_ROOM_ID               (11)
+#define GW_DATA_INDEX_ROOM_NAME             (13)
+#define GW_DATA_INDEX_DEV_NAME              (23)
 /***************************************************************************//**
  * @brief
  *    struct typedef containing necessary gateway related info
@@ -139,6 +139,11 @@ typedef enum IPAS_config_keys_enum
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
+ * Returns true if minimal number of RSSI measurements for all required gateways are available
+*******************************************************************************/
+bool indoor_positioning_service_available();
+
+/***************************************************************************//**
  * Creates custom advertising package
  *
  * @param[in] pData - Pointer to the struct holding the above mentioned asset data
@@ -148,10 +153,9 @@ typedef enum IPAS_config_keys_enum
  *
  * @note Creates custom advertising package with the following asset data:
  * 	 Network Unique ID
- * 	 X position
- * 	 Y position
- * 	 Positioning method
- * 	 Position Type
+ * 	 Room ID
+ * 	 Room Name
+ * 	 Device Name
  ******************************************************************************/
 void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_t companyID, char *name);
 
@@ -172,11 +176,6 @@ void store_gateway_rssi(sl_bt_evt_scanner_scan_report_t *scan_report);
  * @note Usually called after an unsuccessful attempt at indoor positioning
 *******************************************************************************/
 void clear_gateways();
-
-/***************************************************************************//**
- * Returns true if minimal number of RSSI measurements for all required gateways are available
-*******************************************************************************/
-bool indoor_positioning_service_available();
 
 /***************************************************************************//**
  * Initialize Indoor Positioning service
@@ -241,7 +240,7 @@ void find_closest_room();
 /***************************************************************************//**
  * Resets Indoor Positioning flags
  *******************************************************************************/
-void reset_flags();
+void reset_IP_state();
 
 /***************************************************************************//**
  * Sets up and starts advertisement about asset's position
@@ -277,17 +276,12 @@ void config_mode_timeout_cb();
 /***************************************************************************//**
  * Callback for normal mode timer
  ******************************************************************************/
-void indoor_position_calculation_timer_cb();
+void indoor_positioning_trigger_timer_cb();
 
 /***************************************************************************//**
 * Callback for gateway finder timeout
  ******************************************************************************/
 void gateway_finder_timeout_cb();
-
-/***************************************************************************//**
- * Callback for advertiser timeout
- ******************************************************************************/
-void advertiser_timeout_cb();
 
 /** @} (end addtogroup Indoor Positioning - Asset) */
 #ifdef __cplusplus

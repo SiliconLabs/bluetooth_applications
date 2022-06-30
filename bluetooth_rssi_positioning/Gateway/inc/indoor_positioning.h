@@ -17,13 +17,10 @@
 #include "nvm3_hal_flash.h"
 #include "sl_simple_button_instances.h"
 
-
-#define CONFIG_MODE_TIMEOUT_MS		    120000 // 2 minutes
-#define COMPANY_ID			            0x0047
-#define ROOM_NAME_LENGTH                10
-#define DEVICENAME_LENGTH 		        9
-
-
+#define CONFIG_MODE_TIMEOUT_MS		    (120000) // 2 minutes
+#define COMPANY_ID			            (0x0047)
+#define ROOM_NAME_LENGTH                (10)
+#define DEVICENAME_LENGTH 		        (9)
 
 /***************************************************************************//**
  * @brief
@@ -99,10 +96,9 @@ typedef enum IPGW_config_keys_enum
  *
  * @note Creates custom advertising package with the following asset data:
  * 	 Network Unique ID
- * 	 Measured Power
- * 	 X position
- * 	 Y position
- * 	 Position Type
+ * 	 Room ID
+ * 	 Room Name
+ *   Device name
  ******************************************************************************/
 void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_t companyID, char *name);
 
