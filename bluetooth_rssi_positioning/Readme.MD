@@ -91,7 +91,25 @@ To set this application up, you can either import the provided `bluetooth_indoor
 
 ## How it Works ##
 
+For both the Asset and the Gateways, after power on the application checks if Button0 is pressed or released. If the button is pressed down, the application will enter configuration mode, else it will continue on normal mode.
 
+Configuration mode starts advertising, enables connections to the device and makes configuration updates possible.
+Normal Mode is different for the two applications:
+**Gateway**:
+- Creates advertisement package from the configured Room ID, Room Name and Device Name
+- Starts advertisements infinitely
+
+**Asset**:
+- Starts a periodic timer to trigger Room finding in given intervals.
+- If the timer elapses, it trigger the room finding service which sets up and starts scanner to find gateways.
+- Application is looking for gateways for a defined time limit (GATEWAY_FINDER_TIMEOUT_MS). Default value is 5 seconds.
+- Once Gateway finding finished application checks if at least one gateway is found or not.
+   - In case no gateways were found it displays "Waiting For Gateways" message on the OLED displays, resets the state of the room finder application and waits for the next trigger.
+   - In case at least one gateway was found, it start collecting RSSI samples from all found gateways.
+- Once enough samples were gathered, calculation starts and the application finds the closest gateway based on it's RSSI.
+- The closest gateways data(Room name, Room Id) is used to create an advertisement package and starts advertising this data for 5 seconds.
+- At the same time, the closest room's name is displayed on the OLED.
+- Application resets the state and waits for the next trigger.
 
 
 ### Application Overview ###
