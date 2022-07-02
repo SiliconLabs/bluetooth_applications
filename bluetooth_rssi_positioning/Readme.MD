@@ -25,17 +25,19 @@ For the Asset:
 - [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
 
 For the gateways:
+- [EFR32xG22 Wireless Gecko Starter Kit](https://www.silabs.com/development-tools/wireless/efr32xg22-wireless-starter-kit)
 - The example was done with an xG22 Wireless Starter Kit, however any other BLE capable development kit can be used.
 - At least one gateway shall be active, however any number of gateways/rooms could be used.
-- [EFR32xG22 Wireless Gecko Starter Kit](https://www.silabs.com/development-tools/wireless/efr32xg22-wireless-starter-kit)
 
 ## Connections Required ##
 
-The hardware connection is shown in the image below:
+The hardware connection for the asset is shown in the image below:
 
-![hardware connection](images/hardware_connection.png)
+![hardware connection](images/asset_hw.png)
 
 The BGM220 explorer kit and the SparkFun Micro OLED Breakout (Qwiic) board can be connected with a [Flexible Qwiic Cable - Female Jumper](https://www.sparkfun.com/products/17261).
+
+Gateways do not require a display.
 
 ## Setup ##
 
@@ -43,7 +45,7 @@ To set this application up, you can either import the provided `bluetooth_indoor
 
 **Two separate projects shall be created, one for the Asset and one for the Gateways*
 
-1. Create a **Bluetooth - SoC Empty** project for the **BGM220 Bluetooth Module Explorer Kit** using Simplicity Studio 5.
+1. Create a **Bluetooth - SoC Empty** project for your device using Simplicity Studio 5.
 
 2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
 
@@ -89,11 +91,22 @@ To set this application up, you can either import the provided `bluetooth_indoor
     
 5. Build and flash the projects to your devices.
 
+### BLE RSSI Indoor Positioning Implementation ###
+
+The Initialization software flow is as follows:
+
+![Flow diagram](images/initialization.png)
+
+
+
 ## How it Works ##
 
-For both the Asset and the Gateways, after power on the application checks if Button0 is pressed or released. If the button is pressed down, the application will enter configuration mode, else it will continue on normal mode.
+1. First, the software initializes the peripherals, the Bluetooth stack, and logging to the virtual COM port.
+2. Application then check for the status of Button0 - either pressed or released.
+3. Based on the button status, application either enters Configuration mode or Normal mode, both detailed below:
 
-Configuration mode starts advertising, enables connections to the device and makes configuration updates possible.
+### Normal mode ###
+
 Normal Mode is different for the two applications:
 **Gateway**:
 - Creates advertisement package from the configured Room ID, Room Name and Device Name
@@ -111,10 +124,41 @@ Normal Mode is different for the two applications:
 - At the same time, the closest room's name is displayed on the OLED.
 - Application resets the state and waits for the next trigger.
 
+### Configuration mode ###
 
-### Application Overview ###
+![Configuration](images/configmode_flow.png)
 
-![app overview](images/overview.png)
+Configuration mode starts advertising, enables connections to the device and makes configuration updates possible. 
+
+Both the Asset and the Gateway should be configured before using for the first time.
+
+Follow the below steps to configure the devices for the example with the EFR Connect app:
+
+1. Open the EFR Connect app on your iOS/Android device.
+
+2. Hold down Button 0 while pressing the Reset button once and enter configuration mode.
+
+3. Find your device in the Bluetooth Browser, advertising as either IPAS_#### or IPGW_####, and tap Connect. Then you need accept the pairing request when connected for the first time.
+
+    ![pair request](images/pairing_request.png)
+
+4. Find the Indoor Positioning service above the OTA service.
+
+   ![indoorpos_service](images/indoor_pos_service.png)
+
+5. Read the descriptions to identify configuration options.
+
+   ![configuration options_asset](images/config_options_asset.png)
+   ![configuration options_gw](images/config_options_gw.png)
+
+6. For both the **Asset** and the **Gateways** the Network Unique Identifier shall match, so enter a custom value for that(unsigned 4bytes (0 - 4294967295)
+
+7. For the **Asset** the _Reporting Interval_ configuration value is the amount of time in seconds the asset recalculates it's own position and finds the closest room
+
+8. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
+
+    ![logs](images/logs.png)
+    
 
 ### GATT Configurator ###
 
@@ -155,19 +199,7 @@ The GATT changes were adding a new service (Indoor Positioning) using UUID `1821
   - [**Writable with response**] - Set Room Name
 
 
-### BLE RSSI Indoor Positioning Implementation ###
-
-The Initialization software flow is as follows:
-
-![Flow diagram](images/work_flow.png)
-
-1. First, the software initializes the peripherals, the Bluetooth stack, and logging to the virtual COM port.
-
-
 ### OLED Display ###
-
-Once the display is initialized it will display Silicon Labs's logo:
-![Silabs Logo](images/silabs_oled.png)
 
 After the BLE stack's boot event is done, the following message will be displayed:
 ![Waiting For Gateways](images/waiting_for_gws_oled.png)
@@ -175,30 +207,6 @@ After the BLE stack's boot event is done, the following message will be displaye
 In case at least one gateway is in range "room finding" will start and will display the name of the closest room:
 ![Room found](images/room_found_oled.png)
 
-### Configuration ###
-
-Both the Asset and the Gateway should be configured before using for the first time.
-Follow the below steps to configure the devices for the example with the EFR Connect app:
-
-1. Open the EFR Connect app on your iOS/Android device.
-
-2. Hold down Button 0 while pressing the Reset button once and enter configuration mode.
-
-3. Find your device in the Bluetooth Browser, advertising as either IPAS_#### or IPGW_####, and tap Connect. Then you need accept the pairing request when connected for the first time.
-
-    ![pair request](images/pairing_request.png)
-
-4. Find the Indoor Positioning service above the OTA service.
-
-5. Read the descriptions to identify configuration options.
-
-6. For both the **Asset** and the **Gateways** the Network Unique Identifier shall match, so enter a custom value for that(unsigned 4bytes (0 - 4294967295)
-
-7. For the **Asset** the _Reporting Interval_ configuration value is the amount of time in seconds the asset recalculates it's own position and finds the closest room
-
-8. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
-
-    ![logs](images/logs.png)
 
 ## .sls Projects Used ##
 
