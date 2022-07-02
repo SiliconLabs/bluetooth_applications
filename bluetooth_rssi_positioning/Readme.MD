@@ -4,9 +4,9 @@
 
 Bluetooth RSSI Positioning is an application intended to showcase a room finder or asset locator service using the BLE stack on Silicon Laboratories development kits.
 
-The block diagram of this application is shown in the image below:
+The setup of this example is shown in the image below:
 
-![system overview](images/system_overview.png)
+![room finder](images/room_finder.png)
 
 More detailed information can be found in the section [How it works](#how-it-works).
 
