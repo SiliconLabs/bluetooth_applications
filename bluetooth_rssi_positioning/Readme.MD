@@ -65,7 +65,7 @@ To set this application up, you can either import the provided `bluetooth_indoor
     - Install **[Platform] > [Driver] > [I2CSPM]** component with add new instance name: **qwiic**. 
       - Set this component to use I2C1 peripheral, SCL to PD02 pin, SDA to PD03 pin.
 
-      ![i2c_qwiic](images/i2c_qwiic.png)
+      ![i2c_qwiic](images/i2c_qwiic.PNG)
 
     - Install **[Platform] > [IO Stream] > [IO Stream: USART]** component with the default instance name: **vcom**.
 
@@ -156,7 +156,7 @@ Follow the below steps to configure the devices for the example with the EFR Con
 
 8. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
 
-    ![logs_asset](images/logs_asset.png)        ![logs_config_asset](images/logs_config_asset.png)
+    ![logs_asset](images/logs_asset.PNG)        ![logs_config_asset](images/logs_config_asset.PNG)
 
 ### GATT Configurator ###
 
@@ -200,9 +200,11 @@ The GATT changes were adding a new service (Indoor Positioning) using UUID `1821
 ### OLED Display ###
 
 After the BLE stack's boot event is done, the following message will be displayed:
+
 ![Waiting For Gateways](images/waiting_for_gws_oled.png)
 
 In case at least one gateway is in range "room finding" will start and will display the name of the closest room:
+
 ![Room found](images/room_found_oled.png)
 
 
