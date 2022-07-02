@@ -140,16 +140,15 @@ Follow the below steps to configure the devices for the example with the EFR Con
 
 3. Find your device in the Bluetooth Browser, advertising as either IPAS_#### or IPGW_####, and tap Connect. Then you need accept the pairing request when connected for the first time.
 
-    ![pair request](images/pairing_request.png)
-
+    ![browser_asset](images/browser_asset.png)        ![browser_gw](images/browser_gw.png)
+    
 4. Find the Indoor Positioning service above the OTA service.
 
    ![indoorpos_service](images/indoor_pos_service.png)
 
 5. Read the descriptions to identify configuration options.
 
-   ![configuration options_asset](images/config_options_asset.png)
-   ![configuration options_gw](images/config_options_gw.png)
+   ![configuration options_asset](images/config_options_asset.png)         ![configuration options_gw](images/config_options_gw.png)
 
 6. For both the **Asset** and the **Gateways** the Network Unique Identifier shall match, so enter a custom value for that(unsigned 4bytes (0 - 4294967295)
 
@@ -157,8 +156,7 @@ Follow the below steps to configure the devices for the example with the EFR Con
 
 8. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
 
-    ![logs](images/logs.png)
-    
+    ![logs](images/logs_asset.png)        ![logs](images/logs_config_asset.png)
 
 ### GATT Configurator ###
 
