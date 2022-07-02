@@ -43,13 +43,15 @@ Gateways do not require a display.
 
 To set this application up, you can either import the provided `bluetooth_indoor_positioning_gateway.sls or bluetooth_indoor_positioning_asset.sls` project files or start with an empty example project as the following:
 
-**Two separate projects shall be created, one for the Asset and one for the Gateways*
+**Two separate projects shall be created, one for the Asset and one for the Gateways**
 
 1. Create a **Bluetooth - SoC Empty** project for your device using Simplicity Studio 5.
 
 2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
 
-3. Import the GATT configuration:
+3. Copy the oled folder and it's contents to the asset's project root folder - this contains the oled driver and the glib library.
+
+4. Import the GATT configuration:
 
    - Open the .slcp file in the project.
 
@@ -59,7 +61,7 @@ To set this application up, you can either import the provided `bluetooth_indoor
 
    - Save the GATT configuration (ctrl-s).
 
-4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
+5. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
 
     **Asset:**
     - Install **[Platform] > [Driver] > [I2CSPM]** component with add new instance name: **qwiic**. 
@@ -78,7 +80,7 @@ To set this application up, you can either import the provided `bluetooth_indoor
     - Install **[Application] > [Utility] > [Log]** component.
 
 
-    **Gateway:
+    **Gateway:**
     - Install **[Platform] > [IO Stream] > [IO Stream: USART]** component with the default instance name: **vcom**.
 
     - Install **[Platform] > [Driver] > [Button] > [Simple Button]** component with the default instance name: **btn0**.
@@ -89,7 +91,7 @@ To set this application up, you can either import the provided `bluetooth_indoor
 
     - Install **[Application] > [Utility] > [Log]** component.
     
-5. Build and flash the projects to your devices.
+6. Build and flash the projects to your devices.
 
 ### BLE RSSI Indoor Positioning Implementation ###
 
