@@ -108,6 +108,7 @@ The Initialization software flow is as follows:
 ### Normal mode ###
 
 Normal Mode is different for the two applications:
+
 **Gateway**:
 - Creates advertisement package from the configured Room ID, Room Name and Device Name
 - Starts advertisements infinitely
@@ -150,7 +151,7 @@ Follow the below steps to configure the devices for the example with the EFR Con
 
    ![configuration options_asset](images/config_options_asset.png)         ![configuration options_gw](images/config_options_gw.png)
 
-6. For both the **Asset** and the **Gateways** the Network Unique Identifier shall match, so enter a custom value for that(unsigned 4bytes (0 - 4294967295)
+6. For both the **Asset** and the **Gateways** the Network Unique Identifiers shall match, so enter the same custom value on all assets and gateways (unsigned 4bytes (0 ... 4294967295)
 
 7. For the **Asset** the _Reporting Interval_ configuration value is the amount of time in seconds the asset recalculates it's own position and finds the closest room
 
