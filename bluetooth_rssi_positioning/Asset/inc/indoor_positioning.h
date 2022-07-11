@@ -1,9 +1,40 @@
-/*
- * indoor_positioning.h
+/***************************************************************************//**
+ * @file indoor_positioning.h
+ * @brief Application Logic Source File
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
  *
- *  Created on: 2022. máj. 9.
- *      Author: maorkeny
- */
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided \'as-is\', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ *
+ * # EXPERIMENTAL QUALITY
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
+ *
+ ******************************************************************************/
 
 #ifndef INDOOR_POSITIONING_H_
 #define INDOOR_POSITIONING_H_
@@ -44,41 +75,38 @@ extern "C" {
 // -----------------------------------------------------------------------------
 //                              Macros and Typedefs
 // -----------------------------------------------------------------------------
-#define CONFIG_MODE_TIMEOUT_MS				(120000)    // 2 minutes
-#define GATEWAY_FINDER_TIMEOUT_MS	        (5000)	    // 5 seconds
-#define MINIMUM_REPORTING_INTERVAL          ((GATEWAY_FINDER_TIMEOUT_MS / 1000) + 3) // 3seconds after the gateway finding finished
-#define COMPANY_ID			                (0x0047)
-#define DEVICENAME_LENGTH   		        (9)
-#define ROOM_NAME_LENGTH                    (10)
-#define REQUIRED_NUM_OF_RSSI_SAMPLES	    (10)
+#define CONFIG_MODE_TIMEOUT_MS          (120000)                                    // 2 minutes
+#define GATEWAY_FINDER_TIMEOUT_MS       (5000)                                      // 5 seconds
+#define MINIMUM_REPORTING_INTERVAL      ((GATEWAY_FINDER_TIMEOUT_MS / 1000) + 3)    // 3seconds after the gateway finding finished
+#define COMPANY_ID                      (0x0047)
+#define DEVICENAME_LENGTH               (9)
+#define ROOM_NAME_LENGTH                (10)
+#define REQUIRED_NUM_OF_RSSI_SAMPLES    (10)
 
-#define GW_DATA_INDEX_NET_ID                (7)
-#define GW_DATA_INDEX_ROOM_ID               (11)
-#define GW_DATA_INDEX_ROOM_NAME             (13)
-#define GW_DATA_INDEX_DEV_NAME              (23)
+#define GW_DATA_INDEX_NET_ID            (7)
+#define GW_DATA_INDEX_ROOM_ID           (11)
+#define GW_DATA_INDEX_ROOM_NAME         (13)
+#define GW_DATA_INDEX_DEV_NAME          (23)
 /***************************************************************************//**
  * @brief
  *    struct typedef containing necessary gateway related info
  ******************************************************************************/
-typedef struct
-{
-  char     device_name[DEVICENAME_LENGTH];
-  char     room_name[ROOM_NAME_LENGTH];
-  int8_t   rssi[REQUIRED_NUM_OF_RSSI_SAMPLES];
-  float    rssi_filtered;
+typedef struct {
+  char device_name[DEVICENAME_LENGTH];
+  char room_name[ROOM_NAME_LENGTH];
+  int8_t rssi[REQUIRED_NUM_OF_RSSI_SAMPLES];
+  float rssi_filtered;
   uint32_t network_UID;
   uint16_t room_id;
-  uint8_t  rssi_index;
-  bool	   measurements_ready;
-}gateway_data_t;
-
+  uint8_t rssi_index;
+  bool measurements_ready;
+} gateway_data_t;
 
 /***************************************************************************//**
  * @brief
  *    Custom(user) advertisement struct typedef for Asset data
  ******************************************************************************/
-typedef struct
-{
+typedef struct {
   uint8_t len_flags;
   uint8_t type_flags;
   uint8_t val_flags;
@@ -93,7 +121,7 @@ typedef struct
   // The next bytes are freely configurable - using one byte for counter value and one byte for last button press
   uint32_t network_UID;
   uint16_t room_id;
-  char     room_name[ROOM_NAME_LENGTH];
+  char room_name[ROOM_NAME_LENGTH];
 
   // NAME_MAX_LENGTH must be sized so that total length of data does not exceed 31 bytes
   char name[DEVICENAME_LENGTH];
@@ -105,30 +133,25 @@ typedef struct
   // These values are NOT included in the actual advertising payload, just for bookkeeping
   char dummy;        // Space for null terminator
   uint8_t data_size; // Actual length of advertising data
-}__attribute__((__packed__)) custom_advert_t;
-
+} __attribute__((__packed__)) custom_advert_t;
 
 /***************************************************************************//**
  * @brief
  *    Indoor Positioning - Asset related configuration struct typedef
  ******************************************************************************/
-typedef struct
-{
+typedef struct {
   char device_name[DEVICENAME_LENGTH];
   uint32_t network_UID;
   uint16_t reporting_interval;
-}IPAS_config_data_t;
+} IPAS_config_data_t;
 
 /***************************************************************************//**
  * @brief
  *    enumeration for keys used for the Non-volatile memory storage
  ******************************************************************************/
-typedef enum IPAS_config_keys_enum
-{
-  IPAS_config_key_network_UID = 1,
-  IPAS_config_key_reportingInterval,
-  IPAS_config_num_of_keys
-}IPAS_config_keys_enum_t;
+typedef enum IPAS_config_keys_enum {
+  IPAS_config_key_network_UID = 1, IPAS_config_key_reportingInterval, IPAS_config_num_of_keys
+} IPAS_config_keys_enum_t;
 
 // -----------------------------------------------------------------------------
 //                                Global Variables
@@ -139,11 +162,16 @@ typedef enum IPAS_config_keys_enum
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Returns true if minimal number of RSSI measurements for all required gateways are available
-*******************************************************************************/
-bool indoor_positioning_service_available();
+ * @brief Checks if Indoor positioning is possible or not
+ *
+ * @param[in] None
+ *
+ * @return Returns true if minimal number of RSSI measurements for all required gateways are available
+ *******************************************************************************/
+bool indoor_positioning_service_available(void);
 
 /***************************************************************************//**
+ * @brief
  * Creates custom advertising package
  *
  * @param[in] pData - Pointer to the struct holding the above mentioned asset data
@@ -160,126 +188,190 @@ bool indoor_positioning_service_available();
 void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_t companyID, char *name);
 
 /***************************************************************************//**
+ * @brief
  * Creates an entry in the stored gateways array if the gateway is not yet stored
+ *
  * @param[in] data - Pointer to the gateway data
  ******************************************************************************/
 void create_gateway_storage_entry(uint8_t *data);
 
 /***************************************************************************//**
+ * @brief
  * Stores RSSI measurements of a gateway
+ *
  * @param[in] scan_report - Pointer to the scan report received as a bt event
  ******************************************************************************/
 void store_gateway_rssi(sl_bt_evt_scanner_scan_report_t *scan_report);
 
 /***************************************************************************//**
+ * @brief
  * Clears stored gateway data
+ *
+ * @param[in] None
+ *
  * @note Usually called after an unsuccessful attempt at indoor positioning
-*******************************************************************************/
-void clear_gateways();
+ *******************************************************************************/
+void clear_gateways(void);
 
 /***************************************************************************//**
+ * @brief
  * Initialize Indoor Positioning service
-*******************************************************************************/
-void IPAS_init();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void IPAS_init(void);
 
 /***************************************************************************//**
+ * @brief
  * Called periodically by the application
  * Handles periodic Indoor Positioning related tasks
-*******************************************************************************/
-void IPAS_step();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void IPAS_step(void);
 
 /***************************************************************************//**
+ * @brief
  * Enables Indoor Positioning service
  * Starts a periodic timer to calculate position. Period set by configuration
  *
+ * @param[in] None
+ *
  * @note Must be called after IPAS_Init
-*******************************************************************************/
-void IPAS_enable_service();
+ *******************************************************************************/
+void IPAS_enable_service(void);
 
 /***************************************************************************//**
+ * @brief
  * Disabled Indoor Positioning service
  * Stops the periodic timer which triggers the indoor positioning
-*******************************************************************************/
-void IPAS_disable_service();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void IPAS_disable_service(void);
 
 /***************************************************************************//**
+ * @brief
  * Enters configuration mode
  * prints out current configuration parameters
  * set up and start advertisements
  * starts timeout timer
-*******************************************************************************/
-void enter_config_mode();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void enter_config_mode(void);
 
 /***************************************************************************//**
+ * @brief
  * Enters Normal mode
  * Set up and start scanner
  * Set up and start advertisements
-*******************************************************************************/
-void enter_normal_mode();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void enter_normal_mode(void);
 
 /***************************************************************************//**
+ * @brief
  * re-initializes internal indoor positioning related data
-*******************************************************************************/
-void init_position_calculator();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void init_position_calculator(void);
 
 /***************************************************************************//**
+ * @brief
  * Called periodically - calculates position of the asset
-*******************************************************************************/
-void calculate_position();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void calculate_position(void);
 
 /***************************************************************************//**
+ * @brief
  * Pre-filters RSSI measurements
-*******************************************************************************/
-void distance_pre_filtering();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void distance_pre_filtering(void);
 
 /***************************************************************************//**
+ * @brief
  * Based on the filtered RSSI of the gateways, the closest room is selected
+ *
+ * @param[in] None
  *******************************************************************************/
-void find_closest_room();
+void find_closest_room(void);
 
 /***************************************************************************//**
+ * @brief
  * Resets Indoor Positioning flags
+ *
+ * @param[in] None
  *******************************************************************************/
-void reset_IP_state();
+void reset_IP_state(void);
 
 /***************************************************************************//**
+ * @brief
  * Sets up and starts advertisement about asset's position
+ *
+ * @param[in] None
  *******************************************************************************/
-void start_position_advertisement();
+void start_position_advertisement(void);
 
 /***************************************************************************//**
+ * @brief
  * Resets RSSI measurement related counters, values and flags - called after calculations are done
-*******************************************************************************/
-void reset_gateway_data();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void reset_gateway_data(void);
 
 /***************************************************************************//**
+ * @brief
  *Loads configuration from Non-volatile memory
-*******************************************************************************/
-void update_local_config();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void update_local_config(void);
 
 /***************************************************************************//**
+ * @brief
  * Updates GATT database with values stored in NVM
-*******************************************************************************/
-void update_gatt_entries();
+ *
+ * @param[in] None
+ *******************************************************************************/
+void update_gatt_entries(void);
 
 /***************************************************************************//**
+ * @brief
  * Indoor Positioning related BT event handler
+ *
  * @param[in] - evt - bluetooth event data structure
-*******************************************************************************/
+ *******************************************************************************/
 void IPAS_event_handler(sl_bt_msg_t *evt);
 
 /***************************************************************************//**
+ * @brief
  * Callback for configuration mode timeout timer
+ *
+ * @param[in] None
  ******************************************************************************/
 void config_mode_timeout_cb();
 
 /***************************************************************************//**
+ * @brief
  * Callback for normal mode timer
+ *
+ * @param[in] None
  ******************************************************************************/
 void indoor_positioning_trigger_timer_cb();
 
 /***************************************************************************//**
-* Callback for gateway finder timeout
+ * @brief
+ * Callback for gateway finder timeout
+ *
+ * @param[in] None
  ******************************************************************************/
 void gateway_finder_timeout_cb();
 

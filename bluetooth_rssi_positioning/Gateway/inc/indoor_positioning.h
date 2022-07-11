@@ -1,10 +1,40 @@
-/*
- * indoor_positioning.h
+/***************************************************************************//**
+ * @file indoor_positioning.h
+ * @brief Application Logic Source File
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
  *
- *  Created on: 2022. máj. 9.
- *      Author: maorkeny
- */
-
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided \'as-is\', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ *
+ * # EXPERIMENTAL QUALITY
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
+ *
+ ******************************************************************************/
 #ifndef INDOOR_POSITIONING_H_
 #define INDOOR_POSITIONING_H_
 
@@ -24,7 +54,7 @@
 
 /***************************************************************************//**
  * @brief
- *    Custom(user) advertisement struct typedef for Gateway data
+ * Custom(user) advertisement struct typedef for Gateway data
  ******************************************************************************/
 typedef struct
 {
@@ -57,7 +87,7 @@ typedef struct
 
 /***************************************************************************//**
  * @brief
- *    Indoor Positioning - Gateway related configuration struct typedef
+ * Indoor Positioning - Gateway related configuration struct typedef
  ******************************************************************************/
 typedef struct
 {
@@ -69,7 +99,7 @@ typedef struct
 
 /***************************************************************************//**
  * @brief
- *    enumeration for keys used for the Non-volatile memory storage
+ * enumeration for keys used for the Non-volatile memory storage
  ******************************************************************************/
 typedef enum IPGW_config_keys_enum
 {
@@ -86,7 +116,9 @@ typedef enum IPGW_config_keys_enum
 // -----------------------------------------------------------------------------
 //                          Public Function Declarations
 // -----------------------------------------------------------------------------
+
 /***************************************************************************//**
+ * @brief
  * Creates custom advertising package
  *
  * @param[in] pData - Pointer to the struct holding the above mentioned asset data
@@ -103,51 +135,72 @@ typedef enum IPGW_config_keys_enum
 void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_t companyID, char *name);
 
 /***************************************************************************//**
+ * @brief
  * Initialize Indoor Positioning service
+ *
+ * @param[in] None
 *******************************************************************************/
-void IPGW_init();
+void IPGW_init(void);
 
 /***************************************************************************//**
+ * @brief
  * Called periodically by the application
  * Handles periodic Indoor Positioning related tasks
 *******************************************************************************/
-void IPGW_step();
+void IPGW_step(void);
 
 /***************************************************************************//**
+ * @brief
  * Enters Normal mode
  * Set up and start scanner
  * Set up and start advertisements
+ *
+ * @param[in] None
 *******************************************************************************/
-void enter_normal_mode();
+void enter_normal_mode(void);
 
 /***************************************************************************//**
+ * @brief
  * Enters configuration mode
  * prints out current configuration parameters
  * set up and start advertisements
  * starts timeout timer
+ *
+ * @param[in] None
 *******************************************************************************/
-void enter_config_mode();
+void enter_config_mode(void);
 
 /***************************************************************************//**
+ * @brief
  * Updates GATT database with values stored in NVM
+ *
+ * @param[in] None
 *******************************************************************************/
-void update_gatt_entries();
+void update_gatt_entries(void);
 
 /***************************************************************************//**
- *Loads configuration from Non-volatile memory
+ * @brief
+ * Loads configuration from Non-volatile memory
+ *
+ * @param[in] None
 *******************************************************************************/
-void update_local_config();
+void update_local_config(void);
 
 /***************************************************************************//**
- * Callback for configuration mode timeout timer
- ******************************************************************************/
-void config_mode_timeout_cb();
-
-/***************************************************************************//**
+ * @brief
  * Indoor Positioning related BT event handler
+ *
  * @param[in] - evt - bluetooth event data structure
 *******************************************************************************/
 void IPGW_event_handler(sl_bt_msg_t *evt);
+
+/***************************************************************************//**
+ * @brief
+ * Callback for configuration mode timeout timer
+ *
+ * @param[in] None
+ ******************************************************************************/
+void config_mode_timeout_cb();
 
 
 #endif /* INDOOR_POSITIONING_H_ */

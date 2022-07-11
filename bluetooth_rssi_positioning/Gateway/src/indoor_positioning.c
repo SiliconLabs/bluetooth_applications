@@ -1,10 +1,40 @@
-/*
- * indoor_positioning.c
+/***************************************************************************//**
+ * @file indoor_positioning.c
+ * @brief Application Logic Source File
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
  *
- *  Created on: 2022. máj. 9.
- *      Author: maorkeny
- */
-
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided \'as-is\', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ *
+ * # EXPERIMENTAL QUALITY
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
+ *
+ ******************************************************************************/
 // -----------------------------------------------------------------------------
 //                                   Includes
 // -----------------------------------------------------------------------------
@@ -41,10 +71,9 @@ static bool IP_mode_selected = false;
 //                          Public Function Definitions
 // -----------------------------------------------------------------------------
 
-
-/* ------------------------------------------------------------------- */
-/* ---------------------------- Callbacks ---------------------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                              Callbacks
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Callback for configuration mode timeout timer
@@ -56,9 +85,9 @@ void config_mode_timeout_cb()
   sl_bt_system_reset(sl_bt_system_boot_mode_normal);
 }
 
-/* ------------------------------------------------------------------- */
-/* --------------------------- Advertising --------------------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                                 Advertising
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Creates custom advertising package with current asset related data
@@ -103,9 +132,9 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
   pData->data_size = 3 + (1 + pData->len_manuf) + (1 + pData->len_name);
 }
 
-/* ------------------------------------------------------------------- */
-/* ----------------- Indoor Positioning - Gateway -------------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                          Indoor Positioning - Gateway
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Enters configuration mode
@@ -113,7 +142,7 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
  * sets up and starts advertisements
  * starts configuration mode timeout timer
  *******************************************************************************/
-void enter_config_mode()
+void enter_config_mode(void)
 {
   sl_status_t sc;
   IP_config_mode = true;
@@ -148,7 +177,7 @@ void enter_config_mode()
  * Enters Normal mode
  * Sets up and starts custom advertisements
  *******************************************************************************/
-void enter_normal_mode()
+void enter_normal_mode(void)
 {
   sl_status_t sc;
   IP_config_mode = false;
@@ -180,7 +209,7 @@ void enter_normal_mode()
  * Called periodically by the application
  * Handles periodic Indoor Positioning related tasks
  *******************************************************************************/
-void IPGW_step()
+void IPGW_step(void)
 {
   // Check button status once bluetooth stack is initialized and neither mode is selected yet
   if (IP_BT_init_done && false == IP_mode_selected) {
@@ -202,21 +231,21 @@ void IPGW_step()
 /***************************************************************************//**
  * Initialize Indoor Positioning service
  *******************************************************************************/
-void IPGW_init()
+void IPGW_init(void)
 {
   app_log("\nIndoor Positioning - Gateway\n");
   app_log("Loading Configuration\n");
   update_local_config();
 }
 
-/* ------------------------------------------------------------------- */
-/* -------------- Non-volatile memory related functions -------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                    Non-volatile memory related functions
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  *Loads configuration from Non-volatile memory
  *******************************************************************************/
-void update_local_config()
+void update_local_config(void)
 {
   uint32_t object_type;
   uintptr_t *entry_ptr;
@@ -262,7 +291,7 @@ void update_local_config()
 /***************************************************************************//**
  * Updates GATT database with values stored in NVM
  *******************************************************************************/
-void update_gatt_entries()
+void update_gatt_entries(void)
 {
   sl_status_t sc;
   uint8_t gatt_db_id;
@@ -305,16 +334,15 @@ void update_gatt_entries()
   }
 }
 
-/* ------------------------------------------------------------------- */
-/* --------------------------- Event Handler ------------------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                              Event Handler
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Indoor Positioning related BT event handler
  *******************************************************************************/
 void IPGW_event_handler(sl_bt_msg_t *evt)
 {
-  static const char asset_name_prefix[5] = { 'I', 'P', 'A', 'S', '_' };
   sl_status_t sc;
   uint8_t request_data[4] = { 0 };
   bd_addr address;

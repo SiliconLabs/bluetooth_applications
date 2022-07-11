@@ -1,15 +1,45 @@
-/*
- * indoor_positioning.c
+/***************************************************************************//**
+ * @file indoor_positioning.c
+ * @brief Application Logic Source File
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
  *
- *  Created on: 2022. máj. 9.
- *      Author: maorkeny
- */
-
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided \'as-is\', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ *
+ * # EXPERIMENTAL QUALITY
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
+ *
+ ******************************************************************************/
 // -----------------------------------------------------------------------------
 //                                   Includes
 // -----------------------------------------------------------------------------
-#include "indoor_positioning.h"
 
+#include "indoor_positioning.h"
 
 // -----------------------------------------------------------------------------
 //                          Static Function Declarations
@@ -67,13 +97,8 @@ static gateway_data_t gateway_data_storage[5];
 static glib_context_t glib_context;
 
 // -----------------------------------------------------------------------------
-//                          Public Function Definitions
+//                                Callbacks
 // -----------------------------------------------------------------------------
-
-
-/* ------------------------------------------------------------------- */
-/* ---------------------------- Callbacks ---------------------------- */
-/* ------------------------------------------------------------------- */
 
 /***************************************************************************//**
  * Callback for configuration mode timeout timer
@@ -100,25 +125,24 @@ void indoor_positioning_trigger_timer_cb()
 void gateway_finder_timeout_cb()
 {
   app_log("\nGateway finding finished \n");
-  if(gateway_counter == 0)
-  {
+  if (gateway_counter == 0) {
     IP_service_unavailable = true;
   }
   IP_gateway_finding_finished = true;
 }
 
-/* ------------------------------------------------------------------- */
-/* --------------------------- Advertising --------------------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                                  Advertising
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Returns true if minimal number of RSSI measurements for all required gateways are available
  *******************************************************************************/
-bool indoor_positioning_service_available()
+bool indoor_positioning_service_available(void)
 {
   bool service_available = true;
 
-  if(gateway_counter > 0){
+  if (gateway_counter > 0) {
     // Loop through gateway data - Check if enough samples are gathered
     for (uint8_t i = 0; i < gateway_counter; i++) {
       if (false == gateway_data_storage[i].measurements_ready) {
@@ -172,10 +196,9 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
   pData->data_size = 3 + (1 + pData->len_manuf) + (1 + pData->len_name);
 }
 
-
-/* ------------------------------------------------------------------- */
-/* -------------------- Gateway finder & Sampling -------------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                          Gateway finder & Sampling
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Creates an entry in the stored gateways array if the gateway is not yet stored
@@ -203,14 +226,14 @@ void create_gateway_storage_entry(uint8_t *data)
 
 /***************************************************************************//**
  * Stores RSSI measurements of a gateway
- * @param scan_report - Pointer to the scan report received as a bt event
  ******************************************************************************/
 void store_gateway_rssi(sl_bt_evt_scanner_scan_report_t *scan_report)
 {
   // Loop through minimal number of gateways
   for (uint8_t i = 0; i < gateway_counter; i++) {
     // Find gateway based on it's advertised & stored name - store the RSSI value, increment index
-    if (0 == memcmp(&gateway_data_storage[i].device_name, &scan_report->data.data[GW_DATA_INDEX_DEV_NAME], sizeof(gateway_data_storage[i].device_name))) {
+    if (0
+        == memcmp(&gateway_data_storage[i].device_name, &scan_report->data.data[GW_DATA_INDEX_DEV_NAME], sizeof(gateway_data_storage[i].device_name))) {
       gateway_data_storage[i].rssi[gateway_data_storage[i].rssi_index] = scan_report->rssi;
       gateway_data_storage[i].rssi_index += 1;
 
@@ -227,7 +250,7 @@ void store_gateway_rssi(sl_bt_evt_scanner_scan_report_t *scan_report)
  * Clears stored gateway data
  * @note Usually called after an unsuccessful attempt at indoor positioning
  *******************************************************************************/
-void clear_gateways()
+void clear_gateways(void)
 {
   // Reset data for every gateway
   for (uint8_t i = 0; i < gateway_counter; i++) {
@@ -238,16 +261,15 @@ void clear_gateways()
   gateway_counter = 0;
 }
 
-
-/* ------------------------------------------------------------------- */
-/* ------------------- Indoor Positioning - Asset -------------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                          Indoor Positioning - Asset
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Called periodically by the application
  * Handles periodic Indoor Positioning related tasks
  *******************************************************************************/
-void IPAS_step()
+void IPAS_step(void)
 {
   // --- Initialization ---
   // Check button status once bluetooth stack is initialized and neither mode is selected yet
@@ -285,7 +307,7 @@ void IPAS_step()
     IP_clear_stored_gateways = false;
   }
 
-  if(IP_service_unavailable) {
+  if (IP_service_unavailable) {
     app_log("No gateways were found\n");
     oled_display_service_unavailable();
 
@@ -296,7 +318,7 @@ void IPAS_step()
 /***************************************************************************//**
  * Resets Indoor Positioning flags
  *******************************************************************************/
-void reset_IP_state()
+void reset_IP_state(void)
 {
   IP_ready = false;
   IP_start_positioning = false;
@@ -307,17 +329,21 @@ void reset_IP_state()
 
 /***************************************************************************//**
  * Enables Indoor Positioning service
-*******************************************************************************/
-void IPAS_enable_service()
+ *******************************************************************************/
+void IPAS_enable_service(void)
 {
   sl_status_t sc;
   bool is_timer_running = false;
 
   IP_service_enabled = true;
   sc = sl_sleeptimer_is_timer_running(&IP_find_current_room_periodic_timer, &is_timer_running);
-  if(!is_timer_running)
-  {
-    sc = sl_sleeptimer_start_periodic_timer_ms(&IP_find_current_room_periodic_timer, (IPAS_config_data.reporting_interval * 1000), indoor_positioning_trigger_timer_cb, (void*) NULL, 0, 0);
+  if (!is_timer_running) {
+    sc = sl_sleeptimer_start_periodic_timer_ms(&IP_find_current_room_periodic_timer,
+                                              (IPAS_config_data.reporting_interval * 1000),
+                                              indoor_positioning_trigger_timer_cb,
+                                              (void*) NULL,
+                                              0,
+                                              0);
     app_assert_status(sc);
   }
 
@@ -326,8 +352,8 @@ void IPAS_enable_service()
 
 /***************************************************************************//**
  * Disabled Indoor Positioning service
-*******************************************************************************/
-void IPAS_disable_service()
+ *******************************************************************************/
+void IPAS_disable_service(void)
 {
   sl_status_t sc;
   bool is_timer_running = false;
@@ -335,8 +361,7 @@ void IPAS_disable_service()
   IP_service_enabled = false;
 
   sc = sl_sleeptimer_is_timer_running(&IP_find_current_room_periodic_timer, &is_timer_running);
-  if(is_timer_running)
-  {
+  if (is_timer_running) {
     sc = sl_sleeptimer_stop_timer(&IP_find_current_room_periodic_timer);
     app_assert_status(sc);
   }
@@ -347,7 +372,7 @@ void IPAS_disable_service()
 /***************************************************************************//**
  * Initialize Indoor Positioning service
  *******************************************************************************/
-void IPAS_init()
+void IPAS_init(void)
 {
   app_log("\nIndoor Positioning - Asset\n");
   app_log("Loading Configuration\n");
@@ -363,7 +388,7 @@ void IPAS_init()
  * set up and start advertisements
  * starts timeout timer
  *******************************************************************************/
-void enter_config_mode()
+void enter_config_mode(void)
 {
   sl_status_t sc;
   IP_config_mode = true;
@@ -402,7 +427,7 @@ void enter_config_mode()
  * Set up and start scanner
  * Set up and start advertisements
  *******************************************************************************/
-void enter_normal_mode()
+void enter_normal_mode(void)
 {
   sl_status_t sc;
   IP_config_mode = false;
@@ -416,25 +441,27 @@ void enter_normal_mode()
   sc = sl_bt_advertiser_create_set(&normalMode_advertising_set_handle);
   app_assert_status(sc);
 
-  sc = sl_bt_advertiser_set_timing(normalMode_advertising_set_handle,
-      100, // min. adv. interval (milliseconds * 1.6)
+  sc = sl_bt_advertiser_set_timing(normalMode_advertising_set_handle, 100, // min. adv. interval (milliseconds * 1.6)
       160, // max. adv. interval (milliseconds * 1.6)
       3,   // adv. duration
       5);  // max. num. adv. events
   app_assert_status(sc);
 
-  if(IP_service_enabled)
-  {
-    sc = sl_sleeptimer_start_periodic_timer_ms(&IP_find_current_room_periodic_timer, (IPAS_config_data.reporting_interval * 1000), indoor_positioning_trigger_timer_cb, (void*) NULL, 0, 0);
+  if (IP_service_enabled) {
+    sc = sl_sleeptimer_start_periodic_timer_ms(&IP_find_current_room_periodic_timer,
+                                              (IPAS_config_data.reporting_interval * 1000),
+                                              indoor_positioning_trigger_timer_cb,
+                                              (void*) NULL,
+                                              0,
+                                              0);
     app_assert_status(sc);
   }
 }
 
-
 /***************************************************************************//**
  * Sets up and starts advertisement about asset's position
  *******************************************************************************/
-void start_position_advertisement()
+void start_position_advertisement(void)
 {
   sl_status_t sc;
 
@@ -453,7 +480,7 @@ void start_position_advertisement()
 /***************************************************************************//**
  * re-initializes internal indoor positioning related data
  *******************************************************************************/
-void init_position_calculator()
+void init_position_calculator(void)
 {
   sl_status_t sc;
 
@@ -466,7 +493,12 @@ void init_position_calculator()
   sc = sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
 
   // Start gateway finder timeout
-  sc = sl_sleeptimer_start_timer_ms(&IP_gateway_finder_timeout_timer, GATEWAY_FINDER_TIMEOUT_MS, gateway_finder_timeout_cb, (void*) NULL, 0, 0);
+  sc = sl_sleeptimer_start_timer_ms(&IP_gateway_finder_timeout_timer,
+                                    GATEWAY_FINDER_TIMEOUT_MS,
+                                    gateway_finder_timeout_cb,
+                                    (void*) NULL,
+                                    0,
+                                    0);
   app_assert_status(sc);
 
   IP_ready = true;
@@ -475,7 +507,7 @@ void init_position_calculator()
 /***************************************************************************//**
  * Called periodically - calculates position of the asset
  *******************************************************************************/
-void calculate_position()
+void calculate_position(void)
 {
   app_log("\nIndoor position calculation started... \n");
 
@@ -501,14 +533,14 @@ void calculate_position()
   app_log("Asset is in room: %s\n", current_room_name);
 }
 
-/* ------------------------------------------------------------------- */
-/* ----------------- Indoor Positioning calculations ----------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                          Indoor Positioning calculations
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Pre-filters RSSI measurements
  *******************************************************************************/
-void distance_pre_filtering()
+void distance_pre_filtering(void)
 {
   int32_t temp_rssi_sum = 0;
   int32_t temp_rssi = 0;
@@ -558,14 +590,13 @@ void distance_pre_filtering()
 /***************************************************************************//**
  * Based on the filtered RSSI of the gateways, the closest room is selected
  *******************************************************************************/
-void find_closest_room()
+void find_closest_room(void)
 {
   float highest_rssi = gateway_data_storage[0].rssi_filtered;
   uint8_t closest_gw_index = 0;
 
   for (uint8_t gw_index = 0; gw_index < gateway_counter; gw_index++) {
-    if(gateway_data_storage[gw_index].rssi_filtered > highest_rssi)
-    {
+    if (gateway_data_storage[gw_index].rssi_filtered > highest_rssi) {
       highest_rssi = gateway_data_storage[gw_index].rssi_filtered;
       closest_gw_index = gw_index;
     }
@@ -575,11 +606,10 @@ void find_closest_room()
   memcpy(current_room_name, gateway_data_storage[closest_gw_index].room_name, ROOM_NAME_LENGTH);
 }
 
-
 /***************************************************************************//**
  * Resets RSSI measurement related counters, values and flags - called after calculations are done
  *******************************************************************************/
-void reset_gateway_data()
+void reset_gateway_data(void)
 {
   for (uint8_t gw_index = 0; gw_index < gateway_counter; gw_index++) {
     gateway_data_storage[gw_index].rssi_index = 0;
@@ -588,14 +618,14 @@ void reset_gateway_data()
   }
 }
 
-/* ------------------------------------------------------------------- */
-/* -------------- Non-volatile memory related functions -------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                          Non-volatile memory related functions
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  *Loads configuration from Non-volatile memory
  *******************************************************************************/
-void update_local_config()
+void update_local_config(void)
 {
   uint32_t object_type;
   uintptr_t *entry_ptr;
@@ -637,7 +667,7 @@ void update_local_config()
 /***************************************************************************//**
  * Updates GATT database with values stored in NVM
  *******************************************************************************/
-void update_gatt_entries()
+void update_gatt_entries(void)
 {
   sl_status_t sc;
   uint8_t gatt_db_id;
@@ -674,27 +704,23 @@ void update_gatt_entries()
   }
 }
 
-/* ------------------------------------------------------------------- */
-/* ------------------------- Helper functions ------------------------ */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                               Helper functions
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Validates and modifies configuration entries if necessary
  * to a valid or default value
- * @param request_data - Pointer to the requested, new configuration value array
- * @param nvm_key - configuration key identifying the configuration entry
  ******************************************************************************/
 static void validate_new_configuration_value(uint8_t *request_data, IPAS_config_keys_enum_t nvm_key)
 {
-  if(nvm_key == IPAS_config_key_reportingInterval)
-  {
+  if (nvm_key == IPAS_config_key_reportingInterval) {
     uint16_t temp_reporting_interval;
     memcpy(&temp_reporting_interval, request_data, sizeof(IPAS_config_data.reporting_interval));
 
     // Ensure that the reporting interval leaves enough time to calculate a position before triggered again
     // Invalid (less than required) values will be replaced with the minimum reporting interval in the application and in the GATT database also
-    if(temp_reporting_interval < MINIMUM_REPORTING_INTERVAL)
-    {
+    if (temp_reporting_interval < MINIMUM_REPORTING_INTERVAL) {
       temp_reporting_interval = MINIMUM_REPORTING_INTERVAL;
       memcpy(request_data, &temp_reporting_interval, sizeof(temp_reporting_interval));
     }
@@ -749,7 +775,7 @@ static void oled_display_config(void)
 /***************************************************************************//**
  * Updates asset info on the OLED display
  ******************************************************************************/
-static void oled_update_info()
+static void oled_update_info(void)
 {
   /* Fill lcd with background color */
   glib_clear(&glib_context);
@@ -777,9 +803,9 @@ static void oled_display_service_unavailable(void)
   glib_update_display();
 }
 
-/* ------------------------------------------------------------------- */
-/* --------------------------- Event Handler ------------------------- */
-/* ------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+//                                  Event Handler
+// -----------------------------------------------------------------------------
 
 /***************************************************************************//**
  * Indoor Positioning related BT event handler
@@ -862,14 +888,20 @@ void IPAS_event_handler(sl_bt_msg_t *evt)
       update_local_config();
 
       // Reset configuration mode timeout
-      sc = sl_sleeptimer_restart_timer_ms(&IP_config_mode_timeout_timer, CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
+      sc = sl_sleeptimer_restart_timer_ms(&IP_config_mode_timeout_timer,
+                                          CONFIG_MODE_TIMEOUT_MS,
+                                          config_mode_timeout_cb,
+                                          (void*) NULL,
+                                          0,
+                                          0);
       app_assert_status(sc);
 
       break;
     case sl_bt_evt_scanner_scan_report_id:
       //Check for network UID in the beginning of data field. First 6 bytes are flags and company ID. Data field starts at index 7.
       //Check for device name also which starts at the index of 24. Gateways' device name start with "IPGW_" prefix
-      if (0 == memcmp(&IPAS_config_data.network_UID, &evt->data.evt_scanner_scan_report.data.data[GW_DATA_INDEX_NET_ID], sizeof(IPAS_config_data.network_UID))
+      if (0
+          == memcmp(&IPAS_config_data.network_UID, &evt->data.evt_scanner_scan_report.data.data[GW_DATA_INDEX_NET_ID], sizeof(IPAS_config_data.network_UID))
           && 0 == memcmp(&gateway_name_prefix, &evt->data.evt_scanner_scan_report.data.data[GW_DATA_INDEX_DEV_NAME], sizeof(gateway_name_prefix))) {
         if (!IP_gateway_finding_finished) {
           create_gateway_storage_entry(evt->data.evt_scanner_scan_report.data.data);
@@ -881,4 +913,3 @@ void IPAS_event_handler(sl_bt_msg_t *evt)
       break;
   }
 }
-
