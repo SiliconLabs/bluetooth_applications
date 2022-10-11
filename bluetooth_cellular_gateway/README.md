@@ -8,7 +8,7 @@ The application is using our BG_96 driver (https://github.com/SiliconLabs/platfo
 
 - Mikroe LTE IOT 2 CLICK, GNSS antenna, GSM antenna, SIM card
 
-![](doc/bg96_module.jpg)
+![](DOC/bg96_module.jpg)
 
 - BGM220 Explorer Kit Board (BRD4314A), USB mini cable
 
@@ -41,7 +41,7 @@ If you use another board than BGM220 Explorer Kit Board, you need to follow thes
 3. set your hologram.io token for variable **cloud_token[]** in the app.c file.
 4. Copy the **BG96_driver** folder from the Git repository to your Simplicity Studio project folder, and add to the include path:
 
-![](doc/include_directory.png)
+![](DOC/include_directory.png)
 
 5. Install the software components:
 
@@ -51,11 +51,11 @@ If you use another board than BGM220 Explorer Kit Board, you need to follow thes
 
 - Install **[Services] > [IO Stream] > [IO Stream: USART]** component with the default instance name: **vcom**.
 
-![](doc/iostream.png)
+![](DOC/iostream.png)
 
 - Install **[Services] > [IO Stream] > [IO Stream: Retarget STDIO]** component
 
-![](doc/iostream_retarget.png)
+![](DOC/iostream_retarget.png)
 
 - Install the **[Services] > [Sleep Timer]** component.
 
@@ -64,17 +64,17 @@ If you use another board than BGM220 Explorer Kit Board, you need to follow thes
 with the names:
 bg96_pwk
 
-![](doc/pin_pwk.jpg)
+![](DOC/pin_pwk.jpg)
 
 bg96_sta ()
 
-![](doc/pin_sta.jpg)
+![](DOC/pin_sta.jpg)
 
 - Install the **[Platform] > [Utilities] > [Circular Queue]** component with a parameter value 20 Max Queue Length  
 
-![](doc/Circular_queue.png)
+![](DOC/Circular_queue.png)
 
-![](doc/Circular_queue_set_to_20.png)
+![](DOC/Circular_queue_set_to_20.png)
 
 Install the [Platform] > [Driver] > [UART] > [UARTDRV Core] component, with a given parameters 
 1. FLow control support: enable, maximum number of driver instances: 4
@@ -82,9 +82,9 @@ Install the [Platform] > [Driver] > [UART] > [UARTDRV Core] component, with a gi
 3. UART software flow control code: request peer to stop TX: 19
 4. Enable reception when sleeping: enable
 
-![](doc/uart.png)
+![](DOC/uart.png)
 
-![](doc/UART_setting.png)
+![](DOC/UART_setting.png)
 
 6. Build and flash the project to your BGM220 device.
 
@@ -94,8 +94,8 @@ Power the Thunderboard. Connect the BMG220 with a micro usb cable to your comput
 
 The serial window will inform you about collecting humidity, temperature, and GPS position. Values: "t" is temperature, 25°C is represented as 2500, "h" is humidity, 50% RHT is represented as 5000. Latitude and Longitude values are also present (southern hemisphere S, northern hemisphere N, eastern longitude E, western longitude: W) after the valid GPS position was received.
 
-![](doc/TetaTerm.png)
+![](DOC/TetaTerm.png)
 
 The string containing these data will appear at the cloud provider.
 
-![](doc/hologram_cloud.png)
+![](DOC/hologram_cloud.png)
