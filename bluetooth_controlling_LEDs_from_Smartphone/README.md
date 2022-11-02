@@ -1,9 +1,8 @@
 
 # Controlling LEDs from a Smartphone
-![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
-![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
-![License badge](https://img.shields.io/badge/License-zlib-green)
-![GitHub](https://img.shields.io/badge/SDK-v3.1.1-green)
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_controlling_LEDs_from_Smartphone_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_controlling_LEDs_from_Smartphone_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_controlling_LEDs_from_Smartphone_common.json&label=License&query=license&color=green)
 
 ## Description
 
