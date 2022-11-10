@@ -1,5 +1,7 @@
 <table border="0">
   <tr>
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_nfc_pairing_t2t_nt3h2x11_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_nfc_pairing_t2t_nt3h2x11_common.json&label=Technology&query=technology&color=green)
     <td align="left" valign="middle">
     <h1>NFC Application Examples</h1>
   </td>
@@ -10,7 +12,7 @@
   </td>
   </tr>
 </table>
-
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_nfc_pairing_t2t_nt3h2x11_common.json&label=License&query=license&color=green)
 # Bluetooth NFC Pairing with NT3H2x11
 ![License badge](https://img.shields.io/badge/License-zlib-green)
 This project demonstrates Bluetooth LE static handover with a NT3H2x11.

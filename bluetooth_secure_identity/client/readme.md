@@ -1,5 +1,11 @@
 # Client
 
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/client_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/client_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/client_common.json&label=License&query=license&color=green)
+![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/server_common.json&label=SDK&query=sdk&color=green)
+
+
 ## Description
 
 This file describes the use of the client project.

@@ -1,9 +1,11 @@
 # BLE IR Generator Example #
-![GitHub](https://img.shields.io/badge/Type-Virtual%20Application-green)
-![GitHub](https://img.shields.io/badge/Technology-Bluetooth-green)
-![License badge](https://img.shields.io/badge/License-zlib-green)
-![SDK badge](https://img.shields.io/badge/SDK-v2.7.5-green)
-![GCC badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_gcc.json)
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=License&query=license&color=green)
+![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=SDK&query=sdk&color=green)
+![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_build_status.json)
+![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=Flash&query=flash&color=blue)
+![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=RAM&query=ram&color=blue)
 
 ## Summary ##
 

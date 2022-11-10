@@ -1,4 +1,9 @@
 # Bluetooth Cellular Gateway with BG 96B #
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_common.json&label=License&query=license&color=green)
+![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_common.json&label=SDK&query=sdk&color=green)
+![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_build_status.json)
 
 This application is using Mikroe LTE IOT 2 CLICK shield on Silicon Laboratories BGM220 Explorer Kit Board (BRD4314A), and Hologram IO cloud service.
 
