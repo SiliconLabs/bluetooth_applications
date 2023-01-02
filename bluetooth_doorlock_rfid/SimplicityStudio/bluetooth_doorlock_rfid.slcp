@@ -1,0 +1,107 @@
+project_name: bt_soc_blinky
+package: Bluetooth
+label: Bluetooth - SoC Blinky
+description: >
+  The classic blinky example using Bluetooth communication. Demonstrates a
+  simple two-way data exchange over GATT. This can be tested with the EFR
+  Connect mobile app.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "Project Difficulty"
+    value: ["Beginner"]
+
+component:
+  - id: bluetooth_feature_sm
+  - id: bluetooth_stack
+  - id: bluetooth_feature_nvm
+  - id: gatt_configuration
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: component_catalog
+  - id: mpu
+  - {from: third_party_hw_drivers, id: services_oled_glib}
+  - {from: third_party_hw_drivers, id: sparkfun_micro_oled_ssd1306}
+  - {from: third_party_hw_drivers, id: sparkfun_rfid_id12la}
+  - id: i2cspm
+    instance: [rfid]
+  - id: simple_button
+    instance:
+      - btn0
+  - id: simple_led
+    instance:
+      - led0
+  - id: iostream_usart
+    instance:
+      - vcom
+  - id: app_log
+sdk_extension:
+  - {id: third_party_hw_drivers, version: 1.0.0}
+source:
+  - path: main.c
+  - path: app.c
+  - path: app_display.c
+  - path: rfid_card.c
+readme:
+- path: ../README.md
+include:
+  - path: .
+    file_list:
+      - path: app.h
+      - path: app_display.h
+      - path: rfid_card.h
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: gatt_configuration.btconf
+    directory: btconf
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_HEAP_SIZE
+    value: "9200"
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - iostream_usart
+
+tag:
+  - prebuilt_demo
+  - hardware:rf:band:2400
+  - hardware:component:button:1+
+  - hardware:component:led:1+
+  - hardware:!shared:button:led
+other_file:
+  - path: ../doc/algorithm_workflows.png
+  - path: ../doc/app_init.png
+  - path: ../doc/application_logic1.png
+  - path: ../doc/application_logic2.png
+  - path: ../doc/application_overview.png
+  - path: ../doc/button_flowchart.png
+  - path: ../doc/configuration_mode1.png
+  - path: ../doc/configuration_mode2.png
+  - path: ../doc/create_example.png
+  - path: ../doc/efr32_connect_app1.png
+  - path: ../doc/efr32_connect_app2.png
+  - path: ../doc/hardware_connection.png
+  - path: ../doc/normal_mode_0.png
+  - path: ../doc/oled_display.png
+  - path: ../doc/overview.png
+  - path: ../doc/screen_design.png
+ui_hints:
+  highlight:
+    - path: ../config/gatt_configuration.btconf
+    - path: ../README.md
+      focus: true
