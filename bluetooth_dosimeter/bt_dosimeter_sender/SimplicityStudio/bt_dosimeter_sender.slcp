@@ -1,0 +1,89 @@
+project_name: bt_dosimeter_sender
+label: bt_dosimeter_sender
+description: |
+  Implements a Dosimeter Sender device which enables a Dosimeter Consumer device to connect and get dosimeter data.
+category: Bluetooth Examples
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Beginner]
+- name: Wireless Technology
+  value: [Bluetooth]
+package: Bluetooth
+quality: development
+readme:
+- path: ../../../documentation/example/bluetooth_dosimeter/README.md
+source:
+- path: main.c
+- path: app.c
+include:
+- path: ''
+  file_list:
+  - path: app.h
+component:
+- id: sparkfun_type5
+  from: third_party_hw_drivers
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: mpu
+- id: bluetooth_feature_legacy_advertiser
+- id: gatt_configuration
+- id: bluetooth_stack
+- id: rail_util_pti
+- id: bluetooth_feature_gatt
+- id: brd4314a
+- id: BGM220PC22HNA
+- id: bluetooth_feature_legacy_scanner
+- id: app_log
+- id: printf
+- id: bluetooth_feature_connection
+- id: iostream_usart
+  instance: [vcom]
+- id: bluetooth_feature_system
+- id: component_catalog
+- id: bootloader_interface
+- id: app_assert
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: gatt_configuration.btconf
+    directory: btconf
+configuration:
+- name: SL_STACK_SIZE
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+  condition: [psa_crypto]
+other_file:
+  - path: ../../../documentation/example/bluetooth_dosimeter/consumer_btn.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/consumer_config.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/consumer_event.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/consumer_init.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/consumer_logic.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/consumer_normal.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/consumer_notify.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/consumer_overview.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/create_example.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/display.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/hardware_connection.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/overview.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/sender_callback.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/sender_init.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/sender_overview.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/log_sender.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/log_consumer.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/efr_connect.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/configuration.png
+  - path: ../../../documentation/example/bluetooth_dosimeter/disconnected.GIF
+ui_hints:
+  highlight:
+  - path: README.md
+    focus: true
+  - path: config/btconf/gatt_configuration.btconf
+sdk_extension:
+- id: third_party_hw_drivers
+  version: 1.0.0
