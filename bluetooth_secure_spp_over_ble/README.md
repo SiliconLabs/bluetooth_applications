@@ -1,4 +1,5 @@
 # Secure SPP (Serial Port Profile) over BLE #
+
 ![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=Type&query=type&color=green)
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=License&query=license&color=green)
@@ -21,12 +22,11 @@ Bonding information including the long term key and other information persists o
 
 ## Gecko SDK version ##
 
-- GSDK v3.1.1
+- GSDK v4.2.0
 
 ## Hardware Required ##
 
-- 2 x WSTK board
-- 2 x Bluetooth capable radio board, e.g: BRD4162A
+- Two [xG24 Dev Kit (xG24-DK2601B)](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit)
 
 ## Set up ##
 
@@ -42,11 +42,6 @@ Bonding information including the long term key and other information persists o
    - Install **IO Stream: USART** component with the default instance name: **vcom**  
     ![install usart](images/install_usart.png)
 
-   - Find the **Board Control** component and click to the **Configure** button like below
-    ![board control configure](images/board_control_configure.png)  
-    Then enable *Virtual COM UART* under its configuration
-    ![enable vcom](images/enable_vir_com.png)
-
    - Install the **Log** component (found under Bluetooth > Utility group)
    ![log configure](images/log.png)
 
@@ -55,13 +50,14 @@ Bonding information including the long term key and other information persists o
    Create the second button by clicking the **Add New Instances** button with the default instance name: **btn1**
    ![button1](images/btn1.png)
 
-4. Import the GATT configuration:        
+4. Import the GATT configuration:
     - Open the **Bluetooth GATT Configurator** under the **CONFIGURATION TOOLS** tab.
     - Find the Import button and import the attached **gatt_configuration.btconf** file.
     ![btc configure](images/btconf.png)
     - Save the GATT configuration (Ctrl+S).
 
-5. Build and flash the project to each device. 
+5. Build and flash the project to each device.
+6. Don't forget to flash a bootloader to your board, if you haven't done so already. See the [special Notes](#special-notes).
 
 ## Usage ##
 
@@ -88,3 +84,17 @@ Note: to get a proper log, Network Analyzer needs to observe the connection from
 ![img](images/figure_2.png)
 
 Network Analyzer log
+
+### .sls Projects Used ###
+
+- `bt_secure_spp_over_ble.sls`
+
+## Special Notes ##
+
+The **xG24 Dev Kit** Board also requires a bootloader to run the application. You can either use the provided [bootloader-apploader.hex](bootloader-apploader.hex) file or perform the instructions below to create a bootloader file:
+
+1. Create an **Bootloader - SoC Bluetooth AppLoader OTA DFU** project for the **xG24 Dev Kit** using Simplicity Studio v5 with the default project settings. Make sure to connect and select the **xG24 Dev Kit** Board from the **Debug Adapters** on the left before creating a project.
+
+   ![Create_bootloader](images/create_bootloader.png "Create bootloader file")
+
+2. Save the files, build and be ready to flash. To build the project from the **Simplicity IDE**, press the hammer sign from the above toolbar. If there is no warning, it will have a Binaries-folder in the project. Expand the folder and click the right mouse on the .s37 file then select **Flash to Device**. Flash Programmer dialog should be opened then, select the correct file to flash the program.
