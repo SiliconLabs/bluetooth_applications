@@ -93,7 +93,7 @@ To get a more reliable operation, increase the `SL_IOSTREAM_USART_VCOM_RX_BUFFER
 
 
 ## Gecko SDK version ##
-GSDK v3.1.0
+GSDK v4.2.0
 
 
 

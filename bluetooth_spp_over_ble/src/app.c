@@ -15,12 +15,12 @@
  *
  ******************************************************************************/
 #include "em_common.h"
-#include "sl_app_assert.h"
+#include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
 #include "app.h"
 
-#include "sl_app_log.h"
+#include "app_log.h"
 #include "sl_iostream_handles.h"
 
 /***************************************************************************************************
@@ -30,7 +30,7 @@
 #define SPP_SERVER_MODE 0
 #define SPP_CLIENT_MODE 1
 
-#define SPP_OPERATION_MODE SPP_SERVER_MODE
+#define SPP_OPERATION_MODE SPP_SERVER_MODE//SPP_CLIENT_MODE
 
 /*Main states */
 #define DISCONNECTED  0
@@ -98,7 +98,7 @@ typedef struct
 
 /* Function is only used in SPP client mode */
 #if (SPP_OPERATION_MODE == SPP_CLIENT_MODE)
-static bool process_scan_response(sl_bt_evt_scanner_scan_report_t *pResp);
+static bool process_scan_response(sl_bt_evt_scanner_legacy_advertisement_report_t *pResp);
 #endif
 
 /* Common local functions*/
@@ -165,11 +165,12 @@ SL_WEAK void app_process_action(void)
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   uint16_t max_mtu_out;
+  sl_status_t sc;
 
   switch (SL_BT_MSG_ID(evt->header)) {
 
     case sl_bt_evt_system_boot_id:
-      sl_app_log("SPP Role: SPP Server\r\n");
+      app_log("SPP Role: SPP Server\r\n");
       reset_variables();
       sl_bt_gatt_server_set_max_mtu(247, &max_mtu_out);
       sl_bt_advertiser_create_set(&advertising_set_handle);
@@ -179,15 +180,15 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
                                 0,   // adv. duration
                                 0);  // max. num. adv. events
 
+      sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle, sl_bt_advertiser_general_discoverable);
       // Start  advertising and enable connections
-      sl_bt_advertiser_start(advertising_set_handle,
-                                  advertiser_general_discoverable,
-                                  advertiser_connectable_scannable);
+      sc = sl_bt_legacy_advertiser_start(advertising_set_handle, sl_bt_legacy_advertiser_connectable);
+
       break;
 
     case sl_bt_evt_connection_opened_id:
       _conn_handle = evt->data.evt_connection_opened.connection;
-      sl_app_log("Connection opened\r\n");
+      app_log("Connection opened\r\n");
       _main_state = STATE_CONNECTED;
 
       /* Request connection parameter update.
@@ -198,7 +199,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       break;
 
     case sl_bt_evt_connection_parameters_id:
-      sl_app_log("Conn.parameters: interval %u units, txsize %u\r\n", evt->data.evt_connection_parameters.interval, evt->data.evt_connection_parameters.txsize);
+      app_log("Conn.parameters: interval %u units, txsize %u\r\n", evt->data.evt_connection_parameters.interval, evt->data.evt_connection_parameters.txsize);
       break;
 
     case sl_bt_evt_gatt_mtu_exchanged_id:
@@ -206,7 +207,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
        * up to ATT_MTU-3 bytes can be sent at once  */
       _max_packet_size = evt->data.evt_gatt_mtu_exchanged.mtu - 3;
       _min_packet_size = _max_packet_size; /* Try to send maximum length packets whenever possible */
-      sl_app_log("MTU exchanged: %d\r\n", evt->data.evt_gatt_mtu_exchanged.mtu);
+      app_log("MTU exchanged: %d\r\n", evt->data.evt_gatt_mtu_exchanged.mtu);
       break;
 
     case sl_bt_evt_connection_closed_id:
@@ -216,9 +217,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       }
       reset_variables();
       // Restart advertising after client has disconnected.
-      sl_bt_advertiser_start(advertising_set_handle,
-                                  advertiser_general_discoverable,
-                                  advertiser_connectable_scannable);
+      sc = sl_bt_legacy_advertiser_start(advertising_set_handle, sl_bt_legacy_advertiser_connectable);
       break;
 
     case sl_bt_evt_gatt_server_characteristic_status_id:
@@ -232,10 +231,10 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
             if (char_status.client_config_flags == gatt_notification) {
               _main_state = STATE_SPP_MODE;
               sl_power_manager_add_em_requirement(SL_POWER_MANAGER_EM1);
-              sl_app_log("SPP Mode ON\r\n");
+              app_log("SPP Mode ON\r\n");
               }
             else {
-              sl_app_log("SPP Mode OFF\r\n");
+              app_log("SPP Mode OFF\r\n");
               _main_state = STATE_CONNECTED;
               sl_power_manager_remove_em_requirement(SL_POWER_MANAGER_EM1);
               }
@@ -275,15 +274,27 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
   switch (SL_BT_MSG_ID(evt->header)) {
     case sl_bt_evt_system_boot_id:
-      sl_app_log("SPP Role: SPP client\r\n");
+      app_log("SPP Role: SPP client\r\n");
       reset_variables();
       sl_bt_gatt_server_set_max_mtu(247, &max_mtu_out);
       sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
       _main_state = SCANNING;
       break;
 
-    case sl_bt_evt_scanner_scan_report_id:
+   /* case sl_bt_evt_scanner_scan_report_id:
       if(process_scan_response(&evt->data.evt_scanner_scan_report)){
+         status = sl_bt_connection_open(evt->data.evt_scanner_scan_report.address,
+                                         evt->data.evt_scanner_scan_report.address_type,
+                                         sl_bt_gap_1m_phy,
+                                         &_conn_handle);
+         if(SL_STATUS_OK == status){
+           sl_bt_scanner_stop();
+           }
+        }
+      break;
+*/
+    case sl_bt_evt_scanner_legacy_advertisement_report_id:
+      if(process_scan_response(&evt->data.evt_scanner_legacy_advertisement_report)){
          status = sl_bt_connection_open(evt->data.evt_scanner_scan_report.address,
                                          evt->data.evt_scanner_scan_report.address_type,
                                          sl_bt_gap_1m_phy,
@@ -295,7 +306,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       break;
 
     case sl_bt_evt_connection_opened_id:
-      sl_app_log("Connection opened!\r\n");
+      app_log("Connection opened!\r\n");
       _main_state = FIND_SERVICE;
       sl_bt_gatt_discover_primary_services_by_uuid(_conn_handle, 16, serviceUUID);
       break;
@@ -311,7 +322,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       break;
 
     case sl_bt_evt_connection_parameters_id:
-       sl_app_log("Conn.parameters: interval %u units, txsize %u\r\n",
+       app_log("Conn.parameters: interval %u units, txsize %u\r\n",
                                   evt->data.evt_connection_parameters.interval,
                                   evt->data.evt_connection_parameters.txsize);
       break;
@@ -321,13 +332,13 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         * up to ATT_MTU-3 bytes can be sent at once  */
        _max_packet_size = evt->data.evt_gatt_mtu_exchanged.mtu - 3;
        _min_packet_size = _max_packet_size; /* Try to send maximum length packets whenever possible */
-       sl_app_log("MTU exchanged: %d\r\n", evt->data.evt_gatt_mtu_exchanged.mtu);
+       app_log("MTU exchanged: %d\r\n", evt->data.evt_gatt_mtu_exchanged.mtu);
        break;
 
     case sl_bt_evt_gatt_service_id:
       if (evt->data.evt_gatt_service.uuid.len == 16) {
           if (memcmp(serviceUUID, evt->data.evt_gatt_service.uuid.data, 16) == 0) {
-            sl_app_log("Service discovered\r\n");
+            app_log("Service discovered\r\n");
             _service_handle = evt->data.evt_gatt_service.service;
           }
         }
@@ -342,7 +353,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
              _main_state = FIND_CHAR;
            } else {
              //Service is not found: disconnect
-               sl_app_log("SPP service not found!\r\n");
+               app_log("SPP service not found!\r\n");
                sl_bt_connection_close(_conn_handle);
            }
            break;
@@ -354,14 +365,14 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
              _main_state = ENABLE_NOTIF;
            } else {
              //Characteristic is not found: disconnect
-               sl_app_log("SPP char not found?\r\n");
+               app_log("SPP char not found?\r\n");
                sl_bt_connection_close(_conn_handle);
            }
            break;
 
          case ENABLE_NOTIF:
            _main_state = STATE_SPP_MODE;
-           sl_app_log("SPP Mode ON\r\n");
+           app_log("SPP Mode ON\r\n");
            //disable deep sleep (for using USART)
            sl_power_manager_add_em_requirement(SL_POWER_MANAGER_EM1);
            break;
@@ -374,7 +385,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       case sl_bt_evt_gatt_characteristic_id:
         if (evt->data.evt_gatt_characteristic.uuid.len == 16) {
           if (memcmp(charUUID, evt->data.evt_gatt_characteristic.uuid.data, 16) == 0) {
-            sl_app_log("Char discovered\r\n");
+            app_log("Char discovered\r\n");
             _char_handle = evt->data.evt_gatt_characteristic.characteristic;
           }
         }
@@ -397,7 +408,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
   }
 }
 
-static bool process_scan_response(sl_bt_evt_scanner_scan_report_t *pResp)
+static bool process_scan_response(sl_bt_evt_scanner_legacy_advertisement_report_t *pResp)
 {
   // Decoding advertising packets is done here. The list of AD types can be found
   // at: https://www.bluetooth.com/specifications/assigned-numbers/Generic-Access-Profile
@@ -417,7 +428,7 @@ static bool process_scan_response(sl_bt_evt_scanner_scan_report_t *pResp)
       // Type 0x09 = Complete Local Name
       memcpy(name, &(pResp->data.data[i + 2]), ad_len - 1);
       name[ad_len - 1] = 0;
-      sl_app_log("%s\r\n", name);
+      app_log("%s\r\n", name);
     }
 
     // 4880c12c-fdcb-4077-8920-a450d7f9b907
@@ -425,7 +436,7 @@ static bool process_scan_response(sl_bt_evt_scanner_scan_report_t *pResp)
       // Type 0x06 = Incomplete List of 128-bit Service Class UUIDs
       // Type 0x07 = Complete List of 128-bit Service Class UUIDs
       if (memcmp(serviceUUID, &(pResp->data.data[i + 2]), 16) == 0) {
-        sl_app_log("Found SPP device\r\n");
+        app_log("Found SPP device\r\n");
         ad_match_found = true;
       }
     }
@@ -441,12 +452,12 @@ static bool process_scan_response(sl_bt_evt_scanner_scan_report_t *pResp)
 
 static void printStats(tsCounters *psCounters)
 {
-  sl_app_log("Outgoing data:\r\n");
-  sl_app_log(" bytes/packets sent: %lu / %lu ", psCounters->num_bytes_sent, psCounters->num_pack_sent);
-  sl_app_log(", num writes: %lu\r\n", psCounters->num_writes);
-  sl_app_log("(RX buffer overflow is not tracked)\r\n");
-  sl_app_log("Incoming data:\r\n");
-  sl_app_log(" bytes/packets received: %lu / %lu\r\n", psCounters->num_bytes_received, psCounters->num_pack_received);
+  app_log("Outgoing data:\r\n");
+  app_log(" bytes/packets sent: %lu / %lu ", psCounters->num_bytes_sent, psCounters->num_pack_sent);
+  app_log(", num writes: %lu\r\n", psCounters->num_writes);
+  app_log("(RX buffer overflow is not tracked)\r\n");
+  app_log("Incoming data:\r\n");
+  app_log(" bytes/packets received: %lu / %lu\r\n", psCounters->num_bytes_received, psCounters->num_pack_received);
 
   return;
 }
@@ -494,7 +505,7 @@ static void send_spp_data()
     } while(result == SL_STATUS_NO_MORE_RESOURCE);
 
     if (result != 0) {
-      sl_app_log("Unexpected error: %x\r\n", result);
+      app_log("Unexpected error: %x\r\n", result);
     } else {
       _sCounters.num_pack_sent++;
       _sCounters.num_bytes_sent += len;
