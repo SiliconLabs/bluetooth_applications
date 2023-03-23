@@ -1,0 +1,121 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_door_lock_rfid
+label: Bluetooth - Door Lock RFID (ID-12LA)
+description: |
+  This project aims to implement a door lock application using Silabs development kits and external sensors integrated with the BLE wireless stack.
+category: Bluetooth Examples
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Advanced]
+- name: Wireless Technology
+  value: [Bluetooth]
+package: Bluetooth
+quality: experimental
+readme:
+- path: ../README.md
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: rfid_card.h
+      - path: app_display.h
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/app_display.c
+  - path: ../src/rfid_card.c
+
+component:
+- id: iostream_usart
+  instance: [vcom] 
+- id: i2cspm
+  instance: [qwiic] 
+- id: simple_led
+  instance: [led0]
+- id: sparkfun_rfid_id12la 
+  from: third_party_hw_drivers
+- id: sparkfun_micro_oled_ssd1306
+  from: third_party_hw_drivers
+- id: services_oled_glib
+  from: third_party_hw_drivers
+- id: app_log
+- id: app_assert
+- id: mpu
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_legacy_scanner
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_system
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: rail_util_pti
+- id: bt_post_build
+- id: component_catalog
+config_file:
+  - override:
+      component: i2cspm
+      file_id: i2cspm_config
+      instance: qwiic
+      condition: [brd2601b]
+    path: ../config/brd2601b/sl_i2cspm_qwiic_config.h
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 1.2.0
+other_file:
+  - path: ../image/algorithm_workflows.png
+    directory: image
+  - path: ../image/app_init.png
+    directory: image
+  - path: ../image/application_logic1.png
+    directory: image
+  - path: ../image/application_logic2.png
+    directory: image
+  - path: ../image/application_overview.png
+    directory: image
+  - path: ../image/button_flowchart.png
+    directory: image
+  - path: ../image/configuration_mode1.png
+    directory: image
+  - path: ../image/configuration_mode2.png
+    directory: image
+  - path: ../image/create_example.png
+    directory: image
+  - path: ../image/efr32_connect_app1.png
+    directory: image
+  - path: ../image/efr32_connect_app2.png
+    directory: image
+  - path: ../image/hardware_connection.png
+    directory: image
+  - path: ../image/normal_mode_0.png
+    directory: image
+  - path: ../image/oled_display.png
+    directory: image   
+  - path: ../image/overview.png
+    directory: image 
+  - path: ../image/screen_design.png
+    directory: image  
+configuration:
+- name: SL_STACK_SIZE 
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+  condition: psa_crypto
+tag: hardware:rf:band:2400
+ui_hints:
+  highlight:
+  - path: ../README.md
+    focus: true
+  - path: ../config/btconf/gatt_configuration.btconf
+  

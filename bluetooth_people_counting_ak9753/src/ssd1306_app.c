@@ -38,7 +38,7 @@
 #include "sl_bluetooth.h"
 #include "sl_sleeptimer.h"
 #include "app.h"
-#include "ssd1306.h"
+#include "micro_oled_ssd1306.h"
 #include "glib.h"
 #include "app_log.h"
 #include "ssd1306_app.h"
@@ -102,30 +102,32 @@ static glib_context_t glib_context;
 void ssd1306_app_init(void)
 {
   /* Initialize the display */
-  glib_init();
+  glib_init(&glib_context);
 
-  glib_context.backgroundColor = Black;
-  glib_context.foregroundColor = White;
+  glib_context.bg_color = GLIB_BLACK;
+  glib_context.text_color = GLIB_WHITE;
 
   /* Fill lcd with background color */
   glib_clear(&glib_context);
 
-  glib_draw_bmp(&glib_context, silicon_labs_logo);
+  glib_draw_xbitmap(&glib_context,
+                    0, 10, silicon_labs_logo,
+                    64, 23, GLIB_WHITE);
   sl_sleeptimer_delay_millisecond(1000);
 
   /* Fill lcd with background color */
   glib_clear(&glib_context);
 
   /* Use Narrow font */
-  glib_set_font(&glib_context, (glib_font_t *) &glib_font_6x8);
+  glib_set_font(&glib_context, NULL);
   glib_draw_string(&glib_context, "PEOPLE", 15, 0);
 
-  glib_draw_line(&glib_context, 0, 11, 63, 11);
+  glib_draw_line(&glib_context, 0, 11, 63, 11, GLIB_BLACK);
 
-  glib_set_font(&glib_context, (glib_font_t *) &glib_font_7x10);
+  glib_set_font(&glib_context, NULL);
   glib_draw_string(&glib_context, " ", 0, 20);
 
-  glib_draw_line(&glib_context, 0, 35, 63, 35);
+  glib_draw_line(&glib_context, 0, 35, 63, 35, GLIB_BLACK);
   glib_update_display();
 }
 
@@ -150,16 +152,16 @@ void ssd1306_show_people_count(uint32_t people_count,
              number_str,
              LINE_MAX_CHAR - n - n_blank,
              blank);
-    glib_set_font(&glib_context, (glib_font_t *) &glib_font_7x10);
+    glib_set_font(&glib_context, NULL);
     glib_draw_string(&glib_context, tmp, 0, 20);
   } else {
-    glib_set_font(&glib_context, (glib_font_t *) &glib_font_7x10);
+    glib_set_font(&glib_context, NULL);
     glib_draw_string(&glib_context, number_str, 0, 20);
   }
 
   // TODO: screen only able to display 0-999
   n = snprintf(tmp, sizeof(tmp), "SO FAR:%lu", people_entered_so_far);
-  glib_set_font(&glib_context, (glib_font_t *) &glib_font_6x8);
+  glib_set_font(&glib_context, NULL);
   glib_draw_string(&glib_context, tmp, 0, 39);
 
   status = glib_update_display();

@@ -1,153 +1,166 @@
-# Dosimeter with BLE
+# Bluetooth - Dosimeter (Sparkfun Type 5) #
 
-## Summary
+## Overview ##
 
-This project aims to implement a dosimeter application using Silabs development kits and external sensors integrated with the BLE wireless stack.
+This project aims to implement a dosimeter application using Silicon Labs development kits and external sensors integrated with the BLE wireless stack.
 
 The block diagram of this application is shown in the image below:
 
-![overview](doc/overview.png)
+![overview](images/overview.png)
 
-The wireless dosimeter system composed of a sender and a (at least one) consumer device. The sender device continuously monitors the ambient radiation and calculates it in uSv/h unit.
+The wireless dosimeter system composed of a sensor and a (at least one) client device. The sensor device continuously monitors the ambient radiation and calculates it in uSv/h unit and then reports this value to client device via BLE (Bluetooth Low Energy.)
 
-**Sender:**
+**Sensor:**
 
-This device broadcasts the calculated ambient radiation level in the advertisement package.  A timestamp (a simple counter) value included in the advertisement pack to indicate that a new radiation event occurred and the calculated radiation value is updated.
+This device broadcasts the calculated ambient radiation level in the advertisement package. A timestamp (a simple counter) value included in the advertisement pack to indicate that a new radiation event occurred and the calculated radiation value is updated.
 
-The counter (timestamp) value provides trigger for the consumer to notify the user about the radiation. (e.g.: activate a buzzer).  The sender device also provides characteristics to read the calculated ambient radiation and get explicitly notified about the radiation events.
+The counter (timestamp) value provides trigger for the client to notify the user about the radiation. (e.g.: activate a buzzer). The sensor device also provides characteristics to read the calculated ambient radiation and get explicitly notified about the radiation events.
 
-**Consumer:**
+**Client:**
 
-The consumer device scans periodically the BLE network. Once it found the sender device, it tries to connect to it and read the radiation characteristic and show the radiation level on the connected OLED display. Optionally it can produce a "click" noise by activating the buzzer, to notify the user about the radiation event. Consumer device subscribes to the radiation characteristic to get notifications about changes in the measured radiation level.
+The client device scans periodically the BLE network. Once it found the sensor device, it tries to connect to it and read the radiation characteristic and show the radiation level on the connected OLED display. Optionally it can produce a "click" noise by activating the buzzer, to notify the user about the radiation event. Client device subscribes to the radiation characteristic to get notifications about changes in the measured radiation level.
 
-Note: Any other BLE capable device can be a consumer device, (e.g.: like a simple mobile phone).
+Note: Any other BLE capable device can be a client device, (e.g.: like a simple mobile phone).
 
-## Hardware Required
+## Gecko SDK Suite version ##
 
-**Sender:**
+- GSDK v4.2.1
+- [Third Party Hardware Drivers v1.2.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
-- [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+## Hardware Required ##
+
+**Sensor:**
+
+- [A Silicon Labs compatible-radio board.](https://www.silabs.com/development-tools/wireless/bluetooth)
 
 - [Pocket Geiger Radiation Sensor - Type 5](https://www.sparkfun.com/products/14209)
 
-**Consumer:**
+**Client:**
 
-- [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- [A Silicon Labs compatible-radio board.](https://www.silabs.com/development-tools/wireless/bluetooth)
 
 - [OLED Display - SSD1306](https://www.sparkfun.com/products/14532)
 
 - [Buzzer 2 Click Board](https://www.mikroe.com/buzz-2-click)
 
-## Connections Required
+**NOTE:** The sensor device is able to run on all Silicon Labs boards while the client device should be use with the boards listed below:
+
+| Board ID | Description  |
+| ---------------------- | ------ |
+| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
+| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview) |
+| BRD4314A | [BGM220 Explorer Kit Board](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)   |
+
+## Connections Required ##
 
 The hardware connection is shown in the image below:
 
-![hardware connection](doc/hardware_connection.png)
+**Sensor** | **Client**
+:-------------------------:|:-------------------------:
+![sensor](images/sensor.png)                | ![client](images/client.png)
 
-**Sender:**
+The Sparkfun OLED Display board can be easily connected to these boards above by using a Qwiic cable while the Buzzer 2 Click connects to them using SPI protocol via mikroe connection.
 
-Users can use some [Wire Jumpers Male to Male](https://www.mikroe.com/wire-jumpers-male-to-male-15cm-10pcs) to connect between the BGM220 Bluetooth Module Explorer Kit and the Pocket Geiger Radiation Sensor as shown below.
+## Setup ##
 
-| Explorer Kit markings     |  Pocket Geiger Radiation Sensor markings |
-|---------------------------|:----------------------------------------:|
-|   GND                     |        GND                               |
-|   PD03 - SDA              |        SN                                |
-|   PD02 - SCL              |        SIG                               |
-|   5V                      |        +V                                |
+To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware.
 
-**Consumer:**
+**NOTE:**
 
-The Sparkfun OLED Display board can be easily connected to the BGM220 Bluetooth Module Explorer Kit by using a Qwiic cable. The Buzzer 2 Click connects to the BGM220 Bluetooth Module Explorer kit using SPI protocol via mikroe connection.
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
-## Setup
+- SDK Extension must be enabled for the project to install the required components.
 
-You can either import the provided bluetooth_thermostat.sls project file or start with an empty example project as the following:
+### Create a project based on a example project ###
 
-1. Create an "Bluetooth - SoC  Empty" for the "BGM220 Explorer Kit Board" using Simplicity Studio v5. Use the default project settings.
+1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with filter "dosimeter".
 
-2. copy all the .h and .c files in the following directory into the project root folder (overwriting existing file).
+2. Click Create button on both **Bluetooth - Dosimeter (Sparkfun Type 5) - Sensor** and **Bluetooth - Dosimeter (Sparkfun Type 5) - Client** examples. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
 
-    - With **sender** device: [bt_dosimeter_sender](../../../example/bluetooth_dosimeter/bt_dosimeter_sender)
+    ![create example](images/create_example.png)
 
-    - With **consumer** device: [bt_dosimeter_consumer](../../../example/bluetooth_dosimeter/bt_dosimeter_consumer)
+3. Build and flash the examples to the board.
 
-3. Install the software components:
+### Start with an "Bluetooth - SoC Empty" project ###
+
+1. Create **Bluetooth - SoC Empty** projects for your hardware using Simplicity Studio 5 (for both sensor and client device).
+
+2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing).
+
+    - With **sensor** device: [bluetooth sensor device](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_dosimeter/bluetooth_dosimeter_sensor)
+    - With **client** device: [bluetooth client device](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_dosimeter/bluetooth_dosimeter_clientr)
+
+3. Import the GATT configuration:
 
     - Open the .slcp file in the project.
 
-    - Select the SOFTWARE COMPONENTS tab.
+    - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
 
-    - Install the following components for **sender** device:
+    - Find the Import button and import the attached gatt_configuration.btconf file.
 
+        - With **sensor** device: [sensor gatt_configuration.btconf](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_dosimeter/bluetooth_dosimeter_sensor/config/btconf/gatt_configuration.btconf)
+        - With **client** device: [client gatt_configuration.btconf](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_dosimeter/bluetooth_dosimeter_client/config/btconf/gatt_configuration.btconf)
+
+    - Save the GATT configuration (ctrl-s).
+
+4. Open the .slcp file. Select the **SOFTWARE COMPONENTS** tab and install the software components:
+
+    - For **sensor** device:
         - [Services] → [Sleep Timer]
-        - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
+        - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: **vcom**
         - [Application] → [Utility] → [Log]
         - [Application] → [Utility] → [Assert]
         - [Third Party] → [Tiny printf]
         - [Third Party Hardware Drivers] → [Sensors] → [Type 5 - Poket Geiger Radiation (Sparkfun)]
 
-    - Install the following components for **consumer** device:
-
+    - For **client** device:
         - [Services] → [Sleep Timer]
         - [Services] →  [NVM3] → NVM3 Core
         - [Services] →  [NVM3] → NVM3 Default Instance
-        - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
+        - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: **vcom**
         - [Application] → [Utility] → [Log]
         - [Application] → [Utility] → [Assert]
         - [Third Party] → [Tiny printf]
-        - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0
-        - [Platform] → [Driver] → [I2C] → [I2CSPM] → default instance name: qwiic
-        - [Platform] → [Driver] → [PWM] → [PWM] → default instance name: mikroe
+        - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: **btn0**
+        - [Platform] → [Driver] → [I2C] → [I2CSPM] → default instance name: **qwiic**
+        - [Platform] → [Driver] → [PWM] → [PWM] → default instance name: **mikroe**
         - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C]
         - [Third Party Hardware Drivers] → [Audio & Voice] → [CMT_8540S_SMT - Buzz 2 Click (Mikroe)]
         - [Third Party Hardware Drivers] → [Services] → [GLIB - OLED Graphics Library]
 
-4. Import the GATT configuration:
-
-    - Open the .slcp file in the project again.
-    - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
-    - Find the Import button and import the  gatt_configuration.btconf file.
-        - Sender: [gatt_configuration.btconf](../../../example/bluetooth_dosimeter/bt_dosimeter_sender/gatt_configuration.btconf)
-        - Consumer: [gatt_configuration.btconf](../../../example/bluetooth_dosimeter/bt_dosimeter_consumer/gatt_configuration.btconf)
-    - Save the GATT configuration (ctrl-s).
-
-5. Build and flash this example to the board.
+5. Build and flash the project to your device.
 
 **Note:**
 
-- Make sure the SDK extension already be installed. If not please follow [this documentation](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md).
+- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
-- SDK Extension must be enabled for the project to install any components.
+## How it Works ##
 
-- The example project are built on the BRD4314A board. So users should add the BRD4314A to MyProducts to able be see them on the Launcher Home of Simplicity Studio IDE.
+### Sensor ###
 
-## How it Works
+#### Sensor overview ###
 
-### Sender
+![Application overview](images/sensor_overview.png)
 
-#### Sender overview
+#### Sensor GATT Database ###
 
-![Application overview](doc/sender_overview.png)
-
-#### Sender GATT Database
-
-- [Service] Dosimeter Sender
+- [Service] Dosimeter Sensor
 
   - [Char] Radiation
     - [R] Get current radiation value (e.g.: 25 => 25 nSv/h)
     - [N] Notify subscriber
 
-#### Sender Implementation
+#### Sensor Implementation ###
 
 **Application initialization:**
 
-![Application init](doc/sender_init.png)
+![Application init](images/sensor_init.png)
 
 **On Radiation Callback:**
 
 This handler called when the driver calculates the current radiation level in every configured process period time.
 
-![Application callback](doc/sender_callback.png)
+![Application callback](images/sensor_callback.png)
 
 **Advertisement Packet:**
 
@@ -155,28 +168,28 @@ AdvData field in the advertisement packet is as table below:
 
 | DeviceName | DataCounter | RadiationLevel |
 |-----|-----|-----|
-| DM_SENDER | 4 byte | 4 byte |
+| DM_SENSOR | 4 byte | 4 byte |
 
 - DataCounter: This counter starts from 0, and incremented by 1 each time the advertisement packet content is updated. (Each invocation of the onRadiation event callback.)
 - RadiationLevel: Radiation level in nSv/h unit
 - Device is not connectable. It sends [manufacturer specific advertisement](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/advertising/advertising_manufacturer_specific_data) packets.
 
-### Consumer
+### Client ###
 
-#### Consumer overview
+#### Client overview ####
 
-![Application overview](doc/consumer_overview.png)
+![Application overview](images/client_overview.png)
 
-#### Consumer GATT Database
+#### Client GATT Database ####
 
 Advertisement Packet
-Device name: DM_CONSUMER
+Device name: DM_CLIENT
 
 GATT Database
 
-- Device name: DM_CONSUMER
+- Device name: DM_CLIENT
 
-- **[Service]** Dosimeter Consumer
+- **[Service]** Dosimeter client
   - **[Char]** Alarm Threshold
     - **[R]** Get alarm threshold value
     - **[W]** Set alarm threshold value - alarm_threshold (e.g.: 25 => 25 nSv/h)
@@ -187,87 +200,83 @@ GATT Database
     - **[R]** Get Click Noise Status
     - **[W]** Set Click Noise Status  value - click_noise_status(0 - disabled, 1 - enabled)
 
-#### Consumer Implementation
+#### Client Implementation ####
 
 **Application initialization:**
 
-![Application init](doc/consumer_init.png)
+![Application init](images/client_init.png)
 
 **Runtime - Configuration Mode:**
 
-![Config mode](doc/consumer_config.png)
+![Config mode](images/client_config.png)
 
 **Runtime - Normal Mode:**
 
-*Consumer events:*
+*Client events:*
 
-![Consumber event](doc/consumer_event.png)
+![Client event](images/client_event.png)
 
-![Consumber button](doc/consumer_btn.png)
+![Client button](images/client_btn.png)
 
 *Logic blocks:*
 
-![Consumber logic](doc/consumer_logic.png)
+![Client logic](images/client_logic.png)
 
 *Radiation Characteristic Notification Event:*
 
-![Consumber logic](doc/consumer_notify.png)
+![Client logic](images/client_notify.png)
 
 **Display:**
 
-If the consumer is in the configuration mode, the OLED will display **config mode**.
+The OLED will display **config mode** and **disconnected** respectively if the client device is in the configuration mode and disconnected to sensor device.
 
-![Configuration](doc/configuration.png)
-
-If the consumer device is not connected to sender device, the OLED will display **disconnected**
-
-![Disconnected](doc/disconnected.gif)
+**Configuration Mode** | **Disconnected to sensor**
+ :-------------------------:|:-------------------------:
+![Configuration](images/configuration.png) | ![Disconnected](images/disconnected.gif)
 
 The application shows the received current radiation value on the display in nSv/h or uSv/h unit depending on the measured radiation level.
 
 - \< 1 uSv/h => nSv/h (no decimals)
 - \>=  1 uSv/h => uSv/h (2 decimals)
 
-![Display](doc/display.png)
+![Display](images/display.png)
 
-### Testing
+### Testing ###
 
-**Sender:**
+**Sensor:**
 
-You can use a smart phone app such as the EFR Connect app, to see the advertising packet from the Sender.
+You can use a smart phone app such as the EFR Connect app, to see the advertising packet from the Sensor.
 
 - Open the EFR Connect app.
 
 - Open the Bluetooth Browser.
 
-- Find the device advertising as DM_CONSUMER.
+- Find the device advertising as **DM_SENSOR**.
 
-- Click on the instance of DM_CONSUMER. Now, you should see the counter and the radiation value on the Manufacturer Specific Data row. Please have a look at the red highlighted area below in the result pictures.
+- Click on the instance of **DM_SENSOR**. Now, you should see the counter and the radiation value on the Manufacturer Specific Data row. Please have a look at the red highlighted area below in the result pictures.
 
-    ![Display](doc/efr_connect.png)
+    ![sensor efr connect](images/efr_connect.png)
 
 - After a connection is established, a similar output from serial terminal as shown below
 
-    ![Sender Log](doc/log_sender.png)
+    ![sensor Log](images/log_sensor.png)
 
-**Consumer:**
+**Client:**
 
 - Upon reset, the application will display the Silicon Labs logo on the OLED screen for a few seconds.
 
-- After the firmware is configured, the device starts in normal mode. In this state, it starts Sanning/Discovering advertising devices. It initiates a connection with those devices that contain the DM_SENDER name in their advertising packets.
+- Push the button 0 after reset the client device will make the device run into the **configuration** mode. In this mode users can use the **EFR Connect** app to connect to client device to change its operating configuration.
 
-- After a connection is established, the consumer discovers the service by UUID from the remote GATT database. After the service discovery is completed, the consumer discovers the radiation characteristics and enables notification sent from a remote GATT sender. The application shows the received current radiation value on the display.
+    ![client configuration efr](images/client_configuration_efr.png)
 
-- Open your terminal emulator and connect to your consumer device over its serial port. Set baud rate to 115200. A similar output as below.
+- After the firmware is configured, the device starts in normal mode. In this state, it starts Scanning/Discovering advertising devices. It initiates a connection with those devices that contain the DM_SENSOR name in their advertising packets.
 
-    ![Consumer log](doc/log_consumer.png)
+- After a connection is established, the client discovers the service by UUID from the remote GATT database. After the service discovery is completed, the client discovers the radiation characteristics and enables notification sent from a remote GATT sensor. The application shows the received current radiation value on the display.
 
-- **Note:** Button PB0 should be pressed during startup (power-on or reset) to run the consumer in Configuration Mode. The terminal will display infomation as below and the Oled will also display "CONFIG MODE".
+- Open your terminal emulator and connect to your client device over its serial port. Set baud rate to 115200. A similar output as below.
 
-    ![Consumer configuration](doc/consumer_configuration.png)
+    ![client log](images/log_client.png)
 
-## Report Bugs & Get Support
+- **Note:** Button PB0 should be pressed during startup (power-on or reset) to run the client in Configuration Mode. The terminal will display infomation as below and the Oled will also display "**CONFIG MODE**".
 
-To report bugs in the Application Examples projects, please create a new "Issue" in the "Issues" section of [third_party_hw_drivers_extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) repo. Please reference the board, project, and source files associated with the bug, and reference line numbers. If you are proposing a fix, also include information on the proposed fix. Since these examples are provided as-is, there is no guarantee that these examples will be updated to fix these issues.
-
-Questions and comments related to these examples should be made by creating a new "Issue" in the "Issues" section of [third_party_hw_drivers_extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) repo.
+    ![client configuration](images/client_configuration.png)

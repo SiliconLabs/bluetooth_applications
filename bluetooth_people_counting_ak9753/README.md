@@ -1,34 +1,98 @@
-# People Counting Application with BLE #
+# Bluetooth - People Counting (AK9753) #
 
 ## Overview ##
 
-This project aims to implement a people counting application using [SparkFun Human Presence Sensor Breakout - AK9753 (Qwiic)](https://www.sparkfun.com/products/14349) and Silabs development kit [BGM220P Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit) with integrated BLE stack.
+This project aims to implement a people counting application using [SparkFun Human Presence Sensor Breakout - AK9753 (Qwiic)](https://www.sparkfun.com/products/14349) and Sparkfun development board [Sparkfun Thing Plus MGM240P](https://www.sparkfun.com/products/20270) with integrated BLE stack.
 
-The system overview of this application is shown in the image below:
+## Gecko SDK Suite version ##
 
-![hardware connection](images/system_overview.png)
-
-## Gecko SDK version ##
-
-- GSDK v4.1.1
+- GSDK v4.2.1
+- [Third Party Hardware Drivers v1.2.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
-- [BGM220P Bluetooth Module Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270)
 - [SparkFun Human Presence Sensor Breakout - AK9753 (Qwiic)](https://www.sparkfun.com/products/14349)
 - [SparkFun Micro OLED Breakout (Qwiic)](https://www.sparkfun.com/products/14532)
+
+**NOTE:**
+Tested boards for working with this example:
+
+| Board ID | Description  |
+| ---------------------- | ------ |
+| BRD2704A | [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270) |
+| BRD2601B | [EFR32xG24 Dev Kit - xG24-DK2601B](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)   |
+| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
+| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)    |
+| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)    |
 
 ## Connections Required ##
 
 The hardware connection is shown in the image below:
+![hardware connection](images/system_overview.png)
+Listed below are the port and pin mappings for working with this example.
 
-![hardware connection](images/connection.png)
+- Board: **BRD2704A - SparkFun Thing Plus Matter - MGM240P**
 
+    | GPIO Pin | Connection | Pin function |
+    |:---:|:-------------:|:---------------|
+    | GPIOB | PB00 | Button |
+    | SCL | PB03 | I2C Clock |
+    | SDA | PB04 | I2C Data |
+
+- Board: **BRD2601B - EFR32xG24 Dev Kit- xG24**
+
+    | GPIO Pin | Connection | Pin function |
+    |:---:|:-------------:|:---------------|
+    | GPIOB | PB02 | Button |
+    | SCL | PC04 | I2C Clock |
+    | SDA | PC05 | I2C Data |
+
+- Board: **BRD2703A - EFR32xG24 Explorer Kit - XG24**
+
+    | GPIO Pin | Connection | Pin function |
+    |:---:|:-------------:|:---------------|
+    | GPIOB | PB02 | Button |
+    | SCL | PC04 | I2C Clock |
+    | SDA | PC05 | I2C Data |
+
+- Board: **BRD4108A - BG22 Bluetooth SoC Explorer Kit - BG22**
+
+    | GPIO Pin | Connection | Pin function |
+    |:---:|:-------------:|:---------------|
+    | GPIOB | PC07 | Button |
+    | SCL | PD02 | I2C Clock |
+    | SDA | PD03 | I2C Data |
+    
+- Board: **BRD4314 Bluetooth Module Explorer Kit**
+
+    | GPIO Pin | Connection | Pin function |
+    |:---:|:-------------:|:---------------|
+    | GPIOB | PB00 | Button |
+    | SCL | PD02 | I2C Clock |
+    | SDA | PD03 | I2C Data |
 ## Setup ##
 
-To test this application, you can either import the provided bluetooth_people_counting.sls project file or start with an empty example project as the following:
+To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware. 
 
-1. Create a Bluetooth - SoC Empty project for the BGM220 Bluetooth Module Explorer Kit using Simplicity Studio 5.
+**NOTE:**
+
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
+
+### Create a project based on a example project ###
+
+1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "people".
+
+2. Click **Create** button on the **Bluetooth - People Counting (AK9753)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+![create_project](images/create_project.png)
+
+3. Build and flash this example to the board.
+
+### Start with an "Bluetooth - SoC Empty" project ###
+
+1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
 2. Copy all attached files in inc and src folders into the project root folder (overwriting existing app.c).
 
@@ -36,20 +100,29 @@ To test this application, you can either import the provided bluetooth_people_co
 
     - Open the .slcp file in the project.
 
-    - Select the CONFIGURATION TOOLS tab and open the Bluetooth GATT Configurator.
+    - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
 
-    - Find the Import button and import the attached gatt_configuration.btconf file.
+    - Find the Import button and import the attached [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) file.
 
     - Save the GATT configuration (ctrl-s).
 4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
-    - Install [Platform] > [Driver] > [I2CSPM] component with the default instance name: qwiic. Set this component to use I2C1 peripheral, SCL to PD02 pin, SDA to PD03 pin.
-    - Install [Platform] > [IO Stream] > [IO Stream: USART] component with the default instance name: vcom.
-    - Install [Platform] > [Driver] > [Button] > [Simple Button] component with the default instance name: btn0.
+    - Install [Platform] > [Driver] > [I2CSPM] component with the default instance name: **qwiic**.
+    - Install [Platform] > [IO Stream] > [IO Stream: USART] component with the default instance name: **vcom**.
+    - Install [Platform] > [Driver] > [Button] > [Simple Button] component with the instance name: **btn0**.
     - Install [Bluetooth] > [NVM] > [NVM Support] component.
     - Install [Application] > [Utility] > [Log] component.
+    - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C] → use default configuaration
+    - [Third Party Hardware Drivers] → [Service] → [GLIB - OLED Graphics Library]
+    - [Third Party Hardware Drivers] → [Sensors] → [AK9753 - Human Presence Sensor (Sparkfun) - I2C]
 5. Build and flash the project to your device.
 
-    *Note*: You need to create the bootloader project and flash it to the device before flashing the application. When flash the application image to the device, use the .hex or .s37 output file. Flashing the .bin files may overwrite (erase) the bootloader.
+**NOTE:**
+- Some boards do not have an integrated button. In this case, the user has to connect an external button to the board and config this button in accordance with project specifics. 
+![btn_config](images/btn_config.png) 
+To make the driver more stable, use a ceramic capacitor (ex: Ceramic Capacitor 104) to avoid the anti-vibration button used in the project as below:
+![btn_setup](images/btn_setup.png)
+
+- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How it Works
 
@@ -199,7 +272,3 @@ For setting a parameter select a characteristic and tap on its write button. Typ
 |IR threshold|Hysteresis|Notification status|Room capacity|
 |-|-|-|-|
 |- **Read** to get the current IR threshold setting <br>- **Write** to set IR threshold setting|- **Read** to get the current hysteresis setting<br>- **Write** to set hyteresis setting|- **Read** to get the current notification status setting<br>- **Write** to set notification status setting|- **Read** to get the current room capacity setting.<br>- **Write** to set room capacity setting|
-
-## .sls Projects Used
-
-- [bluetooth_people_counting.sls](SimplicityStudio/bluetooth_people_counting.sls)

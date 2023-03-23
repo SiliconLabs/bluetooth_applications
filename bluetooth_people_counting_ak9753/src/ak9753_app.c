@@ -39,8 +39,8 @@
 #include "app_assert.h"
 #include "user_config_nvm3.h"
 
+#include "sparkfun_ak9753.h"
 #include "ak9753_config.h"
-#include "ak9753.h"
 #include "ak9753_app.h"
 
 // Entering pattern
@@ -155,11 +155,11 @@ void ak9753_app_init(void)
           hysteresis,
           ir_threshold);
 
-  ak9753_config_t ak9753_cfg = {
+  sparkfun_ak9753_config_t ak9753_cfg = {
     .I2C_address = AK9753_ADDR,
-    .ak9753_i2cspm_instance = AK9753_CONFIG_I2C_INSTANCE,
-    .cut_off_freq = AK975X_FREQ_8_8HZ,
-    .mode = AK975X_MODE_0,
+    .sparkfun_ak9753_i2cspm_instance = AK9753_CONFIG_I2C_INSTANCE,
+    .cut_off_freq = SPARKFUN_AK975X_FREQ_8_8HZ,
+    .mode = SPARKFUN_AK975X_MODE_0,
     .upper_threshold13 = 0,
     .lower_threshold13 = 0,
     .upper_threshold24 = threshold_to_value_register(upper_threshold),
@@ -172,11 +172,11 @@ void ak9753_app_init(void)
   };
 
   // Initialize the sensor
-  sc = ak9753_init(&ak9753_cfg);
+  sc = sparkfun_ak9753_init(&ak9753_cfg);
   app_assert_status(sc);
-  sc = ak9753_set_hysteresis_eeprom_ir13(0);
+  sc = sparkfun_ak9753_set_hysteresis_eeprom_ir13(0);
   app_assert_status(sc);
-  sc = ak9753_set_interrupts(0x1f);
+  sc = sparkfun_ak9753_set_interrupts(0x1f);
   app_assert_status(sc);
 }
 
@@ -245,18 +245,18 @@ void ak9753_app_process_action(void)
   ir_data_t ir_data;
 
   // Check interrupt status
-  ak9753_is_interrupt(&is_ir13_h,
-                      &is_ir13_l,
-                      &is_ir24_h,
-                      &is_ir24_l,
-                      &is_data_ready,
-                      &is_data_overrun);
+  sparkfun_ak9753_is_interrupt(&is_ir13_h,
+                               &is_ir13_l,
+                               &is_ir24_h,
+                               &is_ir24_l,
+                               &is_data_ready,
+                               &is_data_overrun);
 
   // Process people counting data if data is ready
   if (is_data_ready) {
-    ak9753_get_ir2_data(&ir2_data);
-    ak9753_get_ir4_data(&ir4_data);
-    ak9753_get_dummy();
+    sparkfun_ak9753_get_ir2_data(&ir2_data);
+    sparkfun_ak9753_get_ir4_data(&ir4_data);
+    sparkfun_ak9753_get_dummy();
     ir_data.ir24_int_h = is_ir24_h;
     ir_data.ir24_int_l = is_ir24_l;
     ir_data.ir2 = ir2_data;

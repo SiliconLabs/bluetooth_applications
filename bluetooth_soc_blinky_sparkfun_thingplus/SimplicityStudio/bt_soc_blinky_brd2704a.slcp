@@ -1,0 +1,113 @@
+project_name: bt_soc_blinky_sparkfun_thingplus
+label: Bluetooth - SoC Blinky - SparkFun Thing Plus Matter - MGM240P
+description: >
+  The classic blinky example using Bluetooth communication with SparkFun Thing Plus Matter - MGM240P board. Demonstrates a
+  simple two-way data exchange over GATT. This can be tested with the EFR Connect mobile app.
+
+category: Bluetooth Examples
+filter:
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+  - name: "Device Type"
+    value: ["SoC"]
+  - name : "MCU"
+    value: ["32-bit MCU"]
+  - name: "Project Difficulty"
+    value: ["Beginner"]
+
+package: Bluetooth
+quality: experimental
+
+readme:
+- path: ../README.md
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_sm
+  - id: rail_util_pti
+  - id: mpu
+  - id: bt_post_build
+  - id: sl_system
+  - id: device_init
+  - id: app_assert
+  - id: app_log
+  - id: component_catalog
+  - id: sleeptimer
+  - id: simple_led
+    instance: [led0]
+  - id: simple_button
+    instance: [btn0]
+  - id: iostream_usart
+    instance: [vcom]
+
+define:
+  - name: DEBUG_EFM
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+  - override:
+      component: simple_button
+      instance: btn0
+      file_id: simple_button_config
+    path: "../config/sl_simple_button_btn0_config.h"
+
+other_file:
+  - path: ../image/demo_app_list.jpg
+    directory: "image"
+  - path: ../image/demo_blinky_off_all.jpg
+    directory: "image"
+  - path: ../image/demo_blinky_on_all.jpg
+    directory: "image"
+  - path: ../image/demo.GIF
+    directory: "image"
+  - path: ../image/device_selection.jpg
+    directory: "image"
+  - path: ../image/hardware_connection.png
+    directory: "image"
+  - path: ../image/mem_config.png
+    directory: "image"
+  - path: ../image/connection.png
+    directory: "image"
+  - path: ../image/button_configuration.png
+    directory: "image"
+  - path: ../image/create_project.png
+    directory: "image"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_HEAP_SIZE
+    value: "9200"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+tag:
+  - hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: ../config/btconf/gatt_configuration.btconf
+    - path: ../README.md
+      focus: true

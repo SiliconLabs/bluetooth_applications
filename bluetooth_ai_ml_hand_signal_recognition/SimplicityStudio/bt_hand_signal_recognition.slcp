@@ -1,0 +1,186 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bt_hand_signal_recognition
+label: Bluetooth - AI/ML Hand Signal Recognition (MLX90640)
+description: >
+  This application uses TensorFlow Lite for Microcontrollers to run image classification machine learning models
+  to detect the hand gestures from image data recorded from a Far Infrared Sensor.
+  The detection is visualized using the OLED and the classification results are written to the VCOM serial port.
+  Additionally, the classification results are transmitted to a connected Bluetooth Low Energy (BLE) Client.
+category: Bluetooth Examples
+filter:
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "MCU"
+    value: ["32-bit MCU"]
+  - name: "Project Difficulty"
+    value: ["Advanced"]
+  - name: "Capability"
+    value: ["Machine Learning"]
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+package: Bluetooth
+quality: experimental
+
+readme:
+- path: ../README.md
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: hand_signal_app.h
+      - path: hand_signal_display.h
+      - path: image_handler.h
+      - path: output_handler.h
+      - path: recognize_commands.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/hand_signal_app.cc
+  - path: ../src/hand_signal_display.c
+  - path: ../src/hand_signal_ble.c
+  - path: ../src/image_handler.c
+  - path: ../src/output_handler.c
+  - path: ../src/recognize_commands.cc
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_sm
+  - id: rail_util_pti
+  - id: mpu
+  - id: bt_post_build
+  - id: sl_system
+  - id: device_init
+  - id: tensorflow_lite_micro
+  - id: component_catalog
+  - id: simple_led
+    instance: [led0]
+  - id: sparkfun_ir_array
+    from: third_party_hw_drivers
+  - id: sparkfun_micro_oled_ssd1306
+    from: third_party_hw_drivers
+  - id: services_oled_glib
+    from: third_party_hw_drivers
+  - id: iostream_usart
+    instance: [vcom]
+  - id: i2cspm
+    instance: [qwiic]
+  - id: sleeptimer
+  - id: app_log
+  - id: app_assert
+
+define:
+  - name: DEBUG_EFM
+  - name: TF_LITE_STATIC_MEMORY
+
+config_file:
+  - path: "../config/tflite/thumbs_up_and_down.tflite"
+    file_id: flatbuffer_file_id
+    directory: "tflite"
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+  - override:
+      component: i2cspm
+      file_id: i2cspm_config
+      instance: qwiic
+      condition: [brd2601b]
+    path: ../config/brd2601b/sl_i2cspm_qwiic_config.h
+
+toolchain_settings:
+  - option: gcc_compiler_option
+    value: "-Wno-unused-parameter"
+  - option: gcc_compiler_option
+    value: "-Wno-missing-field-initializers"
+  - option: gcc_linker_option
+    value: "-u _printf_float"
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 1.2.0
+
+other_file:
+  - path: ../images/app_loop.png
+    directory: "images"
+  - path: ../images/connection.png
+    directory: "images"
+  - path: ../images/create_project.png
+    directory: "images"
+  - path: ../images/dataset_down.png
+    directory: "images"
+  - path: ../images/dataset_nothing.png
+    directory: "images"
+  - path: ../images/dataset_up.png
+    directory: "images"
+  - path: ../images/display.png
+    directory: "images"
+  - path: ../images/efr_app.png
+    directory: "images"
+  - path: ../images/initialization.png
+    directory: "images"
+  - path: ../images/logs.png
+    directory: "images"
+  - path: ../images/mem_config.png
+    directory: "images"
+  - path: ../images/model_overview.png
+    directory: "images"
+  - path: ../images/ssd1306_config.png
+    directory: "images"
+  - path: ../images/system_overview.png
+    directory: "images"
+  - path: ../images/tflite_configure.png
+    directory: "images"
+  - path: ../images/thumbs_up_and_down-confusion_matrix.png
+    directory: "images"
+  - path: ../images/thumbs_up_and_down-fpr.png
+    directory: "images"
+  - path: ../images/thumbs_up_and_down-precision_vs_recall.png
+    directory: "images"
+  - path: ../images/thumbs_up_and_down-roc.png
+    directory: "images"
+  - path: ../images/thumbs_up_and_down-tfp_fpr.png
+    directory: "images"
+  - path: ../images/thumbs_up_and_down-tpr.png
+    directory: "images"
+  - path: ../images/video_demo.png
+    directory: "images"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "10240"
+  - name: SL_HEAP_SIZE
+    value: "12288"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+  - name: SL_TFLITE_MICRO_INTERPRETER_INIT_ENABLE
+    value: "1"
+  - name: SL_TFLITE_MICRO_ARENA_SIZE
+    value: "9000"
+  - name: SL_I2CSPM_QWIIC_SPEED_MODE
+    value: "1"
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - iostream_usart
+
+tag:
+  - hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

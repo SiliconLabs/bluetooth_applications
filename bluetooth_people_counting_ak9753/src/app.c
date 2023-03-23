@@ -112,7 +112,7 @@ static void sm_confirm_bonding_handler(sl_bt_msg_t *evt);
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   people_counting_app_init();
 }
@@ -120,7 +120,7 @@ SL_WEAK void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
