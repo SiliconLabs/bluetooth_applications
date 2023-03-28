@@ -61,6 +61,15 @@ The hardware connection is shown in the image below:
 
 The Sparkfun OLED Display board can be easily connected to these boards above by using a Qwiic cable while the Buzzer 2 Click connects to them using SPI protocol via mikroe connection.
 
+**NOTE:** Please configure the sensor pin assignment as follow.
+
+| Sparkfun Thing Plus Matter  | xG24 Explorer Kit  |BGM220P/BG22  Explorer Kit    |  Pocket Geiger Radiation Sensor markings |
+|------------------------------|----------|---------------------------|----------------------------------------|
+|5V                            |5V        |   5V                      |        +V                                |
+|GND                           |GND       |   GND                     |        GND                               |
+|PD03                    |PB01 - INT|   PB03 - INT              |        SIG                               |
+|PD02                     |PD05 - RX |   PD05 - RX               |        SN                                |
+
 ## Setup ##
 
 To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware.
