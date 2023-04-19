@@ -146,7 +146,7 @@ To test this application, you can either import the provided `bt_soc_smart_band.
      ![](images/led_component2.png)
 
 
-   - Install **GLIB Graphics Library ** component.
+   - Install **GLIB Graphics Library** component.
 
 
      ![](images/glib_component.png)
