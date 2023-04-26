@@ -1,0 +1,119 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_container_level_detection_sensor
+label: Bluetooth - Container Level Detection (VL53L1X) - Sensor
+description: |
+  This project proposes the development of an application that uses the Silabs xG24 Explorer kits and Sparkfun Distance sensor breakout and Adafruit IS31FL3741 components to monitor the levels of two containers and display the information graphically. The application will use BLE for wireless communication between the devices.
+category: Bluetooth Examples
+
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Beginner]
+- name: Wireless Technology
+  value: [Bluetooth]
+
+package: Bluetooth
+
+quality: production
+
+readme:
+- path: ../README.md
+
+source:
+- path: ../src/sensor/main.c
+- path: ../src/sensor/app.c
+
+tag: ['hardware:rf:band:2400']
+
+include:
+- path: ../inc
+  file_list:
+  - path: ../inc/sensor/app.h
+
+toolchain_settings: []
+
+component:
+- from: third_party_hw_drivers
+  id: sparkfun_distance_vl53l1x
+- id: bluetooth_feature_nvm
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: mpu
+- id: bluetooth_feature_legacy_advertiser
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_legacy_scanner
+- id: app_log
+- id: bt_post_build
+- id: bluetooth_feature_connection
+- instance: [vcom]
+  id: iostream_usart
+- id: bluetooth_feature_system
+- id: component_catalog
+- id: app_assert
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/sensor/gatt_configuration.btconf"
+    directory: "btconf"
+
+other_file:
+  - path: ../images/con_app_phone.png
+    directory: images
+  - path: ../images/con_client_config.png
+    directory: images
+  - path: ../images/con_client_event_handler.png
+    directory: images
+  - path: ../images/con_client_init.png
+    directory: images
+  - path: ../images/con_client_overview.png
+    directory: images
+  - path: ../images/con_display.png
+    directory: images
+  - path: ../images/con_event_callback.png
+    directory: images
+  - path: ../images/con_level_check_event_handler.png
+    directory: images
+  - path: ../images/con_overview.png
+    directory: images
+  - path: ../images/con_log_client.png
+    directory: images
+  - path: ../images/con_log_configuration.png
+    directory: images
+  - path: ../images/con_log_sensor.png
+    directory: images
+  - path: ../images/con_main_callback.png
+    directory: images
+  - path: ../images/con_sensor_overview.png
+    directory: images
+  - path: ../images/con_sensor_init.png
+    directory: images
+  - path: ../images/con_timer_callback.png
+    directory: images
+  - path: ../images/create_project.png
+    directory: images
+
+configuration:
+- name: SL_STACK_SIZE
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- condition: [psa_crypto]
+  name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+
+ui_hints:
+  highlight:
+  - path: ../README.md
+    focus: true
+  - path: ../config/btconf/sensor/gatt_configuration.btconf
+
+sdk_extension:
+- id: third_party_hw_drivers
+  version: 1.2.0
+

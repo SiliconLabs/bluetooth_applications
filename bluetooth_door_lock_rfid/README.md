@@ -2,7 +2,7 @@
 
 ## Overview ##
 
-This project aims to implement a doorlock system using Silabs development kits and external sensors integrated with the BLE wireless stack.
+This project aims to implement a doorlock system using Silicon Labs development Kits and external sensors integrated with the BLE wireless stack.
 
 More detailed information can be found in the section [How it works](#how-it-works).
 
@@ -42,7 +42,7 @@ The hardware connection is shown in the image below:
 
 ![overview](image/overview.png)
 
-The I2C connection is made from the Silicon Labs's Kit to the RFID board and the Micro OLED Breakout by using the qwiic cable.
+The I2C connection is made from the Silicon Labs's Kit to the RFID board and the Micro OLED Breakout by using the *qwiic* cable.
 
 Listed below are the port and pin mappings for working with this example.
 
@@ -77,7 +77,7 @@ Listed below are the port and pin mappings for working with this example.
     | GPIOB | PC07 | GPIO input |
     | SCL | PD02 | I2C Clock |
     | SDA | PD03 | I2C Data |
-    
+
 - Board: **BRD4314 Bluetooth Module Explorer Kit**
 
     | GPIO Pin | Connection | Pin function |
@@ -88,24 +88,24 @@ Listed below are the port and pin mappings for working with this example.
 
 ## Setup ##
 
-To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
 **NOTE:**
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install the required components.
 
-### Create a project based on a example project ###
+### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "rfid".
+1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "rfid".
 
 2. Click **Create** button on the **Bluetooth - Door Lock RFID (ID-12LA)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![setup](image/create_example.png)
 
 or you can start with an empty example project as the following:
 
-1. Create an "Bluetooth - SoC  Empty" using Simplicity Studio v5. Use the default project settings.
+1. Create a "Bluetooth - SoC  Empty" using Simplicity Studio v5. Use the default project settings.
 
 2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
 
@@ -115,7 +115,7 @@ or you can start with an empty example project as the following:
 
     - Select the SOFTWARE COMPONENTS tab.
 
-    - Install the following components for device:
+    - Install the following components:
 
         - [Services] → [Sleep Timer]
         - [Services] →  [NVM3] → NVM3 Core
@@ -189,15 +189,15 @@ The GATT changes were adding a new custom service (RFID Door Lock) which are 4 c
 
 3. Initialize and load the NVM3 configurations
 
-4. Wait for the sensor is booted and initialize the sensor with the configurations from NVM3:
+4. Wait for the sensor to be booted and initialize the sensor with the configurations from NVM3:
 
 5. Initialize RFID
 
 6. Initialize application
 
-7. After the *sl_bt_evt_system_boot_id* event arrives, App sets up the security manager to bond with an iOS/Android device. And then start advertising.
+7. After the *sl_bt_evt_system_boot_id* event arrives, the application sets up the security manager to bond with an iOS/Android device. And then start advertising.
 
-8. Handle GATT event to help user configure the [Use EFR Connect Mobile Application](#use-efr-connect-mobile-application) and get the result from the algorithm calculation over the *EFR32 connect* mobile app
+8. Handle GATT event to help users configure the [Use EFR Connect Mobile Application](#use-efr-connect-mobile-application) and get the result from the algorithm calculation over the *EFR32 connect* mobile application
 
 #### Application logic ####
 
@@ -232,12 +232,12 @@ The GATT changes were adding a new custom service (RFID Door Lock) which are 4 c
 #### Configuration mode 1 - Register/Remove ####
 
 - Show CONFIG label
-- Show number of registered cards (max. 10)
+- Show the number of registered cards (max. 10)
 
 #### Remove ####
 
     - Show REMOVED label
-    - Show number of registered cards (max. 10)
+    - Show the number of registered cards (max. 10)
 
 #### Adding new card ####
 
@@ -261,21 +261,21 @@ Below are illustrations for each case
 
 #### Connect to the device ####
 
-The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with the EFR Connect app installed is required.
+The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with the installed EFR Connect application is required.
 
-Open the EFR Connect application on your smartphone and allow the permission request when opened for the first time. Click [Develop] -> [Browser] and you will see a list of nearby devices which are sending Bluetooth advertisements. Find the one named *People Counting* and click the connect button on the right side. If app show the pairing request dialog, press **Pair** button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
+Open the EFR Connect application on your smartphone and allow the permission request when opened for the first time. Click [Develop] -> [Browser] and you will see a list of nearby devices which are sending Bluetooth advertisements. Find the one named *People Counting* and click the connect button on the right side. If the application shows the pairing request dialog, press **Pair** button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
 
-**Note**: The pairing process on Android and iOS devices is different. For more information, refer to bluetooth security.
+**Note**: The pairing process on Android and iOS devices is different. For more information, refer to Bluetooth security.
 
 | ![EFR32 Connect App](image/efr32_connect_app1.png) | ![EFR32 Connect App](image/efr32_connect_app2.png)||
 | - | - | -|
 
 #### Read/Write characteristics ####
 
-The parameters of this example application can be easly configured via BLE characteristics. Values for the characteristics are handled by the application as ASCII strings. Tap on the main service to see the available characteristics. Please refer [GATT Configurator](#gatt-configurator) to choose correct characteristic.
+The parameters of this example application can be easily configured via BLE characteristics. Values for the characteristics are handled by the application as ASCII strings. Tap on the main service to see the available characteristics. Please refer [GATT Configurator](#gatt-configurator) to choose the correct characteristic.
 **Read**
 
-Push read button to request the value of a characteristic. (See ASCII fields.)
+Push the read button to request the value of a characteristic. (See ASCII fields.)
 **Write**
 
 For setting a parameter select a characteristic and tap on its write button. Type a new value in the ASCII field and push the **Send** button.

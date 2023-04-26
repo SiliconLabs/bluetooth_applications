@@ -26,6 +26,22 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 3  | Bluetooth - Door Lock RFID (ID-12LA) | [Click Here](./bluetooth_door_lock_rfid) |
 | 4  | Bluetooth - Soc Blinky - Sparkfun Thing Plus Matter - MGM240P | [Click Here](./bluetooth_soc_blinky_sparkfun_thingplus) |
 | 5  | Bluetooth - Dosimeter (Sparkfun Type 5) | [Click Here](./bluetooth_dosimeter) |
+| 6  | Bluetooth - Apple Notification Center Service | [Click Here](./bluetooth_apple_notification_center_service) |
+| 7  | Bluetooth - CO Monitor (MQ7) | [Click Here](./bluetooth_co_monitor/) |
+| 8  | Bluetooth - Controlling LED from Smartphone | [Click Here](./bluetooth_controlling_led_from_smartphone) |
+| 9  | Bluetooth - Serial Port Profile (SPP) | [Click Here](./bluetooth_serial_port_profile) |
+| 10 | Bluetooth - Reporting Battery Voltage | [Click Here](./bluetooth_reporting_battery_voltage) |
+| 11 | Bluetooth - Door Lock Fingerprint (A-172-MRQ) | [Click Here](./bluetooth_door_lock_fingerprint) |
+| 12 | Bluetooth - HID Keyboard | [Click Here](./bluetooth_hid_keyboard) |
+| 13 | Bluetooth - Log System | [Click Here](./bluetooth_log_system) |
+| 14 | Bluetooth - Multi-Central Multi-Peripheral Dual Topology | [Click Here](./bluetooth_multicentral_multiperipheral_dual_topology/) |
+| 15 | Bluetooth - Man-In-The-Middle | [Click Here](./bluetooth_man_in_the_middle/) |
+| 16 | Bluetooth - Uploading images to multi-slots | [Click Here](./bluetooth_uploading_images_to_multislots/) |
+| 17 | Bluetooth - OTA Firmware Update in User Application| [Click Here](./bluetooth_ota_firmware_update_in_user_application) |
+| 18 | Bluetooth - Container Level Detection (VL53L1X)| [Click Here](./bluetooth_container_level_detection) |
+| 19 | Bluetooth - EM4 Energy Mode in iBeacon Application | [Click Here](./bluetooth_em4_energy_mode_ibeacon/) |
+| 20 | Bluetooth - Thermometer Example With EFR32 Internal Temperature Sensor | [Click Here](./bluetooth_thermometer_with_efr32_internal_temperature_sensor) |
+
 
 ## Requirements ##
 
@@ -101,4 +117,3 @@ Questions and comments related to these examples should be made by creating a ne
 ## Disclaimer ##
 
 The Gecko SDK suite supports development with Silicon Labs IoT SoC and module devices. Unless otherwise specified in the specific directory, all examples are considered to be EXPERIMENTAL QUALITY which implies that the code provided in the repos has not been formally tested and is provided as-is.  It is not suitable for production environments.  In addition, this code will not be maintained and there may be no bug maintenance planned for these resources. Silicon Labs may update projects from time to time.
-

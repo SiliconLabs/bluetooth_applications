@@ -63,7 +63,7 @@ Listed below are the port and pin mappings for working with this example.
     | GPIOB | PC07 | Button |
     | SCL | PD02 | I2C Clock |
     | SDA | PD03 | I2C Data |
-    
+
 - Board: **BRD4314 Bluetooth Module Explorer Kit**
 
     | GPIO Pin | Connection | Pin function |
@@ -71,30 +71,31 @@ Listed below are the port and pin mappings for working with this example.
     | GPIOB | PB00 | Button |
     | SCL | PD02 | I2C Clock |
     | SDA | PD03 | I2C Data |
+
 ## Setup ##
 
-To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware. 
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. 
 
 **NOTE:**
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install the required components.
 
-### Create a project based on a example project ###
+### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "people".
+1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "people".
 
 2. Click **Create** button on the **Bluetooth - People Counting (AK9753)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![create_project](images/create_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with an "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy all attached files in inc and src folders into the project root folder (overwriting existing app.c).
+2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
 
 3. Import the GATT configuration:
 
@@ -192,7 +193,7 @@ A new custom service (People Counting) with 8 characteristic must be added.
 
 2. Initialize and load the NVM3 configurations
 
-3. Initialize AK9753 sensor with the configuration loaded from NVM3:
+3. Initialize the AK9753 sensor with the configuration loaded from NVM3:
     - Upper threshold: 100
     - Lower threshold: -200
     - IR Threshold: 800
@@ -200,25 +201,25 @@ A new custom service (People Counting) with 8 characteristic must be added.
 
 4. Initialize OLED display
 
-5. Start a periodic timer with period 1000ms, The timer callback will fire an external event to ble stack and the event handler will display people counting data from the result of the counting algorithm calculation.
+5. Start a periodic timer with a period of 1000ms, The timer callback will fire an external event to the BLE stack and the event handler will display people counting data from the result of the counting algorithm calculation.
 
-6. After the *sl_bt_evt_system_boot_id* event arrives, App sets up the security manager to bond with an iOS/Android device. And then start advertising.
+6. After the *sl_bt_evt_system_boot_id* event arrives, application sets up the security manager to bond with an iOS/Android device. And then start advertising.
 
-7. Handle GATT event to help user configure the [counting algorithm](#counting-algorithm) and get the result from the algorithm calculation over the *EFR32 connect* mobile
+7. Handle GATT event to help users configure the [counting algorithm](#counting-algorithm) and get the result from the algorithm calculation over the *EFR32 connect* mobile
 
 ### Counting algorithm
 
-The AK9753 sensor includes 4 IR sensors that arranged in the picture below, and the detection algorithm will be based on the values of the IR2 and IR4.
+The AK9753 sensor includes 4 IR sensors that are arranged in the picture below, and the detection algorithm will be based on the values of the IR2 and IR4.
 
 ![sensor](images/sensor.png)
 
-We divide the ambient space into 3 areas: front, back and middle zone. Whenever a person appears in one of these 3 zones, a trigger will happend to notify that there is a person in this areas and the status of this area will be aslo stored into a list. The order of these state values in the list are used to detect the moving direction of the person. For example, if the consecutive states in the list are 0, 1, 3, 2 or 0, 2, 3, 1 this means a person has been detected in one direction or the other.
+We divide the ambient space into 3 areas: front, back and middle zone. Whenever a person appears in one of these 3 zones, a trigger will happen to notify that there is a person in this area and the status of this area will be also stored in a list. The order of these state values in the list is used to detect the moving direction of the person. For example, if the consecutive states in the list are 0, 1, 3, 2 or 0, 2, 3, 1 this means a person has been detected in one direction or the other.
 
 ![entering pattern](images/entering_pattern.png)
 
 ![leaving pattern](images/leaving_pattern.png)
 
-When no-one is seen in either of the two zones, the list of states will be reset. The workflow of the whole algorithm is describe in the picture below.
+When no-one is seen in either of the two zones, the list of states will be reset. The workflow of the whole algorithm is described in the picture below.
 
 ![algorithm_workflow](images/algorithm_workflow.png)
 ### OLED Display
@@ -231,35 +232,35 @@ When no-one is seen in either of the two zones, the list of states will be reset
 
 ### Room status notification
 
-- To receive status of room (full or empty), the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to enable notification
-- If the number of people count is greater than room capacity then the device will send a "room is full" notification
-- If the number of people count is zero then the device will send a "room is empty" .
+- To receive the status of the room (full or empty), the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to enable notification
+- If the number of people counts is greater than the room capacity then the device will send a "room is full" notification
+- If the number of people count is zero then the device will send a "room is empty".
 
 ### Reset the counting value
 
-- To reset the number of total people entered the room, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Entered So Far* characteristic
+- To reset the number of total people who entered the room, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Entered So Far* characteristic
 - To reset the number of people count, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Count* characteristic.
 
 ### Use EFR Connect Mobile Application
 
 #### Connect to the device
 
-The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with the EFR Connect app installed is required.
+The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with the installed EFR Connect application is required.
 
-Open the EFR Connect application on your smartphone and allow the permission request when opened for the first time. Click [Develop] -> [Browser] and you will see a list of nearby devices which are sending Bluetooth advertisements. Find the one named *People Counting* and click the connect button on the right side. If app show the pairing request dialog, press **Pair** button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
+Open the EFR Connect application on your smartphone and allow the permission request when opened for the first time. Click [Develop] -> [Browser] and you will see a list of nearby devices which are sending Bluetooth advertisements. Find the one named *People Counting* and click the connect button on the right side. If the application shows the pairing request dialog, press **Pair** button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
 
-**Note**: The pairing process on Android and iOS devices is different. For more information, refer to bluetooth security.
+**Note**: The pairing process on Android and iOS devices is different. For more information, refer to Bluetooth security.
 
 | ![EFR32 Connect App](images/efr32_connect_app1.png) | ![EFR32 Connect App](images/efr32_connect_app2.png)|![EFR32 Connect App](images/efr32_connect_app3.png)|
 | - | - | -|
 
 #### Read/Write characteristics
 
-The parameters of this example application can be easly configured via BLE characteristics. Values for the characteristics are handled by the application as ASCII strings. Tap on the main service to see the available characteristics. Please refer [GATT Configurator](#gatt-configurator) to choose correct characteristic.
+The parameters of this example application can be easily configured via BLE characteristics. Values for the characteristics are handled by the application as ASCII strings. Tap on the main service to see the available characteristics. Please refer [GATT Configurator](#gatt-configurator) to choose the correct characteristic.
 
 **Read**
 
-Push read button to request the value of a characteristic. (See ASCII fields.)
+Push the read button to request the value of a characteristic. (See ASCII fields.)
 
 **Write**
 

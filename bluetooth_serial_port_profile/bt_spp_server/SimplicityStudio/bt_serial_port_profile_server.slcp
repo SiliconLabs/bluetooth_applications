@@ -1,0 +1,76 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_serial_port_profile_server
+label: Bluetooth - Serial Port Profile (SPP) - Server
+description: |
+  This example provides a simple template for SPP-like communication (also know as wire replacement), where Bluetooth serves as a transport channel for serial communication between server and client.
+category: Bluetooth Examples
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Advanced]
+- name: Wireless Technology
+  value: [Bluetooth]
+package: Bluetooth
+quality: experimental
+readme:
+- path: ../../README.md
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+component:
+- id: iostream_usart
+  instance: [vcom] 
+- id: app_log
+- id: app_assert
+- id: mpu
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_legacy_scanner
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_system
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: rail_util_pti
+- id: bt_post_build
+- id: component_catalog
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"  
+other_file:
+  - path: ../../images/create_project.png
+    directory: images
+  - path: ../../images/spp_terminal.gif
+    directory: images
+  - path: ../../images/v3_launch_console.png
+    directory: images
+  - path: ../../images/v3_wstk_config.png
+    directory: images
+configuration:
+- name: SL_BOARD_ENABLE_VCOM
+  value: "1"
+  condition:
+    - iostream_usart
+- name: SL_STACK_SIZE
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+  condition: psa_crypto
+ui_hints:
+  highlight:
+  - path: ../README.md
+    focus: true
+  - path: ../config/btconf/gatt_configuration.btconf
+

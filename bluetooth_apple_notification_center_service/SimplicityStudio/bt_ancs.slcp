@@ -1,0 +1,88 @@
+project_name: bt_ancs
+package: Bluetooth
+label: Bluetooth - Apple Notification Center Service
+description: >
+  This example demonstrates how to receive Apple Notification Center Service (ANCS) Notifications,
+  such as phone calls, calendar events, and so on and print them out to the VCOM.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "Project Difficulty"
+    value: ["Advanced"]
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: component_catalog
+  - id: mpu
+  - id: bt_post_build
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+
+readme:
+- path: ../README.md
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: ../config/gatt_configuration.btconf
+    directory: btconf
+
+other_file:
+  - path: ../images/ANCS.png
+    directory: "images"
+  - path: ../images/flow_diagram.png
+    directory: "images"
+  - path: ../images/pairing_request.png
+    directory: "images"
+  - path: ../images/create_project.png
+    directory: "images"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_HEAP_SIZE
+    value: "9200"
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - iostream_usart
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+tag:
+  - hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

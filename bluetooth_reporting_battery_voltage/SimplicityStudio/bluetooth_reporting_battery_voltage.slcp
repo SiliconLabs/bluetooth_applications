@@ -1,0 +1,97 @@
+project_name: bt_reporting_battery_voltage
+label: Bluetooth - Reporting Battery Voltage
+description: >
+  This example shows how to create an application to monitor the battery voltage and report it as a percentage of full charge. The Bluetooth SIG defines a battery service exactly for this purpose. The definition can be found in Bluetooth SIG Specifications List. The example will use this adopted service to report battery level.
+category: Bluetooth Examples
+filter:
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "MCU"
+    value: ["32-bit MCU"]
+  - name: "Project Difficulty"
+    value: ["Beginner"]
+
+package: Bluetooth
+quality: experimental
+
+readme:
+- path: ../README.md
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_sm
+  - id: rail_util_pti
+  - id: board_control
+  - id: mpu
+  - id: bt_post_build
+  - id: sl_system
+  - id: device_init
+  - id: app_assert
+  - id: app_log
+  - id: component_catalog
+  - id: sleeptimer
+  - id: iostream_usart
+    instance: [vcom]
+  - id: emlib_adc
+
+configuration:
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - board_control
+
+define:
+  - name: DEBUG_EFM
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+other_file:
+  - path: ../image/place_battery.png
+    directory: "image"
+  - path: ../image/result_1.png
+    directory: "image"
+  - path: ../image/result_2.png
+    directory: "image"
+  - path: ../image/add_battery_service.png
+    directory: image
+  - path: ../image/configure_battery_level.png
+    directory: image
+  - path: ../image/configure_board_control.png
+    directory: image
+  - path: ../image/create_project.png
+    directory: image
+  - path: ../image/hardware_connection.png
+    directory: image
+
+ui_hints:
+  highlight:
+    - path: ../config/btconf/gatt_configuration.btconf
+    - path: ../README.md
+      focus: true

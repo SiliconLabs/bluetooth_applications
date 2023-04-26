@@ -8,19 +8,19 @@ The block diagram of this application is shown in the image below:
 
 ![overview](images/overview.png)
 
-The wireless dosimeter system composed of a sensor and a (at least one) client device. The sensor device continuously monitors the ambient radiation and calculates it in uSv/h unit and then reports this value to client device via BLE (Bluetooth Low Energy.)
+The wireless dosimeter system is composed of a sensor and a (at least one) client device. The sensor device continuously monitors the ambient radiation and calculates it in uSv/h unit and then reports this value to a client device via BLE (Bluetooth Low Energy).
 
 **Sensor:**
 
-This device broadcasts the calculated ambient radiation level in the advertisement package. A timestamp (a simple counter) value included in the advertisement pack to indicate that a new radiation event occurred and the calculated radiation value is updated.
+This device broadcasts the calculated ambient radiation level in the advertisement package. A timestamp (a simple counter) value is included in the advertisement pack to indicate that a new radiation event occurred and the calculated radiation value is updated.
 
-The counter (timestamp) value provides trigger for the client to notify the user about the radiation. (e.g.: activate a buzzer). The sensor device also provides characteristics to read the calculated ambient radiation and get explicitly notified about the radiation events.
+The counter (timestamp) value provides a trigger for the client to notify the user about the radiation. (e.g.: activate a buzzer). The sensor device also provides characteristics to read the calculated ambient radiation and get explicitly notified about the radiation events.
 
 **Client:**
 
-The client device scans periodically the BLE network. Once it found the sensor device, it tries to connect to it and read the radiation characteristic and show the radiation level on the connected OLED display. Optionally it can produce a "click" noise by activating the buzzer, to notify the user about the radiation event. Client device subscribes to the radiation characteristic to get notifications about changes in the measured radiation level.
+The client device scans periodically the BLE network. Once it found the sensor device, it tries to connect to it and read the radiation characteristic and show the radiation level on the connected OLED display. Optionally it can produce a "click" noise by activating the buzzer, to notify the user about the radiation event. The client device subscribes to the radiation characteristic to get notifications about changes in the measured radiation level.
 
-Note: Any other BLE capable device can be a client device, (e.g.: like a simple mobile phone).
+Note: Any other BLE capable device can be a client device, (e.g.: a simple mobile phone).
 
 ## Gecko SDK Suite version ##
 
@@ -43,7 +43,7 @@ Note: Any other BLE capable device can be a client device, (e.g.: like a simple 
 
 - [Buzzer 2 Click Board](https://www.mikroe.com/buzz-2-click)
 
-**NOTE:** The sensor device is able to run on all Silicon Labs boards while the client device should be use with the boards listed below:
+**NOTE:** The sensor device is able to run on all Silicon Labs boards while the client device should be used with the listed boards below:
 
 | Board ID | Description  |
 | ---------------------- | ------ |
@@ -59,7 +59,7 @@ The hardware connection is shown in the image below:
 :-------------------------:|:-------------------------:
 ![sensor](images/sensor.png)                | ![client](images/client.png)
 
-The Sparkfun OLED Display board can be easily connected to these boards above by using a Qwiic cable while the Buzzer 2 Click connects to them using SPI protocol via mikroe connection.
+The Sparkfun OLED Display board can be easily connected to these boards above by using a Qwiic cable while the Buzzer 2 Click connects to them using SPI protocol via a Mikroe connection.
 
 **NOTE:** Please configure the sensor pin assignment as follow.
 
@@ -72,17 +72,17 @@ The Sparkfun OLED Display board can be easily connected to these boards above by
 
 ## Setup ##
 
-To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
 **NOTE:**
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install the required components.
 
-### Create a project based on a example project ###
+### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with filter "dosimeter".
+1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with the filter "dosimeter".
 
 2. Click Create button on both **Bluetooth - Dosimeter (Sparkfun Type 5) - Sensor** and **Bluetooth - Dosimeter (Sparkfun Type 5) - Client** examples. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
 
@@ -90,9 +90,9 @@ To test this application, you can either create a project based on a example pro
 
 3. Build and flash the examples to the board.
 
-### Start with an "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC Empty" project ###
 
-1. Create **Bluetooth - SoC Empty** projects for your hardware using Simplicity Studio 5 (for both sensor and client device).
+1. Create **Bluetooth - SoC Empty** projects for your hardware using Simplicity Studio 5 (for both sensor and client devices).
 
 2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing).
 
@@ -167,20 +167,20 @@ To test this application, you can either create a project based on a example pro
 
 **On Radiation Callback:**
 
-This handler called when the driver calculates the current radiation level in every configured process period time.
+This handler is called when the driver calculates the current radiation level in every configured process period time.
 
 ![Application callback](images/sensor_callback.png)
 
 **Advertisement Packet:**
 
-AdvData field in the advertisement packet is as table below:
+The AdvData field in the advertisement packet is as table below:
 
 | DeviceName | DataCounter | RadiationLevel |
 |-----|-----|-----|
 | DM_SENSOR | 4 byte | 4 byte |
 
-- DataCounter: This counter starts from 0, and incremented by 1 each time the advertisement packet content is updated. (Each invocation of the onRadiation event callback.)
-- RadiationLevel: Radiation level in nSv/h unit
+- DataCounter: This counter starts from 0, and incremented by 1 each time the advertisement packet content is updated (Each invocation of the onRadiation event callback).
+- RadiationLevel: Radiation level in nSv/h unit.
 - Device is not connectable. It sends [manufacturer specific advertisement](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/advertising/advertising_manufacturer_specific_data) packets.
 
 ### Client ###
@@ -254,9 +254,9 @@ The application shows the received current radiation value on the display in nSv
 
 **Sensor:**
 
-You can use a smart phone app such as the EFR Connect app, to see the advertising packet from the Sensor.
+You can use a smartphone application such as the EFR Connect application, to see the advertising packet from the Sensor.
 
-- Open the EFR Connect app.
+- Open the EFR Connect application.
 
 - Open the Bluetooth Browser.
 
@@ -266,7 +266,7 @@ You can use a smart phone app such as the EFR Connect app, to see the advertisin
 
     ![sensor efr connect](images/efr_connect.png)
 
-- After a connection is established, a similar output from serial terminal as shown below
+- After a connection is established, a similar output from a serial terminal as shown below
 
     ![sensor Log](images/log_sensor.png)
 
@@ -274,7 +274,7 @@ You can use a smart phone app such as the EFR Connect app, to see the advertisin
 
 - Upon reset, the application will display the Silicon Labs logo on the OLED screen for a few seconds.
 
-- Push the button 0 after reset the client device will make the device run into the **configuration** mode. In this mode users can use the **EFR Connect** app to connect to client device to change its operating configuration.
+- Push the button 0 after reset the client device will make the device run into the **configuration** mode. In this mode, users can use the **EFR Connect** application to connect to the client device to change its operating configuration.
 
     ![client configuration efr](images/client_configuration_efr.png)
 
@@ -282,10 +282,10 @@ You can use a smart phone app such as the EFR Connect app, to see the advertisin
 
 - After a connection is established, the client discovers the service by UUID from the remote GATT database. After the service discovery is completed, the client discovers the radiation characteristics and enables notification sent from a remote GATT sensor. The application shows the received current radiation value on the display.
 
-- Open your terminal emulator and connect to your client device over its serial port. Set baud rate to 115200. A similar output as below.
+- Open your terminal emulator and connect to your client device over its serial port. Set the baud rate to 115200. A similar output as below.
 
     ![client log](images/log_client.png)
 
-- **Note:** Button PB0 should be pressed during startup (power-on or reset) to run the client in Configuration Mode. The terminal will display infomation as below and the Oled will also display "**CONFIG MODE**".
+- **Note:** Button PB0 should be pressed during startup (power-on or reset) to run the client in Configuration Mode. The terminal will display information as below and the Oled will also display "**CONFIG MODE**".
 
     ![client configuration](images/client_configuration.png)

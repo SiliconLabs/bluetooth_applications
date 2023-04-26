@@ -1,0 +1,92 @@
+project_name: bt_log_system_vcom
+package: Bluetooth
+label: Bluetooth - Log System via VCOM (UART)
+description: >
+  This example introduces a simple implementation of logging on EFR32 based devices.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "Project Difficulty"
+    value: ["Advanced"]
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: component_catalog
+  - id: mpu
+  - id: bt_post_build
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: ../config/gatt_configuration.btconf
+    directory: btconf
+
+readme:
+- path: ../README.md
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: vcom/log.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+
+other_file:
+  - path: ../images/create_project.png
+    directory: "images"
+  - path: ../images/rtt_viewer_info_level.png
+    directory: "images"
+  - path: ../images/rtt_viewer_usage.png
+    directory: "images"
+  - path: ../images/rtt_viewer.png
+    directory: "images"
+  - path: ../images/vcom_usage.png
+    directory: "images"
+  - path: ../images/vcom.png
+    directory: "images"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_HEAP_SIZE
+    value: "9200"
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - iostream_usart
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+tag:
+  - hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

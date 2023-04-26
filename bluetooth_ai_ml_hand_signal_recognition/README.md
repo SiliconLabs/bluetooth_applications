@@ -64,25 +64,25 @@ Listed below are the port and pin mappings for working with this example.
 
 ## Setup ##
 
-To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
 
 **NOTE:**
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install the required components.
 
-### Create a project based on a example project ###
+### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "hand signal".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "hand signal".
 
 2. Click **Create** button on the **Bluetooth - AI/ML Hand Signal Recognition (MLX90640)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![board](images/create_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with an "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
@@ -118,7 +118,7 @@ To test this application, you can either create a project based on a example pro
 
         ![mem_config](images/mem_config.png)
 
-    - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C] → use default configuaration
+    - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C] → use default configuration
 
         ![ssd1306_config](images/ssd1306_config.png)
 
@@ -136,14 +136,14 @@ To test this application, you can either create a project based on a example pro
 
 ### Model overview ###
 
-Before continuing with this project, it is recommended to review the [MLTK Overview](https://siliconlabs.github.io/mltk/docs/overview.html), which provides an overview of the core concepts used by the this project.
+Before continuing with this project, it is recommended to review the [MLTK Overview](https://siliconlabs.github.io/mltk/docs/overview.html), which provides an overview of the core concepts used by this project.
 
 Image classification is one of the most important applications of deep learning and Artificial Intelligence. Image classification refers to assigning labels to images based on certain characteristics or features present in them. The algorithm identifies these features and uses them to differentiate between different images and assign labels to them [[1]](https://www.simplilearn.com/tutorials/deep-learning-tutorial/guide-to-building-powerful-keras-image-classification-models).
 
 In this project, we have a dataset with three different image types:
 
 - **Thumbs up** - Images of a person's hand making a "like" gesture
-- **Thumbs down** - Images of a persons's hand making a "dislike" gesture
+- **Thumbs down** - Images of a person's hand making a "dislike" gesture
 - **Nothing** - Random images not containing any of the above
 
 We assign an ID, a.k.a. **label**, 0-2, to each of these classes.  
@@ -201,7 +201,7 @@ In both these cases, the model input data type must be `float32`.
 ### Model Output ###
 
 The model output should have the shape `1 x <number of classes>`  
-where `<number of classes>` should be the number of classes that the model is able to detect.
+where `<number of classes>` should be the number of classes that the model can detect.
 
 The datatype should be `uint8`:
 
@@ -295,7 +295,7 @@ typedef struct AppSettings
 - **Service:** Hand signal with UUID: `b1448626-7e61-40a5-8ac7-aabae70f3b2a`
 
 Which has one characteristic with the properties: `Read` and `Notify`.
-The contents of this characteristic is two bytes with the format:
+The contents of this characteristic are two bytes with the format:
 
 ```txt
 <detect_class_id> <score>
@@ -311,18 +311,18 @@ Where:
 
 Upon reset, the application will display the Silicon Labs's logo on the OLED screen for a few seconds. Then you can bring your hand close to the camera and make thumbs up or down. The classification results will be displayed on the OLED screen.
 
-Follow the below steps to test the example with the EFR Connect app:
+Follow the below steps to test the example with the EFR Connect application:
 
-1. Open the EFR Connect app on your iOS/Android device.
+1. Open the EFR Connect application on your iOS/Android device.
 
 2. Find your device in the Bluetooth Browser, advertising as Air Quality, and tap Connect. Then you need accept the pairing request when connected for the first time.
 
-3. Find the unknown service at the above of the OTA service.
+3. Find the unknown service at the above of OTA service.
 
-4. Try to read, subcrible the characteristic, and check the value.
+4. Try to read, subscribe to the characteristic, and check the value.
 
     ![efr app](images/efr_app.png)
 
-5. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
+5. You can launch the Console that is integrated into Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
 
     ![logs](images/logs.png)

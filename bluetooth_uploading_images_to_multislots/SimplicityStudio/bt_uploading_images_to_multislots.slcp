@@ -1,0 +1,103 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bt_uploading_images_to_multislots
+label: Bluetooth - Uploading images to multi-slots
+description: |
+  This project shows how to implement image uploading to the bootloader storage slots using the standard OTA process. It is also extended by allowing the users to select a slot to upload to and a slot to boot from.
+
+category: Bluetooth Examples
+
+quality: experimental
+
+filter:
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "Project Difficulty"
+    value: ["Advanced"]
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+
+package: Bluetooth
+
+readme:
+- path: ../README.md
+
+source:
+- path: ../src/app.c
+- path: ../src/main.c
+
+include:
+- path: ../inc
+  file_list:
+  - path: ../inc/app.h
+
+component:
+- id: app_log
+- id: app_assert
+- id: bluetooth_stack
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: component_catalog
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_scanner
+- id: bluetooth_feature_system
+- id: bluetooth_feature_sm
+- id: rail_util_pti
+- id: mpu
+- id: bt_post_build
+- id: sl_system
+- id: device_init
+- id: iostream_usart
+  instance: [vcom]
+- id: bootloader_interface
+
+define:
+- name: DEBUG_EFM
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/gatt_configuration.btconf"
+    directory: "btconf"
+
+tag:
+  - hardware:rf:band:2400
+
+configuration:
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - board_control
+
+other_file:
+  - path: ../images/create_project.png
+    directory: images
+  - path: ../images/create_bootloader.png
+    directory: images
+  - path: ../images/create_empty.png
+    directory: images
+  - path: ../images/efr_boot.png
+    directory: images
+  - path: ../images/efr_ota.png
+    directory: images
+  - path: ../images/efr_update.png
+    directory: images
+  - path: ../images/gatt_origin.png
+    directory: images
+  - path: ../images/gbl_file.png
+    directory: images
+  - path: ../images/hardware_connect.png
+    directory: images
+  - path: ../images/overview.png
+    directory: images
+  - path: ../images/run_bat.png
+    directory: images
+
+ui_hints:
+  highlight:
+    - path: ../config/gatt_configuration.btconf
+    - path: ../README.md
+      focus: true

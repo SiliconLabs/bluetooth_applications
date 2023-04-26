@@ -1,0 +1,112 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bt_thermometer_auth
+label: Bluetooth - Health Thermometer Authenticated Server
+description: |
+  This example project shows an example for Bluetooth Thermometer Server that is configured with authenticated notify to prevent MITM.
+
+category: Bluetooth Examples
+
+quality: experimental
+
+filter:
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "Project Difficulty"
+    value: ["Advanced"]
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+
+package: Bluetooth
+
+readme:
+- path: ../README.md
+source:
+- path: ../src/thermometer_auth/app.c
+- path: ../src/main.c
+
+include:
+- path: ../inc
+  file_list:
+  - path: ../inc/app.h
+
+sdk: {id: gecko_sdk, version: 4.2.1}
+
+configuration:
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - board_control
+
+component:
+- id: app_log
+- id: app_assert
+- id: bluetooth_stack
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_system
+- id: bluetooth_feature_sm
+- id: rail_util_pti
+- id: health_thermometer
+- id: mpu
+- id: bt_post_build
+- id: sl_system
+- id: device_init
+- id: iostream_usart
+  instance: [vcom]
+- instance: [sensor]
+  id: i2cspm
+- id: sensor_rht
+- id: simple_timer
+
+toolchain_settings:
+  - option: gcc_linker_option
+    value: "-u _printf_float"
+
+define:
+- name: DEBUG_EFM
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/thermometer_auth/gatt_configuration.btconf"
+    directory: "btconf"
+
+tag:
+  - hardware:rf:band:2400
+
+other_file:
+  - path: ../images/create_project.png
+    directory: images
+  - path: ../images/hardware_connect.png
+    directory: images
+  - path: ../images/attacker_connect.png
+    directory: images
+  - path: ../images/auth_fail.png
+    directory: images
+  - path: ../images/auth_success.png
+    directory: images
+  - path: ../images/connect_auth.png
+    directory: images
+  - path: ../images/connect_efr.png
+    directory: images
+  - path: ../images/connected_server.png
+    directory: images
+  - path: ../images/connection.png
+    directory: images
+  - path: ../images/disconnect.png
+    directory: images
+  - path: ../images/malicious_data.png
+    directory: images
+  - path: ../images/passkey.png
+    directory: images
+
+ui_hints:
+  highlight:
+    - path: ../config/thermometer_auth/gatt_configuration.btconf
+    - path: ../README.md
+      focus: true
