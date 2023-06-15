@@ -33,7 +33,6 @@
 #include "app.h"
 #include "indoor_positioning.h"
 
-
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
@@ -47,7 +46,7 @@ SL_WEAK void app_init(void)
  *****************************************************************************/
 SL_WEAK void app_process_action(void)
 {
- IPGW_step();
+  IPGW_step();
 }
 
 /**************************************************************************//**
@@ -58,7 +57,6 @@ SL_WEAK void app_process_action(void)
  *****************************************************************************/
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
-
   IPGW_event_handler(evt);
 
   switch (SL_BT_MSG_ID(evt->header)) {
@@ -76,8 +74,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // -------------------------------
     // This event indicates that a connection was closed.
     case sl_bt_evt_connection_closed_id:
-    break;
-
+      break;
 
     // -------------------------------
     // Default event handler.

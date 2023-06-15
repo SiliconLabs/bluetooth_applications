@@ -66,7 +66,6 @@ static bool IP_config_mode = false;
 static bool IP_BT_init_done = false;
 static bool IP_mode_selected = false;
 
-
 // -----------------------------------------------------------------------------
 //                          Public Function Definitions
 // -----------------------------------------------------------------------------
@@ -76,9 +75,9 @@ static bool IP_mode_selected = false;
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Callback for configuration mode timeout timer
- * Resets the system
- *******************************************************************************/
+* Callback for configuration mode timeout timer
+* Resets the system
+*******************************************************************************/
 void config_mode_timeout_cb()
 {
   app_log("\nConfiguration mode timeout - Reset \n");
@@ -92,7 +91,10 @@ void config_mode_timeout_cb()
 /***************************************************************************//**
  * Creates custom advertising package with current asset related data
  ******************************************************************************/
-void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_t companyID, char *name)
+void create_custom_advert_package(custom_advert_t *pData,
+                                  uint8_t flags,
+                                  uint16_t companyID,
+                                  char *name)
 {
   int n;
 
@@ -100,7 +102,7 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
   pData->type_flags = 0x01;
   pData->val_flags = flags;
 
-  pData->len_manuf = 19;  // 1+2+16 bytes for type, company ID and the payload
+  pData->len_manuf = 16;  // 1+2+13 bytes for type, company ID and the payload
   pData->type_manuf = 0xFF;
   pData->company_LO = companyID & 0xFF;
   pData->company_HI = (companyID >> 8) & 0xFF;
@@ -115,8 +117,7 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
   if (n > DEVICENAME_LENGTH) {
     // Incomplete name
     pData->type_name = 0x08;
-  }
-  else {
+  } else {
     pData->type_name = 0x09;
   }
 
@@ -126,7 +127,8 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
     n = DEVICENAME_LENGTH;
   }
 
-  pData->len_name = 1 + n; // length of name element is the name string length + 1 for the AD type
+  // length of name element is the name string length + 1 for the AD type
+  pData->len_name = 1 + n;
 
   // Calculate total length of advertising data
   pData->data_size = 3 + (1 + pData->len_manuf) + (1 + pData->len_name);
@@ -137,46 +139,63 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Enters configuration mode
- * prints out current configuration parameters
- * sets up and starts advertisements
- * starts configuration mode timeout timer
- *******************************************************************************/
+* Enters configuration mode
+* prints out current configuration parameters
+* sets up and starts advertisements
+* starts configuration mode timeout timer
+*******************************************************************************/
 void enter_config_mode(void)
 {
   sl_status_t sc;
   IP_config_mode = true;
 
   // Print current configuration parameters
-  app_log("NetworkU_ID: %ld | Room name: %s\n", IPGW_config_data.network_Uid, IPGW_config_data.room_name);
+  app_log("NetworkU_ID: %ld | Room name: %s\n",
+          IPGW_config_data.network_Uid,
+          IPGW_config_data.room_name);
 
   // Set up advertisement
   sc = sl_bt_advertiser_create_set(&configMode_advertising_set_handle);
   app_assert_status(sc);
 
-  sc = sl_bt_gatt_server_write_attribute_value(
-  gattdb_device_name, 0, DEVICENAME_LENGTH, (const uint8_t*) IPGW_config_data.device_name);
+  sc = sl_bt_gatt_server_write_attribute_value(gattdb_device_name,
+                                               0,
+                                               DEVICENAME_LENGTH,
+                                               (const uint8_t *) IPGW_config_data.device_name);
+  app_assert_status(sc);
+
+  // Generate data for advertising
+  sc = sl_bt_legacy_advertiser_generate_data(configMode_advertising_set_handle,
+                                             sl_bt_advertiser_general_discoverable);
   app_assert_status(sc);
 
   sc = sl_bt_advertiser_set_timing(configMode_advertising_set_handle,
-      100, // min. adv. interval (milliseconds * 1.6)
-      160, // max. adv. interval (milliseconds * 1.6)
-      0,   // adv. duration
-      0);  // max. num. adv. events
+                                   100, // min. adv. interval (milliseconds *
+                                        //   1.6)
+                                   160, // max. adv. interval (milliseconds *
+                                        //   1.6)
+                                   0,   // adv. duration
+                                   0);  // max. num. adv. events
   app_assert_status(sc);
 
   // Start general advertising and enable connections.
-  sc = sl_bt_advertiser_start(configMode_advertising_set_handle, sl_bt_advertiser_general_discoverable, sl_bt_advertiser_connectable_scannable);
+  sc = sl_bt_legacy_advertiser_start(configMode_advertising_set_handle,
+                                     sl_bt_advertiser_connectable_scannable);
   app_assert_status(sc);
 
   // Start config mode timeout
-  sl_sleeptimer_start_timer_ms(&config_mode_timeout_timer, CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
+  sl_sleeptimer_start_timer_ms(&config_mode_timeout_timer,
+                               CONFIG_MODE_TIMEOUT_MS,
+                               config_mode_timeout_cb,
+                               (void *) NULL,
+                               0,
+                               0);
 }
 
 /***************************************************************************//**
- * Enters Normal mode
- * Sets up and starts custom advertisements
- *******************************************************************************/
+* Enters Normal mode
+* Sets up and starts custom advertisements
+*******************************************************************************/
 void enter_normal_mode(void)
 {
   sl_status_t sc;
@@ -186,35 +205,45 @@ void enter_normal_mode(void)
   sc = sl_bt_advertiser_create_set(&normalMode_advertising_set_handle);
   app_assert_status(sc);
 
-  sc = sl_bt_advertiser_set_timing(normalMode_advertising_set_handle,
-      100, // min. adv. interval (milliseconds * 1.6)
-      160, // max. adv. interval (milliseconds * 1.6)
-      0,   // adv. duration
-      0);  // max. num. adv. events
+  sc = sl_bt_advertiser_set_timing(
+    normalMode_advertising_set_handle,
+    100, // min. adv. interval (milliseconds * 1.6)
+    160, // max. adv. interval (milliseconds * 1.6)
+    0,   // adv. duration
+    0);  // max. num. adv. events
   app_assert_status(sc);
 
   // Create user defined advertising packet
-  create_custom_advert_package(&custom_advert, 0x06, COMPANY_ID, IPGW_config_data.device_name);
+  create_custom_advert_package(&custom_advert,
+                               0x06,
+                               COMPANY_ID,
+                               IPGW_config_data.device_name);
 
   // Set custom advertising payload
-  sc = sl_bt_advertiser_set_data(normalMode_advertising_set_handle, 0, custom_advert.data_size, (const uint8_t*) &custom_advert);
+  sc = sl_bt_legacy_advertiser_set_data(normalMode_advertising_set_handle,
+                                        sl_bt_advertiser_advertising_data_packet,
+                                        custom_advert.data_size,
+                                        (const uint8_t *) &custom_advert);
   app_assert_status(sc);
 
   // Start advertising using custom data
-  sc = sl_bt_advertiser_start(normalMode_advertising_set_handle, advertiser_user_data, advertiser_non_connectable);
+  sc = sl_bt_legacy_advertiser_start(normalMode_advertising_set_handle,
+                                     sl_bt_advertiser_non_connectable);
   app_assert_status(sc);
 }
 
 /***************************************************************************//**
- * Called periodically by the application
- * Handles periodic Indoor Positioning related tasks
- *******************************************************************************/
+* Called periodically by the application
+* Handles periodic Indoor Positioning related tasks
+*******************************************************************************/
 void IPGW_step(void)
 {
-  // Check button status once bluetooth stack is initialized and neither mode is selected yet
-  if (IP_BT_init_done && false == IP_mode_selected) {
+  // Check button status once bluetooth stack is initialized and neither mode is
+  //   selected yet
+  if (IP_BT_init_done && (false == IP_mode_selected)) {
     // If button is pressed down, go to configuration mode
-    if (sl_simple_button_get_state(&sl_button_btn0) == SL_SIMPLE_BUTTON_PRESSED) {
+    if (sl_simple_button_get_state(&sl_button_btn0)
+        == SL_SIMPLE_BUTTON_PRESSED) {
       IP_mode_selected = true;
       app_log("Button0 is pressed, entering Configuration mode\n\n");
       enter_config_mode();
@@ -229,8 +258,8 @@ void IPGW_step(void)
 }
 
 /***************************************************************************//**
- * Initialize Indoor Positioning service
- *******************************************************************************/
+* Initialize Indoor Positioning service
+*******************************************************************************/
 void IPGW_init(void)
 {
   app_log("\nIndoor Positioning - Gateway\n");
@@ -243,8 +272,8 @@ void IPGW_init(void)
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- *Loads configuration from Non-volatile memory
- *******************************************************************************/
+* Loads configuration from Non-volatile memory
+*******************************************************************************/
 void update_local_config(void)
 {
   uint32_t object_type;
@@ -253,23 +282,28 @@ void update_local_config(void)
   size_t num_of_objects = nvm3_countObjects(nvm3_defaultHandle);
   bool valid_entry = false;
 
+  memset(&IPGW_config_data, 0, sizeof(IPGW_config_data));
   num_of_objects = nvm3_countObjects(nvm3_defaultHandle);
   if (num_of_objects != 0) {
     // Read stored configuration from NVM
-    for (uint16_t config_key = 0; config_key < IPGW_config_num_of_keys; config_key++) {
-      nvm3_getObjectInfo(nvm3_defaultHandle, config_key, &object_type, &temp_data_length);
+    for (uint16_t config_key = 0; config_key < IPGW_config_num_of_keys;
+         config_key++) {
+      nvm3_getObjectInfo(nvm3_defaultHandle,
+                         config_key,
+                         &object_type,
+                         &temp_data_length);
       if (object_type == NVM3_OBJECTTYPE_DATA) {
         switch (config_key) {
           case IPGW_config_key_network_UID:
-            entry_ptr = (uintptr_t*) &IPGW_config_data.network_Uid;
+            entry_ptr = (uintptr_t *) &IPGW_config_data.network_Uid;
             valid_entry = true;
             break;
           case IPGW_config_key_room_id:
-            entry_ptr = (uintptr_t*) &IPGW_config_data.room_id;
+            entry_ptr = (uintptr_t *) &IPGW_config_data.room_id;
             valid_entry = true;
             break;
           case IPGW_config_key_room_name:
-            entry_ptr = (uintptr_t*) &IPGW_config_data.room_name;
+            entry_ptr = (uintptr_t *) &IPGW_config_data.room_name;
             valid_entry = true;
             break;
           default:
@@ -280,7 +314,10 @@ void update_local_config(void)
 
         if (valid_entry) {
           // Update configuration entries in NVM
-          nvm3_readData(nvm3_defaultHandle, config_key, entry_ptr, temp_data_length);
+          nvm3_readData(nvm3_defaultHandle,
+                        config_key,
+                        entry_ptr,
+                        temp_data_length);
         }
       }
     }
@@ -289,17 +326,18 @@ void update_local_config(void)
 }
 
 /***************************************************************************//**
- * Updates GATT database with values stored in NVM
- *******************************************************************************/
+* Updates GATT database with values stored in NVM
+*******************************************************************************/
 void update_gatt_entries(void)
 {
   sl_status_t sc;
   uint8_t gatt_db_id;
   size_t value_size;
-  uint8_t temp_value_array[8];
+  uint8_t temp_value_array[10];
   bool valid_entry = false;
 
-  for (uint16_t config_key = 0; config_key < IPGW_config_num_of_keys; config_key++) {
+  for (uint16_t config_key = 0; config_key < IPGW_config_num_of_keys;
+       config_key++) {
     switch (config_key) {
       case IPGW_config_key_network_UID:
         gatt_db_id = gattdb_NetworkUID;
@@ -315,7 +353,7 @@ void update_gatt_entries(void)
         break;
       case IPGW_config_key_room_name:
         gatt_db_id = gattdb_RoomName;
-        value_size = sizeof(IPGW_config_data.room_name);
+        value_size = ROOM_NAME_LENGTH;
         memcpy(temp_value_array, &IPGW_config_data.room_name, value_size);
         valid_entry = true;
         break;
@@ -328,7 +366,10 @@ void update_gatt_entries(void)
     }
     if (valid_entry) {
       // Update GATT database
-      sc = sl_bt_gatt_server_write_attribute_value(gatt_db_id, 0, value_size, temp_value_array);
+      sc = sl_bt_gatt_server_write_attribute_value(gatt_db_id,
+                                                   0,
+                                                   value_size,
+                                                   temp_value_array);
       app_assert_status(sc);
     }
   }
@@ -339,12 +380,11 @@ void update_gatt_entries(void)
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Indoor Positioning related BT event handler
- *******************************************************************************/
+* Indoor Positioning related BT event handler
+*******************************************************************************/
 void IPGW_event_handler(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
-  uint8_t request_data[4] = { 0 };
   bd_addr address;
   uint8_t address_type;
   uint8_t system_id[8];
@@ -366,11 +406,17 @@ void IPGW_event_handler(sl_bt_msg_t *evt)
       system_id[6] = address.addr[1];
       system_id[7] = address.addr[0];
 
-      sc = sl_bt_gatt_server_write_attribute_value(gattdb_system_id, 0, sizeof(system_id), system_id);
+      sc = sl_bt_gatt_server_write_attribute_value(gattdb_system_id,
+                                                   0,
+                                                   sizeof(system_id),
+                                                   system_id);
       app_assert_status(sc);
 
       // Create device name string
-      sprintf(IPGW_config_data.device_name, "IPGW_%.2X%.2X", address.addr[0], address.addr[1]);
+      sprintf(IPGW_config_data.device_name,
+              "IPGW_%.2X%.2X",
+              address.addr[0],
+              address.addr[1]);
       app_log("Device unique name: %s\n", IPGW_config_data.device_name);
 
       // Enable pairing
@@ -381,43 +427,61 @@ void IPGW_event_handler(sl_bt_msg_t *evt)
       break;
 
     case sl_bt_evt_connection_opened_id:
-      sc = sl_bt_sm_increase_security(evt->data.evt_connection_opened.connection);
+      sc =
+        sl_bt_sm_increase_security(evt->data.evt_connection_opened.connection);
       app_assert_status(sc);
       break;
 
     case sl_bt_evt_sm_bonding_failed_id:
-      app_log("Bonding failed, reason: 0x%2X\r\n", evt->data.evt_sm_bonding_failed.reason);
-      /* Previous bond is broken, delete it and close connection, host must retry at least once */
+      app_log("Bonding failed, reason: 0x%2X\r\n",
+              evt->data.evt_sm_bonding_failed.reason);
+
+      /* Previous bond is broken, delete it and close connection, host must
+       *   retry at least once */
       sl_bt_sm_delete_bondings();
       break;
 
     case sl_bt_evt_gatt_server_attribute_value_id:
-      app_log("Configuration updated\n");
-      switch (evt->data.evt_gatt_server_attribute_value.attribute) {
-        case gattdb_NetworkUID:
-          nvm_key = IPGW_config_key_network_UID;
-          break;
-        case gattdb_RoomId:
-          nvm_key = IPGW_config_key_room_id;
-          break;
-        case gattdb_RoomName:
-          nvm_key = IPGW_config_key_room_name;
-          break;
+      if (evt->data.evt_gatt_server_attribute_value.value.len <= 10) {
+        uint8_t request_data[evt->data.evt_gatt_server_attribute_value.value.len
+        ];
+
+        app_log("Configuration updated\n");
+        switch (evt->data.evt_gatt_server_attribute_value.attribute) {
+          case gattdb_NetworkUID:
+            nvm_key = IPGW_config_key_network_UID;
+            break;
+          case gattdb_RoomId:
+            nvm_key = IPGW_config_key_room_id;
+            break;
+          case gattdb_RoomName:
+            nvm_key = IPGW_config_key_room_name;
+            break;
+        }
+        for (uint8_t i = 0;
+             i < evt->data.evt_gatt_server_attribute_value.value.len; i++) {
+          request_data[i] =
+            evt->data.evt_gatt_server_attribute_value.value.data[i];
+        }
+
+        // Store new value in NVM
+        nvm3_writeData(nvm3_defaultHandle,
+                       nvm_key,
+                       request_data,
+                       evt->data.evt_gatt_server_attribute_value.value.len);
+
+        // Update current configuration values
+        update_local_config();
+
+        // Reset configuration mode timeout as there was a user action
+        sc = sl_sleeptimer_restart_timer_ms(&config_mode_timeout_timer,
+                                            CONFIG_MODE_TIMEOUT_MS,
+                                            config_mode_timeout_cb,
+                                            (void *) NULL,
+                                            0,
+                                            0);
+        app_assert_status(sc);
       }
-      for (uint8_t i = 0; i < evt->data.evt_gatt_server_attribute_value.value.len; i++) {
-        request_data[i] = evt->data.evt_gatt_server_attribute_value.value.data[i];
-      }
-
-      // Store new value in NVM
-      nvm3_writeData(nvm3_defaultHandle, nvm_key, request_data, evt->data.evt_gatt_server_attribute_value.value.len);
-
-      // Update current configuration values
-      update_local_config();
-
-      // Reset configuration mode timeout as there was a user action
-      sc = sl_sleeptimer_restart_timer_ms(&config_mode_timeout_timer, CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
-      app_assert_status(sc);
       break;
   }
 }
-

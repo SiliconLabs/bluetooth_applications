@@ -39,6 +39,8 @@
 //                                   Includes
 // -----------------------------------------------------------------------------
 
+#include "micro_oled_ssd1306.h"
+#include "sl_i2cspm_instances.h"
 #include "indoor_positioning.h"
 
 // -----------------------------------------------------------------------------
@@ -48,7 +50,8 @@ static void oled_init(void);
 static void oled_display_config(void);
 static void oled_update_info(void);
 static void oled_display_service_unavailable(void);
-static void validate_new_configuration_value(uint8_t *request_data, IPAS_config_keys_enum_t nvm_key);
+static void validate_new_configuration_value(uint8_t *request_data,
+                                             IPAS_config_keys_enum_t nvm_key);
 
 // -----------------------------------------------------------------------------
 //                                Global Variables
@@ -68,6 +71,7 @@ static uint8_t normalMode_advertising_set_handle = 0xff;
 static sl_sleeptimer_timer_handle_t IP_config_mode_timeout_timer;
 static sl_sleeptimer_timer_handle_t IP_find_current_room_periodic_timer;
 static sl_sleeptimer_timer_handle_t IP_gateway_finder_timeout_timer;
+static glib_context_t glib_context;
 
 // flags
 static bool IP_start_positioning = false;
@@ -136,8 +140,9 @@ void gateway_finder_timeout_cb()
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Returns true if minimal number of RSSI measurements for all required gateways are available
- *******************************************************************************/
+* Returns true if minimal number of RSSI measurements for all required gateways
+*   are available
+*******************************************************************************/
 bool indoor_positioning_service_available(void)
 {
   bool service_available = true;
@@ -157,7 +162,10 @@ bool indoor_positioning_service_available(void)
 /***************************************************************************//**
  * Creates custom advertising package with current asset related data
  ******************************************************************************/
-void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_t companyID, char *name)
+void create_custom_advert_package(custom_advert_t *pData,
+                                  uint8_t flags,
+                                  uint16_t companyID,
+                                  char *name)
 {
   int n;
 
@@ -165,32 +173,34 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
   pData->type_flags = 0x01;
   pData->val_flags = flags;
 
-  pData->len_manuf = 19;  // 1+2+16 bytes for type, company ID and the payload
+  pData->len_manuf = 16;  // 1+2+16 bytes for type, company ID and the payload
   pData->type_manuf = 0xFF;
   pData->company_LO = companyID & 0xFF;
   pData->company_HI = (companyID >> 8) & 0xFF;
 
   pData->network_UID = IPAS_config_data.network_UID;
   pData->room_id = current_room_id;
-  strncpy(pData->room_name, current_room_name, ROOM_NAME_LENGTH);
+  strncpy(pData->room_name, current_room_name, ROOM_NAME_LENGTH - 1);
+  pData->room_name[ROOM_NAME_LENGTH - 1] = '\0';
 
   // Name length, excluding null terminator
   n = strlen(name);
   if (n > DEVICENAME_LENGTH) {
     // Incomplete name
     pData->type_name = 0x08;
-  }
-  else {
+  } else {
     pData->type_name = 0x09;
   }
 
-  strncpy(pData->name, name, DEVICENAME_LENGTH);
+  strncpy(pData->name, name, DEVICENAME_LENGTH - 1);
+  pData->name[DEVICENAME_LENGTH - 1] = '\0';
 
   if (n > DEVICENAME_LENGTH) {
     n = DEVICENAME_LENGTH;
   }
 
-  pData->len_name = 1 + n; // length of name element is the name string length + 1 for the AD type
+  pData->len_name = 1 + n; // length of name element is the name string length +
+                           //   1 for the AD type
 
   // Calculate total length of advertising data
   pData->data_size = 3 + (1 + pData->len_manuf) + (1 + pData->len_name);
@@ -201,24 +211,36 @@ void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Creates an entry in the stored gateways array if the gateway is not yet stored
+ * Creates an entry in the stored gateways array if the gateway is not yet
+ *   stored
  ******************************************************************************/
 void create_gateway_storage_entry(uint8_t *data)
 {
   bool gw_already_stored = false;
   uint8_t gw_index = 0;
-  // Loop through gateway data array - check if found gateway is already stored or not. Gateway unique name is starting at the 27th index
+  // Loop through gateway data array - check if found gateway is already stored
+  //   or not. Gateway unique name is starting at the 27th index
   for (gw_index = 0; gw_index < gateway_counter; gw_index++) {
-    if (0 == memcmp(&data[GW_DATA_INDEX_DEV_NAME], &gateway_data_storage[gw_index].device_name, DEVICENAME_LENGTH)) {
+    if (0 == memcmp(&data[GW_DATA_INDEX_DEV_NAME],
+                    &gateway_data_storage[gw_index].device_name,
+                    DEVICENAME_LENGTH)) {
       gw_already_stored = true;
     }
   }
 
   if (!gw_already_stored) {
-    memcpy(&gateway_data_storage[gateway_counter].network_UID, &data[GW_DATA_INDEX_NET_ID], sizeof(gateway_data_storage[gateway_counter].network_UID));
-    memcpy(&gateway_data_storage[gateway_counter].room_id, &data[GW_DATA_INDEX_ROOM_ID], sizeof(gateway_data_storage[gateway_counter].room_id));
-    memcpy(&gateway_data_storage[gateway_counter].room_name, &data[GW_DATA_INDEX_ROOM_NAME], sizeof(gateway_data_storage[gateway_counter].room_name));
-    memcpy(&gateway_data_storage[gateway_counter].device_name, &data[GW_DATA_INDEX_DEV_NAME], sizeof(gateway_data_storage[gateway_counter].device_name));
+    memcpy(&gateway_data_storage[gateway_counter].network_UID,
+           &data[GW_DATA_INDEX_NET_ID],
+           sizeof(gateway_data_storage[gateway_counter].network_UID));
+    memcpy(&gateway_data_storage[gateway_counter].room_id,
+           &data[GW_DATA_INDEX_ROOM_ID],
+           sizeof(gateway_data_storage[gateway_counter].room_id));
+    memcpy(&gateway_data_storage[gateway_counter].room_name,
+           &data[GW_DATA_INDEX_ROOM_NAME],
+           sizeof(gateway_data_storage[gateway_counter].room_name));
+    memcpy(&gateway_data_storage[gateway_counter].device_name,
+           &data[GW_DATA_INDEX_DEV_NAME],
+           sizeof(gateway_data_storage[gateway_counter].device_name));
     gateway_data_storage[gateway_counter].rssi_index = 0;
     gateway_counter += 1;
   }
@@ -231,25 +253,36 @@ void store_gateway_rssi(sl_bt_evt_scanner_scan_report_t *scan_report)
 {
   // Loop through minimal number of gateways
   for (uint8_t i = 0; i < gateway_counter; i++) {
-    // Find gateway based on it's advertised & stored name - store the RSSI value, increment index
-    if (0
-        == memcmp(&gateway_data_storage[i].device_name, &scan_report->data.data[GW_DATA_INDEX_DEV_NAME], sizeof(gateway_data_storage[i].device_name))) {
-      gateway_data_storage[i].rssi[gateway_data_storage[i].rssi_index] = scan_report->rssi;
-      gateway_data_storage[i].rssi_index += 1;
+    // Find gateway based on it's advertised & stored name - store the RSSI
+    //   value, increment index
+    if ((scan_report->data.len <= 31)
+        && (GW_DATA_INDEX_DEV_NAME < scan_report->data.len)) {
+      uint8_t scan_data[scan_report->data.len];
 
-      // Reset rssi_index when reaching the end of the array - signal that required number of samples have been gathered
-      if (gateway_data_storage[i].rssi_index >= REQUIRED_NUM_OF_RSSI_SAMPLES) {
-        gateway_data_storage[i].rssi_index = 0;
-        gateway_data_storage[i].measurements_ready = true;
+      memcpy(scan_data, scan_report->data.data, scan_report->data.len);
+      if (0 == memcmp(&gateway_data_storage[i].device_name,
+                      &scan_data[GW_DATA_INDEX_DEV_NAME],
+                      sizeof(gateway_data_storage[i].device_name))) {
+        gateway_data_storage[i].rssi[gateway_data_storage[i].rssi_index] =
+          scan_report->rssi;
+        gateway_data_storage[i].rssi_index += 1;
+
+        // Reset rssi_index when reaching the end of the array - signal that
+        //   required number of samples have been gathered
+        if (gateway_data_storage[i].rssi_index
+            >= REQUIRED_NUM_OF_RSSI_SAMPLES) {
+          gateway_data_storage[i].rssi_index = 0;
+          gateway_data_storage[i].measurements_ready = true;
+        }
       }
     }
   }
 }
 
 /***************************************************************************//**
- * Clears stored gateway data
- * @note Usually called after an unsuccessful attempt at indoor positioning
- *******************************************************************************/
+* Clears stored gateway data
+* @note Usually called after an unsuccessful attempt at indoor positioning
+*******************************************************************************/
 void clear_gateways(void)
 {
   // Reset data for every gateway
@@ -266,16 +299,18 @@ void clear_gateways(void)
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Called periodically by the application
- * Handles periodic Indoor Positioning related tasks
- *******************************************************************************/
+* Called periodically by the application
+* Handles periodic Indoor Positioning related tasks
+*******************************************************************************/
 void IPAS_step(void)
 {
   // --- Initialization ---
-  // Check button status once bluetooth stack is initialized and neither mode is selected yet
+  // Check button status once bluetooth stack is initialized and neither mode is
+  //   selected yet
   if (!IP_mode_selected && IP_BT_init_done) {
     // If button is pressed down, go to configuration mode
-    if (sl_simple_button_get_state(&sl_button_btn0) == SL_SIMPLE_BUTTON_PRESSED) {
+    if (sl_simple_button_get_state(&sl_button_btn0)
+        == SL_SIMPLE_BUTTON_PRESSED) {
       IP_mode_selected = true;
       app_log("Button0 is pressed, entering Configuration mode\n\n");
       enter_config_mode();
@@ -293,10 +328,9 @@ void IPAS_step(void)
   if (IP_start_positioning) {
     if (!IP_ready) {
       init_position_calculator();
-    }
-    else {
+    } else {
       if (indoor_positioning_service_available()) {
-        //Estimate device's location
+        // Estimate device's location
         calculate_position();
       }
     }
@@ -316,8 +350,8 @@ void IPAS_step(void)
 }
 
 /***************************************************************************//**
- * Resets Indoor Positioning flags
- *******************************************************************************/
+* Resets Indoor Positioning flags
+*******************************************************************************/
 void reset_IP_state(void)
 {
   IP_ready = false;
@@ -328,22 +362,25 @@ void reset_IP_state(void)
 }
 
 /***************************************************************************//**
- * Enables Indoor Positioning service
- *******************************************************************************/
+* Enables Indoor Positioning service
+*******************************************************************************/
 void IPAS_enable_service(void)
 {
   sl_status_t sc;
   bool is_timer_running = false;
 
   IP_service_enabled = true;
-  sc = sl_sleeptimer_is_timer_running(&IP_find_current_room_periodic_timer, &is_timer_running);
+  sc = sl_sleeptimer_is_timer_running(&IP_find_current_room_periodic_timer,
+                                      &is_timer_running);
   if (!is_timer_running) {
-    sc = sl_sleeptimer_start_periodic_timer_ms(&IP_find_current_room_periodic_timer,
-                                              (IPAS_config_data.reporting_interval * 1000),
-                                              indoor_positioning_trigger_timer_cb,
-                                              (void*) NULL,
-                                              0,
-                                              0);
+    sc = sl_sleeptimer_start_periodic_timer_ms(
+      &IP_find_current_room_periodic_timer,
+      (IPAS_config_data.
+       reporting_interval * 1000),
+      indoor_positioning_trigger_timer_cb,
+      (void *) NULL,
+      0,
+      0);
     app_assert_status(sc);
   }
 
@@ -351,8 +388,8 @@ void IPAS_enable_service(void)
 }
 
 /***************************************************************************//**
- * Disabled Indoor Positioning service
- *******************************************************************************/
+* Disabled Indoor Positioning service
+*******************************************************************************/
 void IPAS_disable_service(void)
 {
   sl_status_t sc;
@@ -360,7 +397,8 @@ void IPAS_disable_service(void)
 
   IP_service_enabled = false;
 
-  sc = sl_sleeptimer_is_timer_running(&IP_find_current_room_periodic_timer, &is_timer_running);
+  sc = sl_sleeptimer_is_timer_running(&IP_find_current_room_periodic_timer,
+                                      &is_timer_running);
   if (is_timer_running) {
     sc = sl_sleeptimer_stop_timer(&IP_find_current_room_periodic_timer);
     app_assert_status(sc);
@@ -370,8 +408,8 @@ void IPAS_disable_service(void)
 }
 
 /***************************************************************************//**
- * Initialize Indoor Positioning service
- *******************************************************************************/
+* Initialize Indoor Positioning service
+*******************************************************************************/
 void IPAS_init(void)
 {
   app_log("\nIndoor Positioning - Asset\n");
@@ -383,103 +421,135 @@ void IPAS_init(void)
 }
 
 /***************************************************************************//**
- * Enters configuration mode
- * prints out current configuration parameters
- * set up and start advertisements
- * starts timeout timer
- *******************************************************************************/
+* Enters configuration mode
+* prints out current configuration parameters
+* set up and start advertisements
+* starts timeout timer
+*******************************************************************************/
 void enter_config_mode(void)
 {
   sl_status_t sc;
   IP_config_mode = true;
 
   // Print current configuration parameters
-  app_log("NetworkU_ID: %ld | Reporting interval: %ld\n", IPAS_config_data.network_UID, IPAS_config_data.reporting_interval);
+  app_log("NetworkU_ID: %lu | Reporting interval: %d\n",
+          IPAS_config_data.network_UID,
+          IPAS_config_data.reporting_interval);
 
   // Set up advertisement
   sc = sl_bt_advertiser_create_set(&configMode_advertising_set_handle);
   app_assert_status(sc);
 
   // Update Device Name in GATT database
-  sc = sl_bt_gatt_server_write_attribute_value(gattdb_device_name, 0, DEVICENAME_LENGTH, (const uint8_t*) IPAS_config_data.device_name);
+  sc = sl_bt_gatt_server_write_attribute_value(gattdb_device_name,
+                                               0,
+                                               DEVICENAME_LENGTH,
+                                               (const uint8_t *) IPAS_config_data.device_name);
   app_assert_status(sc);
 
-  sc = sl_bt_advertiser_set_timing(configMode_advertising_set_handle,
-      100, // min. adv. interval (milliseconds * 1.6)
-      160, // max. adv. interval (milliseconds * 1.6)
-      0,   // adv. duration
-      0);  // max. num. adv. events
+  // Generate data for advertising
+  sc = sl_bt_legacy_advertiser_generate_data(configMode_advertising_set_handle,
+                                             sl_bt_advertiser_general_discoverable);
+  app_assert_status(sc);
+
+  sc = sl_bt_advertiser_set_timing(
+    configMode_advertising_set_handle,
+    100, // min. adv. interval (milliseconds * 1.6)
+    160, // max. adv. interval (milliseconds * 1.6)
+    0,   // adv. duration
+    0);  // max. num. adv. events
   app_assert_status(sc);
 
   // Start general advertising and enable connections.
-  sc = sl_bt_advertiser_start(configMode_advertising_set_handle, sl_bt_advertiser_general_discoverable, sl_bt_advertiser_connectable_scannable);
+  sc = sl_bt_legacy_advertiser_start(configMode_advertising_set_handle,
+                                     sl_bt_advertiser_connectable_scannable);
   app_assert_status(sc);
 
   // Start configuration mode timeout timer
-  sl_sleeptimer_start_timer_ms(&IP_config_mode_timeout_timer, CONFIG_MODE_TIMEOUT_MS, config_mode_timeout_cb, (void*) NULL, 0, 0);
+  sl_sleeptimer_start_timer_ms(&IP_config_mode_timeout_timer,
+                               CONFIG_MODE_TIMEOUT_MS,
+                               config_mode_timeout_cb,
+                               (void *) NULL,
+                               0,
+                               0);
 
   // Display configuration values on the OLED display
   oled_display_config();
 }
 
 /***************************************************************************//**
- * Enters Normal mode
- * Set up and start scanner
- * Set up and start advertisements
- *******************************************************************************/
+* Enters Normal mode
+* Set up and start scanner
+* Set up and start advertisements
+*******************************************************************************/
 void enter_normal_mode(void)
 {
   sl_status_t sc;
   IP_config_mode = false;
 
   // Set up and start scanning
-  sc = sl_bt_scanner_set_timing(sl_bt_gap_1m_phy, 50, 100); // 50ms scan interval, 100ms scan window
-  sc = sl_bt_scanner_set_mode(sl_bt_gap_1m_phy, 1); // active scanning
+  sc = sl_bt_scanner_set_parameters(sl_bt_scanner_scan_mode_active,
+                                    100,
+                                    100);
+  app_assert_status(sc);
+
   sc = sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
+  app_assert_status(sc);
 
   // Set up advertisement
   sc = sl_bt_advertiser_create_set(&normalMode_advertising_set_handle);
   app_assert_status(sc);
 
-  sc = sl_bt_advertiser_set_timing(normalMode_advertising_set_handle, 100, // min. adv. interval (milliseconds * 1.6)
-      160, // max. adv. interval (milliseconds * 1.6)
-      3,   // adv. duration
-      5);  // max. num. adv. events
+  sc = sl_bt_advertiser_set_timing(
+    normalMode_advertising_set_handle, 100, // min. adv. interval
+                                            // (milliseconds * 1.6)
+    160, // max. adv. interval (milliseconds * 1.6)
+    3,   // adv. duration
+    5);  // max. num. adv. events
   app_assert_status(sc);
 
   if (IP_service_enabled) {
-    sc = sl_sleeptimer_start_periodic_timer_ms(&IP_find_current_room_periodic_timer,
-                                              (IPAS_config_data.reporting_interval * 1000),
-                                              indoor_positioning_trigger_timer_cb,
-                                              (void*) NULL,
-                                              0,
-                                              0);
+    sc = sl_sleeptimer_start_periodic_timer_ms(
+      &IP_find_current_room_periodic_timer,
+      (IPAS_config_data.
+       reporting_interval * 1000),
+      indoor_positioning_trigger_timer_cb,
+      (void *) NULL,
+      0,
+      0);
     app_assert_status(sc);
   }
 }
 
 /***************************************************************************//**
- * Sets up and starts advertisement about asset's position
- *******************************************************************************/
+* Sets up and starts advertisement about asset's position
+*******************************************************************************/
 void start_position_advertisement(void)
 {
   sl_status_t sc;
 
   // Create user defined advertising packet
-  create_custom_advert_package(&custom_advert, 0x06, COMPANY_ID, IPAS_config_data.device_name);
+  create_custom_advert_package(&custom_advert,
+                               0x06,
+                               COMPANY_ID,
+                               IPAS_config_data.device_name);
 
   // Set custom advertising payload
-  sc = sl_bt_advertiser_set_data(normalMode_advertising_set_handle, 0, custom_advert.data_size, (const uint8_t*) &custom_advert);
+  sc = sl_bt_legacy_advertiser_set_data(normalMode_advertising_set_handle,
+                                        sl_bt_advertiser_advertising_data_packet,
+                                        custom_advert.data_size,
+                                        (const uint8_t *) &custom_advert);
   app_assert_status(sc);
 
   // Start advertising using custom data
-  sc = sl_bt_advertiser_start(normalMode_advertising_set_handle, advertiser_user_data, advertiser_non_connectable);
+  sc = sl_bt_legacy_advertiser_start(normalMode_advertising_set_handle,
+                                     advertiser_non_connectable);
   app_assert_status(sc);
 }
 
 /***************************************************************************//**
- * re-initializes internal indoor positioning related data
- *******************************************************************************/
+* re-initializes internal indoor positioning related data
+*******************************************************************************/
 void init_position_calculator(void)
 {
   sl_status_t sc;
@@ -487,16 +557,21 @@ void init_position_calculator(void)
   // Reset gateway related measurements and flags
   reset_gateway_data();
 
-  // Start scanning for gateways
-  sc = sl_bt_scanner_set_timing(sl_bt_gap_1m_phy, 50, 100); // 50ms scan interval, 100ms scan window
-  sc = sl_bt_scanner_set_mode(sl_bt_gap_1m_phy, 1); // active scanning
-  sc = sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
+  // active scanning
+  // 50ms scan interval, 100ms scan window
+//  sc = sl_bt_scanner_set_parameters(sl_bt_scanner_scan_mode_active,
+//                                    160,
+//                                    80);
+//  app_assert_status(sc);
+
+//  sc = sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
+//  app_assert_status(sc);
 
   // Start gateway finder timeout
   sc = sl_sleeptimer_start_timer_ms(&IP_gateway_finder_timeout_timer,
                                     GATEWAY_FINDER_TIMEOUT_MS,
                                     gateway_finder_timeout_cb,
-                                    (void*) NULL,
+                                    (void *) NULL,
                                     0,
                                     0);
   app_assert_status(sc);
@@ -505,8 +580,8 @@ void init_position_calculator(void)
 }
 
 /***************************************************************************//**
- * Called periodically - calculates position of the asset
- *******************************************************************************/
+* Called periodically - calculates position of the asset
+*******************************************************************************/
 void calculate_position(void)
 {
   app_log("\nIndoor position calculation started... \n");
@@ -538,8 +613,8 @@ void calculate_position(void)
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Pre-filters RSSI measurements
- *******************************************************************************/
+* Pre-filters RSSI measurements
+*******************************************************************************/
 void distance_pre_filtering(void)
 {
   int32_t temp_rssi_sum = 0;
@@ -557,39 +632,48 @@ void distance_pre_filtering(void)
     memset(filtered_rssi, 0, sizeof(filtered_rssi));
 
     // Calculate RSSI mean
-    for (uint8_t rssi_index = 0; rssi_index < REQUIRED_NUM_OF_RSSI_SAMPLES; rssi_index++) {
+    for (uint8_t rssi_index = 0; rssi_index < REQUIRED_NUM_OF_RSSI_SAMPLES;
+         rssi_index++) {
       temp_rssi_sum += gateway_data_storage[gw_index].rssi[rssi_index];
     }
     rssi_mean = temp_rssi_sum / REQUIRED_NUM_OF_RSSI_SAMPLES;
 
     // Calculate RSSI standard deviation
     temp_rssi_sum = 0;
-    for (uint8_t rssi_index = 0; rssi_index < REQUIRED_NUM_OF_RSSI_SAMPLES; rssi_index++) {
+    for (uint8_t rssi_index = 0; rssi_index < REQUIRED_NUM_OF_RSSI_SAMPLES;
+         rssi_index++) {
       temp_rssi = gateway_data_storage[gw_index].rssi[rssi_index];
       temp_rssi_sum += (temp_rssi - rssi_mean) * (temp_rssi - rssi_mean);
     }
     rssi_std_dev = sqrt(temp_rssi_sum / REQUIRED_NUM_OF_RSSI_SAMPLES);
 
-    // Remove measurements which are below the mean - (2*std deviation) - single direction outlier removal to filter out invalid measurements due to indoor multipath fading
-    for (uint8_t rssi_index = 0; rssi_index < REQUIRED_NUM_OF_RSSI_SAMPLES; rssi_index++) {
-      if (gateway_data_storage[gw_index].rssi[rssi_index] >= (rssi_mean - (2 * rssi_std_dev))) {
-        filtered_rssi[filtered_rssi_counter] = gateway_data_storage[gw_index].rssi[rssi_index];
+    // Remove measurements which are below the mean - (2*std deviation) - single
+    //   direction outlier removal to filter out invalid measurements due to
+    //   indoor multipath fading
+    for (uint8_t rssi_index = 0; rssi_index < REQUIRED_NUM_OF_RSSI_SAMPLES;
+         rssi_index++) {
+      if (gateway_data_storage[gw_index].rssi[rssi_index]
+          >= (rssi_mean - (2 * rssi_std_dev))) {
+        filtered_rssi[filtered_rssi_counter] =
+          gateway_data_storage[gw_index].rssi[rssi_index];
         filtered_rssi_counter++;
       }
     }
 
     // Calculate filtered RSSI mean
     temp_rssi_sum = 0;
-    for (uint8_t rssi_index = 0; rssi_index < filtered_rssi_counter; rssi_index++) {
+    for (uint8_t rssi_index = 0; rssi_index < filtered_rssi_counter;
+         rssi_index++) {
       temp_rssi_sum += filtered_rssi[rssi_index];
     }
-    gateway_data_storage[gw_index].rssi_filtered = temp_rssi_sum / filtered_rssi_counter;
+    gateway_data_storage[gw_index].rssi_filtered = temp_rssi_sum
+                                                   / filtered_rssi_counter;
   }
 }
 
 /***************************************************************************//**
- * Based on the filtered RSSI of the gateways, the closest room is selected
- *******************************************************************************/
+* Based on the filtered RSSI of the gateways, the closest room is selected
+*******************************************************************************/
 void find_closest_room(void)
 {
   float highest_rssi = gateway_data_storage[0].rssi_filtered;
@@ -603,12 +687,15 @@ void find_closest_room(void)
   }
 
   current_room_id = gateway_data_storage[closest_gw_index].room_id;
-  memcpy(current_room_name, gateway_data_storage[closest_gw_index].room_name, ROOM_NAME_LENGTH);
+  memcpy(current_room_name,
+         gateway_data_storage[closest_gw_index].room_name,
+         ROOM_NAME_LENGTH);
 }
 
 /***************************************************************************//**
- * Resets RSSI measurement related counters, values and flags - called after calculations are done
- *******************************************************************************/
+* Resets RSSI measurement related counters, values and flags - called after
+*   calculations are done
+*******************************************************************************/
 void reset_gateway_data(void)
 {
   for (uint8_t gw_index = 0; gw_index < gateway_counter; gw_index++) {
@@ -623,8 +710,8 @@ void reset_gateway_data(void)
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- *Loads configuration from Non-volatile memory
- *******************************************************************************/
+* Loads configuration from Non-volatile memory
+*******************************************************************************/
 void update_local_config(void)
 {
   uint32_t object_type;
@@ -633,19 +720,24 @@ void update_local_config(void)
   size_t num_of_objects = nvm3_countObjects(nvm3_defaultHandle);
   bool valid_entry = false;
 
+  memset(&IPAS_config_data, 0, sizeof(IPAS_config_data));
   num_of_objects = nvm3_countObjects(nvm3_defaultHandle);
   if (num_of_objects != 0) {
     // Read stored configuration from NVM
-    for (uint16_t config_key = 0; config_key < IPAS_config_num_of_keys; config_key++) {
-      nvm3_getObjectInfo(nvm3_defaultHandle, config_key, &object_type, &temp_data_length);
+    for (uint16_t config_key = 0; config_key < IPAS_config_num_of_keys;
+         config_key++) {
+      nvm3_getObjectInfo(nvm3_defaultHandle,
+                         config_key,
+                         &object_type,
+                         &temp_data_length);
       if (object_type == NVM3_OBJECTTYPE_DATA) {
         switch (config_key) {
           case IPAS_config_key_network_UID:
-            entry_ptr = (uintptr_t*) &IPAS_config_data.network_UID;
+            entry_ptr = (uintptr_t *) &IPAS_config_data.network_UID;
             valid_entry = true;
             break;
           case IPAS_config_key_reportingInterval:
-            entry_ptr = (uintptr_t*) &IPAS_config_data.reporting_interval;
+            entry_ptr = (uintptr_t *) &IPAS_config_data.reporting_interval;
             valid_entry = true;
             break;
           default:
@@ -656,7 +748,10 @@ void update_local_config(void)
 
         if (valid_entry) {
           // Update configuration entries in NVM
-          nvm3_readData(nvm3_defaultHandle, config_key, entry_ptr, temp_data_length);
+          nvm3_readData(nvm3_defaultHandle,
+                        config_key,
+                        entry_ptr,
+                        temp_data_length);
         }
       }
     }
@@ -665,8 +760,8 @@ void update_local_config(void)
 }
 
 /***************************************************************************//**
- * Updates GATT database with values stored in NVM
- *******************************************************************************/
+* Updates GATT database with values stored in NVM
+*******************************************************************************/
 void update_gatt_entries(void)
 {
   sl_status_t sc;
@@ -675,7 +770,8 @@ void update_gatt_entries(void)
   uint8_t temp_value_array[8];
   bool valid_entry = false;
 
-  for (uint16_t config_key = 0; config_key < IPAS_config_num_of_keys; config_key++) {
+  for (uint16_t config_key = 0; config_key < IPAS_config_num_of_keys;
+       config_key++) {
     switch (config_key) {
       case IPAS_config_key_network_UID:
         gatt_db_id = gattdb_NetworkUID;
@@ -686,7 +782,9 @@ void update_gatt_entries(void)
       case IPAS_config_key_reportingInterval:
         gatt_db_id = gattdb_ReportingInterval;
         value_size = sizeof(IPAS_config_data.reporting_interval);
-        memcpy(temp_value_array, &IPAS_config_data.reporting_interval, value_size);
+        memcpy(temp_value_array,
+               &IPAS_config_data.reporting_interval,
+               value_size);
         valid_entry = true;
         break;
       default:
@@ -698,7 +796,10 @@ void update_gatt_entries(void)
     }
     if (valid_entry) {
       // Update GATT database
-      sc = sl_bt_gatt_server_write_attribute_value(gatt_db_id, 0, value_size, temp_value_array);
+      sc = sl_bt_gatt_server_write_attribute_value(gatt_db_id,
+                                                   0,
+                                                   value_size,
+                                                   temp_value_array);
       app_assert_status(sc);
     }
   }
@@ -712,17 +813,24 @@ void update_gatt_entries(void)
  * Validates and modifies configuration entries if necessary
  * to a valid or default value
  ******************************************************************************/
-static void validate_new_configuration_value(uint8_t *request_data, IPAS_config_keys_enum_t nvm_key)
+static void validate_new_configuration_value(uint8_t *request_data,
+                                             IPAS_config_keys_enum_t nvm_key)
 {
   if (nvm_key == IPAS_config_key_reportingInterval) {
     uint16_t temp_reporting_interval;
-    memcpy(&temp_reporting_interval, request_data, sizeof(IPAS_config_data.reporting_interval));
+    memcpy(&temp_reporting_interval,
+           request_data,
+           sizeof(IPAS_config_data.reporting_interval));
 
-    // Ensure that the reporting interval leaves enough time to calculate a position before triggered again
-    // Invalid (less than required) values will be replaced with the minimum reporting interval in the application and in the GATT database also
+    // Ensure that the reporting interval leaves enough time to calculate a
+    //   position before triggered again
+    // Invalid (less than required) values will be replaced with the minimum
+    //   reporting interval in the application and in the GATT database also
     if (temp_reporting_interval < MINIMUM_REPORTING_INTERVAL) {
       temp_reporting_interval = MINIMUM_REPORTING_INTERVAL;
-      memcpy(request_data, &temp_reporting_interval, sizeof(temp_reporting_interval));
+      memcpy(request_data,
+             &temp_reporting_interval,
+             sizeof(temp_reporting_interval));
     }
   }
 }
@@ -732,22 +840,24 @@ static void validate_new_configuration_value(uint8_t *request_data, IPAS_config_
  ******************************************************************************/
 static void oled_init(void)
 {
-  // Initialize the display
-  glib_init();
-
-  glib_context.backgroundColor = Black;
-  glib_context.foregroundColor = White;
+  ssd1306_init(sl_i2cspm_qwiic);
+  glib_init(&glib_context);
 
   // Fill lcd with background color
   glib_clear(&glib_context);
 
-  // Use Narrow font
-  glib_set_font(&glib_context, (glib_font_t*) &glib_font_6x8);
-
-  glib_draw_string(&glib_context, "IP Asset", 0, 02);
-  glib_draw_string(&glib_context, "Waiting", 0, 12);
-  glib_draw_string(&glib_context, "for", 20, 22);
-  glib_draw_string(&glib_context, "gateways", 0, 32);
+  glib_draw_string(&glib_context,
+                   "IP Asset",
+                   0, 2);
+  glib_draw_string(&glib_context,
+                   "Waiting",
+                   0, 12);
+  glib_draw_string(&glib_context,
+                   "for",
+                   20, 22);
+  glib_draw_string(&glib_context,
+                   "gateways",
+                   0, 32);
   glib_update_display();
 }
 
@@ -759,8 +869,14 @@ static void oled_display_config(void)
   char network_uid[12];
   char report_interval[12];
 
-  sprintf(network_uid, "UID:%ld", IPAS_config_data.network_UID);
-  sprintf(report_interval, "int:%d", IPAS_config_data.reporting_interval);
+  snprintf(network_uid,
+           sizeof(network_uid),
+           "UID:%ld",
+           IPAS_config_data.network_UID);
+  snprintf(report_interval,
+           sizeof(report_interval),
+           "int:%d",
+           IPAS_config_data.reporting_interval);
 
   /* Fill oled with background color */
   glib_clear(&glib_context);
@@ -808,13 +924,12 @@ static void oled_display_service_unavailable(void)
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * Indoor Positioning related BT event handler
- *******************************************************************************/
+* Indoor Positioning related BT event handler
+*******************************************************************************/
 void IPAS_event_handler(sl_bt_msg_t *evt)
 {
   static const char gateway_name_prefix[5] = { 'I', 'P', 'G', 'W', '_' };
   sl_status_t sc;
-  uint8_t request_data[4] = { 0 };
   bd_addr address;
   uint8_t address_type;
   uint8_t system_id[8];
@@ -837,11 +952,18 @@ void IPAS_event_handler(sl_bt_msg_t *evt)
       system_id[6] = address.addr[1];
       system_id[7] = address.addr[0];
 
-      sc = sl_bt_gatt_server_write_attribute_value(gattdb_system_id, 0, sizeof(system_id), system_id);
+      sc = sl_bt_gatt_server_write_attribute_value(gattdb_system_id,
+                                                   0,
+                                                   sizeof(system_id),
+                                                   system_id);
       app_assert_status(sc);
 
       // Create device name string
-      sprintf(IPAS_config_data.device_name, "IPAS_%.2X%.2X", address.addr[5], address.addr[4]);
+      snprintf(IPAS_config_data.device_name,
+               sizeof(IPAS_config_data.device_name),
+               "IPAS_%.2X%.2X",
+               address.addr[5],
+               address.addr[4]);
       app_log("Device unique name: %s\n", IPAS_config_data.device_name);
 
       // Enable pairing
@@ -852,62 +974,92 @@ void IPAS_event_handler(sl_bt_msg_t *evt)
       break;
 
     case sl_bt_evt_connection_opened_id:
-      sc = sl_bt_sm_increase_security(evt->data.evt_connection_opened.connection);
+      sc =
+        sl_bt_sm_increase_security(evt->data.evt_connection_opened.connection);
       app_assert_status(sc);
       break;
 
     case sl_bt_evt_sm_bonding_failed_id:
-      app_log("Bonding failed, reason: 0x%2X\r\n", evt->data.evt_sm_bonding_failed.reason);
-      // Previous bond is broken, delete it and close connection, host must retry at least once
+      app_log("Bonding failed, reason: 0x%2X\r\n",
+              evt->data.evt_sm_bonding_failed.reason);
+      // Previous bond is broken, delete it and close connection, host must
+      //   retry at least once
       sl_bt_sm_delete_bondings();
       break;
 
     case sl_bt_evt_gatt_server_attribute_value_id:
-      app_log("Configuration updated\n");
+      if (evt->data.evt_gatt_server_attribute_value.value.len <= 4) {
+        uint8_t request_data[evt->data.evt_gatt_server_attribute_value.value.len
+        ];
 
-      // Get GATT database ID of the updated value
-      switch (evt->data.evt_gatt_server_attribute_value.attribute) {
-        case gattdb_NetworkUID:
-          nvm_key = IPAS_config_key_network_UID;
-          break;
-        case gattdb_ReportingInterval:
-          nvm_key = IPAS_config_key_reportingInterval;
-          break;
+        app_log("Configuration updated\n");
+
+        // Get GATT database ID of the updated value
+        switch (evt->data.evt_gatt_server_attribute_value.attribute) {
+          case gattdb_NetworkUID:
+            nvm_key = IPAS_config_key_network_UID;
+            break;
+          case gattdb_ReportingInterval:
+            nvm_key = IPAS_config_key_reportingInterval;
+            break;
+        }
+
+        // Copy received raw data into a byte array
+        memcpy(request_data,
+               evt->data.evt_gatt_server_attribute_value.value.data,
+               evt->data.evt_gatt_server_attribute_value.value.len);
+
+        // Check if the new configuration value is valid if necessary
+        validate_new_configuration_value(request_data, nvm_key);
+
+        // Store new GATT entry value
+        nvm3_writeData(nvm3_defaultHandle,
+                       nvm_key,
+                       request_data,
+                       evt->data.evt_gatt_server_attribute_value.value.len);
+
+        // Refresh locally stored configuration so GATT database and local
+        //   configuration is synchronized
+        update_local_config();
+
+        // Reset configuration mode timeout
+        sc = sl_sleeptimer_restart_timer_ms(&IP_config_mode_timeout_timer,
+                                            CONFIG_MODE_TIMEOUT_MS,
+                                            config_mode_timeout_cb,
+                                            (void *) NULL,
+                                            0,
+                                            0);
+        app_assert_status(sc);
       }
-
-      // Copy received raw data into a byte array
-      memcpy(request_data, evt->data.evt_gatt_server_attribute_value.value.data, evt->data.evt_gatt_server_attribute_value.value.len);
-
-      // Check if the new configuration value is valid if necessary
-      validate_new_configuration_value(request_data, nvm_key);
-
-      // Store new GATT entry value
-      nvm3_writeData(nvm3_defaultHandle, nvm_key, request_data, evt->data.evt_gatt_server_attribute_value.value.len);
-
-      // Refresh locally stored configuration so GATT database and local configuration is synchronized
-      update_local_config();
-
-      // Reset configuration mode timeout
-      sc = sl_sleeptimer_restart_timer_ms(&IP_config_mode_timeout_timer,
-                                          CONFIG_MODE_TIMEOUT_MS,
-                                          config_mode_timeout_cb,
-                                          (void*) NULL,
-                                          0,
-                                          0);
-      app_assert_status(sc);
-
       break;
     case sl_bt_evt_scanner_scan_report_id:
-      //Check for network UID in the beginning of data field. First 6 bytes are flags and company ID. Data field starts at index 7.
-      //Check for device name also which starts at the index of 24. Gateways' device name start with "IPGW_" prefix
-      if (0
-          == memcmp(&IPAS_config_data.network_UID, &evt->data.evt_scanner_scan_report.data.data[GW_DATA_INDEX_NET_ID], sizeof(IPAS_config_data.network_UID))
-          && 0 == memcmp(&gateway_name_prefix, &evt->data.evt_scanner_scan_report.data.data[GW_DATA_INDEX_DEV_NAME], sizeof(gateway_name_prefix))) {
-        if (!IP_gateway_finding_finished) {
-          create_gateway_storage_entry(evt->data.evt_scanner_scan_report.data.data);
-        }
-        else {
-          store_gateway_rssi(&evt->data.evt_scanner_scan_report);
+      if ((evt->data.evt_scanner_scan_report.data.len <= 31)
+          && ((sizeof(IPAS_config_data.network_UID) + GW_DATA_INDEX_NET_ID)
+              < evt->data.evt_scanner_scan_report.data.len)
+          && ((sizeof(gateway_name_prefix) + GW_DATA_INDEX_DEV_NAME)
+              < evt->data.evt_scanner_scan_report.data.len)) {
+        uint8_t scan_data[evt->data.evt_scanner_scan_report.data.len];
+
+        memcpy(scan_data,
+               evt->data.evt_scanner_scan_report.data.data,
+               evt->data.evt_scanner_scan_report.data.len);
+        // Check for network UID in the beginning of data field. First 6 bytes
+        //   are
+        //   flags and company ID. Data field starts at index 7.
+        // Check for device name also which starts at the index of 24. Gateways'
+        //   device name start with "IPGW_" prefix
+        if ((0 == memcmp(&IPAS_config_data.network_UID,
+                         &scan_data[GW_DATA_INDEX_NET_ID],
+                         sizeof(IPAS_config_data.network_UID)))
+            && (0 == memcmp(&gateway_name_prefix,
+                            &scan_data[GW_DATA_INDEX_DEV_NAME],
+                            sizeof(gateway_name_prefix)))) {
+          if (!IP_gateway_finding_finished) {
+            create_gateway_storage_entry(
+              evt->data.evt_scanner_scan_report.data.data);
+          } else {
+            store_gateway_rssi(&evt->data.evt_scanner_scan_report);
+          }
         }
       }
       break;

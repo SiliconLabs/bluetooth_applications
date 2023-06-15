@@ -74,8 +74,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // -------------------------------
     // This event indicates that a connection was closed.
     case sl_bt_evt_connection_closed_id:
-    break;
-
+      break;
 
     // -------------------------------
     // Default event handler.

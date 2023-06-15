@@ -47,10 +47,10 @@
 #include "nvm3_hal_flash.h"
 #include "sl_simple_button_instances.h"
 
-#define CONFIG_MODE_TIMEOUT_MS		    (120000) // 2 minutes
-#define COMPANY_ID			            (0x0047)
-#define ROOM_NAME_LENGTH                (10)
-#define DEVICENAME_LENGTH 		        (9)
+#define CONFIG_MODE_TIMEOUT_MS          (120000) // 2 minutes
+#define COMPANY_ID                      (0x0047)
+#define ROOM_NAME_LENGTH                (7)
+#define DEVICENAME_LENGTH               (9)
 
 /***************************************************************************//**
  * @brief
@@ -68,19 +68,22 @@ typedef struct
   uint8_t company_LO;
   uint8_t company_HI;
 
-  // The next bytes are freely configurable - using one byte for counter value and one byte for last button press
+  // The next bytes are freely configurable - using one byte for counter value
+  //   and one byte for last button press
   uint32_t network_Uid;
   uint16_t room_id;
   char     room_name[ROOM_NAME_LENGTH];
 
-  // NAME_MAX_LENGTH must be sized so that total length of data does not exceed 31 bytes
-  char name[DEVICENAME_LENGTH];
-
-  // length of the name AD element is variable, adding it last to keep things simple
+  // length of the name AD element is variable
   uint8_t len_name;
   uint8_t type_name;
 
-  // These values are NOT included in the actual advertising payload, just for bookkeeping
+  // NAME_MAX_LENGTH must be sized so that total length of data does not exceed
+  //   31 bytes
+  char name[DEVICENAME_LENGTH];
+
+  // These values are NOT included in the actual advertising payload, just for
+  //   bookkeeping
   char dummy;        // Space for null terminator
   uint8_t data_size; // Actual length of advertising data
 }__attribute__((__packed__))  custom_advert_t;
@@ -91,10 +94,10 @@ typedef struct
  ******************************************************************************/
 typedef struct
 {
-  char room_name[ROOM_NAME_LENGTH];
+  char room_name[ROOM_NAME_LENGTH + 1];
   uint32_t network_Uid;
   uint16_t room_id;
-  char device_name[DEVICENAME_LENGTH];
+  char device_name[DEVICENAME_LENGTH + 1];
 }IPGW_config_data_t;
 
 /***************************************************************************//**
@@ -121,76 +124,80 @@ typedef enum IPGW_config_keys_enum
  * @brief
  * Creates custom advertising package
  *
- * @param[in] pData - Pointer to the struct holding the above mentioned asset data
+ * @param[in] pData - Pointer to the struct holding the above mentioned asset
+ *   data
  * @param[in] flags - advertisement flag
  * @param[in] companyID - Unique company ID
  * @param[in] name - Unique device name
  *
  * @note Creates custom advertising package with the following asset data:
- * 	 Network Unique ID
- * 	 Room ID
- * 	 Room Name
+ *       Network Unique ID
+ *       Room ID
+ *       Room Name
  *   Device name
  ******************************************************************************/
-void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_t companyID, char *name);
+void create_custom_advert_package(custom_advert_t *pData,
+                                  uint8_t flags,
+                                  uint16_t companyID,
+                                  char *name);
 
 /***************************************************************************//**
- * @brief
- * Initialize Indoor Positioning service
- *
- * @param[in] None
+* @brief
+* Initialize Indoor Positioning service
+*
+* @param[in] None
 *******************************************************************************/
 void IPGW_init(void);
 
 /***************************************************************************//**
- * @brief
- * Called periodically by the application
- * Handles periodic Indoor Positioning related tasks
+* @brief
+* Called periodically by the application
+* Handles periodic Indoor Positioning related tasks
 *******************************************************************************/
 void IPGW_step(void);
 
 /***************************************************************************//**
- * @brief
- * Enters Normal mode
- * Set up and start scanner
- * Set up and start advertisements
- *
- * @param[in] None
+* @brief
+* Enters Normal mode
+* Set up and start scanner
+* Set up and start advertisements
+*
+* @param[in] None
 *******************************************************************************/
 void enter_normal_mode(void);
 
 /***************************************************************************//**
- * @brief
- * Enters configuration mode
- * prints out current configuration parameters
- * set up and start advertisements
- * starts timeout timer
- *
- * @param[in] None
+* @brief
+* Enters configuration mode
+* prints out current configuration parameters
+* set up and start advertisements
+* starts timeout timer
+*
+* @param[in] None
 *******************************************************************************/
 void enter_config_mode(void);
 
 /***************************************************************************//**
- * @brief
- * Updates GATT database with values stored in NVM
- *
- * @param[in] None
+* @brief
+* Updates GATT database with values stored in NVM
+*
+* @param[in] None
 *******************************************************************************/
 void update_gatt_entries(void);
 
 /***************************************************************************//**
- * @brief
- * Loads configuration from Non-volatile memory
- *
- * @param[in] None
+* @brief
+* Loads configuration from Non-volatile memory
+*
+* @param[in] None
 *******************************************************************************/
 void update_local_config(void);
 
 /***************************************************************************//**
- * @brief
- * Indoor Positioning related BT event handler
- *
- * @param[in] - evt - bluetooth event data structure
+* @brief
+* Indoor Positioning related BT event handler
+*
+* @param[in] - evt - bluetooth event data structure
 *******************************************************************************/
 void IPGW_event_handler(sl_bt_msg_t *evt);
 
@@ -201,6 +208,5 @@ void IPGW_event_handler(sl_bt_msg_t *evt);
  * @param[in] None
  ******************************************************************************/
 void config_mode_timeout_cb();
-
 
 #endif /* INDOOR_POSITIONING_H_ */

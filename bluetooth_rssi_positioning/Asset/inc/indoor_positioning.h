@@ -75,25 +75,32 @@ extern "C" {
 // -----------------------------------------------------------------------------
 //                              Macros and Typedefs
 // -----------------------------------------------------------------------------
-#define CONFIG_MODE_TIMEOUT_MS          (120000)                                    // 2 minutes
-#define GATEWAY_FINDER_TIMEOUT_MS       (5000)                                      // 5 seconds
-#define MINIMUM_REPORTING_INTERVAL      ((GATEWAY_FINDER_TIMEOUT_MS / 1000) + 3)    // 3seconds after the gateway finding finished
+// 2 minutes
+#define CONFIG_MODE_TIMEOUT_MS          (120000)
+
+// 5 seconds
+#define GATEWAY_FINDER_TIMEOUT_MS       (5000)
+
+// 3seconds after the gateway finding finished
+#define MINIMUM_REPORTING_INTERVAL      ((GATEWAY_FINDER_TIMEOUT_MS / 1000) + 3)
+
 #define COMPANY_ID                      (0x0047)
 #define DEVICENAME_LENGTH               (9)
-#define ROOM_NAME_LENGTH                (10)
+#define ROOM_NAME_LENGTH                (7)
 #define REQUIRED_NUM_OF_RSSI_SAMPLES    (10)
 
 #define GW_DATA_INDEX_NET_ID            (7)
 #define GW_DATA_INDEX_ROOM_ID           (11)
 #define GW_DATA_INDEX_ROOM_NAME         (13)
-#define GW_DATA_INDEX_DEV_NAME          (23)
+#define GW_DATA_INDEX_DEV_NAME          (22)
+
 /***************************************************************************//**
  * @brief
  *    struct typedef containing necessary gateway related info
  ******************************************************************************/
 typedef struct {
-  char device_name[DEVICENAME_LENGTH];
-  char room_name[ROOM_NAME_LENGTH];
+  char device_name[DEVICENAME_LENGTH + 1];
+  char room_name[ROOM_NAME_LENGTH + 1];
   int8_t rssi[REQUIRED_NUM_OF_RSSI_SAMPLES];
   float rssi_filtered;
   uint32_t network_UID;
@@ -118,19 +125,22 @@ typedef struct {
   uint8_t company_LO;
   uint8_t company_HI;
 
-  // The next bytes are freely configurable - using one byte for counter value and one byte for last button press
+  // The next bytes are freely configurable - using one byte for counter value
+  //   and one byte for last button press
   uint32_t network_UID;
   uint16_t room_id;
   char room_name[ROOM_NAME_LENGTH];
 
-  // NAME_MAX_LENGTH must be sized so that total length of data does not exceed 31 bytes
-  char name[DEVICENAME_LENGTH];
-
-  // length of the name AD element is variable, adding it last to keep things simple
+  // length of the name AD element is variable
   uint8_t len_name;
   uint8_t type_name;
 
-  // These values are NOT included in the actual advertising payload, just for bookkeeping
+  // NAME_MAX_LENGTH must be sized so that total length of data does not exceed
+  //   31 bytes
+  char name[DEVICENAME_LENGTH];
+
+  // These values are NOT included in the actual advertising payload, just for
+  //   bookkeeping
   char dummy;        // Space for null terminator
   uint8_t data_size; // Actual length of advertising data
 } __attribute__((__packed__)) custom_advert_t;
@@ -140,7 +150,7 @@ typedef struct {
  *    Indoor Positioning - Asset related configuration struct typedef
  ******************************************************************************/
 typedef struct {
-  char device_name[DEVICENAME_LENGTH];
+  char device_name[DEVICENAME_LENGTH + 1];
   uint32_t network_UID;
   uint16_t reporting_interval;
 } IPAS_config_data_t;
@@ -150,7 +160,8 @@ typedef struct {
  *    enumeration for keys used for the Non-volatile memory storage
  ******************************************************************************/
 typedef enum IPAS_config_keys_enum {
-  IPAS_config_key_network_UID = 1, IPAS_config_key_reportingInterval, IPAS_config_num_of_keys
+  IPAS_config_key_network_UID = 1, IPAS_config_key_reportingInterval,
+  IPAS_config_num_of_keys
 } IPAS_config_keys_enum_t;
 
 // -----------------------------------------------------------------------------
@@ -162,34 +173,40 @@ typedef enum IPAS_config_keys_enum {
 // -----------------------------------------------------------------------------
 
 /***************************************************************************//**
- * @brief Checks if Indoor positioning is possible or not
- *
- * @param[in] None
- *
- * @return Returns true if minimal number of RSSI measurements for all required gateways are available
- *******************************************************************************/
+* @brief Checks if Indoor positioning is possible or not
+*
+* @param[in] None
+*
+* @return Returns true if minimal number of RSSI measurements for all required
+*   gateways are available
+*******************************************************************************/
 bool indoor_positioning_service_available(void);
 
 /***************************************************************************//**
  * @brief
  * Creates custom advertising package
  *
- * @param[in] pData - Pointer to the struct holding the above mentioned asset data
+ * @param[in] pData - Pointer to the struct holding the above mentioned asset
+ *   data
  * @param[in] flags - advertisement flag
  * @param[in] companyID - Unique company ID
  * @param[in] name - Unique device name
  *
  * @note Creates custom advertising package with the following asset data:
- * 	 Network Unique ID
- * 	 Room ID
- * 	 Room Name
- * 	 Device Name
+ *       Network Unique ID
+ *       Room ID
+ *       Room Name
+ *       Device Name
  ******************************************************************************/
-void create_custom_advert_package(custom_advert_t *pData, uint8_t flags, uint16_t companyID, char *name);
+void create_custom_advert_package(custom_advert_t *pData,
+                                  uint8_t flags,
+                                  uint16_t companyID,
+                                  char *name);
 
 /***************************************************************************//**
  * @brief
- * Creates an entry in the stored gateways array if the gateway is not yet stored
+ * Creates an entry in the stored gateways array if the gateway is not yet
+ *   stored
  *
  * @param[in] data - Pointer to the gateway data
  ******************************************************************************/
@@ -204,151 +221,152 @@ void create_gateway_storage_entry(uint8_t *data);
 void store_gateway_rssi(sl_bt_evt_scanner_scan_report_t *scan_report);
 
 /***************************************************************************//**
- * @brief
- * Clears stored gateway data
- *
- * @param[in] None
- *
- * @note Usually called after an unsuccessful attempt at indoor positioning
- *******************************************************************************/
+* @brief
+* Clears stored gateway data
+*
+* @param[in] None
+*
+* @note Usually called after an unsuccessful attempt at indoor positioning
+*******************************************************************************/
 void clear_gateways(void);
 
 /***************************************************************************//**
- * @brief
- * Initialize Indoor Positioning service
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Initialize Indoor Positioning service
+*
+* @param[in] None
+*******************************************************************************/
 void IPAS_init(void);
 
 /***************************************************************************//**
- * @brief
- * Called periodically by the application
- * Handles periodic Indoor Positioning related tasks
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Called periodically by the application
+* Handles periodic Indoor Positioning related tasks
+*
+* @param[in] None
+*******************************************************************************/
 void IPAS_step(void);
 
 /***************************************************************************//**
- * @brief
- * Enables Indoor Positioning service
- * Starts a periodic timer to calculate position. Period set by configuration
- *
- * @param[in] None
- *
- * @note Must be called after IPAS_Init
- *******************************************************************************/
+* @brief
+* Enables Indoor Positioning service
+* Starts a periodic timer to calculate position. Period set by configuration
+*
+* @param[in] None
+*
+* @note Must be called after IPAS_Init
+*******************************************************************************/
 void IPAS_enable_service(void);
 
 /***************************************************************************//**
- * @brief
- * Disabled Indoor Positioning service
- * Stops the periodic timer which triggers the indoor positioning
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Disabled Indoor Positioning service
+* Stops the periodic timer which triggers the indoor positioning
+*
+* @param[in] None
+*******************************************************************************/
 void IPAS_disable_service(void);
 
 /***************************************************************************//**
- * @brief
- * Enters configuration mode
- * prints out current configuration parameters
- * set up and start advertisements
- * starts timeout timer
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Enters configuration mode
+* prints out current configuration parameters
+* set up and start advertisements
+* starts timeout timer
+*
+* @param[in] None
+*******************************************************************************/
 void enter_config_mode(void);
 
 /***************************************************************************//**
- * @brief
- * Enters Normal mode
- * Set up and start scanner
- * Set up and start advertisements
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Enters Normal mode
+* Set up and start scanner
+* Set up and start advertisements
+*
+* @param[in] None
+*******************************************************************************/
 void enter_normal_mode(void);
 
 /***************************************************************************//**
- * @brief
- * re-initializes internal indoor positioning related data
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* re-initializes internal indoor positioning related data
+*
+* @param[in] None
+*******************************************************************************/
 void init_position_calculator(void);
 
 /***************************************************************************//**
- * @brief
- * Called periodically - calculates position of the asset
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Called periodically - calculates position of the asset
+*
+* @param[in] None
+*******************************************************************************/
 void calculate_position(void);
 
 /***************************************************************************//**
- * @brief
- * Pre-filters RSSI measurements
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Pre-filters RSSI measurements
+*
+* @param[in] None
+*******************************************************************************/
 void distance_pre_filtering(void);
 
 /***************************************************************************//**
- * @brief
- * Based on the filtered RSSI of the gateways, the closest room is selected
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Based on the filtered RSSI of the gateways, the closest room is selected
+*
+* @param[in] None
+*******************************************************************************/
 void find_closest_room(void);
 
 /***************************************************************************//**
- * @brief
- * Resets Indoor Positioning flags
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Resets Indoor Positioning flags
+*
+* @param[in] None
+*******************************************************************************/
 void reset_IP_state(void);
 
 /***************************************************************************//**
- * @brief
- * Sets up and starts advertisement about asset's position
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Sets up and starts advertisement about asset's position
+*
+* @param[in] None
+*******************************************************************************/
 void start_position_advertisement(void);
 
 /***************************************************************************//**
- * @brief
- * Resets RSSI measurement related counters, values and flags - called after calculations are done
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Resets RSSI measurement related counters, values and flags - called after
+*   calculations are done
+*
+* @param[in] None
+*******************************************************************************/
 void reset_gateway_data(void);
 
 /***************************************************************************//**
- * @brief
- *Loads configuration from Non-volatile memory
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Loads configuration from Non-volatile memory
+*
+* @param[in] None
+*******************************************************************************/
 void update_local_config(void);
 
 /***************************************************************************//**
- * @brief
- * Updates GATT database with values stored in NVM
- *
- * @param[in] None
- *******************************************************************************/
+* @brief
+* Updates GATT database with values stored in NVM
+*
+* @param[in] None
+*******************************************************************************/
 void update_gatt_entries(void);
 
 /***************************************************************************//**
- * @brief
- * Indoor Positioning related BT event handler
- *
- * @param[in] - evt - bluetooth event data structure
- *******************************************************************************/
+* @brief
+* Indoor Positioning related BT event handler
+*
+* @param[in] - evt - bluetooth event data structure
+*******************************************************************************/
 void IPAS_event_handler(sl_bt_msg_t *evt);
 
 /***************************************************************************//**

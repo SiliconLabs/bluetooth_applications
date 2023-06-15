@@ -1,0 +1,112 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_indoor_positioning_asset
+label: RSSI Positioning - Asset
+description: |
+  Bluetooth RSSI Positioning - Asset is an application intended to showcase a room finder or asset locator service using the BLE stack on Silicon Laboratories development kits.
+category: Example|Bluetooth
+package: Bluetooth
+quality: experimental
+readme:
+- path: ../../README.md
+source:
+- path: ../src/main.c
+- path: ../src/app.c
+- path: ../src/indoor_positioning.c
+include:
+- path: ../inc
+  file_list:
+  - path: app.h
+  - path: indoor_positioning.h
+component:
+- id: bluetooth_feature_nvm
+- id: simple_button
+  instance: [btn0]
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: mpu
+- id: gatt_configuration
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt
+- id: app_log
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_advertiser
+- id: bluetooth_feature_legacy_advertiser
+- id: iostream_usart
+  instance: [vcom]
+- id: bluetooth_feature_system
+- id: bluetooth_feature_scanner
+- id: i2cspm
+  instance: [qwiic]
+- id: component_catalog
+- id: app_assert
+- id: services_oled_glib
+  from: third_party_hw_drivers
+- id: sparkfun_micro_oled_ssd1306
+  from: third_party_hw_drivers
+sdk_extension:
+- id: third_party_hw_drivers
+  version: 1.3.0
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+  - path: "../config/brd2601b/sl_i2cspm_qwiic_config.h"
+    condition: [brd2601b]
+    override:
+      component: i2cspm
+      file_id: i2cspm_config
+      instance: qwiic
+  - path: "../config/brd2704a/sl_simple_button_btn0_config.h"
+    condition: [brd2704a]
+    override:
+      component: simple_button
+      file_id: simple_button_config
+      instance: btn0
+other_file:
+- path: ../../images/asset_block.png
+  directory: "images"
+- path: ../../images/asset_hw.png
+  directory: "images"
+- path: ../../images/browser_asset.png
+  directory: "images"
+- path: ../../images/browser_gw.png
+  directory: "images"
+- path: ../../images/config_options_asset.png
+  directory: "images"
+- path: ../../images/config_options_gw.png
+  directory: "images"
+- path: ../../images/configmode_asset.png
+  directory: "images"
+- path: ../../images/configmode_flow.png
+  directory: "images"
+- path: ../../images/create_project.png
+  directory: "images"
+- path: ../../images/indoor_pos_service.png
+  directory: "images"
+- path: ../../images/initialization.png
+  directory: "images"
+- path: ../../images/logs_asset.PNG
+  directory: "images"
+- path: ../../images/logs_config_asset.PNG
+  directory: "images"
+- path: ../../images/room_finder.png
+  directory: "images"
+- path: ../../images/room_found_oled.png
+  directory: "images"
+- path: ../../images/system_overview.png
+  directory: "images"
+- path: ../../images/waiting_for_gws_oled.png
+  directory: "images"
+configuration:
+- {name: SL_STACK_SIZE, value: '2752'}
+- {name: SL_HEAP_SIZE, value: '9200'}
+- condition: [psa_crypto]
+  name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+ui_hints:
+  highlight:
+    - path: README.md
+      focus: true
+

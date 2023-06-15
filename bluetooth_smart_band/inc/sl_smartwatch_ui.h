@@ -10,7 +10,7 @@
  *
  * The licensor of this software is Silicon Laboratories Inc.
  *
- * This software is provided 'as-is', without any express or implied
+ * This software is provided \'as-is\', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
  * arising from the use of this software.
  *
@@ -26,6 +26,12 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 
 #ifndef SL_SMARTWATCH_UI_H
@@ -38,7 +44,7 @@
 
 #if defined(SMARTWATCH_UI_LOG_ENABLE) && SMARTWATCH_UI_LOG_ENABLE
 #define LOG(...) app_log_info(__VA_ARGS__)
-#define LOGLN() app_log_nl()
+#define LOGLN()  app_log_nl()
 #else // SMARTWATCH_UI_LOG_ENABLE
 #define LOG(...)
 #define LOGLN()
@@ -58,7 +64,6 @@ void sl_smartwatch_ui_update(void);
  *  Clears entire screen
  *****************************************************************************/
 void sl_smartwatch_ui_clear_screen(void);
-
 
 /**************************************************************************//**
  *  Returns the number of rows it will take to print given number of characters
@@ -85,11 +90,14 @@ void sl_smartwatch_ui_print_text_wrapped(char *data);
  *  track of last printed row.
  *
  *  @param[in] data  A pointer to the character array to be printed.
- *  @param[in] xOffset The number of pixels to shift on the X axis. Positive values prints the string shifted towards right and negative values towards left.
- *  @param[in] yOffset The number of pixels to shift on the Y axis. Positive values prints the string shifted downwards and negative values upwards.
+ *  @param[in] xOffset The number of pixels to shift on the X axis. Positive
+ *   values prints the string shifted towards right and negative values towards
+ *   left.
+ *  @param[in] yOffset The number of pixels to shift on the Y axis. Positive
+ *   values prints the string shifted downwards and negative values upwards.
  *****************************************************************************/
 void sl_smartwatch_ui_print_text_with_offset(char *data, int16_t xOffset,
-    int16_t yOffset);
+                                             int16_t yOffset);
 
 /**************************************************************************//**
  *  Clears the screen and prints time on line zero and date on line one

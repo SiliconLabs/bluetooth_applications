@@ -41,7 +41,11 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 18 | Bluetooth - Container Level Detection (VL53L1X)| [Click Here](./bluetooth_container_level_detection) |
 | 19 | Bluetooth - EM4 Energy Mode in iBeacon Application | [Click Here](./bluetooth_em4_energy_mode_ibeacon/) |
 | 20 | Bluetooth - Thermometer Example With EFR32 Internal Temperature Sensor | [Click Here](./bluetooth_thermometer_with_efr32_internal_temperature_sensor) |
-
+| 21 | Bluetooth - Accelerometer (BMA400) - I2C | [Click Here](./bluetooth_accelerometer_bma400) |
+| 22 | Bluetooth - Accelerometer (BMA400) - SPI | [Click Here](./bluetooth_accelerometer_bma400) |
+| 23 | Bluetooth - Smart Band Application | [Click Here](./bluetooth_smart_band) |
+| 24 | Bluetooth - Secure Attestation | [Click Here](./bluetooth_secure_attestation) |
+| 25 | Bluetooth - RSSI based room finding | [Click Here](./bluetooth_rssi_positioning) |
 
 ## Requirements ##
 

@@ -1,0 +1,126 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_operation_time_measurement_client
+label: Bluetooth - Operation Time Measurement (BMA400) - Client  
+description: |
+  This project proposes the development of an application that uses the Silabs BG22 Bluetooth SoC Explorer Kits and Mikroe ACCEL 5 CLICK board and Adafruit IS31FL3741 components to monitor the operation time of machineries and display the information graphically. The application will use BLE for wireless communication between the devices.
+category: Bluetooth Examples
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Advanced]
+- name: Wireless Technology
+  value: [Bluetooth]
+package: Bluetooth
+quality: experimental
+readme:
+- path: ../../README.md
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: client_nvm.h
+      - path: client_rgb.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/client_nvm.c
+  - path: ../src/client_rgb.c
+
+component:
+- id: simple_button
+  instance: [btn0]
+- id: iostream_usart
+  instance: [vcom] 
+- id: i2cspm
+  instance: [qwiic] 
+- id: adafruit_rgb_led_is31fl3741
+  from: third_party_hw_drivers
+- id: services_oled_glib
+  from: third_party_hw_drivers
+- id: app_log
+- id: app_assert
+- id: mpu
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_legacy_scanner
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_system
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: bt_post_build
+- id: component_catalog
+config_file:    
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+  - override:
+      component: i2cspm
+      file_id: i2cspm_config
+      instance: qwiic
+      condition: [brd2601b]
+    path: ../config/brd2601b/sl_i2cspm_qwiic_config.h
+  - override:
+      component: simple_button
+      file_id: simple_button_config
+      instance: btn0
+      condition: [brd2704a]
+    path: "../config/sl_simple_button_btn0_config.h" 
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 1.3.0
+other_file:
+  - path: ../../images/create_project.png
+    directory: images
+  - path: ../../images/external_repo.png
+    directory: images
+  - path: ../../images/overview.png
+    directory: images
+  - path: ../../images/rgb_led_config.png
+    directory: images
+  - path: ../../images/sensor_init.png
+    directory: images
+  - path: ../../images/sensor_overview.png
+    directory: images
+  - path: ../../images/sensor_runtime.png
+    directory: images
+  - path: ../../images/client_ble_notify.png
+    directory: images
+  - path: ../../images/client_config.png
+    directory: images
+  - path: ../../images/client_init.png
+    directory: images
+  - path: ../../images/client_normal.png
+    directory: images
+  - path: ../../images/client_overview.png
+    directory: images
+  - path: ../../images/client_log_config.png
+    directory: images
+  - path: ../../images/client_log.png
+    directory: images
+  - path: ../../images/sensor_log.png
+    directory: images  
+  - path: ../../images/app_phone.png
+    directory: images
+
+configuration:
+- name: SL_STACK_SIZE 
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+  condition: psa_crypto
+tag: hardware:rf:band:2400
+ui_hints:
+  highlight:
+  - path: README.md
+    focus: true
+  - path: ../config/btconf/gatt_configuration.btconf
+  

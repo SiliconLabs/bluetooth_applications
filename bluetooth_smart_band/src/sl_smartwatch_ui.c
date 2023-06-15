@@ -10,7 +10,7 @@
  *
  * The licensor of this software is Silicon Laboratories Inc.
  *
- * This software is provided 'as-is', without any express or implied
+ * This software is provided \'as-is\', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
  * arising from the use of this software.
  *
@@ -26,9 +26,15 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 
-#include <string.h>
+#include <sl_string.h>
 #include <stdio.h>
 #include "em_types.h"
 #include "glib.h"
@@ -76,7 +82,7 @@ static void clear_row(int16_t row)
   rect.yMax = rect.yMin + row_height - ROW_OFFSET - 1;
 
   status = GLIB_setClippingRegion(&glibContext,
-      (const GLIB_Rectangle_t*) &rect);
+                                  (const GLIB_Rectangle_t *) &rect);
   app_assert(DMD_OK == status, "Failed to set clipping region\n");
   status = GLIB_clearRegion(&glibContext);
   app_assert(DMD_OK == status, "Failed to clear clipping region\n");
@@ -111,14 +117,14 @@ static void write_row_wrapped(char *str, int16_t row)
   row_to_print--;
 
   uint8_t max_char_row = (uint8_t) ((SL_MEMLCD_DISPLAY_WIDTH - COL_OFFSET)
-      / col_width);
+                                    / col_width);
 
   LOG("printing on display:\n");
   // Loops through the string and prints char for char
-  for (uint32_t stringIndex = 0; stringIndex < strlen(str); stringIndex++) {
+  for (uint32_t stringIndex = 0; stringIndex < sl_strlen(str); stringIndex++) {
     if (str[stringIndex] == '\n') {
       characters_printed = characters_printed
-          - (characters_printed % max_char_row) + max_char_row;
+                           - (characters_printed % max_char_row) + max_char_row;
       continue;
     } else if (characters_printed % max_char_row == 0) {
       row++;
@@ -133,7 +139,7 @@ static void write_row_wrapped(char *str, int16_t row)
       continue;
     } else {
       app_assert(status <= GLIB_ERROR_NOTHING_TO_DRAW,
-          "Failed to draw character\n");
+                 "Failed to draw character\n");
       characters_printed++;
     }
     x += col_width;
@@ -145,15 +151,19 @@ static void write_row_wrapped(char *str, int16_t row)
 }
 
 /**************************************************************************//**
- *  private function to print wrapped string on the display shifted on X and Y axis.
+ *  private function to print wrapped string on the display shifted on X and Y
+ *   axis.
  *
  *  @param[in]   str  A pointer to the character array to be printed.
  *  @param[in]  row The row number to be printed on
- *  @param[in]   xOffset The number of pixels to shift on the X axis. Positive values prints the string shifted towards right and negative values towards left.
- *  @param[in]   yOffset The number of pixels to shift on the Y axis. Positive values prints the string shifted downwards and negative values upwards.
+ *  @param[in]   xOffset The number of pixels to shift on the X axis. Positive
+ *   values prints the string shifted towards right and negative values towards
+ *   left.
+ *  @param[in]   yOffset The number of pixels to shift on the Y axis. Positive
+ *   values prints the string shifted downwards and negative values upwards.
  *****************************************************************************/
 static void write_row_with_offset(char *str, int16_t row, int16_t xOffset,
-    int16_t yOffset)
+                                  int16_t yOffset)
 {
   EMSTATUS status;
   int32_t x, y, x0, y0;
@@ -185,14 +195,14 @@ static void write_row_with_offset(char *str, int16_t row, int16_t xOffset,
   row_to_print--;
 
   uint8_t max_char_row = (uint8_t) ((SL_MEMLCD_DISPLAY_WIDTH - COL_OFFSET)
-      / col_width);
+                                    / col_width);
 
   LOG("printing on display:\n");
   // Loops through the string and prints char for char
-  for (uint32_t stringIndex = 0; stringIndex < strlen(str); stringIndex++) {
+  for (uint32_t stringIndex = 0; stringIndex < sl_strlen(str); stringIndex++) {
     if (str[stringIndex] == '\n') {
       characters_printed = characters_printed
-          - (characters_printed % max_char_row) + max_char_row;
+                           - (characters_printed % max_char_row) + max_char_row;
       continue;
     } else if (characters_printed % max_char_row == 0) {
       row++;
@@ -208,7 +218,7 @@ static void write_row_with_offset(char *str, int16_t row, int16_t xOffset,
         continue;
       } else {
         app_assert(status <= GLIB_ERROR_NOTHING_TO_DRAW,
-            "Failed to draw character\n");
+                   "Failed to draw character\n");
         characters_printed++;
       }
     } else {
@@ -251,13 +261,14 @@ void sl_smartwatch_ui_init(void)
   status = sl_sensor_rht_init();
   app_assert(SL_STATUS_OK == status, "Error initializing the RHT sensor\n");
 
-  //setting global parameters for display configuration
+  // setting global parameters for display configuration
   max_rows_on_display = (uint8_t) (SL_MEMLCD_DISPLAY_HEIGHT
-      / (glibContext.font.fontHeight + glibContext.font.lineSpacing));
+                                   / (glibContext.font.fontHeight
+                                      + glibContext.font.lineSpacing));
   row_height = (uint8_t) (glibContext.font.fontHeight
-      + glibContext.font.lineSpacing);
+                          + glibContext.font.lineSpacing);
   col_width = (uint8_t) (glibContext.font.fontWidth
-      + glibContext.font.charSpacing);
+                         + glibContext.font.charSpacing);
 
   sl_smartwatch_ui_clear_screen();
   sl_smartwatch_ui_update();
@@ -321,7 +332,7 @@ void sl_smartwatch_ui_print_text_wrapped(char *data)
  *  track of last printed row.
  *****************************************************************************/
 void sl_smartwatch_ui_print_text_with_offset(char *data, int16_t xOffset,
-    int16_t yOffset)
+                                             int16_t yOffset)
 {
   clear_row(row_to_print);
   write_row_with_offset(data, row_to_print, xOffset, yOffset);
@@ -347,7 +358,7 @@ void sl_smartwatch_ui_print_time(char *data)
   LOG("printing time on display: ");
   LOGLN();
   // Loops through the string and prints character by character
-  for (uint32_t stringIndex = 0; stringIndex < strlen(data); stringIndex++) {
+  for (uint32_t stringIndex = 0; stringIndex < sl_strlen(data); stringIndex++) {
     if (data[stringIndex] == '\n') {
       x = x0;
       y = y + row_height;
@@ -357,7 +368,7 @@ void sl_smartwatch_ui_print_time(char *data)
     }
     status = GLIB_drawChar(&glibContext, data[stringIndex], x, y, opaque);
     app_assert(status <= GLIB_ERROR_NOTHING_TO_DRAW,
-        "Failed to draw character\n");
+               "Failed to draw character\n");
     x += (col_width);
   }
   LOG("%s", data);

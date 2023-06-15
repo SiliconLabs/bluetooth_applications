@@ -46,7 +46,7 @@ Note: Any other BLE capable device can be a client device, (e.g.: a simple mobil
 **NOTE:** The sensor device is able to run on all Silicon Labs boards while the client device should be used with the listed boards below:
 
 | Board ID | Description  |
-| ---------------------- | ------ |
+| -------- | ------------ |
 | BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
 | BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview) |
 | BRD4314A | [BGM220 Explorer Kit Board](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)   |
@@ -97,7 +97,7 @@ To test this application, you can either create a project based on an example pr
 2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing).
 
     - With **sensor** device: [bluetooth sensor device](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_dosimeter/bluetooth_dosimeter_sensor)
-    - With **client** device: [bluetooth client device](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_dosimeter/bluetooth_dosimeter_clientr)
+    - With **client** device: [bluetooth client device](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_dosimeter/bluetooth_dosimeter_client)
 
 3. Import the GATT configuration:
 
