@@ -1,5 +1,12 @@
 # Bluetooth - EM4 Energy Mode in iBeacon Application #
 
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=License&query=license&color=green)
+![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=SDK&query=sdk&color=green)
+![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_build_status.json)
+![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=Flash&query=flash&color=blue)
+![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=RAM&query=ram&color=blue)
 ## Overview ##
 
 This code example shows the use of sleep mode EM4 in a Bluetooth iBeacon Application. This example uses a Bluetooth iBeacon device, which operates in deep sleep mode EM4. When either the user interrupts the operation via a button, or the BURTC counter reaches the top value (15000 = 15 sec), the device exits from EM4 and advertises for 5 seconds before going back to EM4 again. BURTC counter resets every time the device exits from EM4.

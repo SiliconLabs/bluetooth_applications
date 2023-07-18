@@ -4,10 +4,8 @@
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_fir_sensor_mlx90632_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_fir_sensor_mlx90632_common.json&label=License&query=license&color=green)
 ![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_fir_sensor_mlx90632_common.json&label=SDK&query=sdk&color=green)
+[![Required board](https://img.shields.io/badge/Mikroe-IRTHERMO%203%20CLICK-green)](https://www.mikroe.com/ir-thermo-3-click)
 ![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_fir_sensor_mlx90632_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_fir_sensor_mlx90632_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_fir_sensor_mlx90632_common.json&label=RAM&query=ram&color=blue)
-[![GitHub](https://img.shields.io/badge/Mikroe-IRTHERMO%203%20CLICK-green)](https://www.mikroe.com/ir-thermo-3-click)
 
 ## Summary ##
 

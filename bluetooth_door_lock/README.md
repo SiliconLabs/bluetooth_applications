@@ -4,12 +4,12 @@
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_common.json&label=License&query=license&color=green)
 ![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_common.json&label=SDK&query=sdk&color=green)
-[![GitHub](https://img.shields.io/badge/Mikroe-Cap%20Touch%202%20click-green)](https://www.mikroe.com/cap-touch-2-click)
-[![GitHub](https://img.shields.io/badge/Mikroe-BUZZ%202%20CLICK-green)](https://www.mikroe.com/buzz-2-click)
+[![Required board](https://img.shields.io/badge/Mikroe-Cap%20Touch%202%20click-green)](https://www.mikroe.com/cap-touch-2-click)
+[![Required board](https://img.shields.io/badge/Mikroe-BUZZ%202%20CLICK-green)](https://www.mikroe.com/buzz-2-click)
+[![Required board](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout-green)](https://www.sparkfun.com/products/14532)
 ![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_build_status.json)
 ![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_common.json&label=Flash&query=flash&color=blue)
 ![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_common.json&label=RAM&query=ram&color=blue)
-[![GitHub](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout-green)](https://www.sparkfun.com/products/14532)
 
 
 ## Overview

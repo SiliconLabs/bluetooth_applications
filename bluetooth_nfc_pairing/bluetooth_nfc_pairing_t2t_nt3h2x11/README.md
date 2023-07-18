@@ -1,25 +1,14 @@
-<table border="0">
-  <tr>
+# Bluetooth NFC Pairing with NT3H2x11 #
+
 ![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_nfc_pairing_t2t_nt3h2x11_common.json&label=Type&query=type&color=green)
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_nfc_pairing_t2t_nt3h2x11_common.json&label=Technology&query=technology&color=green)
-    <td align="left" valign="middle">
-    <h1>NFC Application Examples</h1>
-  </td>
-  <td align="left" valign="middle">
-    <a href="https://www.silabs.com/products/wireless">
-      <img src="http://pages.silabs.com/rs/634-SLU-379/images/WGX-transparent.png"  title="Silicon Labs Gecko and Wireless Gecko MCUs" alt="EFM32 32-bit Microcontrollers" width="250"/>
-    </a>
-  </td>
-  </tr>
-</table>
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_nfc_pairing_t2t_nt3h2x11_common.json&label=License&query=license&color=green)
-# Bluetooth NFC Pairing with NT3H2x11
-![License badge](https://img.shields.io/badge/License-zlib-green)
+
+## Overview ##
+
 This project demonstrates Bluetooth LE static handover with a NT3H2x11.
 
 > NT3H2x11 stands for NT3H2111 and NT3H2211.
-
-
 
 ## How it works
 After loading this project onto silabs devices, use a NFC reader capable Bluetooth LE device to read the tag content to establish the OOB pairing. Android phones often support system level NFC pairing (no app required) but this varies from phone to phone. Use a serial terminal to monitor the bluetooth events to make sure connection/bonding works as expected. To enable/disable secure connection set the following macro in [app.c](src/app.c) accordingly.

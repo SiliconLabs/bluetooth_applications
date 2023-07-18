@@ -1,5 +1,12 @@
 # Bluetooth - Door Lock Fingerprint (A-172-MRQ) #
 
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_fingerprint_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_fingerprint_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_fingerprint_common.json&label=License&query=license&color=green)
+![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_fingerprint_common.json&label=SDK&query=sdk&color=green)
+![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_fingerprint_build_status.json)
+![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_fingerprint_common.json&label=Flash&query=flash&color=blue)
+![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_fingerprint_common.json&label=RAM&query=ram&color=blue)
 ## Overview ##
 
 This example is used for a BLE-based device lock system using one Silicon Labs EFR32xG24 Explorer kit and various hardware components such as MikroE Fingerprint Click 2 (A-172-MRQ) and SparkFun Micro OLED Breakout (Qwiic). The system is using BLE for wireless communication. This example also is the foundation to develop a secure and convenient device system using biometric authentication (fingerprint) and LED display indication. The system will use BLE for wireless communication between the Silicon Labs board and the EFR connect mobile application.

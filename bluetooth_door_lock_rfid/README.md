@@ -1,5 +1,8 @@
 # Bluetooth - Door Lock RFID (ID-12LA) #
 
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_rfid_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_rfid_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_rfid_common.json&label=License&query=license&color=green)
 ## Overview ##
 
 This project aims to implement a doorlock system using Silicon Labs development Kits and external sensors integrated with the BLE wireless stack.

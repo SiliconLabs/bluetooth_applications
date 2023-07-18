@@ -1,5 +1,12 @@
 # Bluetooth - SoC Blinky - SparkFun Thing Plus Matter - MGM240P #
 
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_soc_blinky_sparkfun_thingplus_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_soc_blinky_sparkfun_thingplus_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_soc_blinky_sparkfun_thingplus_common.json&label=License&query=license&color=green)
+![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_soc_blinky_sparkfun_thingplus_common.json&label=SDK&query=sdk&color=green)
+![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_soc_blinky_sparkfun_thingplus_build_status.json)
+![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_soc_blinky_sparkfun_thingplus_common.json&label=Flash&query=flash&color=blue)
+![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_soc_blinky_sparkfun_thingplus_common.json&label=RAM&query=ram&color=blue)
 ## Overview ##
 
 This example application is the "Hello World" of Bluetooth Low Energy (BLE). It will also provide a starting point for developers who are interested in developing BLE applications with the SparkFun Thing Plus Matter Board. It allows a BLE central device to control the LED on the mainboard via write operations from a GATT client. It also can receive button press notifications when the external button state changes (pressed or released). This example will not be supported directly by Silicon Labs' GSDK, but users will be able to download it from GitHub.
