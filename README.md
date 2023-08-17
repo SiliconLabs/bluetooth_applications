@@ -46,6 +46,11 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 23 | Bluetooth - Smart Band Application | [Click Here](./bluetooth_smart_band) |
 | 24 | Bluetooth - Secure Attestation | [Click Here](./bluetooth_secure_attestation) |
 | 25 | Bluetooth - RSSI based room finding | [Click Here](./bluetooth_rssi_positioning) |
+| 26 | Bluetooth - RFID Notify | [Click Here](./bluetooth_rfid_notify) |
+| 27 | Bluetooth - Optimized Energy Consuming Sensor | [Click Here](./bluetooth_optimized_energy_consuming_sensor) |
+| 28 | Bluetooth - Optimized Energy Consuming Switch | [Click Here](./bluetooth_optimized_energy_consuming_switch) |
+| 29 | Bluetooth - Bluetooth - PAwR Thermometer | [Click Here](./bluetooth_pawr_thermometer) |
+
 
 ## Requirements ##
 

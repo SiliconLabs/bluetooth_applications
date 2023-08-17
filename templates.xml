@@ -528,4 +528,106 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
+  <descriptors name="bluetooth_rfid_notify" label="Bluetooth - RFID Notify" description="This example is intended to demonstrate the capability to scan an RFID card and send a notification to a client device using the BLE stack on Silicon Laboratories development kits.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_rfid_notify/SimplicityStudio/bluetooth_rfid_notify.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_rfid_notify/README.md"/>
+    <properties key="boardCompatibility" value="brd4314a brd2601b brd2703a brd4108a brd2704a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg24.* .*efr32bg22.* .*bgm22.* .*mgm24.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_optimized_energy_consuming_sensor" label="Bluetooth - Optimized Energy Consuming Sensor" description="This project aims to implement an optimized energy consuming temperature sensor.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_optimized_energy_consuming_sensor/bluetooth_optimized_energy_consuming_sensor/SimplicityStudio/bluetooth_optimized_energy_consuming_sensor.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_optimized_energy_consuming_sensor/README.md"/>
+    <properties key="boardCompatibility" value="brd4182a brd4180a brd4181a brd4180b com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32[bm]g21.* .*efr32[bm]g22.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_optimized_energy_consuming_client" label="Bluetooth - Optimized Energy Consuming Sensor - Status Display" description="This project aims to implement a status display application for the optimized energy consuming sensor.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_optimized_energy_consuming_sensor/bluetooth_optimized_energy_consuming_client/SimplicityStudio/bluetooth_optimized_energy_consuming_client.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_optimized_energy_consuming_sensor/README.md"/>
+    <properties key="boardCompatibility" value="brd4314a brd4108a brd2703a brd2601b brd2704a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm220.* .*efr32mg24.* .*bg22.* .*mgm24.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_optimized_energy_switch_status_display" label="Bluetooth - Optimized Energy Consuming Switch - Status Display"
+               description="This project aims to implement a status display application for the optimized energy consuming switch.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_optimized_energy_consuming_switch/SimplicityStudio/bluetooth_optimized_energy_switch_status_display.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_optimized_energy_consuming_switch/README.md"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd2601b brd2704a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32[bm]g24.* .*efr32[x]g24.* .*mgm24.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_optimized_energy_switch" label="Bluetooth - Optimized Energy Consuming Switch"
+               description="This project aims to implement an optimized energy consuming switch.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_optimized_energy_consuming_switch/SimplicityStudio/bluetooth_optimized_energy_switch.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_optimized_energy_consuming_switch/README.md"/>
+    <properties key="boardCompatibility" value="brd4108a brd4314a brd4161a brd4162a brd4180a brd4180b brd4181a brd4181b brd4182a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* *bgm22.* .*bg22.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_pawr_thermometer_client" label="Bluetooth - PAwR Thermometer - Client" 
+               description=" This project aims to implement a PAwR based Thermometer example. Client device get temperature data without establish any connection then displays the temperature values in OLEDC board.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_pawr_thermometer/bluetooth_pawr_thermometer_client/SimplicityStudio/bluetooth_pawr_thermometer_client.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_pawr_thermometer/README.md"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a "/>
+    <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+    <descriptors name="bluetooth_pawr_thermometer_sensor" label="Bluetooth - PAwR Thermometer - Sensor" 
+                 description="This project aims to implement a PAwR based Thermometer example. Temperature is read from internal temperature sensor then broadcast organized data in small packets in subevents.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_pawr_thermometer/bluetooth_pawr_thermometer_sensor/SimplicityStudio/bluetooth_pawr_thermometer_sensor.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_pawr_thermometer/README.md"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd4182a"/>
+    <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.* .*efr32mg22.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
 </model:MDescriptors>

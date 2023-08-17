@@ -1,0 +1,126 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_optimized_energy_switch
+label: Bluetooth - Optimized Energy Consuming Switch
+description: |
+    This project aims to implement an optimized energy consuming switch.
+
+category: Bluetooth Examples
+
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Advanced]
+- name: Wireless Technology
+  value: [Bluetooth]
+
+package: Bluetooth
+
+quality: experimental
+
+readme:
+- path: ../README.md
+
+source:
+- path: ../src/switch_device/main.c
+- path: ../src/switch_device/app.c
+- path: ../src/switch_device/switch_nvm.c
+
+include:
+- path: ../inc
+  file_list:
+  - path: ../inc/switch_device/app.h
+  - path: ../inc/switch_device/switch_nvm.h
+
+component:
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_legacy_scanner
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_system
+- id: mpu
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: rail_util_pti
+- id: app_log
+- id: bt_post_build
+- instance: [vcom]
+  id: iostream_usart
+- instance: [btn0]
+  id: simple_button
+- id: component_catalog
+- id: app_assert
+- id: nvm3_lib
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/switch_device/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+  - override:
+      component: simple_button
+      file_id: simple_button_config
+      instance: btn0
+    path: ../config/switch_device/brd2704a_btn0_config/sl_simple_button_btn0_config.h
+    condition: [brd2704a]
+
+configuration:
+- name: SL_STACK_SIZE
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- condition: [psa_crypto]
+  name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+- name: SL_BOARD_ENABLE_VCOM
+  value: '1'
+
+other_file:
+  - path: ../images/switch_device_init.png
+    directory: images
+  - path: ../images/switch_device_log.png
+    directory: images
+  - path: ../images/switch_device_overview.png
+    directory: images
+  - path: ../images/switch_device_runtime.png
+    directory: images
+  - path: ../images/switch_device_start.png
+    directory: images
+  - path: ../images/switch_display_update_status.png
+    directory: images
+  - path: ../images/switch_hardware_connect.png
+    directory: images
+  - path: ../images/switch_status_runtime.png
+    directory: images
+  - path: ../images/screen_runtime.png
+    directory: images
+  - path: ../images/overview.png
+    directory: images
+  - path: ../images/sdk_extension.png
+    directory: images
+  - path: ../images/energy_harvesting_app_performance.png
+    directory: images
+  - path: ../images/display_hardware_connect.png
+    directory: images
+  - path: ../images/display_device_start.png
+    directory: images
+  - path: ../images/create_switch_project_from_example.png
+    directory: images
+  - path: ../images/create_display_project_from_example.png
+    directory: images
+  - path: ../images/energy_profiler.png
+    directory: images
+  - path: ../images/switch.png
+    directory: images
+
+ui_hints:
+  highlight:
+  - path: README.md
+    focus: true
+  - path: config/switch_device/btconf/gatt_configuration.btconf
+
