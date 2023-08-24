@@ -67,7 +67,8 @@ typedef struct {
   uint8_t *first_letter; ///<  Actual first letter of the param_text
   uint8_t max_char_per_line; ///< Maximum length of characters to be displayed
   uint8_t text_length; ///< Length of the param_text
-  sl_sleeptimer_timer_handle_t timer_handle; ///< Timer handler for screen update
+  ///< Timer handler for screen update
+  sl_sleeptimer_timer_handle_t timer_handle;
 } distance_monitor_display_data_t;
 
 /***************************************************************************//**
@@ -78,9 +79,13 @@ typedef struct {
   distance_monitor_display_data_t display; ///< Display runtime data
   uint16_t calculated_average_distance; ///< Calculated average distance in mm
   bool is_notification_active; ///< Notification status
-  bool is_distance_out_of_range; ///< Flag to indicate average value is out of range
-  bool is_sensor_ready; ///< Flag: Buffer is full, average distance can be displayed and used for calculations.
-  sl_sleeptimer_timer_handle_t main_timer_handle; ///< Timer handler for Application logic
+  ///< Flag to indicate average value is out of range
+  bool is_distance_out_of_range;
+  ///< Flag: Buffer is full, average distance can be displayed and used for
+  /// calculations.
+  bool is_sensor_ready;
+  ///< Timer handler for Application logic
+  sl_sleeptimer_timer_handle_t main_timer_handle;
 } distance_monitor_runtime_data_t;
 
 /***************************************************************************//**

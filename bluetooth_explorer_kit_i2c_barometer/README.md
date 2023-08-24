@@ -1,4 +1,4 @@
-# Explorer Kit Bluetooth barometer example using I2C bus DPS310 pressure sensor #
+# Bluetooth - Barometer I2C #
 ![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=Type&query=type&color=green)
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=License&query=license&color=green)
@@ -10,98 +10,138 @@
 
 ## Overview ##
 
-This project shows an example of **Bluetooth Barometer** using the **Silicon Labs BGM220-EK4314A BGM220 Bluetooth Module Explorer Kit.**
+This project shows an example of **Bluetooth - Barometer I2C** using the **Silicon Labs BGM220-EK4314A BGM220 Bluetooth Module Explorer Kit.**
 
-It is using a reference barometer driver component for an **I2C-bus** connected **DPS310** barometric pressure sensor.
+This example is intended to make a pressure and temperature measurement every second when the Bluetooth connection is open. The measurement can be seen via Bluetooth Pressure and Temperature characteristics under the Environmental Sensing service by reading it manually, or it can also be automatically updated using notifications.
 
-The application makes a pressure measurement every second when the Bluetooth connection is open. While the measurement is ongoing, the yellow LED is lit.
+The application uses a Mikore Pressure 3 Click using mikroE mikroBUS-socket I2C connection. Moreover, SparkFun Micro OLED Breakout is used to display the measurement value on the screen.
 
-The pressure measurement can be seen via Bluetooth Pressure-characteristic under Environmental Sensing-service by reading it manually or it can be also automatically updated using Notifications.
+This example can be used as a barometer pressure sensor in the weather station or an altitude sensor and so on.
 
-The sensor board used here is a **mikroE "Pressure 3 Click"** using **mikroE mikroBUS**-socket **I2C** connection. But also other **I2C** connected **DPS310**-sensors can be used here such as **SparkFun Qwiic Connect System**-compatible **Adafruit's DPS310**-based pressure sensor board. 
+##  Gecko SDK version ##
 
-A target application of a barometer pressure sensor could be a weather station or an altitude sensor.
+ - GSDK v4.3.1
 
-## Simplicity Studio and Gecko SDK Suite version ##
-
-Simplicity Studio SV5.1.1.0 and GSDK v3.1.1
+ - Third Party Hardware Drivers v1.5.0
 
 ## Hardware Required ##
 
 - [**BGM220-EK4314A** BGM220 Bluetooth Module Explorer Kit (BRD4314A BGM220 Explorer Kit Board)](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
 
-Supported barometer boards:
-- [**mikroE Pressure 3 click** digital barometric pressure sensor](https://www.mikroe.com/pressure-3-click), uses **I2C address 0x76** by default **(the example code default)**
+- [MikroE Pressure 3 Click](https://www.mikroe.com/pressure-3-click) based on DPS310 sensor.
 
-or with a very minor changes also:
-- [Adafruit DPS310 Precision Barometric Pressure / Altitude Sensor](https://www.adafruit.com/product/4494), uses **I2C address 0x77** by default (**the example code needs I2C address configuration**)
+**NOTE:**
+Tested boards for working with this example:
+
+| Board ID | Description  |
+| ---------------------- | ------ |
+| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)  |
+| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A ](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
+| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)  |
 
 
 ## Connections Required ##
 
-The mikroBUS Pressure 3 Click board can be just "clicked" into it place. Be sure that the boards 45-degree corner matches the Explorer Kit's 45-degree white line. The board also has 10k I2C-bus pull-ups. Just be sure that the click board is configured into I2C-mode (the default) by the resistors and not into SPI-mode.
+The Pressure 3 Click board can just be "clicked" into its place. Be sure that the board's 45-degree corner matches the Explorer Kit's 45-degree white line.
 
-When using the Adafruit DPS310 Qwiic barometer sensor board, it can be easily connected by using one Qwiic cable. The board includes 10k I2C-bus pull-ups so it is ready to use.
+The following picture shows the system view of how it works.
 
+![hardware_connection](image/hardware_connection.png)
+
+## Setup ##
+
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
+
+### Create a project based on an example project ###
+
+1. From the Launcher Home, add your hardware to **My Products**, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter **"barometer"**.
+
+2. Click **Create** button on the **Bluetooth - Barometer I2C** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+![create_project](image/create_project.png)
+
+3. Build and flash this example to the board.
+
+### Start with a "Bluetooth - SoC Empty" project ###
+
+1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
+
+2. Copy all attached files in **inc** and **src** folders into the project root folder (overwriting existing).
+
+3. Import the GATT configuration:
+
+    - Open the .slcp file in the project.
+
+    - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
+    
+    - Find the Import button and import the configuration `bluetooth_rfid_notify/config/btconfig/gatt_configuration.btconf` file.
+
+    - Save the GATT configuration (ctrl-s).
+
+4. Open the .slcp file. Select the **SOFTWARE COMPONENTS** tab and install the software components:
+
+    - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
+
+    - [Application] → [Utility] → [Log]
+
+    - [Third Party Hardware Drivers] → [Sensors] → [DPS310- Pressure 3 Click (Mikroe) - I2C]
+
+5. Install printf float
+
+    - Open Properties of the Project.
+
+    - Select C/C++ Build → Settings → Tool Settings → GNU ARM C Linker → General. Check Printf float.
+    ![install_float](image/install_float.png)
+
+6. Build and flash the project to your device.
+
+**Note:**
+
+- Make sure the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
-The application is based into Bluetooth Empty-SoC example. And as the example already has Bluetooth GATT server, advertising and connection mechanisms operational, there are only minor changes.
+### GATT Database ###
 
-Naturally the DPS310 driver with the configuration file needs to be added. And the DPS310 driver uses the I2C Simple Polled Master-driver so that is included as a software component.
+The application is based on the Bluetooth - SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required. 
 
-barometer_config.h -file has the module I2C bus pin definitions and also the sensor I2C address. The default I2C address 0x76 is correct for the Pressure 3 click. But when using the Adafruit DPS310, it has to be changed into 0x77.
+Advertisement Packet Device name: **Silabs Barometer I2C**
 
-The GATT changes were adding a new Environmental Sensing service using UUID 0x181A that has a characteristic Pressure ​UUID 0x2A6D with Read and Notify properties. As it is a Bluetooth SIG Assigned UUID, most applications know how to display the value correctly. The Pressure characteristic size is 4 bytes and it is a 32-bit unsigned integer and the unit is pascals. This information can be seen from the Bluetooth GATT Configurator when Add:ing a Characteristic, see the Pressure there.
+GATT Database
 
-The application file app.c has barometer and LED initialization in the app_init(). The LED blinks once if the barometer initialization is successful. If the LED stays on, the initialization has been failed. The reason is typically wrong sensor I2C address (i.e. using the wrong application version) or wrongly configured Click board mode (SPI-mode instead I2C) or if using some own ways to connect the sensor, various other reasons as we are in the embedded world. But no panic, in most cases, both sensors work without any issues if used without any modifications.
+- Device name: **Silabs Barometer I2C**
 
-When the connection is opened, a 1 second timer periodical is started. When the timer is triggered, then the LED is lit and the barometer measurement is started. When the measurement is ready, then the LED is turned off and the GATT characteristic is updated. If the notification was enabled, also the the client is notified about the value update. sl_bt_evt_gatt_server_characteristic_status_id-event is handling the notification enable/disable control. If the connection closed, also the barometer measurement timer is stopped.
+- **[Service] Environmental Sensing**
 
-More information about the barometer driver and it's usage can be found from the driver project and documentation.
+    - **[Char] Pressure**
 
-The example can be used with a minor changes also in the other Silabs Bluetooth products.
+        - [R] Read pressure value.
+        - [N] Notify to update pressure value automatically.
+  
+    - **[Char] Temperature**
 
-# Create an example application #
+        - [R] Read temperature value.
+        - [N] Notify to update temperature value automatically.
 
-Simplicity Studio 5-series was used to create the example code.
+### Testing ###
 
-You can either create an example application code as basis and modify it according to the instructions below or use the ready made .sls-project.
+After the barometer sensor initialization is successful. Bluetooth advertising will be started. When the connection is opened, the application gets the temperature and pressure from the sensor every second. If the connection is closed, also the barometer measurement timer is stopped.
 
-First create a "Bluetooth - SoC Empty" project for the" BGM220 Explorer Kit Board" using SimplicityStudio 5 Launcher-perspective EXAMPLE PROJECTS-tab. Use the default project settings. Be sure to connect and select the BGM220 Explorer Kit Board from the "Debug Adapters" on the left before creating a project.
+You can use a smartphone app, such as the **EFR Connect** application on your phone, to connect to the board. Please, follow some steps below:
 
-Then copy the files *app.c*, *barometer.h*, *barometer_config.h* and *dps310.c* in to the project root folder (app.c is replacing the old app.c). Remember the correct I2C address, see above.
+- Open the EFR Connect app.
 
-Next add the I2C Simple Polled Master-driver from the project .SLCP-file's SOFTWARE COMPONENTS-tab by adding "I2CSPM Core"-component. Use Search to find.
+- Open the Bluetooth Browser.
 
-And last import the GATT configuration by using the SOFTWARE COMPONENTS-tab and open the "Bluetooth GATT Configurator" and use it's Import-button to import the *gatt_configuration.btconf*
+- Find the device advertising as **Silabs Barometer I2C**.
 
-Save the files, build and ready to flash or debug! To Build select the project from the "Simplicity IDE"-perspectives "Project Explorer" and then press the hammer sign from the above toolbar to build. If there were 0 warnings, then there should be a Binaries-folder in the project. Expand the folder and use right menu button for the .s37 file and select "Flash to Device". Flash Programmer dialog should be opened. It might ask to select the Explorer Kit Board first and to press the "Click to Query Lock Status". The correct file is selected so just select Program.
+- Click on **Connect** button.
 
-*Note*: The Explorer Kit also requires a bootloader to run the application. Most likely there is one already but in case not, the easiest way is to use for example iBeacon demo from the Launcher view DEMOS tab after selecting the Explorer Kit from the Debug Adapters.
+When the device is connected, you can read the temperature and pressure values manually. If you want these values updated automatically, you have to enable the **Notify** property for them, so the client device is notified about the value updated.
 
-## .sls Projects Used ##
+![project_teting](image/project_testing.png)
 
-_explorer_kit_example_i2c_mikrobus_baro_gsdk311.sls_ - This application uses I2C address 0x76 that is the mikroE Pressure 3 click default
+You can launch Console that's integrated into Simplicity Studio or use a third-party terminal tool like TeraTerm to receive the data from the USB. A screenshot of the console output is shown in the figure below.
 
-_explorer_kit_example_i2c_qwiic_baro_gsdk311.sls_ - This application uses I2C address 0x77 that is the Adafruit DPS310 default
-
-Also precompiled binaries in S-Record format (.s37) are included for the projects above test the applications instantly. The files can be programmed using for example _Simplicity Studio Flash Programmer_ tool or _Simplicity Commander_ application. Remember to flash also the bootloader at least once, it is also included for a smooth experience.
-
-# More information #
-
-## Barometer driver ##
-
-More information about the barometer driver, how it works, architecture, state diagram, setup and so on, can be found from it's own reference driver component project: https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/barometer
-
-## mikroE mikroBUS ##
-
-- a configurable header pair socket with 5V and 3.3V powers, SPI, I2C, UART and configurable pins such as Analog, PWM, Interrupt, Reset and Chip select
-
-mikroBUS: https://www.mikroe.com/mikrobus
-
-## SparkFun Qwiic Connect System ##
-
-- a 4-pin bus carrying I2C-bus and 3.3V powers
-
-Qwiic Connect System: https://www.sparkfun.com/qwiic
+![console_log](image/console_log.png)

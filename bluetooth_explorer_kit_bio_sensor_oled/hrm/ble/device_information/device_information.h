@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   device_information.h
- * @brief  Header file of device information service
- * @version 1.1.0
+* @file   device_information.h
+* @brief  Header file of device information service
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -34,27 +34,25 @@
 * maintained and there may be no bug maintenance planned for these resources.
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
- 
-#ifndef __DEVICE_INFORMATION_H
-#define __DEVICE_INFORMATION_H
+
+#ifndef _DEVICE_INFORMATION_H
+#define _DEVICE_INFORMATION_H
 
 /*******************************************************************************
  *******************************   INCLUDES   **********************************
  ******************************************************************************/
 #include <stdint.h>
 #include <stdbool.h>
-//#include "native_gecko.h"
 #include "sl_bt_types.h"
 
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
 
- 
 /*******************************************************************************
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
- 
+
 /*******************************************************************************
  * @brief
  *   Service Device Information initialization
@@ -93,4 +91,4 @@ extern void device_information_write_callback(sl_bt_msg_t *evt);
  ******************************************************************************/
 extern void device_information_disconnect_event(sl_bt_msg_t *evt);
 
-#endif //__DEVICE_INFORMATION_H
+#endif //_DEVICE_INFORMATION_H

@@ -66,7 +66,7 @@ extern "C" {
 // Distance sensor limits
 #define DISTANCE_MONITOR_RANGE_LOWER_LIMIT              40
 #define DISTANCE_MONITOR_RANGE_MODE_SHORT_UPPER_LIMIT   1300
-#define DISTANCE_MONITOR_RANGE_MODE_LONG_UPPER_LIMIT 	  4000
+#define DISTANCE_MONITOR_RANGE_MODE_LONG_UPPER_LIMIT    4000
 
 // Application sampling configuration
 #define DISTANCE_MONITOR_SAMPLE_BUFFER_LENGTH           10
@@ -88,10 +88,12 @@ typedef void (*parameter_change_callback)(void);
 typedef struct {
   uint16_t threshold_value_lower; ///<  Lower distance threshold value in mm.
   uint16_t threshold_value_upper; ///<  Upper distance threshold value in mm.
-  uint8_t threshold_mode; ///<  Threshold mode (0: below, 1: above, 2: in, 3: out)
+  ///<  Threshold mode (0: below, 1: above, 2: in, 3: out)
+  uint8_t threshold_mode;
   uint8_t range_mode; ///<  Sensor range mode (1: short, 2: long)
-  uint8_t notification_status; ///<  Notification status (0: disabled, 1: enabled)
-  uint8_t buzzer_volume; ///<  Buzzer volume (0-10)
+  ///<  Notification status (0: disabled, 1: enabled)
+  uint8_t notification_status;
+  uint8_t buzzer_volume; ///<  Buzzer volume (0-1000)
 } distance_monitor_config_data_t;
 
 /***************************************************************************//**
@@ -110,72 +112,72 @@ typedef struct {
 
 // Distance monitor runtime data-set default values
 #define DISTANCE_MONITOR_RUNTIME_DEFAULT_DATASET { \
-		.calculated_average_distance = 0, \
-		.is_notification_active = false, \
-		.is_distance_out_of_range = false, \
-} \
+    .calculated_average_distance = 0,              \
+    .is_notification_active = false,               \
+    .is_distance_out_of_range = false,             \
+}                                                  \
 
 // Distance monitor application default configuration parameters
-#define DISTANCE_MONITOR_DEFAULT_CONFIG { \
-	.notification_status = 0, \
-	.buzzer_volume = 5, \
-	.range_mode = 2, \
-	.threshold_mode = 0, \
-	.threshold_value_lower = 250, \
-	.threshold_value_upper = 450, \
-} \
+#define DISTANCE_MONITOR_DEFAULT_CONFIG          { \
+    .notification_status = 0,                      \
+    .buzzer_volume = 20,                           \
+    .range_mode = 2,                               \
+    .threshold_mode = 0,                           \
+    .threshold_value_lower = 250,                  \
+    .threshold_value_upper = 450,                  \
+}                                                  \
 
 // Distance monitor application BLE features, see distance_monitor_feature_t
-#define DISTANCE_MONITOR_FEATURES { \
-	{.char_id = gattdb_threshold_mode, \
-	 .data = (uint8_t*) &distance_monitor_config.threshold_mode, \
-	 .data_length = sizeof(distance_monitor_config.threshold_mode),  \
-	 .nvm_key = 0x4001, \
-	 .value_min = 0, \
-	 .value_max = 3, \
-	 .param_change_callback = app_logic_draw_parameter_line, \
-	},\
-	{.char_id = gattdb_lower_threshold_value, \
-	 .data = (uint8_t*) &distance_monitor_config.threshold_value_lower, \
-	 .data_length = sizeof(distance_monitor_config.threshold_value_lower),  \
-	 .nvm_key = 0x4002, \
-	 .value_min = 50, \
-	 .value_max = 4000, \
-	 .param_change_callback = app_logic_draw_parameter_line, \
-	},\
-	{.char_id = gattdb_upper_threshold_value, \
-	 .data = (uint8_t*) &distance_monitor_config.threshold_value_upper, \
-	 .data_length = sizeof(distance_monitor_config.threshold_value_upper),  \
-	 .nvm_key = 0x4003, \
-	 .value_min = 50, \
-	 .value_max = 4000, \
-	 .param_change_callback = app_logic_draw_parameter_line, \
-	},\
-	{.char_id = gattdb_buzzer_volume, \
-	 .data = (uint8_t*) &distance_monitor_config.buzzer_volume, \
-	 .data_length = sizeof(distance_monitor_config.buzzer_volume),  \
-	 .nvm_key = 0x4004, \
-	 .value_min = 0, \
-	 .value_max = 10, \
-	 .param_change_callback = app_logic_configure_buzzer_volume, \
-	},\
-	{.char_id = gattdb_range_mode, \
-	 .data = (uint8_t*) &distance_monitor_config.range_mode, \
-	 .data_length = sizeof(distance_monitor_config.range_mode),  \
-	 .nvm_key = 0x4005, \
-	 .value_min = 1, \
-	 .value_max = 2, \
-	 .param_change_callback = app_logic_configure_distance_sensor_range_mode, \
-	},\
-	{.char_id = gattdb_notification_status, \
-	 .data = (uint8_t*) &distance_monitor_config.notification_status, \
-	 .data_length = sizeof(distance_monitor_config.notification_status),  \
-	 .nvm_key = 0x4006, \
-	 .value_min = 0, \
-	 .value_max = 1, \
-	 .param_change_callback = app_event_handler_notification_status_changed, \
-	},\
-} \
+#define DISTANCE_MONITOR_FEATURES                {                             \
+    { .char_id = gattdb_threshold_mode,                                        \
+      .data = (uint8_t *) &distance_monitor_config.threshold_mode,             \
+      .data_length = sizeof(distance_monitor_config.threshold_mode),           \
+      .nvm_key = 0x4001,                                                       \
+      .value_min = 0,                                                          \
+      .value_max = 3,                                                          \
+      .param_change_callback = app_logic_draw_parameter_line,                  \
+    },                                                                         \
+    { .char_id = gattdb_lower_threshold_value,                                 \
+      .data = (uint8_t *) &distance_monitor_config.threshold_value_lower,      \
+      .data_length = sizeof(distance_monitor_config.threshold_value_lower),    \
+      .nvm_key = 0x4002,                                                       \
+      .value_min = 50,                                                         \
+      .value_max = 4000,                                                       \
+      .param_change_callback = app_logic_draw_parameter_line,                  \
+    },                                                                         \
+    { .char_id = gattdb_upper_threshold_value,                                 \
+      .data = (uint8_t *) &distance_monitor_config.threshold_value_upper,      \
+      .data_length = sizeof(distance_monitor_config.threshold_value_upper),    \
+      .nvm_key = 0x4003,                                                       \
+      .value_min = 50,                                                         \
+      .value_max = 4000,                                                       \
+      .param_change_callback = app_logic_draw_parameter_line,                  \
+    },                                                                         \
+    { .char_id = gattdb_buzzer_volume,                                         \
+      .data = (uint8_t *) &distance_monitor_config.buzzer_volume,              \
+      .data_length = sizeof(distance_monitor_config.buzzer_volume),            \
+      .nvm_key = 0x4004,                                                       \
+      .value_min = 0,                                                          \
+      .value_max = 1000,                                                       \
+      .param_change_callback = app_logic_configure_buzzer_volume,              \
+    },                                                                         \
+    { .char_id = gattdb_range_mode,                                            \
+      .data = (uint8_t *) &distance_monitor_config.range_mode,                 \
+      .data_length = sizeof(distance_monitor_config.range_mode),               \
+      .nvm_key = 0x4005,                                                       \
+      .value_min = 1,                                                          \
+      .value_max = 2,                                                          \
+      .param_change_callback = app_logic_configure_distance_sensor_range_mode, \
+    },                                                                         \
+    { .char_id = gattdb_notification_status,                                   \
+      .data = (uint8_t *) &distance_monitor_config.notification_status,        \
+      .data_length = sizeof(distance_monitor_config.notification_status),      \
+      .nvm_key = 0x4006,                                                       \
+      .value_min = 0,                                                          \
+      .value_max = 1,                                                          \
+      .param_change_callback = app_event_handler_notification_status_changed,  \
+    },                                                                         \
+}                                                                              \
 
 extern distance_monitor_config_data_t distance_monitor_config;
 extern distance_monitor_feature_t distance_monitor_features[];

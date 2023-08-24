@@ -1,16 +1,16 @@
 /***************************************************************************//**
- * @file app.c
- * @brief Explorer Kit Bluetooth barometer example using I2C bus DPS310 pressure sensor
+ * @file
+ * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2021 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
  *
  * The licensor of this software is Silicon Laboratories Inc.
  *
- * This software is provided \'as-is\', without any express or implied
+ * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
  * arising from the use of this software.
  *
@@ -26,73 +26,62 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
- *******************************************************************************
- * # Evaluation Quality
- * This code has been minimally tested to ensure that it builds and is suitable
- * as a demonstration for evaluation purposes only. This code will be maintained
- * at the sole discretion of Silicon Labs.
  ******************************************************************************/
 #include "em_common.h"
-#include "sl_app_assert.h"
+#include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
 #include "app.h"
-#include "barometer.h"      // Added for the barometer driver
-#include "em_cmu.h"         // Added for GPIO LED control
+#include "app_log.h"
+#include "sl_i2cspm_instances.h"
+#include "mikroe_dps310_i2c.h"
 
-#define BAROMETER_SOFT_TIMER_HANDLE 0
-#define BAROMETER_SOFT_TIMER_PERIOD 32768   // 32768 = 1 second
+#define READING_INTERVAL_MSEC 1000
+#define APP_TIMER_EXT_SIGNAL  0x01
 
-#define ENABLE_DEBUG_LED            1       // 1=LED blink on, 0=LED not used
+static bool temperature_notify_enable = false;
+static bool pressure_notify_enable = false;
+static uint8_t connection = 0;
 
-// Refresh the local database with the acquired sensor value and send it via BLE indications
-static void sendPressure(float pressure);
-// User callback function for the nonblocking sensor function
-void barometer_callback(float pressure);
-
-// The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
-// If the notification is enabled or not
-static uint8_t notification_enabled = 0;
-static int16_t connection = -1;
+static sl_sleeptimer_timer_handle_t app_timer;
+
+static void app_timer_callback(sl_sleeptimer_timer_handle_t *timer,
+                               void *data);
+
+static void app_read_temp_press(void);
+
+static void app_gatt_update(float temperature, float pressure);
+
+static void app_send_notification(uint8_t *value, uint16_t characteristic);
+
+static void app_timer_callback(sl_sleeptimer_timer_handle_t *timer,
+                               void *data);
 
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
+  sl_status_t sc;
+  app_log("============== Application initialization ==============\n");
+  sc = mikroe_pressure3_init(sl_i2cspm_mikroe);
+  if (sc != SL_STATUS_OK) {
+    app_log("[DPS310]: Mikroe Pressure 3 Click initialized failed!\n");
+  } else {
+    app_log("[DPS310]: Mikroe Pressure 3 Click initialized success.\n");
+  }
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
   // This is called once during start-up.                                    //
   /////////////////////////////////////////////////////////////////////////////
-
-  sl_status_t sc;
-  barometer_init_t init = BAROMETER_INIT_DEFAULT;
-
-#if ENABLE_DEBUG_LED
-  /* DEBUG */
-  CMU_ClockEnable(cmuClock_GPIO, true); /* Enable GPIO module clock */
-  GPIO_PinModeSet(gpioPortA, 4, gpioModePushPull, 0); /* Set pin PA04 direction as push-pull output for LED control*/
-  GPIO_PinOutSet(gpioPortA, 4); /* Set PA04 to turn LED On to indicate barometer init start */
-#endif
-
-  sc = barometer_init(&init);
-
-  sl_app_assert(sc == SL_STATUS_OK,
-                "[E: 0x%04x] Failed to initialize the barometer\n",
-                (int)sc);
-
-#if ENABLE_DEBUG_LED
-  GPIO_PinOutClear(gpioPortA, 4); /* Clear PA04 to turn LED Off to indicate successfull barometer init */
-#endif
-
 }
 
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
@@ -110,45 +99,23 @@ SL_WEAK void app_process_action(void)
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
-  bd_addr address;
-  uint8_t address_type;
-  uint8_t system_id[8];
 
   switch (SL_BT_MSG_ID(evt->header)) {
     // -------------------------------
     // This event indicates the device has started and the radio is ready.
     // Do not call any stack command before receiving this boot event!
     case sl_bt_evt_system_boot_id:
-
-      // Extract unique ID from BT Address.
-      sc = sl_bt_system_get_identity_address(&address, &address_type);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to get Bluetooth address\n",
-                    (int)sc);
-
-      // Pad and reverse unique ID to get System ID.
-      system_id[0] = address.addr[5];
-      system_id[1] = address.addr[4];
-      system_id[2] = address.addr[3];
-      system_id[3] = 0xFF;
-      system_id[4] = 0xFE;
-      system_id[5] = address.addr[2];
-      system_id[6] = address.addr[1];
-      system_id[7] = address.addr[0];
-
-      sc = sl_bt_gatt_server_write_attribute_value(gattdb_system_id,
-                                                   0,
-                                                   sizeof(system_id),
-                                                   system_id);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to write attribute\n",
-                    (int)sc);
-
       // Create an advertising set.
       sc = sl_bt_advertiser_create_set(&advertising_set_handle);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to create advertising set\n",
-                    (int)sc);
+      app_assert_status(sc);
+
+      // Generate data for advertising
+      sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
+                                                 sl_bt_advertiser_general_discoverable);
+
+      app_assert(sc == SL_STATUS_OK,
+                 "[E: 0x%04x] Failed to generate advertising data.\n",
+                 (int)sc);
 
       // Set advertising interval to 100ms.
       sc = sl_bt_advertiser_set_timing(
@@ -157,134 +124,190 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         160, // max. adv. interval (milliseconds * 1.6)
         0,   // adv. duration
         0);  // max. num. adv. events
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to set advertising timing\n",
-                    (int)sc);
-      // Start general advertising and enable connections.
-      sc = sl_bt_advertiser_start(
-        advertising_set_handle,
-        advertiser_general_discoverable,
-        advertiser_connectable_scannable);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to start advertising\n",
-                    (int)sc);
+      app_assert(sc == SL_STATUS_OK,
+                 "[E: 0x%04x] Failed to set advertising timing.\n",
+                 (int)sc);
+      // Start advertising and enable connections.
+      sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
+                                         sl_bt_advertiser_connectable_scannable);
+      app_assert(sc == SL_STATUS_OK,
+                 "[E: 0x%04x] Failed to start advertising.\n",
+                 (int)sc);
+      app_log("[BLE]: Start advertising ...\n");
       break;
 
     // -------------------------------
     // This event indicates that a new connection was opened.
     case sl_bt_evt_connection_opened_id:
 
-      notification_enabled = 0;
+      app_log("[BLE]: Connection opened.\n");
 
+      temperature_notify_enable = false;
+      pressure_notify_enable = false;
       connection = evt->data.evt_connection_opened.connection;
 
-      sc = sl_bt_system_set_soft_timer(BAROMETER_SOFT_TIMER_PERIOD, BAROMETER_SOFT_TIMER_HANDLE, 0);
-
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to start soft timer\n",
-                    (int)sc);
-
+      sl_sleeptimer_start_periodic_timer_ms(&app_timer,
+                                            READING_INTERVAL_MSEC,
+                                            app_timer_callback,
+                                            NULL,
+                                            0,
+                                            0);
       break;
 
     // -------------------------------
     // This event indicates that a connection was closed.
     case sl_bt_evt_connection_closed_id:
 
-      notification_enabled = 0;
-
-      connection = -1;
-
-      sc = sl_bt_system_set_soft_timer(0, BAROMETER_SOFT_TIMER_HANDLE, 0);
-
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to stop soft timer\n",
-                    (int)sc);
+      app_log("[BLE]: Connection closed.\n");
+      connection = 0;
+      sl_sleeptimer_stop_timer(&app_timer);
+      // Generate data for advertising
+      sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
+                                                 sl_bt_advertiser_general_discoverable);
+      app_assert(sc == SL_STATUS_OK,
+                 "[E: 0x%04x] Failed to generate advertising data.\n",
+                 (int)sc);
 
       // Restart advertising after client has disconnected.
-      sc = sl_bt_advertiser_start(
-        advertising_set_handle,
-        advertiser_general_discoverable,
-        advertiser_connectable_scannable);
-      sl_app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to start advertising\n",
-                    (int)sc);
+      sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
+                                         sl_bt_advertiser_connectable_scannable);
+      app_assert(sc == SL_STATUS_OK,
+                 "[E: 0x%04x] Failed to start advertising.\n",
+                 (int)sc);
+      app_log("[BLE]: Start advertising ...\n");
       break;
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Add additional event handlers here as your application requires!      //
-    ///////////////////////////////////////////////////////////////////////////
-
-    case sl_bt_evt_system_soft_timer_id:
-
-      if (evt->data.evt_system_soft_timer.handle == BAROMETER_SOFT_TIMER_HANDLE) {
-
-#if ENABLE_DEBUG_LED
-        GPIO_PinOutSet(gpioPortA, 4); /* Set PA04 to turn LED On to indicate barometer reading start */
-#endif
-
-        // Start the measurement and subscribe the callback function
-        sc = barometer_get_pressure_non_blocking(barometer_callback);
-
-        sl_app_assert(sc == SL_STATUS_OK,
-                      "[E: 0x%04x] Failed to start pressure measurement\n",
-                      (int)sc);
-
-      }
-
+    case sl_bt_evt_system_external_signal_id:
+      app_read_temp_press();
       break;
-
     case sl_bt_evt_gatt_server_characteristic_status_id:
-
-      if (evt->data.evt_gatt_server_characteristic_status.characteristic == gattdb_envsens_pressure) {
+      if (evt->data.evt_gatt_server_characteristic_status.characteristic
+          == gattdb_temperature) {
         // client characteristic configuration changed by remote GATT client
-        if (evt->data.evt_gatt_server_characteristic_status.status_flags == gatt_server_client_config) {
-          if (evt->data.evt_gatt_server_characteristic_status.client_config_flags == gatt_notification) {
-            notification_enabled = 1;
-          }
-          else {
-            notification_enabled = 0;
+        if (evt->data.evt_gatt_server_characteristic_status.status_flags
+            == gatt_server_client_config) {
+          if (evt->data.evt_gatt_server_characteristic_status.
+              client_config_flags == gatt_notification) {
+            temperature_notify_enable = true;
+            app_log("[BLE]: Enable temperature notification.\n");
+          } else {
+            temperature_notify_enable = false;
+            app_log("[BLE]: Disable temperature notification.\n");
           }
         }
+      } else if (evt->data.evt_gatt_server_characteristic_status.characteristic
+                 == gattdb_pressure) {
+        if (evt->data.evt_gatt_server_characteristic_status.status_flags
+            == gatt_server_client_config) {
+          if (evt->data.evt_gatt_server_characteristic_status.
+              client_config_flags == gatt_notification) {
+            pressure_notify_enable = true;
+            app_log("[BLE]: Enable pressure notification.\n");
+          } else {
+            pressure_notify_enable = false;
+            app_log("[BLE]: Disable pressure notification.\n");
+          }
+        }
+
+        break;
+          ///////////////////////////////////////////////////////////////////////////
+          // Add additional event handlers here as your application requires!
+          //        //
+          ///////////////////////////////////////////////////////////////////////////
+
+          // -------------------------------
+          // Default event handler.
+          default:
+            break;
       }
-
-      break;
-
-    // -------------------------------
-    // Default event handler.
-    default:
-      break;
   }
 }
 
-void barometer_callback(float pressure)
+/**************************************************************************//**
+ * Sleep timer callback function.
+ *****************************************************************************/
+static void app_timer_callback(sl_sleeptimer_timer_handle_t *timer,
+                               void *data)
 {
+  (void)timer;
+  (void)data;
 
-#if ENABLE_DEBUG_LED
-  GPIO_PinOutClear(gpioPortA, 4); /* Clear PA04 to turn LED Off to indicate barometer reading end */
-#endif
-
-  sendPressure(pressure);
+  sl_bt_external_signal(APP_TIMER_EXT_SIGNAL);
 }
 
-static void sendPressure(float pressure)
+/**************************************************************************//**
+ * Read temperature and pressure function.
+ *****************************************************************************/
+static void app_read_temp_press(void)
 {
-  uint8_t pressure_buffer[4];
+  sl_status_t sc;
+  float temperature, pressure;
+
+  sc = mikroe_pressure3_get_t_p_data(&temperature, &pressure);
+  if (sc != SL_STATUS_OK) {
+    app_log("[DPS310]: Reading temperature and pressure failed.\n");
+  } else {
+    app_log("[DPS310]: Pressure: %.2f mbar\r\n", pressure);
+    app_log("[DPS310]: Temperature: %.2f C\r\n", temperature);
+    app_log(" ----------------------------\r\n");
+  }
+
+  app_gatt_update(temperature, pressure);
+}
+
+/**************************************************************************//**
+ * Update GATT function.
+ *****************************************************************************/
+static void app_gatt_update(float temperature, float pressure)
+{
+  sl_status_t sc;
+  uint8_t temperature_tmp[2];
+  uint8_t pressure_tmp[4];
+
+  *(uint16_t *)temperature_tmp = (uint16_t)(temperature * 100);
+
+  sc = sl_bt_gatt_server_write_attribute_value(gattdb_temperature,
+                                               0,
+                                               sizeof(temperature_tmp),
+                                               (const uint8_t *)(temperature_tmp));
+
+  app_assert(sc == SL_STATUS_OK,
+             "[E: 0x%04x] Failed to update GATT temperature value.\n",
+             (int)sc);
+
+  *(uint32_t *)pressure_tmp = (uint32_t)pressure;
+  sc = sl_bt_gatt_server_write_attribute_value(gattdb_pressure,
+                                               0,
+                                               sizeof(pressure_tmp),
+                                               (const uint8_t *)(pressure_tmp));
+
+  app_assert(sc == SL_STATUS_OK,
+             "[E: 0x%04x] Failed to update GATT temperature value\n",
+             (int)sc);
+
+  if (connection) {
+    if (temperature_notify_enable) {
+      app_send_notification(temperature_tmp, gattdb_temperature);
+    } else {
+    }
+  }
+  if (pressure_notify_enable) {
+    app_send_notification(pressure_tmp, gattdb_pressure);
+  } else {
+  }
+}
+
+/**************************************************************************//**
+ * Send notification function.
+ *****************************************************************************/
+static void app_send_notification(uint8_t *value, uint16_t characteristic)
+{
   sl_status_t sc;
 
-  *(uint32_t *)pressure_buffer = (uint32_t)pressure;
-
-  sc = sl_bt_gatt_server_write_attribute_value(gattdb_envsens_pressure, 0, 4, pressure_buffer);
-
-  sl_app_assert(sc == SL_STATUS_OK,
-                "[E: 0x%04x] Failed to update GATT pressure value\n",
-                (int)sc);
-
-  if ((notification_enabled == 1) && (connection != -1))
-  {
-    sc = sl_bt_gatt_server_send_notification(connection, gattdb_envsens_pressure, 4, pressure_buffer);
-
-    sl_app_assert(sc == SL_STATUS_OK,
-                     "[E: 0x%04x] Failed to send a pressure value notification\n",
-                     (int)sc);
-  }
+  sc = sl_bt_gatt_server_send_notification(connection,
+                                           characteristic,
+                                           sizeof(value),
+                                           (const uint8_t *)value);
+  app_assert(sc == SL_STATUS_OK,
+             "[E: 0x%04x] Failed to send a notification.\n",
+             (int)sc);
 }

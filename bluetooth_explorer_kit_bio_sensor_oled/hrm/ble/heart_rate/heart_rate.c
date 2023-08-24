@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   heart_rate.c
- * @brief  Heart rate service
- * @version 1.1.0
+* @file   heart_rate.c
+* @brief  Heart rate service
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -34,7 +34,7 @@
 * maintained and there may be no bug maintenance planned for these resources.
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
- 
+
 /*******************************************************************************
  *******************************   INCLUDES   **********************************
  ******************************************************************************/
@@ -43,22 +43,21 @@
 #include <string.h>
 #include <stdio.h>
 #include "heart_rate.h"
-#include "app_timer.h"
 #include "hrm_app.h"
 #include "ble_att_handler.h"
+#include "sl_sleeptimer.h"
+#include "app_log.h"
 
-
-#define ATT_WRITE_NOT_PERMITTED 0x03
-#define SENSOR_CONTACT_NOT_SUPPORTED             1<<1
-#define SENSOR_CONTACT_SUPPORTED_NOT_DETECTED    2<<1 
-#define SENSOR_CONTACT_SUPPORTED_DETECTED        3<<1
+#define ATT_WRITE_NOT_PERMITTED                  0x03
+#define SENSOR_CONTACT_NOT_SUPPORTED             1 << 1
+#define SENSOR_CONTACT_SUPPORTED_NOT_DETECTED    2 << 1
+#define SENSOR_CONTACT_SUPPORTED_DETECTED        3 << 1
 
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
 // TODO:: Fill const values
 
- 
 /*******************************************************************************
  *******************************   TYPEDEFS   **********************************
  ******************************************************************************/
@@ -68,17 +67,20 @@ typedef struct
   uint8_t body_sensor_location;
   uint8_t heart_rate_control_point;
 } heart_rate_t;
- 
+
 /*******************************************************************************
  *****************************   LOCAL DATA   **********************************
  ******************************************************************************/
 static heart_rate_t service_data;
 static bool notifications_enabled = false;
- 
+static sl_sleeptimer_timer_handle_t heart_rate_timer;
+
 /*******************************************************************************
- **************************   GLOBAL FUNCTIONS   *******************************
+ **************************   STATIC FUNCTIONS   *******************************
  ******************************************************************************/
- 
+static void heart_rate_call_back(sl_sleeptimer_timer_handle_t *timer,
+                                 void *data);
+
 /*******************************************************************************
  * @brief
  *   Service Heart Rate initialization
@@ -89,7 +91,7 @@ void heart_rate_init(void)
 {
   // Initialize const strings values
 
-  //TODO:: Add suitable initialization for service
+  // TODO:: Add suitable initialization for service
   service_data.heart_rate_measurement = 0;
 }
 
@@ -105,30 +107,27 @@ void heart_rate_read_callback(sl_bt_msg_t *evt)
 {
   uint16_t characteristic_size = 0;
   const uint8_t *characteristic_ptr = NULL;
-  
+
   // TODO:: Add your own code here.
-  
-  switch(evt->data.evt_gatt_server_user_read_request.characteristic)
+
+  switch (evt->data.evt_gatt_server_user_read_request.characteristic)
   {
-	  
-	// Body Sensor Location value read
+    // Body Sensor Location value read
     case gattdb_body_sensor_location:
-      {
-        characteristic_size = sizeof(service_data.body_sensor_location);
-        characteristic_ptr = (const uint8_t *)&service_data.body_sensor_location;
-      }
-      break;
-	  
-	  
-	// Do nothing
+    {
+      characteristic_size = sizeof(service_data.body_sensor_location);
+      characteristic_ptr = (const uint8_t *)&service_data.body_sensor_location;
+    }
+    break;
+    // Do nothing
     default:
       break;
   }
 
   // Send response
   ble_att_send_data(evt->data.evt_gatt_server_user_read_request.connection,
-                      evt->data.evt_gatt_server_user_read_request.characteristic,
-                      characteristic_ptr, characteristic_size);
+                    evt->data.evt_gatt_server_user_read_request.characteristic,
+                    characteristic_ptr, characteristic_size);
 }
 
 /*******************************************************************************
@@ -150,21 +149,21 @@ void heart_rate_write_callback(sl_bt_msg_t *evt)
              evt->data.evt_gatt_server_user_write_request.value.data,
              evt->data.evt_gatt_server_user_write_request.value.len);
       // TODO:: Add your own code here.
-    break;
-    
+      break;
+
     // Write operation not permitted by default
     default:
       response_code = ATT_WRITE_NOT_PERMITTED;
-    break;
+      break;
   }
-  
+
   // TODO:: Add your own code here.
-  
+
   // Send response
   sl_bt_gatt_server_send_user_write_response(
-      evt->data.evt_gatt_server_user_write_request.connection,
-      evt->data.evt_gatt_server_user_write_request.characteristic,
-      response_code);
+    evt->data.evt_gatt_server_user_write_request.connection,
+    evt->data.evt_gatt_server_user_write_request.characteristic,
+    response_code);
 }
 
 /*******************************************************************************
@@ -182,7 +181,7 @@ void heart_rate_disconnect_event(sl_bt_msg_t *evt)
   // stop timer for indicate and notify
   if (notifications_enabled == true) {
     notifications_enabled = false;
-    sl_bt_system_set_soft_timer(0, HEART_RATE_TIMER, 0);
+//    sl_bt_system_set_soft_timer(0, HEART_RATE_TIMER, 0);
   }
 }
 
@@ -197,42 +196,51 @@ void heart_rate_disconnect_event(sl_bt_msg_t *evt)
 void heart_rate_characteristic_status(sl_bt_msg_t *evt)
 {
   uint8_t send_data[3];
+  bool timer_running = false;
 
-
-  if (hrm_get_status())
-    send_data[0] = SENSOR_CONTACT_SUPPORTED_DETECTED; //flags - sensor contact supported and is detected
-  else
-    send_data[0] = SENSOR_CONTACT_SUPPORTED_NOT_DETECTED; //flags - sensor contact supported and is not detected
-  
+  if (hrm_get_status()) {
+    send_data[0] = SENSOR_CONTACT_SUPPORTED_DETECTED; // flags - sensor contact
+                                                      //   supported and is
+                                                      //   detected
+  } else {
+    send_data[0] = SENSOR_CONTACT_SUPPORTED_NOT_DETECTED; // flags - sensor
+                                                          //   contact supported
+                                                          //   and is not
+                                                          //   detected
+  }
   service_data.heart_rate_measurement = (uint16_t)hrm_get_heart_rate();
   send_data[1] = service_data.heart_rate_measurement & 0xff;
   send_data[2] = (service_data.heart_rate_measurement >> 8) & 0xff;
-  
+
   // Notification or Indication status changed for Heart Rate Measurement
-  if (evt->data.evt_gatt_server_characteristic_status.characteristic
-      == gattdb_heart_rate_measurement
-      && evt->data.evt_gatt_server_characteristic_status.status_flags
-      == gatt_server_client_config ) {
+  if ((evt->data.evt_gatt_server_characteristic_status.characteristic
+       == gattdb_heart_rate_measurement)
+      && (evt->data.evt_gatt_server_characteristic_status.status_flags
+          == gatt_server_client_config)) {
     // Notification or Indication - enabled
     if (evt->data.evt_gatt_server_characteristic_status.client_config_flags) {
-      //Start a software timer 500ms interval
-      sl_bt_system_set_soft_timer(16384, HEART_RATE_TIMER, 0);
-
+      // Start a sleeptimer timer 500ms interval
+      sl_sleeptimer_is_timer_running(&heart_rate_timer, &timer_running);
+      if (!timer_running) {
+        sl_sleeptimer_start_periodic_timer_ms(&heart_rate_timer,
+                                              500,
+                                              heart_rate_call_back,
+                                              NULL,
+                                              0,
+                                              0);
+      }
       // TODO:: Add your own code here.
 
       sl_bt_gatt_server_send_notification(
-           evt->data.evt_gatt_server_characteristic_status.connection,
-           evt->data.evt_gatt_server_characteristic_status.characteristic,
-           3,
-           send_data);
+        evt->data.evt_gatt_server_characteristic_status.connection,
+        evt->data.evt_gatt_server_characteristic_status.characteristic,
+        3,
+        send_data);
       notifications_enabled = true;
-    }
-    // Notification or Indication - disabled
-    else {
+    } else {
       // TODO:: Add your own code here.
       notifications_enabled = false;
-      //Stop the software timer 
-      sl_bt_system_set_soft_timer(0, HEART_RATE_TIMER, 0);
+      sl_sleeptimer_stop_timer(&heart_rate_timer);
     }
   }
 }
@@ -246,23 +254,40 @@ void heart_rate_characteristic_status(sl_bt_msg_t *evt)
 void heart_rate_send_new_data(uint8_t connect)
 {
   uint8_t send_data[3];
-  //uint16_t len;
+  // uint16_t len;
 
-  if (hrm_get_status())
-    send_data[0] = SENSOR_CONTACT_SUPPORTED_DETECTED; //flags - sensor contact supported and is detected
-  else
-    send_data[0] = SENSOR_CONTACT_SUPPORTED_NOT_DETECTED; //flags - sensor contact supported and is not detected
-
+  if (hrm_get_status()) {
+    send_data[0] = SENSOR_CONTACT_SUPPORTED_DETECTED; // flags - sensor contact
+                                                      //   supported and is
+                                                      //   detected
+  } else {
+    send_data[0] = SENSOR_CONTACT_SUPPORTED_NOT_DETECTED; // flags - sensor
+                                                          //   contact supported
+                                                          //   and is not
+                                                          //   detected
+  }
   service_data.heart_rate_measurement = (uint16_t)hrm_get_heart_rate();
   send_data[1] = service_data.heart_rate_measurement & 0xff;
   send_data[2] = (service_data.heart_rate_measurement >> 8) & 0xff;
 
-
   if (notifications_enabled == true) {
-     sl_bt_gatt_server_send_notification(connect,
-                                         gattdb_heart_rate_measurement,
-                                         3,
-                                         send_data);
+    sl_bt_gatt_server_send_notification(connect,
+                                        gattdb_heart_rate_measurement,
+                                        3,
+                                        send_data);
   }
 }
 
+/*******************************************************************************
+ * @brief
+ *   Sleep timer callback function
+ * @return
+ *   None
+ ******************************************************************************/
+static void heart_rate_call_back(sl_sleeptimer_timer_handle_t *timer,
+                                 void *data)
+{
+  (void)timer;
+  (void)data;
+  sl_bt_external_signal(HEART_RATE_TIMER_EXT);
+}

@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   heart_rate.h
- * @brief  Header file of heart rate service
- * @version 1.1.0
+* @file   heart_rate.h
+* @brief  Header file of heart rate service
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -34,9 +34,9 @@
 * maintained and there may be no bug maintenance planned for these resources.
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
- 
-#ifndef __HEART_RATE_H
-#define __HEART_RATE_H
+
+#ifndef _HEART_RATE_H
+#define _HEART_RATE_H
 
 /*******************************************************************************
  *******************************   INCLUDES   **********************************
@@ -48,12 +48,12 @@
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
+#define HEART_RATE_TIMER_EXT 0x05
 
- 
 /*******************************************************************************
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
- 
+
 /*******************************************************************************
  * @brief
  *   Service Heart Rate initialization
@@ -110,4 +110,4 @@ void heart_rate_characteristic_status(sl_bt_msg_t *evt);
  ******************************************************************************/
 void heart_rate_send_new_data(uint8_t connect);
 
-#endif //__HEART_RATE_H
+#endif //_HEART_RATE_H

@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   ble_att_handler.h
- * @brief  Header file of ble_att_handler
- * @version 1.1.0
+* @file   ble_att_handler.h
+* @brief  Header file of ble_att_handler
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -35,8 +35,8 @@
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
 
-#ifndef __HOMEKIT_ATT_HANDLER_H
-#define __HOMEKIT_ATT_HANDLER_H
+#ifndef _BLE_ATT_HANDLER_H
+#define _BLE_ATT_HANDLER_H
 
 /*******************************************************************************
  *******************************   INCLUDES   **********************************
@@ -63,7 +63,10 @@
  * @return
  *   None
  ******************************************************************************/
-void ble_att_send_data(uint8_t connection, uint16_t attHandle, const uint8_t *data, uint16_t len);
+void ble_att_send_data(uint8_t connection,
+                       uint16_t attHandle,
+                       const uint8_t *data,
+                       uint16_t len);
 
 /*******************************************************************************
  * @brief
@@ -87,4 +90,4 @@ bool ble_att_send_data_handler(uint16_t attHandle, uint16_t offset);
  ******************************************************************************/
 void ble_set_mtu_size(uint16_t mtu_Size);
 
-#endif //__HOMEKIT_ATT_HANDLER_H
+#endif //_BLE_ATT_HANDLER_H

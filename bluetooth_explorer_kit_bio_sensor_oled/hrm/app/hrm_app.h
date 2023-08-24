@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file hrm_app.h
- * @brief Header file of hrm_app.c
- * @version 1.0.0
+* @file hrm_app.h
+* @brief Header file of hrm_app.c
+* @version 1.0.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -34,23 +34,28 @@
 * maintained and there may be no bug maintenance planned for these resources.
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
-#ifndef HRM_APP_H__
-#define HRM_APP_H__
+#ifndef _HRM_APP_H
+#define _HRM_APP_H
 
-#define HRM_DEMO_NAME "si117xHRM Demo"
-#define HRM_DEMO_VERSION "1.0.0"
+#define HRM_DEMO_NAME           "si117xHRM Demo"
+#define HRM_DEMO_VERSION        "1.0.0"
 
 /*  External Events  */
 #define MAXM86161_IRQ_EVENT     0x1
 #define BTN0_IRQ_EVENT          0x2
 
+#define OLED_TIMER_EXT          0x04
+
+#define MAX86161_GPIO_INT_PORT  gpioPortB
+#define MAX86161_GPIO_INT_PIN   3
+
 typedef enum hrm_spo2_state
 {
-   HRM_STATE_IDLE,
-   HRM_STATE_NOSIGNAL,
-   HRM_STATE_ACQUIRING,
-   HRM_STATE_ACTIVE,
-   HRM_STATE_INVALID
+  HRM_STATE_IDLE,
+  HRM_STATE_NOSIGNAL,
+  HRM_STATE_ACQUIRING,
+  HRM_STATE_ACTIVE,
+  HRM_STATE_INVALID
 }hrm_spo2_state_t;
 
 typedef struct glib_display{
@@ -93,4 +98,4 @@ bool hrm_get_status(void);
  *****************************************************************************/
 int16_t hrm_get_spo2(void);
 
-#endif    //HRM_APP_H__
+#endif // _HRM_APP_H_

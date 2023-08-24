@@ -49,10 +49,17 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 26 | Bluetooth - RFID Notify | [Click Here](./bluetooth_rfid_notify) |
 | 27 | Bluetooth - Optimized Energy Consuming Sensor | [Click Here](./bluetooth_optimized_energy_consuming_sensor) |
 | 28 | Bluetooth - Optimized Energy Consuming Switch | [Click Here](./bluetooth_optimized_energy_consuming_switch) |
-| 29 | Bluetooth - Bluetooth - PAwR Thermometer | [Click Here](./bluetooth_pawr_thermometer) |
+| 29 | Bluetooth - PAwR Thermometer | [Click Here](./bluetooth_pawr_thermometer) |
+| 30 | Bluetooth - Joystick 7seg | [Click Here](./bluetooth_joystick_7seg) |
+| 31 | Bluetooth - Barometer I2C | [Click Here](./bluetooth_explorer_kit_i2c_barometer/) |
+| 32 | Bluetooth - Distance Monitor (VL53L1X) | [Click Here](./bluetooth_distance_monitor) |
+| 33 | Bluetooth - HRM/Sp02 Measurement (MAXM86161) | [Click Here](./bluetooth_explorer_kit_bio_sensor_oled/) |
+| 34 | Bluetooth - NFC Pairing | [Click Here](./bluetooth_nfc_pairing) |
+| 35 | Bluetooth - Door Lock | [Click Here](./bluetooth_door_lock) |
 
 
 ## Requirements ##
+
 
 1. Silicon Labs EFR32 Development Kit
 2. Simplicity Studio 5

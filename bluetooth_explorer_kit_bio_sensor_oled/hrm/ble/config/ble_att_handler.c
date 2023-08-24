@@ -1,6 +1,6 @@
 /**************************************************************************//**
- * @file   ble_att_handler.c
- * @version 1.1.0
+* @file   ble_att_handler.c
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -42,8 +42,6 @@
 #include <stdio.h>
 #include "sl_bt_api.h"
 
-
-
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
@@ -53,6 +51,7 @@
  */
 #define ATT_BUFFER_SIZE    64
 #define ATT_INVALID_OFFSET 0x07
+
 /*******************************************************************************
  *******************************   TYPEDEFS   **********************************
  ******************************************************************************/
@@ -69,7 +68,7 @@ typedef struct
 /*******************************************************************************
  *****************************   LOCAL DATA   **********************************
  ******************************************************************************/
-static ble_att_handler_t ble_att_handler = {.max_payload = 22};
+static ble_att_handler_t ble_att_handler = { .max_payload = 22 };
 
 /*******************************************************************************
  * @brief
@@ -85,17 +84,17 @@ static ble_att_handler_t ble_att_handler = {.max_payload = 22};
  * @return
  *   None
  ******************************************************************************/
-void ble_att_send_data(uint8_t connection, uint16_t att_handle, const uint8_t *data, uint16_t len)
+void ble_att_send_data(uint8_t connection,
+                       uint16_t att_handle,
+                       const uint8_t *data,
+                       uint16_t len)
 {
   uint8_t bytes_to_send;
   uint16_t sent_len;
 
-  if ( len < ble_att_handler.max_payload)
-  {
+  if (len < ble_att_handler.max_payload) {
     bytes_to_send = len;
-  }
-  else
-  {
+  } else {
     bytes_to_send = ble_att_handler.max_payload;
     ble_att_handler.connection = connection;
     ble_att_handler.att_handle = att_handle;
@@ -106,10 +105,10 @@ void ble_att_send_data(uint8_t connection, uint16_t att_handle, const uint8_t *d
 
   // Send response
   sl_bt_gatt_server_send_user_read_response(connection,
-                                                att_handle,
-                                                (uint8_t) 0x00,  /* SUCCESS */
-                                                bytes_to_send,
-                                                data, &sent_len);
+                                            att_handle,
+                                            (uint8_t) 0x00,      /* SUCCESS */
+                                            bytes_to_send,
+                                            data, &sent_len);
 }
 
 /*******************************************************************************
@@ -125,45 +124,41 @@ void ble_att_send_data(uint8_t connection, uint16_t att_handle, const uint8_t *d
 bool ble_att_send_data_handler(uint16_t att_handle, uint16_t offset)
 {
   uint16_t sent_len;
-  if (att_handle == ble_att_handler.att_handle)
-  {
+  if (att_handle == ble_att_handler.att_handle) {
     uint8_t bytes_to_send;
-    if( offset != ble_att_handler.current_position)
-    {
+    if (offset != ble_att_handler.current_position) {
       // Send response that offset is invalid
       sl_bt_gatt_server_send_user_read_response(ble_att_handler.connection,
-                                                    att_handle,
-                                                    ATT_INVALID_OFFSET,
-                                                    0,
-                                                    NULL, &sent_len);
+                                                att_handle,
+                                                ATT_INVALID_OFFSET,
+                                                0,
+                                                NULL, &sent_len);
       return true;
-
     }
 
-    bytes_to_send = ble_att_handler.bytes_to_send  - ble_att_handler.current_position;
+    bytes_to_send = ble_att_handler.bytes_to_send
+                    - ble_att_handler.current_position;
 
-    if ( bytes_to_send < ble_att_handler.max_payload)
-    {
+    if (bytes_to_send < ble_att_handler.max_payload) {
       // Last packet - clear attribute handle
       ble_att_handler.att_handle = 0;
-    }
-    else
-    {
+    } else {
       bytes_to_send = ble_att_handler.max_payload;
     }
     // Send response
     sl_bt_gatt_server_send_user_read_response(ble_att_handler.connection,
-                                                  att_handle,
-                                                  (uint8_t) 0x00,  /* SUCCESS */
-                                                  bytes_to_send,
-                                                  &ble_att_handler.buffer[ble_att_handler.current_position], &sent_len);
+                                              att_handle,
+                                              (uint8_t) 0x00,
+                                              /* SUCCESS */
+                                              bytes_to_send,
+                                              &ble_att_handler.buffer[
+                                                ble_att_handler.current_position],
+                                              &sent_len);
     // Set new position
     ble_att_handler.current_position += bytes_to_send;
     // Event handled
     return true;
-  }
-  else
-  {
+  } else {
     // Event not handled
     return false;
   }

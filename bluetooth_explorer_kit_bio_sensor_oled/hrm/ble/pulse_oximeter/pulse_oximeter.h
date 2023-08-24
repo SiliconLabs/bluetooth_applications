@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   pulse_oximeter.h
- * @brief  Header file of pulse oximeter service
- * @version 1.1.0
+* @file   pulse_oximeter.h
+* @brief  Header file of pulse oximeter service
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -43,12 +43,13 @@
  ******************************************************************************/
 #include <stdint.h>
 #include <stdbool.h>
-//#include "native_gecko.h"
 #include "sl_bt_types.h"
 
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
+
+#define PLUSE_OXIMETER_TIMER_EXT 0x06
 
 /*! Pulse Oximeter Service - SpO2PR */
 typedef struct plxSpO2PR_tag
@@ -185,6 +186,5 @@ void pulse_oximeter_characteristic_status(sl_bt_msg_t *evt);
  *   None
  ******************************************************************************/
 void pulse_oximeter_send_new_data(uint8_t connect);
-
 
 #endif /* PULSE_OXIMETER_H_ */

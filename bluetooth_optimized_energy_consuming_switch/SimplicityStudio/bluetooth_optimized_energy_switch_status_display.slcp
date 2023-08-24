@@ -78,7 +78,11 @@ configuration:
 
 sdk_extension:
 - id: third_party_hw_drivers
+<<<<<<< HEAD
+  version: 1.6.0
+=======
   version: 1.7.0
+>>>>>>> release/candidate
 
 other_file:
   - path: ../images/switch_device_init.png
