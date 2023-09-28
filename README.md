@@ -56,6 +56,7 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 33 | Bluetooth - HRM/Sp02 Measurement (MAXM86161) | [Click Here](./bluetooth_explorer_kit_bio_sensor_oled/) |
 | 34 | Bluetooth - NFC Pairing | [Click Here](./bluetooth_nfc_pairing) |
 | 35 | Bluetooth - Door Lock | [Click Here](./bluetooth_door_lock) |
+| 36 | Bluetooth - BTHome v2 - Humidity and Temperature Monitor (SHTC3) | [Click Here](./bluetooth_bthome_v2_humidity_and_temperature_monitor/) |
 
 
 ## Requirements ##
