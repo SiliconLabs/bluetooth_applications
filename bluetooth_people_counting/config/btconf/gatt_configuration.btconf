@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Custom BLE GATT-->
+<gatt gatt_caching="true" generic_attribute_service="true" header="gatt_db.h" name="Custom BLE GATT" out="gatt_db.c" prefix="gattdb_">
+
+  <!--Generic Access-->
+  <service advertise="false" name="Generic Access" requirement="mandatory" sourceId="org.bluetooth.service.generic_access" type="primary" uuid="1800">
+    <informativeText>Abstract: The generic_access service contains generic information about the device. All available Characteristics are readonly. </informativeText>
+
+    <!--Device Name-->
+    <characteristic const="true" id="device_name" name="Device Name" sourceId="org.bluetooth.characteristic.gap.device_name" uuid="2A00">
+      <value length="15" type="utf-8" variable_length="false">People Counting</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Appearance-->
+    <characteristic const="true" name="Appearance" sourceId="org.bluetooth.characteristic.gap.appearance" uuid="2A01">
+      <informativeText>Abstract: The external appearance of this device. The values are composed of a category (10-bits) and sub-categories (6-bits). </informativeText>
+      <value length="2" type="hex" variable_length="false">0000</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--Device Information-->
+  <service advertise="false" id="device_information" name="Device Information" requirement="mandatory" sourceId="org.bluetooth.service.device_information" type="primary" uuid="180A">
+    <informativeText>Abstract:  The Device Information Service exposes manufacturer and/or vendor information about a device.  Summary:  This service exposes manufacturer information about a device. The Device Information Service is instantiated as a Primary Service. Only one instance of the Device Information Service is exposed on a device.  </informativeText>
+
+    <!--Manufacturer Name String-->
+    <characteristic const="true" id="manufacturer_name_string" name="Manufacturer Name String" sourceId="org.bluetooth.characteristic.manufacturer_name_string" uuid="2A29">
+      <informativeText>Abstract:  The value of this characteristic is a UTF-8 string representing the name of the manufacturer of the device.  </informativeText>
+      <value length="12" type="utf-8" variable_length="false">Silicon Labs</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--System ID-->
+    <characteristic const="false" id="system_id" name="System ID" sourceId="org.bluetooth.characteristic.system_id" uuid="2A23">
+      <informativeText>Abstract:  The SYSTEM ID characteristic consists of a structure with two fields. The first field are the LSOs and the second field contains the MSOs.       This is a 64-bit structure which consists of a 40-bit manufacturer-defined identifier concatenated with a 24 bit unique Organizationally Unique Identifier (OUI). The OUI is issued by the IEEE Registration Authority (http://standards.ieee.org/regauth/index.html) and is required to be used in accordance with IEEE Standard 802-2001.6 while the least significant 40 bits are manufacturer defined.       If System ID generated based on a Bluetooth Device Address, it is required to be done as follows. System ID and the Bluetooth Device Address have a very similar structure: a Bluetooth Device Address is 48 bits in length and consists of a 24 bit Company Assigned Identifier (manufacturer defined identifier) concatenated with a 24 bit Company Identifier (OUI). In order to encapsulate a Bluetooth Device Address as System ID, the Company Identifier is concatenated with 0xFFFE followed by the Company Assigned Identifier of the Bluetooth Address. For more guidelines related to EUI-64, refer to http://standards.ieee.org/develop/regauth/tut/eui64.pdf.  Examples:  If the system ID is based of a Bluetooth Device Address with a Company Identifier (OUI) is 0x123456 and the Company Assigned Identifier is 0x9ABCDE, then the System Identifier is required to be 0x123456FFFE9ABCDE.  </informativeText>
+      <value length="8" type="hex" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Model Number String-->
+    <characteristic const="false" id="model_number_string" name="Model Number String" sourceId="org.bluetooth.characteristic.model_number_string" uuid="2A24">
+      <informativeText>Abstract: 
+            The value of this characteristic is a UTF-8 string representing the model number assigned by the device vendor.
+        </informativeText>
+      <value length="8" type="utf-8" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Hardware Revision String-->
+    <characteristic const="false" id="hardware_revision_string" name="Hardware Revision String" sourceId="org.bluetooth.characteristic.hardware_revision_string" uuid="2A27">
+      <informativeText>
+Summary: 
+      The value of this characteristic is a UTF-8 string representing the hardware revision for the hardware within the device.
+		</informativeText>
+      <value length="3" type="utf-8" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Firmware Revision String-->
+    <characteristic const="false" id="firmware_revision_string" name="Firmware Revision String" sourceId="org.bluetooth.characteristic.firmware_revision_string" uuid="2A26">
+      <informativeText>
+Summary: 
+            The value of this characteristic is a UTF-8 string representing the firmware revision for the firmware within the device.
+		</informativeText>
+      <value length="5" type="utf-8" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+
+  <!--People Counting-->
+  <service advertise="true" name="People Counting" requirement="mandatory" sourceId="" type="primary" uuid="66332ec5-990b-4f16-84b0-89790a6620c8">
+
+    <!--People Entered So Far-->
+    <characteristic const="false" id="people_entered_so_far" name="People Entered So Far" sourceId="" uuid="cf88405b-e223-4976-82aa-78c6b305b0a8">
+      <value length="0" type="user" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--People Count-->
+    <characteristic const="false" id="people_count" name="People Count" sourceId="" uuid="2b9837e1-5560-49e5-a8cf-2f3b0db0bd6b">
+      <value length="0" type="user" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Min Distance-->
+    <characteristic const="false" id="min_distance" name="Min Distance" sourceId="" uuid="f2f7c459-e623-4970-ab36-d3a4651a694e">
+      <value length="0" type="user" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Max Distance-->
+    <characteristic const="false" id="max_distance" name="Max Distance" sourceId="" uuid="d0a946d7-a183-4cb7-a9cb-b9c879cdb6fa">
+      <value length="0" type="user" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Distance Threshold-->
+    <characteristic const="false" id="distance_threshold" name="Distance Threshold" sourceId="" uuid="0192bd9d-cb4f-49cc-b3dc-2d7facc9edcd">
+      <value length="0" type="user" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Timing Budget-->
+    <characteristic const="false" id="timing_budget" name="Timing Budget" sourceId="" uuid="01fb0e47-13c9-4369-88cc-07f58759a6a6">
+      <value length="0" type="user" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Notification Status-->
+    <characteristic const="false" id="notification_status" name="Notification Status" sourceId="" uuid="ca89196b-76e2-41a0-9e41-342f4a2ff6f1">
+      <value length="0" type="user" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+        <notify authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Room capacity-->
+    <characteristic const="false" id="room_capacity" name="Room capacity" sourceId="" uuid="c714d394-7e0d-4c6a-a864-1183046a244c">
+      <value length="0" type="user" variable_length="false"/>
+      <properties>
+        <read authenticated="false" bonded="true" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+        <notify authenticated="false" bonded="false" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+</gatt>

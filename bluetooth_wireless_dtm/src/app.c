@@ -78,7 +78,8 @@ typedef struct dtm_test_parameters {
   int8_t power_level;
 } dtm_test_parameters_t;
 
-// Structure containing all settings, results and the inner state of the DTM test.
+// Structure containing all settings, results and the inner state of the DTM
+//   test.
 typedef struct dtm_test {
   dtm_mode_t mode;
   dtm_state_t state;
@@ -100,7 +101,6 @@ static sl_sleeptimer_timer_handle_t dtm_sleeptimer_handle;
 static uint8_t app_ble_advertising_set_handle = 0xff;
 // Bluetooth connection handle.
 static uint8_t app_ble_connection_handle = 0xff;
-
 
 // -----------------------------------------------------------------------------
 //                          Static Function Declarations
@@ -131,21 +131,18 @@ static void on_dtm_sleeptimer_callback(sl_sleeptimer_timer_handle_t *handle,
   sl_bt_external_signal(DTM_TEST_TIMEOUT_EVENT);
 }
 
-
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
-
 }
 
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
-
 }
 
 /**************************************************************************//**
@@ -159,7 +156,6 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
   sl_status_t sc;
 
   switch (SL_BT_MSG_ID(evt->header)) {
-
     case sl_bt_evt_system_boot_id:
       app_dtm_reset_data();
       app_ble_set_system_id();
@@ -168,12 +164,14 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
     case sl_bt_evt_connection_opened_id:
 
-      app_dtm_connection_opened_event_handler(evt->data.evt_connection_opened.connection);
+      app_dtm_connection_opened_event_handler(
+        evt->data.evt_connection_opened.connection);
       break;
 
     case sl_bt_evt_connection_closed_id:
 
-      sc = app_dtm_connection_closed_event_handler(evt->data.evt_connection_closed.reason);
+      sc = app_dtm_connection_closed_event_handler(
+        evt->data.evt_connection_closed.reason);
       if (sc != SL_STATUS_OK) {
         app_dtm_error_handler();
       }
@@ -181,8 +179,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
     case sl_bt_evt_test_dtm_completed_id:
 
-      sc = app_dtm_test_completed_event_handler(evt->data.evt_test_dtm_completed.result,
-                                                evt->data.evt_test_dtm_completed.number_of_packets);
+      sc = app_dtm_test_completed_event_handler(
+        evt->data.evt_test_dtm_completed.result,
+        evt->data.evt_test_dtm_completed.number_of_packets);
       if (sc != SL_STATUS_OK) {
         app_dtm_error_handler();
       }
@@ -191,7 +190,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_system_external_signal_id:
 
       // Timeout occurred.
-      if (evt->data.evt_system_external_signal.extsignals == DTM_TEST_TIMEOUT_EVENT) {
+      if (evt->data.evt_system_external_signal.extsignals
+          == DTM_TEST_TIMEOUT_EVENT) {
         app_dtm_stop_test();
       }
       break;
@@ -253,13 +253,14 @@ static sl_status_t app_ble_start_advertising()
 
   // Set advertising interval to 100ms.
   sc = sl_bt_advertiser_set_timing(app_ble_advertising_set_handle,
-                                   160, // min. adv. interval (milliseconds * 1.6)
-                                   160, // max. adv. interval (milliseconds * 1.6)
+                                   160, // min. adv. interval (ms * 1.6)
+                                   160, // max. adv. interval (ms * 1.6)
                                    0,   // adv. duration
                                    0);  // max. num. adv. events
   app_assert_status(sc);
 
-  sl_bt_legacy_advertiser_generate_data(app_ble_advertising_set_handle, sl_bt_advertiser_general_discoverable);
+  sl_bt_legacy_advertiser_generate_data(app_ble_advertising_set_handle,
+                                        sl_bt_advertiser_general_discoverable);
 
   // Start general advertising and enable connections.
   sc = sl_bt_legacy_advertiser_start(app_ble_advertising_set_handle,
@@ -277,9 +278,9 @@ static sl_status_t app_dtm_verify_settings()
 {
   app_dtm_load_settings();
 
-  if ((dtm_test.mode == DTM_MODE_NONE) ||
-      (dtm_test.parameters.duration == 0) ||
-      (dtm_test.parameters.phy == 0)) {
+  if ((dtm_test.mode == DTM_MODE_NONE)
+      || (dtm_test.parameters.duration == 0)
+      || (dtm_test.parameters.phy == 0)) {
     return SL_STATUS_INVALID_PARAMETER;
   }
 
@@ -325,7 +326,8 @@ static sl_status_t app_dtm_start_test()
  ******************************************************************************/
 static sl_status_t app_dtm_start_rx()
 {
-  return sl_bt_test_dtm_rx(dtm_test.parameters.channel, dtm_test.parameters.phy);
+  return sl_bt_test_dtm_rx(dtm_test.parameters.channel,
+                           dtm_test.parameters.phy);
 }
 
 /***************************************************************************//**
@@ -354,20 +356,20 @@ static sl_status_t app_dtm_start_cw()
 /***************************************************************************//**
  *  Handles the test_dtm_completed Bluetooth event.
  ******************************************************************************/
-static sl_status_t app_dtm_test_completed_event_handler(uint16_t result, uint16_t number_of_packets)
+static sl_status_t app_dtm_test_completed_event_handler(uint16_t result,
+                                                        uint16_t number_of_packets)
 {
   if (result != 0) {
     return SL_STATUS_FAIL;
   }
-
   switch (dtm_test.state) {
     case DTM_TEST_STARTED:
-      sl_sleeptimer_start_timer(&dtm_sleeptimer_handle,
-                                sl_sleeptimer_ms_to_tick(dtm_test.parameters.duration*1000),
-                                on_dtm_sleeptimer_callback,
-                                NULL,
-                                0,
-                                0);
+      sl_sleeptimer_start_timer_ms(&dtm_sleeptimer_handle,
+                                   dtm_test.parameters.duration * 1000,
+                                   on_dtm_sleeptimer_callback,
+                                   NULL,
+                                   0,
+                                   0);
       dtm_test.state = DTM_TEST_RUNNING;
       break;
 
@@ -439,7 +441,10 @@ static void app_dtm_publish_result()
   // Clear mode parameter in GATT database. It will indicate that
   // there is no valid test configuration for the next test.
   dtm_test.mode = DTM_MODE_NONE;
-  sc = sl_bt_gatt_server_write_attribute_value(gattdb_dtm_mode, 0, 1, &dtm_test.mode);
+  sc = sl_bt_gatt_server_write_attribute_value(gattdb_dtm_mode,
+                                               0,
+                                               1,
+                                               &dtm_test.mode);
   app_assert_status(sc);
 }
 
@@ -522,13 +527,10 @@ static void app_dtm_load_settings()
                                                 0,
                                                 sizeof(dtm_parameter_uint8),
                                                 &size,
-                                                (uint8_t*)&dtm_test.parameters.power_level);
+                                                (uint8_t *)&dtm_test.parameters.power_level);
     app_assert_status(sc);
   }
 }
-
-
-
 
 /***************************************************************************//**
  *  Sets all characteristics to zero in the DTM control service.
@@ -536,30 +538,30 @@ static void app_dtm_load_settings()
 static void app_dtm_reset_data()
 {
   sl_status_t sc;
-  uint8_t dtm_duration_data[2] = {0};
+  uint8_t dtm_duration_data[2] = { 0 };
   uint8_t dtm_mode_data = DTM_MODE_NONE;
-  uint8_t dtm_result_data[2] = {0};
+  uint8_t dtm_result_data[2] = { 0 };
 
   memset(&dtm_test, 0x00, sizeof(dtm_test));
 
   // If an error occur, all characteristic values are zero in the
   // Silicon Labs DTM control service.
   sc = sl_bt_gatt_server_write_attribute_value(gattdb_dtm_mode,
-                                          0,
-                                          sizeof(dtm_mode_data),
-                                          &dtm_mode_data);
+                                               0,
+                                               sizeof(dtm_mode_data),
+                                               &dtm_mode_data);
   app_assert_status(sc);
 
   sc = sl_bt_gatt_server_write_attribute_value(gattdb_dtm_duration,
-                                          0,
-                                          sizeof(dtm_duration_data),
-                                          dtm_duration_data);
+                                               0,
+                                               sizeof(dtm_duration_data),
+                                               dtm_duration_data);
   app_assert_status(sc);
 
   sc = sl_bt_gatt_server_write_attribute_value(gattdb_dtm_result,
-                                          0,
-                                          sizeof(dtm_result_data),
-                                          dtm_result_data);
+                                               0,
+                                               sizeof(dtm_result_data),
+                                               dtm_result_data);
   app_assert_status(sc);
 
   dtm_test.state = DTM_IDLE;
@@ -573,7 +575,8 @@ static void app_dtm_error_handler()
 {
   sl_status_t sc;
 
-  // If device is connected, disconnect first, then clear data and start advertising
+  // If device is connected, disconnect first, then clear data and start
+  //   advertising
   if (dtm_test.state == DTM_CONNECTED) {
     sc = sl_bt_connection_close(app_ble_connection_handle);
     app_assert_status(sc);

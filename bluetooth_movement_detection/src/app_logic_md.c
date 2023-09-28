@@ -46,9 +46,9 @@
 #include "em_gpio.h"
 #include "gpiointerrupt.h"
 
-#include "bma400.h"
+#include "mikroe_bma400_i2c.h"
+#include "mikroe_bma400_i2c_config.h"
 #include "sl_i2cspm_instances.h"
-#include "sl_bma400_i2c.h"
 
 #include "sl_simple_button_instances.h"
 #include "sl_simple_led_instances.h"
@@ -73,7 +73,6 @@ md_config_data_t md_config = MD_DEFAULT_CONFIG;
 // Implemented BLE characteristics and their features.
 md_feature_t md_features[] = MD_FEATURES;
 
-
 // Local application logic functions
 static void md_load_config_from_nvm(void);
 static void md_print_config(void);
@@ -93,17 +92,17 @@ static void acc_sensor_disable_auto_wakeup_int(void);
 static void gpio_init(void)
 {
   GPIOINT_Init();
-  GPIO_ExtIntConfig(gpioPortB,
-                    BMA400_INT_PIN,
-                    BMA400_INT_PIN,
+  GPIO_ExtIntConfig(MIKROE_BMA400_INT1_PORT,
+                    MIKROE_BMA400_INT1_PIN,
+                    MIKROE_BMA400_INT1_PIN,
                     true,
                     false,
                     true);
-  GPIO_PinModeSet(gpioPortB,
-                  BMA400_INT_PIN,
+  GPIO_PinModeSet(MIKROE_BMA400_INT1_PORT,
+                  MIKROE_BMA400_INT1_PIN,
                   gpioModeInputPull,
                   (unsigned int)1);
-  GPIOINT_CallbackRegister(BMA400_INT_PIN,
+  GPIOINT_CallbackRegister(MIKROE_BMA400_INT1_PIN,
                            app_external_int_auto_wakeup_callback);
 }
 
@@ -114,7 +113,7 @@ static void md_load_config_from_nvm(void)
 {
   sl_status_t status;
   size_t data_length = 0;
-  uint8_t data[4] = {0};
+  uint8_t data[4] = { 0 };
 
   app_log("Loading parameters from NVM...\n");
 
@@ -149,9 +148,9 @@ static void md_load_config_from_nvm(void)
  ******************************************************************************/
 static void md_print_config(void)
 {
-  app_log("wakeup time period = %d (ms)\r\n",md_config.wake_up_time_period);
-  app_log("threshold = %d (lsb)\r\n",md_config.movement_threshold);
-  app_log("notification time = %d (ms)\r\n",md_config.notification_time);
+  app_log("wakeup time period = %d (ms)\r\n", md_config.wake_up_time_period);
+  app_log("threshold = %d (lsb)\r\n", md_config.movement_threshold);
+  app_log("notification time = %d (ms)\r\n", md_config.notification_time);
   app_log("notification break time = %d (ms)\r\n",
           md_config.notification_break_time);
 }
@@ -230,7 +229,7 @@ static void check_object_moving(void)
 
       // Disable auto wakeup interrupt until break time is over.
       acc_sensor_disable_auto_wakeup_int();
-      GPIO_IntDisable(1 << BMA400_INT_PIN);
+      GPIO_IntDisable(1 << MIKROE_BMA400_INT1_PIN);
 
       handle_detected_moving();
     } else {
@@ -273,7 +272,7 @@ static void handle_detected_moving(void)
     0);
   if (status != SL_STATUS_OK) {
     app_log("Start blink led timer failed\r\n");
-  }                                             
+  }
   app_assert_status(status);
 }
 
@@ -369,7 +368,7 @@ void app_logic_md_handle_notify_break_timer(void)
 
   // Enable auto wakeup interrupt because break time is over.
   acc_sensor_enable_auto_wakeup_int();
-  GPIO_IntEnable(1 << BMA400_INT_PIN);
+  GPIO_IntEnable(1 << MIKROE_BMA400_INT1_PIN);
 
   acc_sensor_enter_lp_mode();
   md_runtime_data.movement_flag = false;
@@ -396,7 +395,6 @@ movement_detection_mode_t app_logic_md_handle_system_boot_evt(void)
   // If BTN0 is held down then choose configuration mode.
   if (sl_simple_button_get_state(&sl_button_btn0)
       == SL_SIMPLE_BUTTON_PRESSED) {
-
     // Device enter configuration mode, turn on led0 to indicate.
     sl_simple_led_turn_on(sl_led_led0.context);
 
@@ -456,7 +454,7 @@ void app_logic_md_handle_acc_wakeup_evt(void)
 
   // Disable auto wakeup interrupt.
   acc_sensor_disable_auto_wakeup_int();
-  GPIO_IntDisable(1 << BMA400_INT_PIN);
+  GPIO_IntDisable(1 << MIKROE_BMA400_INT1_PIN);
 }
 
 /***************************************************************************//**
@@ -466,7 +464,7 @@ void app_logic_md_handle_wakeup_time_period_evt(void)
 {
   // Enable auto wakeup interrupt.
   acc_sensor_enable_auto_wakeup_int();
-  GPIO_IntEnable(1 << BMA400_INT_PIN);
+  GPIO_IntEnable(1 << MIKROE_BMA400_INT1_PIN);
 
   check_object_moving();
 }

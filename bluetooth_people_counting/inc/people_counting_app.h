@@ -65,7 +65,7 @@ void people_counting_process_evt_external_signal(uint32_t extsignals);
  *
  ******************************************************************************/
 void people_counting_process_evt_gatt_server_user_write_request(
-    sl_bt_evt_gatt_server_user_write_request_t *data);
+  sl_bt_evt_gatt_server_user_write_request_t *data);
 
 /***************************************************************************//**
  * @brief
@@ -77,7 +77,7 @@ void people_counting_process_evt_gatt_server_user_write_request(
  *
  ******************************************************************************/
 void people_counting_process_evt_gatt_server_user_read_request(
-    sl_bt_evt_gatt_server_user_read_request_t *data);
+  sl_bt_evt_gatt_server_user_read_request_t *data);
 
 /***************************************************************************//**
  * @brief
@@ -89,7 +89,7 @@ void people_counting_process_evt_gatt_server_user_read_request(
  *
  ******************************************************************************/
 void people_counting_process_evt_gatt_server_characteristic_status(
-    sl_bt_evt_gatt_server_characteristic_status_t *data);
+  sl_bt_evt_gatt_server_characteristic_status_t *data);
 
 /***************************************************************************//**
  * @brief

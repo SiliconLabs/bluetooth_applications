@@ -1,4 +1,4 @@
-# People counting application with BLE
+# Bluetooth - People Counting (VL53L1X) #
 ![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_common.json&label=Type&query=type&color=green)
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_common.json&label=License&query=license&color=green)
@@ -7,159 +7,189 @@
 ![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_common.json&label=Flash&query=flash&color=blue)
 ![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_common.json&label=RAM&query=ram&color=blue)
 
-## Overview
+## Overview ##
 
-This project aims to implement a people counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensors.
+This project aims to implement a people-counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensor.
 
-The block diagram of this application is shown in the image below:
+This example can be as the first step in developing other upgrade applications based on it. It will be upgraded as a part of the people tracking system in the building or the factory and so on soon. Integrated with BLE wireless technology, therefore the user can control and monitor this system so easily. 
 
-![overview](images/overview.png)
+##  Gecko SDK version ##
 
-More detailed information can be found in the section [How it works](#how-it-works).
+ - GSDK v4.3.1
+  
+ - [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
-This code example referred to the following code examples. More detailed information can be found here:
+## Hardware Required ##
 
-- [OLED SSD1306 driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/oled_ssd1306_i2c)
-- [Bluetooth security feature](https://github.com/SiliconLabs/bluetooth_stack_features_staging/tree/master/security)
-- [Distance sensor driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/distance_vl53l1x)
-
-## Gecko SDK Suite version
-
-GSDK v4.0.2
-
-## Hardware Required
-
-- [BGM220 Bluetooth Module Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
 
 - [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
 
-- [SparkFun Distance Sensor Breakout](https://www.sparkfun.com/products/14722)
+- [SparkFun Distance Sensor Breakout - VL53L1X](https://www.sparkfun.com/products/14722)
+
+**NOTE:**
+Tested boards for working with this example:
+
+| Board ID | Description  |
+| ---------------------- | ------ |
+| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A ](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
+| BRD2601B | [EFR32xG24 Dev Kit - XG24-DK2601B ](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)    |
+| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)  |
+| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)  |
+| BRD2704A | [SparkFun Thing Plus Matter - MGM240P](https://www.sparkfun.com/products/20270)  |
 
 ## Connections Required
 
+The I2C connection is made from the BGM220 Bluetooth Module Explorer Kit to the Distance Sensor Breakout board and the Micro OLED Breakout by using the Qwiic cable.
+
 The hardware connection is shown in the image below:
 
-![hardware connection](images/hardware_connection.png)
+![hardware connection](image/hardware_connection.png)
 
-The I2C connection is made from the BGM220 Bluetooth Module Explorer Kit to the Distance Sensor Breakout board and the Micro OLED Breakout by using the qwiic cable.
+**Note:**
 
-## Setup
+- If you use **SparkFun Thing Plus Matter - MGM240P** to run this application, you have to set up an external button, because it has no integrated button. Please, connect this button to **PB0** pin on the SparkFun Thing Plus Matter board.
 
-To test this application, you can either import the provided `bluetooth_people_counting.sls` project file or start with an empty example project as the following:
+- To connect the external button to the board and make the project more stable, you should use a ceramic capacitor (ex: Ceramic Capacitor 104) and a resistor to avoid the anti-vibration button used in the project as below.
+  
+![external_button](image/external_button.png)
 
-1. Create a **Bluetooth - SoC Empty** project for the **BGM220 Bluetooth Module Explorer Kit** using Simplicity Studio 5.
+## Setup ##
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
+
+### Create a project based on an example project ###
+
+1. From the Launcher Home, add your hardware to **My Products**, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter **"people counting"**.
+
+2. Click **Create** button on the **Bluetooth - People Counting (VL53L1X)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+![create_project](image/create_project.png)
+
+3. Build and flash this example to the board.
+
+### Start with a "Bluetooth - SoC Empty" project ###
+
+1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
+
+2. Copy all attached files in **inc** and **src** folders into the project root folder (overwriting existing).
 
 3. Import the GATT configuration:
 
-   - Open the .slcp file in the project.
+    - Open the .slcp file in the project.
 
-   - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
+    - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
+    
+    - Find the Import button and import the configuration `bluetooth_people_counting/config/btconfig/gatt_configuration.btconf` file.
 
-   - Find the Import button and import the attached [gatt_configuration.btconf](config/gatt_configuration.btconf) file.
+    - Save the GATT configuration (ctrl-s).
 
-   - Save the GATT configuration (ctrl-s).
+4. Open the .slcp file. Select the **SOFTWARE COMPONENTS** tab and install the software components:
 
-4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
+    - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
 
-    - Install **[Platform] > [Driver] > [I2CSPM]** component with the default instance name: **qwiic**. Set this component to use I2C1 peripheral, SCL to PD02 pin, SDA to PD03 pin.
+    - [Application] → [Utility] → [Log]
 
-        ![i2c qwiic](images/i2c_qwiic.png)
+    - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0
+  
+    - [Platform] → [Driver] → [LED] → [Simple LED] → default instance name: led0
 
-    - Install **[Platform] > [IO Stream] > [IO Stream: USART]** component with the default instance name: **vcom**.
+    - [Third Party Hardware Drives] → [Sensors] → [VL53L1X - Distance Sensor Breakout (Sparkfun)]
+  
+    - [Third Party Hardware Drives] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun - I2C)]
 
-    - Install **[Platform] > [Driver] > [Button] > [Simple Button]** component with the default instance name: **btn0**.
-
-    - Install **[Platform] > [Driver] > [LED] > [Simple LED]** component with the default instance name: **led0**.
-
-    - Install **[Services] > [NVM3] > [NVM3 Default Instance]** component.
-
-    - Install **[Application] > [Utility] > [Log]** component.
-
+    - [Third Party Hardware Drives] → [Services] → [GLIB - OLED Graphics Library]
+  
 5. Build and flash the project to your device.
 
-    *Note*: You need to create the bootloader project and flash it to the device before flashing the application. When flash the application image to the device, use the .hex or .s37 output file. Flashing the .bin files may overwrite (erase) the bootloader.
+**Note:**
 
-## How it Works
+- Make sure the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
-### Application overview
+- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
-![Application overview](images/application_overview.png)
+## How It Works ##
 
-### GATT Configurator
+### GATT Database ###
 
-The application is based on the Bluetooth - SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required.
+Advertisement Packet Device name: **People Counting**
 
-The GATT changes were adding a new custom service (People Counting) using UUID `66332ec5-990b-4f16-84b0-89790a6620c8` which are 8 characteristics:
+**GATT Database**
 
-- **People Entered So Far**: UUID `cf88405b-e223-4976-82aa-78c6b305b0a8`
+- Device name: **RFID Notify**
 
-  - [**Readable**] - Get total number of people enter the room
+- **[Service] People Counting**
 
-  - [**Writable**] - Clear total number of people enter the room  
+    - **[Char] People Entered So Far** UUID: `cf88405b-e223-4976-82aa-78c6b305b0a8`
 
-- **People Count**: UUID `2b9837e1-5560-49e5-a8cf-2f3b0db0bd6b`
+        - [R] Get the number of people entering the room.
+  
+        - [W] Clear the number of people entering the room.
+  
+    - **[Char] People Count** UUID: `2b9837e1-5560-49e5-a8cf-2f3b0db0bd6b`
 
-  - [**Readable**] - Get number of people in the room
+        - [R] Get the number of people in the room.
+  
+        - [W] Clear the number of people in the room.
 
-  - [**Writable**] - Clear number of people in the room  
+    - **[Char] Min Distance:** UUID: `f2f7c459-e623-4970-ab36-d3a4651a694e`
 
-- **Min Distance**: UUID `f2f7c459-e623-4970-ab36-d3a4651a694e`
+        - [R] Get minimum distance that is used by counting people algorithm (mm).
+  
+        - [W] Set minimum distance that is used by counting people algorithm (mm).
 
-  - [**Readable**] - Get minimum distance that is using by counting people algorithm (mm)
+    - **[Char] Max Distance:** UUID: `d0a946d7-a183-4cb7-a9cb-b9c879cdb6fa`
 
-  - [**Writable**] - Set minimum distance that is using by counting people algorithm (mm)  
+        - [R] Get maximum distance that is used by counting people algorithm (mm).
+  
+        - [W] Set maximum distance that is used by counting people algorithm (mm).
 
-- **Max Distance**: UUID `d0a946d7-a183-4cb7-a9cb-b9c879cdb6fa`
+    - **[Char] Distance Threshold:** UUID: `0192bd9d-cb4f-49cc-b3dc-2d7facc9edcd`
 
-  - [**Readable**] - Get maximum distance that is using by counting people algorithm (mm)
+        - [R] Get distance threshold that is used by counting people algorithm (mm).
+  
+        - [W] Set distance threshold that is used by counting people algorithm (mm).
 
-  - [**Writable**] - Set maximum distance that is using by counting people algorithm (mm)  
+    - **[Char] Timing Budget:** UUID: `01fb0e47-13c9-4369-88cc-07f58759a6a6`
 
-- **Distance Threshold**: UUID `0192bd9d-cb4f-49cc-b3dc-2d7facc9edcd`  
-  - [**Readable**] - Get distance threshold that is using by counting people algorithm (mm)
+        - [R] Get timing budget that is used by counting people algorithm (ms).
+  
+        - [W] Set timing budget that is used by counting people algorithm (ms).
 
-  - [**Writable**] - Set distance threshold that is using by counting people algorithm (mm)(mm)  
+    - **[Char] Notification Status:** UUID: `ca89196b-76e2-41a0-9e41-342f4a2ff6f1`
 
-- **Timing Budget**: UUID `01fb0e47-13c9-4369-88cc-07f58759a6a6`
-  - [**Readable**] - Get timing budget that is using by counting people algorithm (ms)
+        - [R] Get notification status.
+  
+        - [W] Enable & disable notification status.
 
-  - [**Writable**] - Set timing budget that is using by counting people algorithm (ms)  
+    - **[Char] Room capacity:** UUID: `c714d394-7e0d-4c6a-a864-1183046a244c`
 
-- **Notification Status**: UUID `ca89196b-76e2-41a0-9e41-342f4a2ff6f1`
-  - [**Readable**] - Get notification status
+        - [R] Get room capacity.
+  
+        - [W] Set room capacity.
+  
+        - [N] Get notification of room status( full or empty).
 
-  - [**Writable**] - Enable & disable notification status
+### People Counting Implementation ###
 
-- **Room capacity**: UUID `c714d394-7e0d-4c6a-a864-1183046a244c`
-  - [**Readable**] - Get room capacity
+#### Application initialization ####
 
-  - [**Writable**] - Set room capacity
+![Application init](image/app_init.png)  
 
-  - [**Notifiable**] - Get notification of room status( full or empty)
+#### Sensor initialization ####
 
-### People Counting Implementation
+![Sensor init](image/sensor_init.png)  
 
-#### Application initialization
+#### Sensor sampling ####
 
-![Application init](images/app_init.png)  
+![Sensor sampling](image/sampling_workflows.png)
 
-#### Sensor initialization
-
-![Sensor init](images/sensor_init.png)  
-
-#### Sensor sampling
-
-![Sensor sampling](images/sampling_workflows.png)
-
-#### Application Workflows
+#### Application Workflows ####
 
 1. Initialize the peripherals, the Bluetooth stack
 
-2. Initialize and load the NVM3 configurations
+2. Initialize and load the previous configurations from NVM memory.
 
-3. Wait for the VL53L1X sensor is booted and initialize the VL53L1X sensor with the configurations from NVM3:
+3. Wait for the VL53L1X sensor to be booted and initialize the VL53L1X sensor with the configurations from NVM3:
 
     - Distance mode: LONG
 
@@ -171,91 +201,82 @@ The GATT changes were adding a new custom service (People Counting) using UUID `
 
 5. Initialize the OLED display.
 
-6. Start a periodic timer with period 1ms. The timer callback will fire an external event to ble stack and the event handler will do:
+6. Start a periodical timer every second. The timer callback will raise an external event to the BLE stack and the event handler will do:
 
-    - Check if ranging data is ready.
+    - Check if the ranging data is ready.
 
-    - Get the new distance sample.
+    - Get a new distance sample.
 
     - Calculate people counting algorithm with new distance sample.
 
-    - Switch Region of interest (ROI) center to other zone (front or back)
+    - Switch the Region of Interest (ROI) center to other zones (front or back)
 
-7. Start a periodic timer with period 1000ms, The timer callback will fire an external event to ble stack and the event handler will display people counting data from the result of the counting algorithm calculation.
+7. Start a periodical timer with 1000 milliseconds for each periodic period, The timer callback will raise an external event to the BLE stack and the event handler will display people counting data which was calculated by the people counting algorithm calculation.
 
-8. After the *sl_bt_evt_system_boot_id* event arrives, App sets up the security manager to bond with an iOS/Android device. And then start advertising.
+8.  After the **sl_bt_evt_system_boot_id** event arrives, the application sets up the security manager to bond with an iOS or Android device. And then start advertising.
 
-9. Handle GATT event to help user configure the [counting algorithm](#counting-algorithm) and get the result from the algorithm calculation over the *EFR32 connect* mobile app
+9.  Handle GATT events to help the user configures the counting algorithm and get the result from the algorithm calculation over the **EFR Connect** mobile application.
 
-### Counting algorithm
+### People Counting algorithm ###
 
 The counting algorithm example relies on a list of states that have to occur in a certain order to detect if a person has crossed the specified area and in which direction this area has been crossed. These states are stored in a list and compared to two default lists of states that represent how the area is crossed in two different directions.
 
-When no-one is seen in either of the two zones, the list of states is reset.
-If we consider that a person detected in the front zone equals 2, and a person detected in the back zone equals 1, the algorithm adds the value of the two states and stores the result as soon as it changes.
+When no one is seen in either of the two zones, the list of states is reset.
+If we consider that a person detected in the front zone equals 2, and a person detected in the back zone equals 1, the algorithm adds these values and stores the result as soon as it changes.
 
-Eventually, if the consecutive states in the list are 0, 1, 3, 2, 0 or 0, 2, 3, 1, 0 this means a person has been detected in one direction or the other, as described in figure below. List of status values.
+Eventually, if the consecutive states in the list are 0, 1, 3, 2, 0 or 0, 2, 3, 1, 0 this means a person has been detected in one direction or the other, as described in the figure below. List of status values.
 
-![Counting Algorithm](images/people_counting_algorithm.jpg)  
+![Counting Algorithm](image/people_counting_algorithm.jpg)  
 
-Algorithm workflows
+#### Algorithm workflows ####
 
-![Algorithm workflows](images/algorithm_workflows.png)
+![Algorithm workflows](image/algorithm_workflows.png)
 
-### OLED Display
+### Testing ###
 
-- Display current people count and the value of the entered people so far
+#### OLED Display ####
+
+Display the number of people standing in the detected areas and the second value represents the number of people who entered the room.
   
-  ![OLED display](images/oled_display.png)
+![OLED display](image/oled_display.png)
 
-### Button
+#### Button ####
 
-- Press button to clear current people count
+Press the button to clear the number of people who are standing in detected areas.
 
-### Room status notification
+#### Room status notification ####
 
-- To receive status of room (full or empty), the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to enable notification
-- If the number of people count is greater than room capacity then the device will send a "room is full" notification
-- If the number of people count is zero then the device will send a "room is empty" notification
+- To receive the room's state (full or empty), the user needs to enable notification for the **Room Capacity** characteristic.
 
-### Reset the counting value
+- If the number of entered people is greater than the room capacity then the device will send a "room is full" notification to the client.
+  
+- If the number of entered people is zero then the device will send a "room is empty" notification to the client.
 
-- To reset the number of total people entered the room, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Entered So Far* characteristic
-- To reset the number of people count, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Count* characteristic
+#### Reset the counting value ####
 
-### Use EFR Connect Mobile Application
+- To reset the number of people who entered the room, the user has to write 0 to the **People Entered So Far** characteristic.
+  
+- To reset the number of people currently, the user has to write 0 to the **People Count** characteristic.
 
-#### Connect to the device
+#### Connect to the device ####
 
-The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with the EFR Connect app installed is required.
+You can use a smartphone app, such as the **EFR Connect** application on your phone, to connect to the board. Please, follow some steps below:
 
-Open the EFR Connect application on your smartphone and allow the permission request when opened for the first time. Click [Develop] -> [Browser] and you will see a list of nearby devices which are sending Bluetooth advertisements. Find the one named *People Counting* and click the connect button on the right side. If app show the pairing request dialog, press **Pair** button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
+- Open the EFR Connect app.
 
-**Note**: The pairing process on Android and iOS devices is different. For more information, refer to bluetooth security.
+- Open the Bluetooth Browser.
 
-| ![EFR32 Connect App](images/efr32_connect_app1.png) | ![EFR32 Connect App](images/efr32_connect_app2.png)|![EFR32 Connect App](images/efr32_connect_app3.png)|
+- Find the device advertising as **People Counting**.
+
+- Click on **Connect** button.
+  
+- If the application shows the pairing request dialog, press **Pair** button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
+
+**Note**: The pairing process on Android and iOS devices is different. For more information, refer to Bluetooth security.
+
+| ![device_namae](image/device_name.png) | ![device_pairing](image/device_pairing.png)|![device_characteristics](image/device_characteristics.png)|
 | - | - | -|
 
-#### Read/Write characteristics
+You can launch Console that's integrated into Simplicity Studio or use a third-party terminal tool like TeraTerm to receive the data from the USB. A screenshot of the console output is shown in the figure below.
 
-The parameters of this example application can be easly configured via BLE characteristics. Values for the characteristics are handled by the application as ASCII strings. Tap on the main service to see the available characteristics. Please refer [GATT Configurator](#gatt-configurator) to choose correct characteristic.
-
-**Read**
-
-Push read button to request the value of a characteristic. (See ASCII fields.)
-
-**Write**
-
-For setting a parameter select a characteristic and tap on its write button. Type a new value in the ASCII field and push the **Send** button.
-
-|People entered so far count|People count|Min distance|Max distance|
-|-|-|-|-|
-|- **Read** to get the current total people entered count <br> - **Write** *00 00* to reset total people entered count|- **Read** to get the current people count <br>- **Write** *00 00* to reset people count|- **Read** to get the current minimum distance setting <br>- **Write** to set minimum distance settings|- **Read** to get the current maximum distance setting <br>- **Write** to set maximum distance settings|
-
-|Distance threshold|Timing budget|Notification status|Room capacity|
-|-|-|-|-|
-|- **Read** to get the current distance threshold setting <br>- **Write** to set distance threshold setting|- **Read** to get the current timing budget setting<br>- **Write** to set timing budget setting|- **Read** to get the current notification status setting<br>- **Write** to set notification status setting|- **Read** to get the current room capacity setting.<br>- **Write** to set room capacity setting|
-
-## .sls Projects Used
-
-- [bluetooth_people_counting.sls](SimplicityStudio/bluetooth_people_counting.sls)
+![console_log](image/console_log.png)

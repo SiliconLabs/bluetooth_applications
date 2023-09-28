@@ -87,7 +87,7 @@ To test this application, you can either create a project based on an example pr
 
    - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
 
-   - Find the Import button and import the attached [gatt_configuration.btconf](config/gatt_configuration.btconf) file.
+   - Find the Import button and import the attached config/gatt_configuration.btconf file.
 
    - Save the GATT configuration (ctrl-s).
 

@@ -103,10 +103,10 @@ static Ecode_t nvm3_user_read_word(nvm3_ObjectKey_t key, uint16_t *u16_value)
   }
 
   if (type == NVM3_OBJECTTYPE_DATA) {
-      return nvm3_readData(NVM3_DEFAULT_HANDLE,
-                           key,
-                           u16_value,
-                           sizeof(uint16_t));
+    return nvm3_readData(NVM3_DEFAULT_HANDLE,
+                         key,
+                         u16_value,
+                         sizeof(uint16_t));
   }
 
   return ECODE_NVM3_ERR_OBJECT_IS_NOT_DATA;

@@ -1,4 +1,5 @@
-# Air Quality Monitor application with BLE #
+# Bluetooth - Air Quality Monitor #
+
 ![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=Type&query=type&color=green)
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=License&query=license&color=green)
@@ -19,13 +20,14 @@ More detailed information can be found in the section [How it works](#how-it-wor
 
 This code example referred to the following code examples. More detailed information can be found here:
 
-- [OLED SSD1306 driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/oled_ssd1306_i2c)
-- [Buzzer driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/magnetic_buzzer)
-- [Bluetooth security feature](https://github.com/SiliconLabs/bluetooth_stack_features_staging/tree/master/security)
+- [OLED SSD1306 driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/driver/public/silabs/micro_oled_ssd1306)
+- [Buzzer driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/driver/public/mikroe/buzz2_cmt_8540s_smt)
+- [Bluetooth security feature](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/security)
 
-## Gecko SDK Suite version ##
+## Gecko SDK version ##
 
-GSDK v4.0.2
+- GSDK v4.3.1
+- [Third-Party Hardware Drivers v1.8.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -43,7 +45,7 @@ The hardware connection is shown in the image below:
 
 ![hardware connection](images/hardware_connection.png)
 
-The Thunderboard Sense 2 and the MikroE Buzzer 2 Click can be plugged into the the Silabs Click Shield directly via the Thunderboard socket and the mikroBus socket respectively. To connect the Thunderboard with the SparkFun Micro OLED Breakout (Qwiic) board we can use some [Flexible Qwiic Cable - Female Jumper](https://www.sparkfun.com/products/17261) as shown in the table below:
+The Thunderboard Sense 2 and the MikroE Buzzer 2 Click can be plugged into the Silabs Click Shield directly via the Thunderboard socket and the mikroBus socket respectively. To connect the Thunderboard with the SparkFun Micro OLED Breakout (Qwiic) board we can use some [Flexible Qwiic Cable - Female Jumper](https://www.sparkfun.com/products/17261) as shown in the table below:
 
 | EFR32BG22 Thunderboard Kit markings |  Qwiic cables color scheme  |
 |-------------------------------------|:---------------------------:|
@@ -52,55 +54,61 @@ The Thunderboard Sense 2 and the MikroE Buzzer 2 Click can be plugged into the t
 | PC6 - EXP7                          |  Yellow - SCL               |
 | PC7 - EXP9                          |  Blue - SDA                 |
 
- Silabs Click Shield schematic is shown as below.
+ Silabs Click Shield schematic is shown below.
 
 ![hardware connection](images/thunderboard_qwiic_shield.png)
 
 ## Setup ##
 
-To test this application, you can either import the provided `bluetooth_air_quality_monitor.sls` project file or start with an empty example project as the following:
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. You should connect the Thunderboard Sense 2 Sensor-to-Cloud Advanced IoT Kit to the PC using a MicroUSB cable.
 
-1. Create a **Bluetooth - SoC Empty** project for the **Thunderboard Sense 2** using Simplicity Studio 5.
+### Create a project based on an example project ###
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
+1. From the Launcher Home, add the BRD4166A  to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter 'air quality'.
 
-3. Import the GATT configuration:
+   ![create_demo](images/creat_demo.png "Create a project based on an example project")
 
-   - Open the .slcp file in the project.
+2. Click **Create** button on the **Bluetooth - Air Quality Monitor** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 
-   - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
+3. Build and flash this example to the board.
 
-   - Find the Import button and import the attached [gatt_configuration.btconf](config/gatt_configuration.btconf) file.
+### Start with a "Bluetooth - SoC Empty" project ###
 
-   - Save the GATT configuration (ctrl-s).
+1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
+2. Copy the .c files 'src/app.c' to the following directory of the project root folder (overwriting the existing files).
 
-    - Install **[Platform] > [Driver] > [I2CSPM]** component with the default instance name: **sensor_gas**.
+3. Install the software components:
 
-        ![i2c sensor gas](images/i2c_sensor_gas.png)
+    - Open the .slcp file in the project.
 
-    - Set **Enable Air Quality sensor** in **[Platform] > [Board Control]** component.
+    - Select the SOFTWARE COMPONENTS tab.
 
-        ![board control](images/board_control.png)
+    - Install the following components:
 
-    - Install **[Platform] > [Board Drivers] > [CCS811 - Gas/Air Quality Sensor]** component.
+        - [Services] →  [Timers] →  [Sleep Timer]
+        - [Services] →  [NVM3]
+        - [Services] →  [IO Stream] → [IO Stream: USART] → vcom
+        - [Application] →  [Utility] → [Log]
+        - [Platform] →  [Driver] → [I2C] →  [I2CSPM] → qwiic
+        - [Platform] →  [Driver] → [I2C] →  [I2CSPM] → sensor_gas
+        - [Platform] →  [Driver] → [PWM] →  [PWM] → mikroe
+        - [Platform] →  [Driver] → [Button] →  [Simple Button] → btn0
+        - [Platform] →  [Board Driver] → [CCS811 - Gas/Air Quality Sensor]
+        - [Platform] →  [Board] → [Board Control] →  Enable Air Quality sensor
+        - [Third Party Hardware Drivers] → [Audio & Voice] → CMT_8540S_SMT - Buzz 2 Click (Mikroe)
+        - [Third Party Hardware Drivers] → [Display & LED] → SSD1306 - Micro OLED Breakout (Sparkfun) - I2C
+        - [Bluetooth] → [OTA] → [In-Place OTA DFU] → uninstall
+        - [Platform] → [Bootloader Application Interface] → uninstall.
 
-    - Install **[Platform] > [Driver] > [I2CSPM]** component with add new instance name: **qwiic**. Set this component to use I2C0 peripheral, SCL to PC11 pin, SDA to PC10 pin.
+4. Import the GATT configuration:
 
-        ![i2c qwiic](images/i2c_qwiic.png)
+    - Open the .slcp file in the project again.
+    - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
+    - Find the Import button and import the [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) file.
+    - Save the GATT configuration (ctrl-s).
 
-    - Install **[Platform] > [Peripheral] > [TIMER]** component
-
-    - Install **[Platform] > [IO Stream] > [IO Stream: USART]** component with the default instance name: **vcom**.
-
-    - Install **[Platform] > [Driver] > [Button] > [Simple Button]** component with the default instance name: **btn0**.
-
-    - Install **[Services] > [NVM3] > [NVM3 Default Instance]** component.
-
-    - Install **[Application] > [Utility] > [Log]** component.
-
-5. Build and flash the project to your device.
+5. Build and flash this project to the board.
 
 ## How it Works ##
 
@@ -128,13 +136,13 @@ The GATT changes were adding a new custom service (Air Quality Monitor) using UU
 
 - **CO2**: UUID `1b621ff2-b789-4b7c-985f-b62a50802bbf`
 
-  - [**Readable**] - Get latest measured CO2 level (ppm)
+  - [**Readable**] - Get the latest measured CO2 level (ppm)
 
   - [**Writable with response**] - Set CO2 Threshold (ppm)
 
 - **tVOC**: UUID `ec099dd9-7887-4ca6-a169-92a5e9ed7926`
 
-  - [**Readable**] - Get latest measured tVOC level (ppb)
+  - [**Readable**] - Get the latest measured tVOC level (ppb)
 
   - [**Writable with response**] - Set tVOC Threshold (ppb)
 
@@ -154,11 +162,11 @@ The Initialization software flow is as follows:
 
 2. After the *sl_bt_evt_system_boot_id* event arrives, it sets up the security manager to bond with an iOS/Android device. Then, it starts advertising.
 
-3. Every time the timer expires, an Air quality monitor event handler retrieve and process the measured air quality data as described below:
+3. Every time the timer expires, an Air quality monitor event handler retrieves and processes the measured air quality data as described below:
 
     ![Flow diagram](images/timer_event.png)
 
-4. When the BTN0 button is pressed, the software checks the notification feature status, and buzzer state in accordance with the flowchart below:
+4. When the BTN0 button is pressed, the software checks the notification feature status, and buzzer state by the flowchart below:
 
     ![Flow diagram](images/btn0.png)
 
@@ -170,13 +178,13 @@ Measured values are displayed on the OLED display:
 
 - tVOC (ppb)
 
-- Air quality that matches with the levels described in the following document: [calculating an actionable indoor air quality index](https://www.breeze-technologies.de/blog/calculating-an-actionable-indoor-air-quality-index/).
+- The health impact of the measured air quality levels is described in the following document: [calculating an actionable indoor air quality index](https://www.breeze-technologies.de/blog/calculating-an-actionable-indoor-air-quality-index/).
 
 More detailed information can be found in the section [Testing](#testing).
 
 ### Testing ###
 
-Upon reset, the application will display the Silicon Labs's logo on the OLED screen for a few seconds. Then you can check the measured CO2 and tVOC values on the OLED screen. You should expect a similar output to the one below.
+Upon reset, the application will display the Silicon Labs logo on the OLED screen for a few seconds. Then you can check the measured CO2 and tVOC values on the OLED screen. You should expect a similar output to the one below.
 
 ![OLED display](images/display.png)
 
@@ -186,18 +194,14 @@ Follow the below steps to test the example with the EFR Connect app:
 
 1. Open the EFR Connect app on your iOS/Android device.
 
-2. Find your device in the Bluetooth Browser, advertising as Air Quality, and tap Connect. Then you need accept the pairing request when connected for the first time.
+2. Find your device in the Bluetooth Browser, advertising as Air Quality, and tap Connect. Then you need to accept the pairing request when connected for the first time.
 
     ![pair request](images/pairing_request.png)
 
-3. Find the unknown service at the above of the OTA service.
+3. Find the unknown service at the above OTA service.
 
 4. Try to read, write, re-read the characteristics, and check the value.
 
-5. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
+5. You can launch the Console that is integrated into Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
 
     ![logs](images/logs.png)
-
-## .sls Projects Used ##
-
-- [bluetooth_air_quality_monitor.sls](SimplicityStudio/bluetooth_air_quality_monitor.sls)

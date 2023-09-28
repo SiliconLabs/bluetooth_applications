@@ -1,0 +1,137 @@
+project_name: bluetooth_people_counting
+label: Bluetooth - People Counting (VL53L1X)
+
+package: Bluetooth
+category: Bluetooth Examples
+quality: experimental
+description: |
+  This project aims to implement a people counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensors.
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Beginner]
+- name: Wireless Technology
+  value: [Bluetooth]
+
+readme:
+- path: ../README.md
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h  
+      - path: oled.h
+      - path: people_counting_app.h
+      - path: user_config_nvm3.h
+      - path: vl53l1x_app.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/oled.c
+  - path: ../src/people_counting_app.c
+  - path: ../src/user_config_nvm3.c
+  - path: ../src/vl53l1x_app.c
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_sm
+  - id: rail_util_pti
+  - id: mpu
+  - id: bt_post_build
+  - id: sl_system
+  - id: device_init
+  - id: app_assert
+  - id: app_log
+  - id: component_catalog
+  - id: iostream_usart
+    instance: [vcom]
+  - id: sparkfun_micro_oled_ssd1306
+    from: third_party_hw_drivers
+  - id: services_oled_glib
+    from: third_party_hw_drivers
+  - id: sparkfun_distance_vl53l1x
+    from: third_party_hw_drivers
+  - id: simple_button
+    instance: [btn0]
+  - id: simple_led
+    instance: [led0]
+  - id: i2cspm
+    instance: [qwiic]
+
+define:
+  - name: DEBUG_EFM
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+  - override:
+      component: simple_button
+      file_id: simple_button_config
+      instance: btn0
+      condition: [brd2704a]
+    path: "../config/brd2704a/sl_simple_button_btn0_config.h"
+
+other_file: 
+  - path: ../image/algorithm_workflows.png
+    directory: "image"
+  - path: ../image/app_init.png
+    directory: "image"
+  - path: ../image/application_overview.png
+    directory: "image"
+  - path: ../image/console_log.png
+    directory: "image"
+  - path: ../image/create_project.png
+    directory: "image"
+  - path: ../image/device_characteristics.png
+    directory: "image"
+  - path: ../image/device_name.png
+    directory: "image"
+  - path: ../image/device_pairing.png
+    directory: "image"
+  - path: ../image/external_button.png
+    directory: "image"
+  - path: ../image/hardware_connection.png
+    directory: "image"
+  - path: ../image/oled_display.png
+    directory: "image"
+  - path: ../image/people_counting_algorithm.jpg
+    directory: "image"
+  - path: ../image/sampling_workflows.png
+    directory: "image"
+  - path: ../image/sensor_init.png
+    directory: "image"
+
+tag:
+  - hardware:rf:band:2400
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_HEAP_SIZE
+    value: "9200"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 1.7.0
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

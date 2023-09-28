@@ -193,4 +193,4 @@ bool user_config_nvm3_get_notification_status(void);
  ******************************************************************************/
 uint16_t user_config_nvm3_get_room_capacity(void);
 
-#endif  // NVM3_USER_CONFIG_H
+#endif // NVM3_USER_CONFIG_H

@@ -7,6 +7,8 @@
 [![Required board](https://img.shields.io/badge/Sparkfun-RFID%20Reader-green)](https://www.sparkfun.com/products/11827)
 [![Required board](https://img.shields.io/badge/Sparkfun-RFID%20Tag-green)](https://www.sparkfun.com/products/14325)
 ![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_rfid_notify_build_status.json)
+![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_rfid_notify_common.json&label=Flash&query=flash&color=blue)
+![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_rfid_notify_common.json&label=RAM&query=ram&color=blue)
 
 ## Overview ##
 

@@ -179,4 +179,4 @@ void nvm3_user_process_action(void);
 
 /** @} */
 
-#endif  // NVM3_USER_H
+#endif // NVM3_USER_H

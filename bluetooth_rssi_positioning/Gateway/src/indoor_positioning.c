@@ -149,11 +149,6 @@ void enter_config_mode(void)
   sl_status_t sc;
   IP_config_mode = true;
 
-  // Print current configuration parameters
-  app_log("NetworkU_ID: %ld | Room name: %s\n",
-          IPGW_config_data.network_Uid,
-          IPGW_config_data.room_name);
-
   // Set up advertisement
   sc = sl_bt_advertiser_create_set(&configMode_advertising_set_handle);
   app_assert_status(sc);
@@ -265,6 +260,11 @@ void IPGW_init(void)
   app_log("\nIndoor Positioning - Gateway\n");
   app_log("Loading Configuration\n");
   update_local_config();
+
+  // Print current configuration parameters
+  app_log("NetworkU_ID: %ld | Room name: %s\n",
+          IPGW_config_data.network_Uid,
+          IPGW_config_data.room_name);
 }
 
 // -----------------------------------------------------------------------------

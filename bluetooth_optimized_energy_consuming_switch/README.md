@@ -1,5 +1,8 @@
 # Bluetooth - Optimized Energy Consuming Switch #
 
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_switch_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_switch_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_switch_common.json&label=License&query=license&color=green)
 ## Overview ##
 
 > **! THIS IS NOT A REFERENCE DESIGN !**

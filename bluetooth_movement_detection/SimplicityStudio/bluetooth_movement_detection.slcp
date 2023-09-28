@@ -1,0 +1,111 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_movement_detection
+label: Bluetooth - Movement Detection (BMA400)
+description: |
+    This project aims to implement a motion detection example application, the motion detection algorithm and its software module will be used as a building block for the Asset Tracking application.
+category: Bluetooth Examples
+
+package: Bluetooth
+
+quality: experimental
+
+readme:
+- path: ../README.md
+
+source:
+- path: ../src/main.c
+- path: ../src/app.c
+- path: ../src/app_ble_events.c
+- path: ../src/app_events.c
+- path: ../src/app_callbacks.c
+- path: ../src/app_logic_md.c
+
+include:
+- path: ../inc
+  file_list:
+  - path: ../inc/app.h
+  - path: ../inc/app_ble_events.h
+  - path: ../inc/app_events.h
+  - path: ../inc/app_callbacks.h
+  - path: ../inc/app_logic_md.h
+  - path: ../inc/app_config.h
+
+component:
+- id: bluetooth_feature_nvm
+- id: bluetooth_feature_system
+- id: bluetooth_feature_scanner
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_advertiser
+- id: gatt_configuration
+- id: rail_util_pti
+- id: mpu
+- id: component_catalog
+- id: app_log
+- id: app_assert
+- instance: [led0]
+  id: simple_led
+- instance: [vcom]
+  id: iostream_usart
+- instance: [mikroe]
+  id: i2cspm
+- instance: [btn0]
+  id: simple_button
+- from: third_party_hw_drivers
+  id: mikroe_accel5_bma400_i2c
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+configuration:
+- name: SL_STACK_SIZE
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- condition: [psa_crypto]
+  name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+
+other_file:
+  - path: ../images/application_logic.png
+    directory: images
+  - path: ../images/configuration_mode.png
+    directory: images
+  - path: ../images/general_mode.png
+    directory: images
+  - path: ../images/hardware_connection.png
+    directory: images
+  - path: ../images/logs_1.png
+    directory: images
+  - path: ../images/logs_2.png
+    directory: images
+  - path: ../images/movement_detection.png
+    directory: images
+  - path: ../images/normal_mode.png
+    directory: images
+  - path: ../images/overview.png
+    directory: images
+  - path: ../images/sdk_extension.png
+    directory: images
+  - path: ../images/system_overview.png
+    directory: images
+  - path: ../images/create_example_project.png
+    directory: images
+
+ui_hints:
+  highlight:
+  - path: config/btconf/gatt_configuration.btconf
+  - path: README.md
+    focus: true
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 1.7.0

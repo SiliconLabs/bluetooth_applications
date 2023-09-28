@@ -57,6 +57,11 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 34 | Bluetooth - NFC Pairing | [Click Here](./bluetooth_nfc_pairing) |
 | 35 | Bluetooth - Door Lock | [Click Here](./bluetooth_door_lock) |
 | 36 | Bluetooth - BTHome v2 - Humidity and Temperature Monitor (SHTC3) | [Click Here](./bluetooth_bthome_v2_humidity_and_temperature_monitor/) |
+| 37 | Bluetooth - Movement Detection (BMA400) | [Click Here](./bluetooth_movement_detection) |
+| 38 | Bluetooth - People Counting (VL53L1X) | [Click Here](./bluetooth_people_counting) |
+| 39 | Bluetooth - Air Quality Monitor | [Click Here](./bluetooth_air_quality_monitor) |
+| 40 | Bluetooth - Wireless Direct Test Mode (DTM) | [Click Here](./bluetooth_wireless_dtm) |
+| 41 | Bluetooth - Ir Thermometer 3 Click (MLX90632) | [Click Here](./bluetooth_fir_sensor_mlx90632) |
 
 
 ## Requirements ##

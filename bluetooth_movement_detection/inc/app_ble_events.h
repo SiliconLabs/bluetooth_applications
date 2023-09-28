@@ -50,8 +50,8 @@ extern "C" {
 #define MD_NOTIFY_TIMER_EVENT               (1 << 3)
 #define MD_NOTIFY_BREAK_TIMER_EVENT         (1 << 4)
 
-#define BLE_CHAR_ACCESS_TYPE_READ 		      0
-#define BLE_CHAR_ACCESS_TYPE_WRITE 		      1
+#define BLE_CHAR_ACCESS_TYPE_READ           0
+#define BLE_CHAR_ACCESS_TYPE_WRITE          1
 
 #ifdef __cplusplus
 }

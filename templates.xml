@@ -739,4 +739,19 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
+  <descriptors name="bluetooth_bthome_v2_humidity_and_temperature_monitor" label="Bluetooth - BTHome v2 - Humidity and Temperature Monitor (SHTC3)"
+               description="This project illustrates how BTHome can be effectively utilized with Silabs devkits to communicate the measured humidity and temperature sensor values using SparkFun Humidity Sensor Breakout (SHTC3) to a HomeAssistant system.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_bthome_v2_humidity_and_temperature_monitor/SimplicityStudio/bluetooth_bthome_v2_humidity_and_temperature_monitor.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_bthome_v2_humidity_and_temperature_monitor/README.md"/>
+    <properties key="boardCompatibility" value="brd4108a brd4314a brd2703a brd2601b brd2704a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg24.* .*bgm22.* .*efr32bg22.* .*mgm24.*"/> 
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
 </model:MDescriptors>  

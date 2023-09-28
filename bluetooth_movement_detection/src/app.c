@@ -51,7 +51,6 @@ void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
-
 }

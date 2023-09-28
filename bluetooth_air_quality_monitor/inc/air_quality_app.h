@@ -78,7 +78,8 @@
  *    Typedef for holding application configuration parameters.
  ******************************************************************************/
 typedef struct {
-  uint8_t notification_data;       ///<  Notification status (0: disabled, 1: enabled)
+  uint8_t notification_data;       ///<  Notification status (0: disabled, 1:
+                                   ///<   enabled)
   uint8_t buzzer_data;             ///<  Buzzer volume (0-10)
   uint8_t measurement_period_data; ///<  Measurement update period in s (1-30)
   uint16_t threshold_co2_ppm;      ///<  co2 threshold value in ppm.
@@ -95,7 +96,8 @@ typedef enum air_quality_status {
   MODERATE    = 3, ///< The air quality inside has reached conspicuous levels.
   POOR        = 4, ///< The air quality inside has reached precarious levels.
   VERY_POOR   = 5, ///< The air quality inside has reached unacceptable levels.
-  SEVERE      = 6  ///< The air quality inside has exceeded maximum workplace concentration values.
+  SEVERE      = 6  ///< The air quality inside has exceeded maximum workplace
+                   ///<   concentration values.
 } air_quality_status_t;
 
 /*********************************************************************&*****//**
@@ -145,4 +147,4 @@ void air_quality_user_read_callback(sl_bt_msg_t *evt);
 
 /** @} */
 
-#endif    //AIR_QUALITY_APP_H
+#endif //AIR_QUALITY_APP_H

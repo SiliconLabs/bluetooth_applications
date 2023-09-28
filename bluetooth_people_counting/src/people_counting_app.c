@@ -54,13 +54,13 @@
 // use applog for the log printing
 #if defined(SL_CATALOG_APP_LOG_PRESENT) && APP_LOG_ENABLE
 #include "app_log.h"
-#define log_info(fmt, ...)  app_log_info("[" TAG "] " fmt, ##__VA_ARGS__)
-#define log_error(fmt, ...) app_log_error("[" TAG "] " fmt, ##__VA_ARGS__)
+#define log_info(fmt, ...)   app_log_info("[" TAG "] " fmt, ## __VA_ARGS__)
+#define log_error(fmt, ...)  app_log_error("[" TAG "] " fmt, ## __VA_ARGS__)
 // use stdio printf for the log printing
 #elif defined(SL_CATALOG_RETARGET_STDIO_PRESENT)
-#define log_info(fmt, ...)   printf("[" TAG "] " fmt, ##__VA_ARGS__)
-#define log_error(fmt, ...)  printf("[" TAG "] " fmt, ##__VA_ARGS__)
-#else  // the logging is disabled
+#define log_info(fmt, ...)   printf("[" TAG "] " fmt, ## __VA_ARGS__)
+#define log_error(fmt, ...)  printf("[" TAG "] " fmt, ## __VA_ARGS__)
+#else // the logging is disabled
 #define log_info(...)
 #define log_error(...)
 #endif // #if defined(SL_CATALOG_APP_LOG_PRESENT)
@@ -87,9 +87,9 @@
 // Defines
 #define INVALID_BT_HANDLE               (0xff)
 
-#define PEOPLE_COUNTING_EVENT           (1<<0)
-#define PEOPLE_COUNTING_BUTTON_EVENT    (1<<1)
-#define PEOPLE_COUNTING_SAMPLING_EVENT  (1<<2)
+#define PEOPLE_COUNTING_EVENT           (1 << 0)
+#define PEOPLE_COUNTING_BUTTON_EVENT    (1 << 1)
+#define PEOPLE_COUNTING_SAMPLING_EVENT  (1 << 2)
 
 // -----------------------------------------------------------------------------
 // Private variables
@@ -109,10 +109,9 @@ static uint32_t last_people_entered_so_far = (uint32_t)-1;
 static void people_counting_event_handler(void);
 static void people_counting_button_handler(void);
 static void people_counting_oled_display_callback(
-    sl_sleeptimer_timer_handle_t *timer, void *data);
+  sl_sleeptimer_timer_handle_t *timer, void *data);
 static void people_counting_sensor_sampling_callback(
-    sl_sleeptimer_timer_handle_t *timer, void *data);
-
+  sl_sleeptimer_timer_handle_t *timer, void *data);
 
 // -----------------------------------------------------------------------------
 // Public function definitions
@@ -125,9 +124,9 @@ void people_counting_app_init(void)
   // Load configuration from NVM
   user_config_nvm3_init();
 
-  vl53l1x_app_init();
-
   oled_app_init();
+
+  vl53l1x_app_init();
 
   // Create oled display periodic timer
   sl_sleeptimer_start_periodic_timer_ms(&oled_timer,
@@ -139,7 +138,7 @@ void people_counting_app_init(void)
 
   // Create sampling and calculate people count periodic timer
   sl_sleeptimer_start_periodic_timer_ms(&people_counting_timer,
-                                        1,
+                                        10,
                                         people_counting_sensor_sampling_callback,
                                         NULL,
                                         0,
@@ -168,119 +167,102 @@ void people_counting_process_evt_external_signal(uint32_t extsignals)
  * People Counting Application Process GATT Server User Write request.
  ******************************************************************************/
 void people_counting_process_evt_gatt_server_user_write_request(
-    sl_bt_evt_gatt_server_user_write_request_t *data)
+  sl_bt_evt_gatt_server_user_write_request_t *data)
 {
   sl_status_t sc = SL_STATUS_NOT_SUPPORTED;
+  uint16_t value;
+  uint8_t notification;
 
   // -------------------------------
   // Handle Voice configuration characteristics.
   switch (data->characteristic) {
     case gattdb_people_entered_so_far: {
-      log_info("GATT: write: Clear people entered so far counter");
-      vl53l1x_app_clear_people_entered_so_far();
-      sc = SL_STATUS_OK;
+      uint8_t value = (uint8_t)(atoi((char *)data->value.data));
+      if (value == 0) {
+        app_log("[BLE_GATT]: Write: Clear people entered so far counter");
+        vl53l1x_app_clear_people_entered_so_far();
+        sc = SL_STATUS_OK;
+      } else {
+        sc = SL_STATUS_BT_ATT_VALUE_NOT_ALLOWED;
+        app_log("[BLE_GATT]: Write 0 to clear people entered.\n");
+      }
+
       break;
     }
     case gattdb_people_count: {
-      log_info("GATT: write: Clear people counter\r\n");
-      vl53l1x_app_clear_people_count();
-      sc = SL_STATUS_OK;
-      break;
-    }
-    case gattdb_min_distance: {
-      if (data->value.len == 2) {
-        uint16_t value = (data->value.data[1] << 8)
-                         | (data->value.data[0]);
-        log_info("GATT: write:  min_distance: %d\r\n", value);
-        if (SL_STATUS_OK == user_config_nvm3_set_min_distance(value)) {
-          sc = SL_STATUS_OK;
-        } else {
-          sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
-        }
+      uint8_t value = (uint8_t)(atoi((char *)data->value.data));
+      if (value == 0) {
+        log_info("[BLE_GATT]: Write: Clear people counter\r\n");
+        vl53l1x_app_clear_people_count();
+        sc = SL_STATUS_OK;
       } else {
-        sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        sc = SL_STATUS_BT_ATT_VALUE_NOT_ALLOWED;
+        app_log("[BLE_GATT]: Write 0 to clear people counter.\n");
       }
       break;
     }
-    case gattdb_max_distance: {
-      if (data->value.len == 2) {
-        uint16_t value = (data->value.data[1] << 8)
-                         | (data->value.data[0]);
-        log_info("GATT: write: max_distance: %d\r\n", value);
-        if (SL_STATUS_OK == user_config_nvm3_set_max_distance(value)) {
-          sc = SL_STATUS_OK;
-        } else {
-          sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
-        }
+    case gattdb_min_distance:
+      value = (uint16_t)(atoi((char *)data->value.data));
+      log_info("[BLE_GATT]: Write:  min_distance: %d\r\n", value);
+      if (SL_STATUS_OK == user_config_nvm3_set_min_distance(value)) {
+        sc = SL_STATUS_OK;
       } else {
-        sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
+      }
+
+      break;
+    case gattdb_max_distance:
+      value = (uint16_t)(atoi((char *)data->value.data));
+      log_info("[BLE_GATT]: Write: max_distance: %d\r\n", value);
+      if (SL_STATUS_OK == user_config_nvm3_set_max_distance(value)) {
+        sc = SL_STATUS_OK;
+      } else {
+        sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
       }
       break;
-    }
-    case gattdb_distance_threshold: {
-      if (data->value.len == 2) {
-        uint16_t value = (data->value.data[1] << 8)
-                         | (data->value.data[0]);
-        log_info("GATT: write: distance_threshold: %d\r\n", value);
-        if (SL_STATUS_OK == user_config_nvm3_set_distance_threshold(value)) {
-          sc = SL_STATUS_OK;
-        } else {
-          sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
-        }
+    case gattdb_distance_threshold:
+      value = (uint16_t)(atoi((char *)data->value.data));
+      log_info("[BLE_GATT]: Write: distance_threshold: %d\r\n", value);
+      if (SL_STATUS_OK == user_config_nvm3_set_distance_threshold(value)) {
+        sc = SL_STATUS_OK;
       } else {
-        sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
       }
       break;
-    }
-    case gattdb_timing_budget: {
-      if (data->value.len == 2) {
-        uint16_t value = (data->value.data[1] << 8)
-                         | (data->value.data[0]);
-        log_info("GATT: write: timing_budget: %d\r\n", value);
-        if (SL_STATUS_OK == vl53l1x_app_change_timing_budget_in_ms(value)) {
-          sc = SL_STATUS_OK;
-        } else {
-          sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
-        }
+    case gattdb_timing_budget:
+      value = (uint16_t)(atoi((char *)data->value.data));
+      log_info("[BLE_GATT]: Write: timing_budget: %d\r\n", value);
+      if (SL_STATUS_OK == vl53l1x_app_change_timing_budget_in_ms(value)) {
+        sc = SL_STATUS_OK;
       } else {
-        sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
       }
       break;
-    }
+
     case gattdb_notification_status:
-      if (data->value.len == 1) {
-        uint8_t notification = data->value.data[0];
-        log_info("GATT: write: notification_status: %d\r\n", notification);
-        if (SL_STATUS_OK
-            == user_config_nvm3_set_notification_status(notification)) {
-          sc = SL_STATUS_OK;
-          if (notification) {
-            notification_status = true;
-          } else {
-            notification_status = false;
-          }
+      notification = (uint8_t)(atoi((char *)data->value.data));
+      log_info("[BLE_GATT]: Write: notification_status: %d\r\n", notification);
+      if (SL_STATUS_OK
+          == user_config_nvm3_set_notification_status(notification)) {
+        sc = SL_STATUS_OK;
+        if (notification) {
+          notification_status = true;
         } else {
-            sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
+          notification_status = false;
         }
       } else {
-          sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
+        sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
       }
       break;
-    case gattdb_room_capacity: {
-          if (data->value.len == 2) {
-            uint16_t value = (data->value.data[1] << 8)
-                             | (data->value.data[0]);
-            log_info("GATT: write: room capacity: %d\r\n", value);
-            if (SL_STATUS_OK == user_config_nvm3_set_room_capacity(value)) {
-              sc = SL_STATUS_OK;
-            } else {
-              sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
-            }
-          } else {
-            sc = SL_STATUS_BT_ATT_INVALID_ATT_LENGTH;
-          }
-          break;
-        }
+    case gattdb_room_capacity:
+      value = (uint16_t)(atoi((char *)data->value.data));
+      log_info("[BLE_GATT]: Write: room capacity: %d\r\n", value);
+      if (SL_STATUS_OK == user_config_nvm3_set_room_capacity(value)) {
+        sc = SL_STATUS_OK;
+      } else {
+        sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
+      }
+      break;
   }
   // Send write response.
   sc = sl_bt_gatt_server_send_user_write_response(
@@ -294,127 +276,136 @@ void people_counting_process_evt_gatt_server_user_write_request(
  * People Counting Application Process GATT Server User Read request.
  ******************************************************************************/
 void people_counting_process_evt_gatt_server_user_read_request(
-    sl_bt_evt_gatt_server_user_read_request_t *data)
+  sl_bt_evt_gatt_server_user_read_request_t *data)
 {
   sl_status_t sc;
-
+  uint8_t len;
+  static char string_temp[20];
   // -------------------------------
   // Handle Voice configuration characteristics.
   switch (data->characteristic) {
     case gattdb_people_entered_so_far: {
       uint32_t value = vl53l1x_app_get_people_entered_so_far();
-      log_info("GATT: read: people_entered_so_far: %lu\r\n", value);
+      len = snprintf(string_temp, sizeof(string_temp), "%ld", value);
+      app_log("[BLE_GATT]: Read: people_entered_so_far: %lu\r\n", value);
       // Send gatt response.
       sc = sl_bt_gatt_server_send_user_read_response(
-          data->connection,
-          data->characteristic,
-          0,
-          sizeof (value),
-          (uint8_t*)&value,
-          NULL);
+        data->connection,
+        data->characteristic,
+        0,
+        len,
+        (uint8_t *)string_temp,
+        NULL);
       app_assert_status(sc);
       break;
     }
     case gattdb_people_count: {
       uint16_t value = vl53l1x_app_get_people_count();
-      log_info("GATT: read: people_count: %d\r\n", value);
+      len = snprintf(string_temp, sizeof(string_temp), "%d", (uint16_t)value);
+      app_log("[BLE_GATT]: Read: people_count: %d\r\n", value);
       // Send gatt response.
       sc = sl_bt_gatt_server_send_user_read_response(
-          data->connection,
-          data->characteristic,
-          0,
-          sizeof (value),
-          (uint8_t*)&value,
-          NULL);
+        data->connection,
+        data->characteristic,
+        0,
+        len,
+        (uint8_t *)string_temp,
+        NULL);
       app_assert_status(sc);
       break;
     }
     case gattdb_min_distance: {
       uint16_t value = user_config_nvm3_get_min_distance();
-      log_info("GATT: read: min_distance: %d\r\n", value);
+      len = snprintf(string_temp, sizeof(string_temp), "%d", (uint16_t)value);
+      app_log("[BLE_GATT]: Read: min_distance: %d\r\n", value);
       // Send gatt response.
       sc = sl_bt_gatt_server_send_user_read_response(
-          data->connection,
-          data->characteristic,
-          0,
-          sizeof (value),
-          (uint8_t*)&value,
-          NULL);
+        data->connection,
+        data->characteristic,
+        0,
+        len,
+        (uint8_t *)string_temp,
+        NULL);
       app_assert_status(sc);
       break;
     }
     case gattdb_max_distance: {
       uint16_t value = user_config_nvm3_get_max_distance();
-      log_info("GATT: read: max_distance: %d\r\n", value);
+      len = snprintf(string_temp, sizeof(string_temp), "%d", (uint16_t)value);
+      app_log("[BLE_GATT]: Read: max_distance: %d\r\n", value);
       // Send gatt response.
       sc = sl_bt_gatt_server_send_user_read_response(
-          data->connection,
-          data->characteristic,
-          0,
-          sizeof (value),
-          (uint8_t*)&value,
-          NULL);
+        data->connection,
+        data->characteristic,
+        0,
+        len,
+        (uint8_t *)string_temp,
+        NULL);
       app_assert_status(sc);
       break;
     }
     case gattdb_distance_threshold: {
       uint16_t value = user_config_nvm3_get_distance_threshold();
-      log_info("GATT: read: distance_threshold: %d\r\n", value);
+      len = snprintf(string_temp, sizeof(string_temp), "%d", (uint16_t)value);
+      app_log("[BLE_GATT]: Read: distance_threshold: %d\r\n", value);
       // Send gatt response.
       sc = sl_bt_gatt_server_send_user_read_response(
-          data->connection,
-          data->characteristic,
-          0,
-          sizeof (value),
-          (uint8_t*)&value,
-          NULL);
+        data->connection,
+        data->characteristic,
+        0,
+        len,
+        (uint8_t *)string_temp,
+        NULL);
       app_assert_status(sc);
       break;
     }
     case gattdb_timing_budget: {
       uint16_t value = user_config_nvm3_get_timing_budget();
-      log_info("GATT: read: timing_budget: %d\r\n", value);
+      len = snprintf(string_temp, sizeof(string_temp), "%d", (uint16_t)value);
+      app_log("[BLE_GATT]: Read: timing_budget: %d\r\n", value);
       // Send gatt response.
       sc = sl_bt_gatt_server_send_user_read_response(
-          data->connection,
-          data->characteristic,
-          0,
-          sizeof (value),
-          (uint8_t*)&value,
-          NULL);
+        data->connection,
+        data->characteristic,
+        0,
+        len,
+        (uint8_t *)string_temp,
+        NULL);
       app_assert_status(sc);
       break;
     }
     case gattdb_notification_status: {
-        uint8_t value = user_config_nvm3_get_notification_status();
-        log_info("GATT: read: notification_status: %d\r\n", value);
+      uint8_t value = user_config_nvm3_get_notification_status();
+      len = snprintf(string_temp, sizeof(string_temp), "%d", (uint8_t)value);
+      app_log("[BLE_GATT]: Read: notification_status: %d\r\n", value);
 
-        // Send gatt response.
-        sc = sl_bt_gatt_server_send_user_read_response(
-            data->connection,
-            data->characteristic,
-            0,
-            sizeof (value),
-            (uint8_t*)&value,
-            NULL);
-          app_assert_status(sc);
-          break;
-      }
+      // Send gatt response.
+      sc = sl_bt_gatt_server_send_user_read_response(
+        data->connection,
+        data->characteristic,
+        0,
+        len,
+        (uint8_t *)string_temp,
+        NULL);
+      app_assert_status(sc);
+      break;
+    }
     case gattdb_room_capacity: {
-        uint16_t value = user_config_nvm3_get_room_capacity();
-        log_info("GATT: read: room_capacity: %d\r\n", value);
+      uint16_t value = user_config_nvm3_get_room_capacity();
+      len = snprintf(string_temp, sizeof(string_temp), "%d", (uint16_t)value);
+      app_log("[BLE_GATT]: Read: room_capacity: %d\r\n", value);
 
-        // Send gatt response.
-        sc = sl_bt_gatt_server_send_user_read_response(
-            data->connection,
-            data->characteristic,
-            0,
-            sizeof (value),
-            (uint8_t*)&value,
-            NULL);
-          app_assert_status(sc);
-          break;
-      }
+      // Send gatt response.
+      sc = sl_bt_gatt_server_send_user_read_response(
+        data->connection,
+        data->characteristic,
+        0,
+        len,
+        (uint8_t *)string_temp,
+        NULL);
+      app_assert_status(sc);
+      break;
+    }
   }
 }
 
@@ -422,13 +413,13 @@ void people_counting_process_evt_gatt_server_user_read_request(
  * People Counting Application Process GATT Server User Read request.
  ******************************************************************************/
 void people_counting_process_evt_gatt_server_characteristic_status(
-    sl_bt_evt_gatt_server_characteristic_status_t *data)
+  sl_bt_evt_gatt_server_characteristic_status_t *data)
 {
   if (sl_bt_gatt_server_client_config
       != (sl_bt_gatt_server_characteristic_status_flag_t)data->status_flags) {
     return;
   }
-  switch(data->characteristic) {
+  switch (data->characteristic) {
     case gattdb_notification_status:
       if (sl_bt_gatt_notification == data->client_config_flags) {
         // notification enabled.
@@ -472,25 +463,22 @@ static void send_notification_data_u16(uint16_t characteristic, uint16_t data)
                                       notification_data);
 }
 
-
 static void people_counting_event_handler(void)
 {
   uint16_t people_count = vl53l1x_app_get_people_count();
   uint32_t people_entered_so_far = vl53l1x_app_get_people_entered_so_far();
 
   // Only display & notify people count when their value is changed
-  if ( people_count != last_people_count
-      || last_people_entered_so_far != people_entered_so_far) {
+  if ((people_count != last_people_count)
+      || (last_people_entered_so_far != people_entered_so_far)) {
     last_people_count = people_count;
     last_people_entered_so_far = people_entered_so_far;
 
     // Display people count on oled screen
     oled_show_people_count(people_count, people_entered_so_far);
 
-
-    if ( user_config_nvm3_get_notification_status()
-        && bt_connection_handle != INVALID_BT_HANDLE) {
-
+    if (user_config_nvm3_get_notification_status()
+        && (bt_connection_handle != INVALID_BT_HANDLE)) {
       if (people_count == 0) {
         // notify room is empty
         send_notification_data_u16(gattdb_room_capacity, 0);
@@ -512,7 +500,7 @@ static void people_counting_button_handler(void)
  * Callback on timer period.
  ******************************************************************************/
 static void people_counting_oled_display_callback(
-    sl_sleeptimer_timer_handle_t *timer, void *data)
+  sl_sleeptimer_timer_handle_t *timer, void *data)
 {
   (void) timer;
   (void) data;
@@ -523,7 +511,7 @@ static void people_counting_oled_display_callback(
  * Callback on timer period.
  ******************************************************************************/
 static void people_counting_sensor_sampling_callback(
-    sl_sleeptimer_timer_handle_t *timer, void *data)
+  sl_sleeptimer_timer_handle_t *timer, void *data)
 {
   (void) timer;
   (void) data;
@@ -543,4 +531,3 @@ void sl_button_on_change(const sl_button_t *handle)
 }
 
 /** @} (end group people_counting_app) */
-

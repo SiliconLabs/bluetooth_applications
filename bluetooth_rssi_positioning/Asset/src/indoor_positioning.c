@@ -100,6 +100,10 @@ static gateway_data_t gateway_data_storage[5];
 // Asset position
 static glib_context_t glib_context;
 
+#define EXT_SIGNAL_CONFIG_MODE_TIMEOUT     (1 << 0)
+#define EXT_SIGNAL_POSITIONING_TRIGGER     (1 << 2)
+#define EXT_SIGNAL_GATEWAY_FINDER_TIMEOUT  (1 << 3)
+
 // -----------------------------------------------------------------------------
 //                                Callbacks
 // -----------------------------------------------------------------------------
@@ -109,8 +113,7 @@ static glib_context_t glib_context;
  ******************************************************************************/
 void config_mode_timeout_cb()
 {
-  app_log("\nConfiguration mode timeout - Reset \n");
-  sl_bt_system_reset(sl_bt_system_boot_mode_normal);
+  sl_bt_external_signal(EXT_SIGNAL_CONFIG_MODE_TIMEOUT);
 }
 
 /***************************************************************************//**
@@ -118,9 +121,7 @@ void config_mode_timeout_cb()
  ******************************************************************************/
 void indoor_positioning_trigger_timer_cb()
 {
-  app_log("\nIndoor Positioning triggered\n");
-  reset_IP_state();
-  IP_start_positioning = true;
+  sl_bt_external_signal(EXT_SIGNAL_POSITIONING_TRIGGER);
 }
 
 /***************************************************************************//**
@@ -128,11 +129,7 @@ void indoor_positioning_trigger_timer_cb()
  ******************************************************************************/
 void gateway_finder_timeout_cb()
 {
-  app_log("\nGateway finding finished \n");
-  if (gateway_counter == 0) {
-    IP_service_unavailable = true;
-  }
-  IP_gateway_finding_finished = true;
+  sl_bt_external_signal(EXT_SIGNAL_GATEWAY_FINDER_TIMEOUT);
 }
 
 // -----------------------------------------------------------------------------
@@ -154,9 +151,10 @@ bool indoor_positioning_service_available(void)
         service_available = false;
       }
     }
-    return service_available;
+  } else {
+    service_available = false;
   }
-  return false;
+  return service_available;
 }
 
 /***************************************************************************//**
@@ -235,10 +233,10 @@ void create_gateway_storage_entry(uint8_t *data)
     memcpy(&gateway_data_storage[gateway_counter].room_id,
            &data[GW_DATA_INDEX_ROOM_ID],
            sizeof(gateway_data_storage[gateway_counter].room_id));
-    memcpy(&gateway_data_storage[gateway_counter].room_name,
+    memcpy(gateway_data_storage[gateway_counter].room_name,
            &data[GW_DATA_INDEX_ROOM_NAME],
            sizeof(gateway_data_storage[gateway_counter].room_name));
-    memcpy(&gateway_data_storage[gateway_counter].device_name,
+    memcpy(gateway_data_storage[gateway_counter].device_name,
            &data[GW_DATA_INDEX_DEV_NAME],
            sizeof(gateway_data_storage[gateway_counter].device_name));
     gateway_data_storage[gateway_counter].rssi_index = 0;
@@ -258,11 +256,10 @@ void store_gateway_rssi(sl_bt_evt_scanner_scan_report_t *scan_report)
     if ((scan_report->data.len <= 31)
         && (GW_DATA_INDEX_DEV_NAME < scan_report->data.len)) {
       uint8_t scan_data[scan_report->data.len];
-
       memcpy(scan_data, scan_report->data.data, scan_report->data.len);
-      if (0 == memcmp(&gateway_data_storage[i].device_name,
+      if (0 == memcmp(gateway_data_storage[i].device_name,
                       &scan_data[GW_DATA_INDEX_DEV_NAME],
-                      sizeof(gateway_data_storage[i].device_name))) {
+                      DEVICENAME_LENGTH)) {
         gateway_data_storage[i].rssi[gateway_data_storage[i].rssi_index] =
           scan_report->rssi;
         gateway_data_storage[i].rssi_index += 1;
@@ -415,7 +412,10 @@ void IPAS_init(void)
   app_log("\nIndoor Positioning - Asset\n");
   app_log("Loading Configuration\n");
   update_local_config();
-
+  // Print current configuration parameters
+  app_log("NetworkU_ID: %lu | Reporting interval: %d\n",
+          IPAS_config_data.network_UID,
+          IPAS_config_data.reporting_interval);
   // Initialize the OLED display
   oled_init();
 }
@@ -430,11 +430,6 @@ void enter_config_mode(void)
 {
   sl_status_t sc;
   IP_config_mode = true;
-
-  // Print current configuration parameters
-  app_log("NetworkU_ID: %lu | Reporting interval: %d\n",
-          IPAS_config_data.network_UID,
-          IPAS_config_data.reporting_interval);
 
   // Set up advertisement
   sc = sl_bt_advertiser_create_set(&configMode_advertising_set_handle);
@@ -553,28 +548,36 @@ void start_position_advertisement(void)
 void init_position_calculator(void)
 {
   sl_status_t sc;
+  bool timer_running = false;
 
   // Reset gateway related measurements and flags
   reset_gateway_data();
 
+  sl_bt_scanner_stop();
+
   // active scanning
   // 50ms scan interval, 100ms scan window
-//  sc = sl_bt_scanner_set_parameters(sl_bt_scanner_scan_mode_active,
-//                                    160,
-//                                    80);
-//  app_assert_status(sc);
-
-//  sc = sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
-//  app_assert_status(sc);
-
-  // Start gateway finder timeout
-  sc = sl_sleeptimer_start_timer_ms(&IP_gateway_finder_timeout_timer,
-                                    GATEWAY_FINDER_TIMEOUT_MS,
-                                    gateway_finder_timeout_cb,
-                                    (void *) NULL,
-                                    0,
-                                    0);
+  sc = sl_bt_scanner_set_parameters(sl_bt_scanner_scan_mode_active,
+                                    100,
+                                    100);
   app_assert_status(sc);
+
+  sc = sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
+  app_assert_status(sc);
+
+  sl_sleeptimer_is_timer_running(&IP_gateway_finder_timeout_timer,
+                                 &timer_running);
+
+  if (!timer_running) {
+    // Start gateway finder timeout
+    sc = sl_sleeptimer_start_timer_ms(&IP_gateway_finder_timeout_timer,
+                                      GATEWAY_FINDER_TIMEOUT_MS,
+                                      gateway_finder_timeout_cb,
+                                      (void *) NULL,
+                                      0,
+                                      0);
+    app_assert_status(sc);
+  }
 
   IP_ready = true;
 }
@@ -1061,6 +1064,28 @@ void IPAS_event_handler(sl_bt_msg_t *evt)
             store_gateway_rssi(&evt->data.evt_scanner_scan_report);
           }
         }
+      }
+      break;
+
+    case sl_bt_evt_system_external_signal_id:
+      if (evt->data.evt_system_external_signal.extsignals
+          & EXT_SIGNAL_CONFIG_MODE_TIMEOUT) {
+        app_log("\nConfiguration mode timeout - Reset \n");
+        sl_bt_system_reset(sl_bt_system_boot_mode_normal);
+      }
+      if (evt->data.evt_system_external_signal.extsignals
+          & EXT_SIGNAL_POSITIONING_TRIGGER) {
+        reset_IP_state();
+        IP_start_positioning = true;
+        app_log("\nIndoor Positioning triggered\n");
+      }
+      if (evt->data.evt_system_external_signal.extsignals
+          & EXT_SIGNAL_GATEWAY_FINDER_TIMEOUT) {
+        if (gateway_counter == 0) {
+          IP_service_unavailable = true;
+        }
+        IP_gateway_finding_finished = true;
+        app_log("\nGateway finding finished\n");
       }
       break;
   }

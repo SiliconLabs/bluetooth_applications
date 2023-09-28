@@ -1,4 +1,4 @@
-# Movement Detection application with BLE #
+# Bluetooth - Movement Detection (BMA400) #
 ![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=Type&query=type&color=green)
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=License&query=license&color=green)
@@ -15,14 +15,16 @@ The block diagram of this application is shown in the image below:
 
 ![system overview](images/system_overview.png)
 
-This code example referred to the following code examples. More detailed information can be found here:
+Overall, this application detects movement by calculating the accelerometer value from Accel 5 Click sensor. This application has two modes:
 
-- [BMA400 accelerometer driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/bma400_accelerometer)
-- [Bluetooth security feature](https://github.com/SiliconLabs/bluetooth_stack_features_staging/tree/master/security)
+In normal mode, when the sensor value changes, an interrupt signal is generated in the GPIO interrupt pin that wakes the BGM220 board up and checks the movement. If the motion is detected, LED 0 on the board is blinked until the notification break time is over.
 
-## Gecko SDK Suite version ##
+In the configure mode, the device starts advertising itself. Users can connect to the device via EFR Connect app and configure threshold value, wakeup time period, notification time, and notification break time.
 
-GSDK v4.0.2
+## Gecko SDK Version ##
+
+- GSDK v4.3.1
+- [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -32,17 +34,31 @@ GSDK v4.0.2
 
 ## Connections Required ##
 
-The mikroBUS Accel 5 Click board can be just "clicked" into it place. Be sure that the boards 45-degree corner matches the Explorer Kit's 45-degree white line. The board also has 4.7k I2C-bus pull-ups. Just be sure that the click board is configured into I2C-mode by the resistors and not into SPI-mode. Also the application uses by default **I2C address 0x15** as it is the Accel 5 click default (the resistor labeled "I2C ADD" is on the "1". If setting "I2C ADD" resistor "0", the address will be 0x14).
+The Accel 5 Click board supports MikroBus, so it can connect easily to BGM220 Explorer Kit's MikroBus header. Be sure that the  45-degree corner of the sensor board matches the 45-degree white line of the Explorer Kit.
+
+The board also has 4.7k I2C-bus pull-ups. Just be sure that the click board is configured into I2C mode by the resistors and not into SPI mode. Also, the application uses by default **I2C address 0x15** as it is the Accel 5 click default (the resistor labeled "I2C ADD" is on the "1". If setting "I2C ADD" resistor "0", the address will be 0x14).
 
 ![hardware connection](images/hardware_connection.png)
 
 ## Setup ##
 
-To test this application, you can either import the provided `bluetooth_movement_detection.sls` project file or start with an empty example project as the following:
+To test this application, you can either create a project based on an example project or start with an empty example project.
 
-1. Create a **Bluetooth - SoC Empty** project for the **BGM220 Explorer Kit Board** using Simplicity Studio 5.
+### Create a project based on an example project ###
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
+1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "movement".
+
+2. Click **Create** button on **Bluetooth - Movement Detection** project. Example project creation dialog pops up -> click Create and Finish and source code should be generated.
+
+![create example project](images/create_example_project.png)
+
+3. Build and flash this example to your board.
+
+### Start with a "Bluetooth - SoC Empty" project ###
+
+1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
+
+2. Copy all attached files in [*inc*](inc/) and [*src*](src/) folders into the project root folder (overwriting the existing files).
 
 3. Import the GATT configuration:
 
@@ -50,7 +66,7 @@ To test this application, you can either import the provided `bluetooth_movement
 
    - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
 
-   - Find the Import button and import the attached [gatt_configuration.btconf](config/gatt_configuration.btconf) file.
+   - Find the Import button and import the attached [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) file.
 
    - Save the GATT configuration (ctrl-s).
 
@@ -65,12 +81,21 @@ To test this application, you can either import the provided `bluetooth_movement
     - [Platform] → [Driver] → [I2C] → [I2CSPM] → Default instance name: **mikroe**
     - [Platform] → [Driver] → [Button] → [Simple Button] → Default instance name: **btn0**
     - [Platform] → [Driver] → [LED] → [Simple LED] → Default instance name: **led0**
+    - [Third Party Hardware Drivers] → [Sensors] → [BMA400 - Accel 5 Click (Mikroe) - I2C]
 
 5. Build and flash the project to your device.
 
-Note: You need to create the bootloader project and flash it to the device before flashing the application. When flash the application image to the device, use the .hex or .s37 output file. Flashing the .bin files may overwrite (erase) the bootloader.
+**Note:**
 
-## How it Works ##
+- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+
+![add Third Party Hardware Drivers extension](images/sdk_extension.png)
+
+- SDK Extension must be enabled for the project to install components.
+
+- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+
+## How It Works ##
 
 ### Application Overview ###
 
@@ -102,7 +127,7 @@ Where R = Readable, W = Writeable with response.
 
 #### Initialization ####
 
-Application initialization function is invoked from the *app_init()* function at startup. The initialization can be divided into phases as follows:
+The application initialization function is invoked from the *app_init()* function at startup. The initialization can be divided into phases as follows:
 
 - Initialization Phase 1 - General
 
@@ -122,32 +147,28 @@ Application initialization function is invoked from the *app_init()* function at
 
 #### Movement Detection algorithm ####
 
-In general the device and the sensor is in sleep mode, when the accelerometer detects that the device is moving, it will wake-up the host MCU triggering an external interrupt via a GPIO pin. When the device is woke-up the movement detection algorithm is active and if the movement is above the threshold, then the the host MCU starts blinking the LED on the development board.
+In general, the device and the sensor are in sleep mode, when the accelerometer detects that the device is moving, it wakes up the host MCU triggering an external interrupt via a GPIO pin. Once awakened, the device activates its movement detection algorithm to monitor any further motion. If the detected movement surpasses a predefined threshold value, then the host MCU starts blinking the LED on the development board.
 
 ![Movement Detection](images/movement_detection.png)
 
-### Testing ###
+## Testing ##
 
-Upon reset, the device starts in **Normal Mode**. In this state, the device runs the movement detection algorithm without the Bluetooth. Try to move the device in some direction and check the logs on the terminal.
+Upon reset, the device starts in **Normal Mode**. In this state, the device runs the movement detection algorithm without Bluetooth. Try to move the device in some direction and check the logs on the terminal.
 
   ![logs](images/logs_1.png)
 
-To switch to **Configuaration Mode**, button PB0 should be pressed during startup (power-on or reset).
+To switch to **Configuration Mode**, button PB0 should be pressed during startup (power-on or reset).
 
-Follow the below steps to test the example with the EFR Connect app when the device is in **Configuaration Mode**:
+Follow the below steps to test the example with the EFR Connect app when the device is in **Configuration Mode**:
 
 1. Open the EFR Connect app on your iOS/Android device.
 
-2. Find your device in the Bluetooth Browser, advertising as **Movement Detection**, and tap Connect. For iOS devices, enter the passkey (passkey default as **123456**) to confirm authentication for the pairing process for the first time. For Android devices, the user must accept a pairing request first and do as above. After that, wait for the connection to be established and the GATT database to be loaded.
+2. Find your device in the Bluetooth Browser by scanning for it under the name **Movement Detection**, and tap on Connect button. After the connection is opened, enter the passkey (passkey default as **123456**) to confirm authentication for the pairing process for the first time. After that, wait for the connection to be established and the GATT database to be loaded.
 
    **Note**: The pairing process on Android and iOS devices is different. For more information, refer to [bluetooth security](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/security).
 
-3. Find the unknown service at the above of the OTA service.
+3. Find the unknown service at the below of the Device Information service.
 
 4. Tap on the main service to see the available characteristics. Try to read, write, re-read the characteristics, and check the value. Values for the characteristics are handled by the application as ASCII strings. You should expect a similar output to the one below.
 
     ![logs](images/logs_2.png)
-
-## .sls Projects Used ##
-
-- [bluetooth_movement_detection.sls](SimplicityStudio/bluetooth_movement_detection.sls)

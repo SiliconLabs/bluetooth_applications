@@ -1,5 +1,12 @@
 # Bluetooth -  PAwR Thermometer
 
+![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_pawr_thermometer_common.json&label=Type&query=type&color=green)
+![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_pawr_thermometer_common.json&label=Technology&query=technology&color=green)
+![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_pawr_thermometer_common.json&label=License&query=license&color=green)
+![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_pawr_thermometer_common.json&label=SDK&query=sdk&color=green)
+![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_pawr_thermometer_build_status.json)
+![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_pawr_thermometer_common.json&label=Flash&query=flash&color=blue)
+![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_pawr_thermometer_common.json&label=RAM&query=ram&color=blue)
 ## Overview
 
 PAwR enables bidirectional communication in connectionless mode, a feature that has been impossible to achieve until Bluetooth v5.4. Now, PAwR can broadcast organized data in small packets in sub-events. PAwR sub-events present established time slots that can be synchronized and responded to. Additionally, observers (end nodes) can choose to respond to singular or multiple sub-events on the application level. Scanning for sub-events enables a particularly power-friendly solution as end nodes only need to scan for minute periods of time.

@@ -59,4 +59,4 @@ void oled_app_init(void);
 void oled_show_people_count(uint32_t people_count,
                             uint32_t people_entered_so_far);
 
-#endif  // OLED_H
+#endif // OLED_H

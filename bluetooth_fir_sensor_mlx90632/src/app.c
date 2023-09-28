@@ -20,47 +20,61 @@
 #include "gatt_db.h"
 #include "app.h"
 
-#include "sl_simple_timer.h"
-#include "sl_i2cspm.h"
+#include "sl_sleeptimer.h"
+#include "mikroe_mlx90632.h"
+#include "sl_i2cspm_instances.h"
 #include "app_log.h"
-#include <mlx90632.h>
-#include <mlx90632_i2c.h>
 #include "sl_health_thermometer.h"
-#include "stdio.h"
 
+#define APP_SENSOR_GET_AND_INDICATE_GATTDB 0x01
+#define APP_TIMER_INTERVAL                 1000
+
+/**************************************************************************//**
+ * static variables.
+ *****************************************************************************/
 // Connection handle.
 static uint8_t app_connection = 0;
-
 // Periodic timer handle.
-static sl_simple_timer_t app_periodic_timer;
-
-// Periodic timer callback.
-static void app_periodic_timer_callback(sl_simple_timer_t *timer, void *data);
-
+static sl_sleeptimer_timer_handle_t app_periodic_timer;
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
-//Measuring
-static sl_status_t sensor_get(uint32_t *rh, int32_t *t);
+/**************************************************************************//**
+ * static function.
+ *****************************************************************************/
+// Measuring
+static sl_status_t sensor_get(uint32_t *ambient_temp, int32_t *object_temp);
+
+// Periodic timer callback.
+static void app_periodic_timer_cb(sl_sleeptimer_timer_handle_t *timer,
+                                  void *data);
+
+// external signal handler.
+static void app_sensor_get_and_indicate_gattdb(void);
 
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
   // This is called once during start-up.                                    //
   /////////////////////////////////////////////////////////////////////////////
+  app_log("Bluetooth - IR thermostate MLX90632 sensor.\n");
 
-  //Initialized the driver.
-  mlx90632_init();
+  // Initialized the driver.
+  if (mikroe_mlx90632_init(sl_i2cspm_mikroe) == SL_STATUS_OK) {
+    app_log("IrThermo sensor initializes successfully\n");
+  }
+
+  mikroe_mlx90632_default_config();
 }
 
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
@@ -78,9 +92,6 @@ SL_WEAK void app_process_action(void)
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   sl_status_t sc;
-  bd_addr address;
-  uint8_t address_type;
-  uint8_t system_id[8];
 
   switch (SL_BT_MSG_ID(evt->header)) {
     // -------------------------------
@@ -88,35 +99,14 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // Do not call any stack command before receiving this boot event!
     case sl_bt_evt_system_boot_id:
 
-      // Extract unique ID from BT Address.
-      sc = sl_bt_system_get_identity_address(&address, &address_type);
-      app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to get Bluetooth address\n",
-                    (int)sc);
-
-      // Pad and reverse unique ID to get System ID.
-      system_id[0] = address.addr[5];
-      system_id[1] = address.addr[4];
-      system_id[2] = address.addr[3];
-      system_id[3] = 0xFF;
-      system_id[4] = 0xFE;
-      system_id[5] = address.addr[2];
-      system_id[6] = address.addr[1];
-      system_id[7] = address.addr[0];
-
-      sc = sl_bt_gatt_server_write_attribute_value(gattdb_system_id,
-                                                   0,
-                                                   sizeof(system_id),
-                                                   system_id);
-      app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to write attribute\n",
-                    (int)sc);
-
       // Create an advertising set.
       sc = sl_bt_advertiser_create_set(&advertising_set_handle);
-      app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to create advertising set\n",
-                    (int)sc);
+      app_assert_status(sc);
+
+      // Generate data for advertising
+      sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
+                                                 sl_bt_advertiser_general_discoverable);
+      app_assert_status(sc);
 
       // Set advertising interval to 100ms.
       sc = sl_bt_advertiser_set_timing(
@@ -125,47 +115,34 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         160, // max. adv. interval (milliseconds * 1.6)
         0,   // adv. duration
         0);  // max. num. adv. events
-      app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to set advertising timing\n",
-                    (int)sc);
-      // Start general advertising and enable connections.
-      sc = sl_bt_advertiser_start(
-        advertising_set_handle,
-        advertiser_general_discoverable,
-        advertiser_connectable_scannable);
-      app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to start advertising\n",
-                    (int)sc);
+      app_assert_status(sc);
+      // Start advertising and enable connections.
+      sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
+                                         sl_bt_advertiser_connectable_scannable);
+      app_assert_status(sc);
       break;
 
     // -------------------------------
     // This event indicates that a new connection was opened.
     case sl_bt_evt_connection_opened_id:
+      app_log("Connection opened.\n");
       break;
 
     // -------------------------------
     // This event indicates that a connection was closed.
     case sl_bt_evt_connection_closed_id:
       // Restart advertising after client has disconnected.
-      sc = sl_bt_advertiser_start(
-        advertising_set_handle,
-        advertiser_general_discoverable,
-        advertiser_connectable_scannable);
-      app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to start advertising\n",
-                    (int)sc);
+      sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
+                                         sl_bt_advertiser_connectable_scannable);
+      app_assert_status(sc);
 
       // Stop timer.
-      sc = sl_simple_timer_stop(&app_periodic_timer);
-      app_assert(sc == SL_STATUS_OK,
-                    "[E: 0x%04x] Failed to stop periodic timer\n",
-                    (int)sc);
+      sc = sl_sleeptimer_stop_timer(&app_periodic_timer);
+      app_assert_status(sc);
       break;
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Add additional event handlers here as your application requires!      //
-    ///////////////////////////////////////////////////////////////////////////
-
+    case sl_bt_evt_system_external_signal_id:
+      app_sensor_get_and_indicate_gattdb();
+      break;
     // -------------------------------
     // Default event handler.
     default:
@@ -174,36 +151,41 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 }
 
 void sl_bt_ht_temperature_measurement_indication_changed_cb(uint8_t connection,
-                                                            gatt_client_config_flag_t client_config)
+                                                            sl_bt_gatt_client_config_flag_t client_config)
 {
   sl_status_t sc;
   app_connection = connection;
 
   // Indication or notification enabled.
-  if (gatt_disable != client_config) {
+  if (sl_bt_gatt_disable != client_config) {
     // Start timer used for periodic indications.
-    sc = sl_simple_timer_start(&app_periodic_timer,
-                               1000,
-                               app_periodic_timer_callback,
-                               NULL,
-                               true);
-    app_assert(sc == SL_STATUS_OK,
-                  "[E: 0x%04x] Failed to start periodic timer\n",
-                  (int)sc);
+    sc = sl_sleeptimer_start_periodic_timer_ms(&app_periodic_timer,
+                                               APP_TIMER_INTERVAL,
+                                               app_periodic_timer_cb,
+                                               NULL,
+                                               0,
+                                               0);
+    app_assert_status(sc);
     // Send first indication.
-    app_periodic_timer_callback(&app_periodic_timer, NULL);
+    app_periodic_timer_cb(&app_periodic_timer, NULL);
   }
   // Indications disabled.
   else {
     // Stop timer used for periodic indications.
-    (void)sl_simple_timer_stop(&app_periodic_timer);
+    sl_sleeptimer_stop_timer(&app_periodic_timer);
   }
 }
 
-static void app_periodic_timer_callback(sl_simple_timer_t *timer, void *data)
+static void app_periodic_timer_cb(sl_sleeptimer_timer_handle_t *timer,
+                                  void *data)
 {
   (void)data;
   (void)timer;
+  sl_bt_external_signal(APP_SENSOR_GET_AND_INDICATE_GATTDB);
+}
+
+static void app_sensor_get_and_indicate_gattdb(void)
+{
   sl_status_t sc;
   int32_t object = 0;
   uint32_t ambient = 0;
@@ -219,31 +201,29 @@ static void app_periodic_timer_callback(sl_simple_timer_t *timer, void *data)
                                                  object,
                                                  false);
 
-  if (sc) {
+  if (sc != SL_STATUS_OK) {
     app_log("Warning! Failed to send temperature measurement indication\n");
   }
 }
 
-static sl_status_t sensor_get(uint32_t *rh, int32_t *t)
+static sl_status_t sensor_get(uint32_t *ambient_temp, int32_t *object_temp)
 {
-  sl_status_t sc = SL_STATUS_OK;
-  double  ambient, object;
-  float float_object, float_ambient;
-  int amb, obj;
+  float amb, obj;
 
   // Perform the measurement
-  sc = mlx90632_measurment_cb(&ambient, &object);
+  if (SL_STATUS_OK != mikroe_mlx90632_present()) {
+    app_log("IrThermo 3 Click is not present on the bus\n");
+    return SL_STATUS_FAIL;
+  }
 
-  amb = ambient * 100;
-  obj = object  * 100;
+  amb = mikroe_mlx90632_get_ambient_temperature();
+  obj = mikroe_mlx90632_get_object_temperature();
 
-  float_ambient = (float)ambient*1000;
-  (*rh) = (int32_t)float_ambient;
-  printf("Ambient: %d.%d C\n", (int)(amb/100), (int)(amb%100));
+  *ambient_temp = (uint32_t)(amb * 1000);
+  *object_temp = (int32_t)(obj * 1000);
 
-  float_object = (float)object*1000;
-  (*t) = (int32_t)float_object;
-  printf("Object: %d.%d C\n", (int)(obj/100), (int)(obj%100));
+  app_log("ambient: %.2f\n", amb);
+  app_log("Object: %.2f\n", obj);
 
-  return sc;
+  return SL_STATUS_OK;
 }

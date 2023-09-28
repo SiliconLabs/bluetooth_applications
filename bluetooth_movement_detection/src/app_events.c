@@ -51,9 +51,9 @@
 #include "app_ble_events.h"
 
 static void convert_integer_to_ascii(
-                                uint8_t *string,
-                                int input,
-                                uint16_t *len);
+  uint8_t *string,
+  int input,
+  uint16_t *len);
 
 /***************************************************************************//**
  * Handles BLE user read/write requests for the configured characteristics.
@@ -68,13 +68,12 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 
   // Find application feature-set for the requested BLE characteristic
   for (int i = 0; i < MD_BLE_FEATURE_LENGTH; i++) {
-
-    if ((BLE_CHAR_ACCESS_TYPE_READ == access_type
-        && evt->data.evt_gatt_server_user_read_request.characteristic
-        == md_features[i].char_id)
-        || (BLE_CHAR_ACCESS_TYPE_WRITE == access_type
-        && evt->data.evt_gatt_server_user_write_request.characteristic
-        == md_features[i].char_id)) {
+    if (((BLE_CHAR_ACCESS_TYPE_READ == access_type)
+         && (evt->data.evt_gatt_server_user_read_request.characteristic
+             == md_features[i].char_id))
+        || ((BLE_CHAR_ACCESS_TYPE_WRITE == access_type)
+            && (evt->data.evt_gatt_server_user_write_request.characteristic
+                == md_features[i].char_id))) {
       // Set current feature
       feature = &md_features[i];
       break;
@@ -85,17 +84,16 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 
   if (NULL != feature) {
     if (BLE_CHAR_ACCESS_TYPE_READ == access_type) {
-
       app_log("Read characteristic, ID: %x, value: %d\n",
               evt->data.evt_gatt_server_user_read_request.characteristic,
-              (sizeof(uint8_t) == feature->data_length ?
-              *((uint8_t* )(feature->data)) : *((uint16_t* )(feature->data))));
+              (sizeof(uint8_t) == feature->data_length
+               ?*((uint8_t * )(feature->data)) : *((uint16_t * )(feature->data))));
 
       // Convert integers to ASCII string
       convert_integer_to_ascii(
         ascii_buffer,
-        (sizeof(uint8_t) == feature->data_length ?
-        *((uint8_t*) (feature->data)) : *((uint16_t*) (feature->data))),
+        (sizeof(uint8_t) == feature->data_length
+         ?*((uint8_t *) (feature->data)) : *((uint16_t *) (feature->data))),
         &length);
 
       // Send response
@@ -103,12 +101,10 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
         evt->data.evt_gatt_server_user_read_request.connection,
         evt->data.evt_gatt_server_user_read_request.characteristic,
         SL_STATUS_OK, /* SUCCESS */
-        length, 
+        length,
         ascii_buffer,
         &length);
-
     } else {
-
       // Check value length
       if (evt->data.evt_gatt_server_user_write_request.value.len
           > sizeof(ascii_buffer)) {
@@ -117,7 +113,6 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
           evt->data.evt_gatt_server_user_read_request.connection,
           evt->data.evt_gatt_server_user_read_request.characteristic,
           (uint8_t) SL_STATUS_BT_ATT_INVALID_ATT_LENGTH);
-
       } else {
         // Copy received data into a buffer
         memcpy(
@@ -127,11 +122,11 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 
         // Convert ASCII to integer
         temp_int = atoi(
-            (char*) evt->data.evt_gatt_server_user_write_request.value.data);
+          (char *) evt->data.evt_gatt_server_user_write_request.value.data);
 
         // Check value range
-        if (temp_int >= feature->value_min && temp_int <= feature->value_max) {
-
+        if ((temp_int >= feature->value_min)
+            && (temp_int <= feature->value_max)) {
           app_log(
             "Write characteristic, ID: %x, value: %d\n",
             evt->data.evt_gatt_server_user_read_request.characteristic,
@@ -139,17 +134,17 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
 
           // Store value in the runtime configuration structure
           if (sizeof(uint8_t) == feature->data_length) {
-            *((uint8_t*) feature->data) = (uint8_t) temp_int;
+            *((uint8_t *) feature->data) = (uint8_t) temp_int;
           } else {
-            *((uint16_t*) feature->data) = (uint16_t) temp_int;
+            *((uint16_t *) feature->data) = (uint16_t) temp_int;
           }
 
           // Store value in NVM
           sc = sl_bt_nvm_erase(feature->nvm_key);
           app_assert(
-              (sc == SL_STATUS_OK) || (sc == SL_STATUS_BT_PS_KEY_NOT_FOUND),
-              "[E: 0x%04x] Failed to Erase NVM\n",
-              (int ) sc);
+            (sc == SL_STATUS_OK) || (sc == SL_STATUS_BT_PS_KEY_NOT_FOUND),
+            "[E: 0x%04x] Failed to Erase NVM\n",
+            (int ) sc);
 
           sc = sl_bt_nvm_save(feature->nvm_key,
                               feature->data_length,
@@ -163,9 +158,7 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
             evt->data.evt_gatt_server_user_read_request.connection,
             evt->data.evt_gatt_server_user_read_request.characteristic,
             SL_STATUS_OK /* SUCCESS */);
-
         } else {
-
           // Send value not allowed error
           sl_bt_gatt_server_send_user_write_response(
             evt->data.evt_gatt_server_user_read_request.connection,
@@ -173,7 +166,6 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
             (uint8_t) SL_STATUS_BT_ATT_VALUE_NOT_ALLOWED);
         }
       }
-
     }
   } else {
     // Send request not supported
@@ -205,25 +197,25 @@ void app_event_handler_on_external_event(sl_bt_msg_t *evt)
     // Restart the device.
     sl_bt_system_reset(0);
   } else if (evt->data.evt_system_external_signal.extsignals
-      & MD_ACC_WAKEUP_EVENT) {
+             & MD_ACC_WAKEUP_EVENT) {
     app_logic_md_handle_acc_wakeup_evt();
   } else if (evt->data.evt_system_external_signal.extsignals
-      & MD_WAKEUP_PERIOD_TIMER_EVENT) {
+             & MD_WAKEUP_PERIOD_TIMER_EVENT) {
     app_logic_md_handle_wakeup_time_period_evt();
   } else if (evt->data.evt_system_external_signal.extsignals
-      & MD_NOTIFY_TIMER_EVENT) {
+             & MD_NOTIFY_TIMER_EVENT) {
     app_logic_md_handle_notify_timer();
   } else if (evt->data.evt_system_external_signal.extsignals
-      & MD_NOTIFY_BREAK_TIMER_EVENT) {
+             & MD_NOTIFY_BREAK_TIMER_EVENT) {
     app_logic_md_handle_notify_break_timer();
   }
 }
 
 static void convert_integer_to_ascii(
-                                uint8_t *string,
-                                int input,
-                                uint16_t *len)
+  uint8_t *string,
+  int input,
+  uint16_t *len)
 {
-  sprintf((char*) string, "%d", input);
-  *len = strlen((const char*) string);
+  sprintf((char *) string, "%d", input);
+  *len = strlen((const char *) string);
 }
