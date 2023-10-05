@@ -47,11 +47,7 @@ The client device will scan periodically the BLE network. Once it found the sens
 ## Gecko SDK version ##
 
 - GSDK v4.3.1
-<<<<<<< HEAD
-- [Third Party Hardware Drivers v1.6.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
-=======
 - [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
->>>>>>> release/candidate
 
 ## Hardware Required ##
 

@@ -62,6 +62,7 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 39 | Bluetooth - Air Quality Monitor | [Click Here](./bluetooth_air_quality_monitor) |
 | 40 | Bluetooth - Wireless Direct Test Mode (DTM) | [Click Here](./bluetooth_wireless_dtm) |
 | 41 | Bluetooth - Ir Thermometer 3 Click (MLX90632) | [Click Here](./bluetooth_fir_sensor_mlx90632) |
+| 42 | Bluetooth - BTHome v2 - Internal Temperature Monitor | [Click Here](./bluetooth_bthome_v2_internal_temperature_monitor) |
 
 
 ## Requirements ##

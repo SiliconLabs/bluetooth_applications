@@ -46,11 +46,7 @@ The gathered switch's status is shown on the SparkFun Micro OLED Breakout.
 ## Gecko SDK Version ##
 
 - GSDK v4.3.1
-<<<<<<< HEAD
-- [Third Party Hardware Drivers v1.6.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
-=======
 - [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
->>>>>>> release/candidate
 
 ## Hardware Required ##
 

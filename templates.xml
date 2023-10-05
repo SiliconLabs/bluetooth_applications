@@ -739,14 +739,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_bthome_v2_humidity_and_temperature_monitor" label="Bluetooth - BTHome v2 - Humidity and Temperature Monitor (SHTC3)"
-               description="This project illustrates how BTHome can be effectively utilized with Silabs devkits to communicate the measured humidity and temperature sensor values using SparkFun Humidity Sensor Breakout (SHTC3) to a HomeAssistant system.">
+  <descriptors name="bluetooth_bthome_v2_internal_temperature_monitor" label="Bluetooth - BTHome v2 - Internal Temperature Monitor"
+                 description="This project illustrates how BTHome can be effectively utilized with Silabs devkits to communicate internal temperature sensor values to a HomeAssistant system.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
-    <properties key="projectFilePaths" value="bluetooth_bthome_v2_humidity_and_temperature_monitor/SimplicityStudio/bluetooth_bthome_v2_humidity_and_temperature_monitor.slcp"/>
-    <properties key="readmeFiles" value="bluetooth_bthome_v2_humidity_and_temperature_monitor/README.md"/>
-    <properties key="boardCompatibility" value="brd4108a brd4314a brd2703a brd2601b brd2704a com.silabs.board.none"/>
-    <properties key="partCompatibility" value=".*efr32mg24.* .*bgm22.* .*efr32bg22.* .*mgm24.*"/> 
+    <properties key="projectFilePaths" value="bluetooth_bthome_v2_internal_temperature_monitor/SimplicityStudio/bluetooth_bthome_v2_internal_temperature_monitor.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_bthome_v2_internal_temperature_monitor/README.md"/>
+    <properties key="boardCompatibility" value="brd4108a brd4314a brd2703a brd2704a brd2601b com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm22.* .*efr32bg22.* .*mgm24.* .*efr32[bm]g24.* .*efr32[x]g24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
     <properties key="category" value="Bluetooth Examples"/>
@@ -754,4 +754,79 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
+   <descriptors name="bluetooth_air_quality_monitor" label="Bluetooth - Air Quality Monitor" 
+               description="This project shows a demonstration of Bluetooth Air Quality Monitor application using Silabs Thunderboard Sense 2, SparkFun Micro OLED Breakout (Qwiic) board, BUZZ 2 click Mikroe board and Silabs Click Shield.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_air_quality_monitor/SimplicityStudio/bluetooth_air_quality_monitor.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_air_quality_monitor/README.md"/>
+    <properties key="boardCompatibility" value="brd4166a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg12p.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_movement_detection" label="Bluetooth - Movement Detection (BMA400)"
+               description="This project aims to implement a motion detection example application, the motion detection algorithm and its software module will be used as a building block for the Asset Tracking application.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_movement_detection/SimplicityStudio/bluetooth_movement_detection.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_movement_detection/README.md"/>
+    <properties key="boardCompatibility" value="brd4314a brd2703a brd4108a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32[bm]g24.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_people_counting" label="Bluetooth - People Counting (VL53L1X)" 
+     description="This project aims to implement a people counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensors.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_people_counting/SimplicityStudio/bluetooth_people_counting.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_people_counting/README.md"/>
+    <properties key="boardCompatibility" value="brd4314a brd2601b brd2703a brd4108a brd2704a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg24.* .*efr32bg22.* .*bgm22.* .*mgm24.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_wireless_dtm" label="Bluetooth - Wireless Direct Test Mode (DTM)"
+               description="This project aims to implement the Wireless Direct Test Mode (DTM) to test transmission/reception capabilites of the Bluetooth-based design.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_wireless_dtm/SimplicityStudio/bluetooth_wireless_dtm.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_wireless_dtm/README.md"/>
+    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4191a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+    <descriptors name="bluetooth_fir_sensor_mlx90632" label="Bluetooth - Ir Thermometer 3 Click (MLX90632)"
+                 description="This example implements the Ambient temperature and the Object temperature service. It enables a device to connect and receive in every second the Object temperature values via Bluetooth.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_fir_sensor_mlx90632/SimplicityStudio/bluetooth_ir_thermometer_3_click.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_fir_sensor_mlx90632/README.md"/>
+    <properties key="boardCompatibility" value="brd4314a brd4108a brd2703a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm220.* .*efr32mg24.* .*bg22.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Beginer Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>           
 </model:MDescriptors>  
