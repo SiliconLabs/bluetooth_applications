@@ -85,9 +85,9 @@
 
 #define CHARACTERISTIC_COUNT            2
 
-#define SCANNER_TIMEOUT_EVENT           (1<<0)
-#define CONNECTION_CLOSE_REQUEST_EVENT  (1<<1)
-#define DATA_COLLECT_EVENT              (1<<2)
+#define SCANNER_TIMEOUT_EVENT           (1 << 0)
+#define CONNECTION_CLOSE_REQUEST_EVENT  (1 << 1)
+#define DATA_COLLECT_EVENT              (1 << 2)
 
 // -----------------------------------------------------------------------------
 // Application state
@@ -187,20 +187,26 @@ static void stop_periodic_timer(void);
 static void start_discovery(void);
 static void start_connect(void);
 
-
 static void app_bt_system_boot(const sl_bt_evt_system_boot_t *data);
-static void app_bt_evt_scanner_scan_report(const sl_bt_evt_scanner_scan_report_t *scan_report);
-static void app_bt_evt_connection_opened(const sl_bt_evt_connection_opened_t *connection_opened);
+static void app_bt_evt_scanner_legacy_advertisement_report(
+  const sl_bt_evt_scanner_legacy_advertisement_report_t *scan_report);
+static void app_bt_evt_connection_opened(
+  const sl_bt_evt_connection_opened_t *connection_opened);
 static void app_bt_evt_gatt_service(const sl_bt_evt_gatt_service_t *evt_data);
-static void app_bt_evt_gatt_procedure_completed(const sl_bt_evt_gatt_procedure_completed_t *evt_data);
-static void app_bt_evt_gatt_characteristic(const sl_bt_evt_gatt_characteristic_t *evt_data);
-static void app_bt_evt_gatt_characteristic_value(const sl_bt_evt_gatt_characteristic_value_t *evt_data);
-static void app_bt_evt_connection_closed(const sl_bt_evt_connection_closed_t *evt_data);
-static void app_bt_evt_system_external_signal(const sl_bt_evt_system_external_signal_t *evt_data);
+static void app_bt_evt_gatt_procedure_completed(
+  const sl_bt_evt_gatt_procedure_completed_t *evt_data);
+static void app_bt_evt_gatt_characteristic(
+  const sl_bt_evt_gatt_characteristic_t *evt_data);
+static void app_bt_evt_gatt_characteristic_value(
+  const sl_bt_evt_gatt_characteristic_value_t *evt_data);
+static void app_bt_evt_connection_closed(
+  const sl_bt_evt_connection_closed_t *evt_data);
+static void app_bt_evt_system_external_signal(
+  const sl_bt_evt_system_external_signal_t *evt_data);
 static void scanner_timeout_callback(sl_sleeptimer_timer_handle_t *timer,
-                                    void *data);
+                                     void *data);
 static void connection_timeout_callback(sl_sleeptimer_timer_handle_t *timer,
-                                    void *data);
+                                        void *data);
 static void data_collecter_callback(sl_sleeptimer_timer_handle_t *timer,
                                     void *data);
 
@@ -216,7 +222,7 @@ void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
 }
 
@@ -229,63 +235,66 @@ SL_WEAK void app_process_action(void)
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   switch (SL_BT_MSG_ID(evt->header)) {
-  // -------------------------------
-  // This event indicates the device has started and the radio is ready.
-  // Do not call any stack command before receiving this boot event!
-  case sl_bt_evt_system_boot_id:
-    app_bt_system_boot(&(evt->data.evt_system_boot));
-    break;
+    // -------------------------------
+    // This event indicates the device has started and the radio is ready.
+    // Do not call any stack command before receiving this boot event!
+    case sl_bt_evt_system_boot_id:
+      app_bt_system_boot(&(evt->data.evt_system_boot));
+      break;
 
-  // -------------------------------
-  // This event is generated when an advertisement packet or a scan response
-  // is received from a responder
-  case sl_bt_evt_scanner_scan_report_id:
-    app_bt_evt_scanner_scan_report(&(evt->data.evt_scanner_scan_report));
-    break;
+    // -------------------------------
+    // This event is generated when an advertisement packet or a scan response
+    // is received from a responder
+    case sl_bt_evt_scanner_legacy_advertisement_report_id:
+      app_bt_evt_scanner_legacy_advertisement_report(
+        &(evt->data.evt_scanner_legacy_advertisement_report));
+      break;
 
-  // -------------------------------
-  // This event indicates that a new connection was opened.
-  case sl_bt_evt_connection_opened_id:
-    app_bt_evt_connection_opened(&(evt->data.evt_connection_opened));
-    break;
+    // -------------------------------
+    // This event indicates that a new connection was opened.
+    case sl_bt_evt_connection_opened_id:
+      app_bt_evt_connection_opened(&(evt->data.evt_connection_opened));
+      break;
 
-  // -------------------------------
-  // This event is generated when a new service is discovered
-  case sl_bt_evt_gatt_service_id:
-    app_bt_evt_gatt_service(&(evt->data.evt_gatt_service));
-    break;
+    // -------------------------------
+    // This event is generated when a new service is discovered
+    case sl_bt_evt_gatt_service_id:
+      app_bt_evt_gatt_service(&(evt->data.evt_gatt_service));
+      break;
 
-  // -------------------------------
-  // This event is generated when a new characteristic is discovered
-  case sl_bt_evt_gatt_characteristic_id:
-    app_bt_evt_gatt_characteristic(&(evt->data.evt_gatt_characteristic));
-    break;
+    // -------------------------------
+    // This event is generated when a new characteristic is discovered
+    case sl_bt_evt_gatt_characteristic_id:
+      app_bt_evt_gatt_characteristic(&(evt->data.evt_gatt_characteristic));
+      break;
 
-  // -------------------------------
-  // This event is generated for various procedure completions, e.g. when a
-  // write procedure is completed, or service discovery is completed
-  case sl_bt_evt_gatt_procedure_completed_id:
-    app_bt_evt_gatt_procedure_completed(&(evt->data.evt_gatt_procedure_completed));
-    break;
+    // -------------------------------
+    // This event is generated for various procedure completions, e.g. when a
+    // write procedure is completed, or service discovery is completed
+    case sl_bt_evt_gatt_procedure_completed_id:
+      app_bt_evt_gatt_procedure_completed(
+        &(evt->data.evt_gatt_procedure_completed));
+      break;
 
-  case sl_bt_evt_gatt_characteristic_value_id:
-    app_bt_evt_gatt_characteristic_value(&(evt->data.evt_gatt_characteristic_value));
-    break;
+    case sl_bt_evt_gatt_characteristic_value_id:
+      app_bt_evt_gatt_characteristic_value(
+        &(evt->data.evt_gatt_characteristic_value));
+      break;
 
-  // -------------------------------
-  // This event indicates that a connection was closed.
-  case sl_bt_evt_connection_closed_id:
-    app_bt_evt_connection_closed(&(evt->data.evt_connection_closed));
-    break;
+    // -------------------------------
+    // This event indicates that a connection was closed.
+    case sl_bt_evt_connection_closed_id:
+      app_bt_evt_connection_closed(&(evt->data.evt_connection_closed));
+      break;
 
-  case sl_bt_evt_system_external_signal_id:
-    app_bt_evt_system_external_signal(&(evt->data.evt_system_external_signal));
-    break;
+    case sl_bt_evt_system_external_signal_id:
+      app_bt_evt_system_external_signal(&(evt->data.evt_system_external_signal));
+      break;
 
-  // -------------------------------
-  // Default event handler.
-  default:
-    break;
+    // -------------------------------
+    // Default event handler.
+    default:
+      break;
   }
 }
 
@@ -365,13 +374,14 @@ static uint8_t bt_gatt_read_characteristic_value_from_offset(uint16_t offset,
     if (characteristic_read.index < characteristic_index_max) {
       uint16_t characteristic_handle;
 
-      characteristic_handle = conn_properties.characteristic_handle[characteristic_read.index];
+      characteristic_handle =
+        conn_properties.characteristic_handle[characteristic_read.index];
       if (characteristic_handle != CHARACTERISTIC_HANDLE_INVALID) {
         sc = sl_bt_gatt_read_characteristic_value_from_offset(
-            conn_properties.connection_handle,
-            characteristic_handle,
-            offset,
-            maxlen);
+          conn_properties.connection_handle,
+          characteristic_handle,
+          offset,
+          maxlen);
         app_assert_status(sc);
       }
     }
@@ -508,7 +518,8 @@ static void start_discovery(void)
   app_assert_status(sc);
 
   // Start scanning - looking for Thunderboard sense 2 devices
-  sc = sl_bt_scanner_start(sl_bt_gap_1m_phy, sl_bt_scanner_discover_generic);
+  sc = sl_bt_scanner_start(sl_bt_gap_1m_phy,
+                           sl_bt_scanner_discover_generic);
   app_assert_status_f(sc,
                       "Failed to start discovery #1\n");
   memset(remote_sensor.address.addr, 0, 6);
@@ -544,14 +555,16 @@ static void app_bt_system_boot(const sl_bt_evt_system_boot_t *data)
                data->minor,
                data->patch,
                data->build);
+
   // Print bluetooth address.
 //  print_bluetooth_address();
-  // Set passive scanning on 1Mb PHY
-  sc = sl_bt_scanner_set_mode(sl_bt_gap_1m_phy, SCAN_PASSIVE);
+
+  // Set scan parameters
+  sc = sl_bt_scanner_set_parameters(sl_bt_scanner_scan_mode_passive,
+                                    SCAN_INTERVAL,
+                                    SCAN_WINDOW);
   app_assert_status(sc);
-  // Set scan interval and scan window
-  sc = sl_bt_scanner_set_timing(sl_bt_gap_1m_phy, SCAN_INTERVAL, SCAN_WINDOW);
-  app_assert_status(sc);
+
   // Set the default connection parameters for subsequent connections
   sc = sl_bt_connection_set_default_parameters(CONN_INTERVAL_MIN,
                                                CONN_INTERVAL_MAX,
@@ -563,23 +576,26 @@ static void app_bt_system_boot(const sl_bt_evt_system_boot_t *data)
   start_discovery();
 }
 
-static void app_bt_evt_scanner_scan_report(const sl_bt_evt_scanner_scan_report_t *scan_report)
+static void app_bt_evt_scanner_legacy_advertisement_report(
+  const sl_bt_evt_scanner_legacy_advertisement_report_t *scan_report)
 {
   // Parse advertisement packets
-  if (scan_report->packet_type == 0) {
+  if (scan_report->event_flags & SL_BT_SCANNER_EVENT_FLAG_SCANNABLE) {
     // If a thunderboard advertisement is found...
     if (find_device_name_pattern_in_advertisement(scan_report->data.data,
                                                   scan_report->data.len,
                                                   THUNDERBOARD_NAME_CHECK,
-                                                  THUNDERBOARD_NAME_CHECK_LENGTH)) {
-      app_log_info("New device found: %02x:%02x:%02x:%02x:%02x:%02x, rssi: %d\r\n",
-                   scan_report->address.addr[0],
-                   scan_report->address.addr[1],
-                   scan_report->address.addr[2],
-                   scan_report->address.addr[3],
-                   scan_report->address.addr[4],
-                   scan_report->address.addr[5],
-                   (int)scan_report->rssi);
+                                                  THUNDERBOARD_NAME_CHECK_LENGTH))
+    {
+      app_log_info(
+        "New device found: %02x:%02x:%02x:%02x:%02x:%02x, rssi: %d\r\n",
+        scan_report->address.addr[0],
+        scan_report->address.addr[1],
+        scan_report->address.addr[2],
+        scan_report->address.addr[3],
+        scan_report->address.addr[4],
+        scan_report->address.addr[5],
+        (int)scan_report->rssi);
       if (remote_sensor.rssi < scan_report->rssi) {
         remote_sensor.rssi = scan_report->rssi;
         remote_sensor.address = scan_report->address;
@@ -589,7 +605,8 @@ static void app_bt_evt_scanner_scan_report(const sl_bt_evt_scanner_scan_report_t
   }
 }
 
-static void app_bt_evt_connection_opened(const sl_bt_evt_connection_opened_t *connection_opened)
+static void app_bt_evt_connection_opened(
+  const sl_bt_evt_connection_opened_t *connection_opened)
 {
   sl_status_t sc;
   uint16_t addr_value;
@@ -598,13 +615,17 @@ static void app_bt_evt_connection_opened(const sl_bt_evt_connection_opened_t *co
   start_connection_timeout_timer();
 
   // Get last two bytes of sender address
-  addr_value = (uint16_t)(connection_opened->address.addr[1] << 8) + connection_opened->address.addr[0];
+  addr_value =
+    (uint16_t)(connection_opened->address.addr[1] << 8)
+    + connection_opened->address.addr[0];
   // Add connection to the connection_properties array
   add_connection(connection_opened->connection, addr_value);
   // Discover Health Thermometer service on the responder device
-  sc = sl_bt_gatt_discover_primary_services_by_uuid(connection_opened->connection,
-                                                    sizeof(environment_sensing_service),
-                                                    (const uint8_t *)environment_sensing_service);
+  sc = sl_bt_gatt_discover_primary_services_by_uuid(
+    connection_opened->connection,
+    sizeof(
+      environment_sensing_service),
+    (const uint8_t *)environment_sensing_service);
   app_assert_status(sc);
 
   conn_state = discover_services;
@@ -617,7 +638,8 @@ static void app_bt_evt_gatt_service(const sl_bt_evt_gatt_service_t *evt_data)
   conn_properties.es_service_handle = evt_data->service;
 }
 
-static void app_bt_evt_gatt_procedure_completed(const sl_bt_evt_gatt_procedure_completed_t *evt_data)
+static void app_bt_evt_gatt_procedure_completed(
+  const sl_bt_evt_gatt_procedure_completed_t *evt_data)
 {
   sl_status_t sc;
 
@@ -633,24 +655,33 @@ static void app_bt_evt_gatt_procedure_completed(const sl_bt_evt_gatt_procedure_c
   }
 }
 
-static void app_bt_evt_gatt_characteristic(const sl_bt_evt_gatt_characteristic_t *evt_data)
+static void app_bt_evt_gatt_characteristic(
+  const sl_bt_evt_gatt_characteristic_t *evt_data)
 {
   bool characteristic_found = false;
 
   if ((evt_data->uuid.len == sizeof(es_temperature_char))
-      && (0 == memcmp(es_temperature_char, evt_data->uuid.data, evt_data->uuid.len))) {
+      && (0 == memcmp(es_temperature_char,
+                      evt_data->uuid.data,
+                      evt_data->uuid.len))) {
     // Save characteristic handle for future reference
-    conn_properties.characteristic_handle[characteristic_index_temperature] = evt_data->characteristic;
+    conn_properties.characteristic_handle[characteristic_index_temperature] =
+      evt_data->characteristic;
     characteristic_found = true;
-    app_log_info("Found humidity characteristic: 0x%x\r\n", evt_data->characteristic);
+    app_log_info("Found humidity characteristic: 0x%x\r\n",
+                 evt_data->characteristic);
   }
 
   if ((evt_data->uuid.len == sizeof(es_humidity_char))
-      && (0 == memcmp(es_humidity_char, evt_data->uuid.data, evt_data->uuid.len))) {
+      && (0 == memcmp(es_humidity_char,
+                      evt_data->uuid.data,
+                      evt_data->uuid.len))) {
     // Save characteristic handle for future reference
-    conn_properties.characteristic_handle[characteristic_index_humidity] = evt_data->characteristic;
+    conn_properties.characteristic_handle[characteristic_index_humidity] =
+      evt_data->characteristic;
     characteristic_found = true;
-    app_log_info("Found temperature characteristic: 0x%x\r\n", evt_data->characteristic);
+    app_log_info("Found temperature characteristic: 0x%x\r\n",
+                 evt_data->characteristic);
   }
 
   if (characteristic_found) {
@@ -667,26 +698,29 @@ static void app_bt_evt_gatt_characteristic(const sl_bt_evt_gatt_characteristic_t
   }
 }
 
-static void app_bt_evt_gatt_characteristic_value(const sl_bt_evt_gatt_characteristic_value_t *evt_data)
+static void app_bt_evt_gatt_characteristic_value(
+  const sl_bt_evt_gatt_characteristic_value_t *evt_data)
 {
   uint16_t char_value;
 
-  char_value = (uint16_t)(evt_data->value.data[1] << 8) + evt_data->value.data[0];
+  char_value =
+    (uint16_t)(evt_data->value.data[1] << 8) + evt_data->value.data[0];
 
   switch (characteristic_read.index) {
-  case characteristic_index_temperature:
-    conn_properties.temperature = (float)(char_value) / 100.0f;
-    app_log_info("Temperature raw value: %d\r\n", char_value);
-    break;
+    case characteristic_index_temperature:
+      conn_properties.temperature = (float)(char_value) / 100.0f;
+      app_log_info("Temperature raw value: %d\r\n", char_value);
+      break;
 
-  case characteristic_index_humidity:
-    conn_properties.humidity = (float)(char_value) / 100.0f;
-    app_log_info("Humidity raw value: %d\r\n", char_value);
-    break;
+    case characteristic_index_humidity:
+      conn_properties.humidity = (float)(char_value) / 100.0f;
+      app_log_info("Humidity raw value: %d\r\n", char_value);
+      break;
 
-  default:
-    app_log_info("Invalid characteristic index: %d\r\n", characteristic_read.index);
-    return;
+    default:
+      app_log_info("Invalid characteristic index: %d\r\n",
+                   characteristic_read.index);
+      return;
   }
   read_next_characteristic_value();
   if (characteristic_read.count == CHARACTERISTIC_COUNT) {
@@ -696,7 +730,8 @@ static void app_bt_evt_gatt_characteristic_value(const sl_bt_evt_gatt_characteri
   }
 }
 
-static void app_bt_evt_connection_closed(const sl_bt_evt_connection_closed_t *evt_data)
+static void app_bt_evt_connection_closed(
+  const sl_bt_evt_connection_closed_t *evt_data)
 {
   // remove connection from active connections
   remove_connection();
@@ -709,12 +744,13 @@ static void app_bt_evt_connection_closed(const sl_bt_evt_connection_closed_t *ev
   app_log_info("Connection closed: 0x%x\r\n", evt_data->connection);
 }
 
-static void app_bt_evt_system_external_signal(const sl_bt_evt_system_external_signal_t *evt_data)
+static void app_bt_evt_system_external_signal(
+  const sl_bt_evt_system_external_signal_t *evt_data)
 {
   sl_status_t sc;
 
   if (evt_data->extsignals & SCANNER_TIMEOUT_EVENT) {
-    bd_addr address_zero = {{0, 0, 0, 0, 0, 0}};
+    bd_addr address_zero = { { 0, 0, 0, 0, 0, 0 } };
 
     stop_scanner_timeout_timer();
     if (memcmp(&(remote_sensor.address),
@@ -731,7 +767,8 @@ static void app_bt_evt_system_external_signal(const sl_bt_evt_system_external_si
   if (evt_data->extsignals & CONNECTION_CLOSE_REQUEST_EVENT) {
     if (conn_properties.connection_handle != CONNECTION_HANDLE_INVALID) {
       sc = sl_bt_connection_close(conn_properties.connection_handle);
-      app_log_info("Connection timeout: 0x%x\r\n", conn_properties.connection_handle);
+      app_log_info("Connection timeout: 0x%x\r\n",
+                   conn_properties.connection_handle);
       app_assert_status(sc);
     }
     conn_state = stopping;
@@ -746,7 +783,7 @@ static void app_bt_evt_system_external_signal(const sl_bt_evt_system_external_si
  * Callback on connection timeout timer period.
  ******************************************************************************/
 static void scanner_timeout_callback(sl_sleeptimer_timer_handle_t *timer,
-                                    void *data)
+                                     void *data)
 {
   (void) timer;
   (void) data;
@@ -758,7 +795,7 @@ static void scanner_timeout_callback(sl_sleeptimer_timer_handle_t *timer,
  * Callback on connection timeout timer period.
  ******************************************************************************/
 static void connection_timeout_callback(sl_sleeptimer_timer_handle_t *timer,
-                                    void *data)
+                                        void *data)
 {
   (void) timer;
   (void) data;

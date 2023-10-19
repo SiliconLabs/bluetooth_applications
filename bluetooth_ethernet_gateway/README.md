@@ -1,4 +1,4 @@
-# BLE Ethernet Gateway
+# Bluetooth - Ethernet Gateway
 ![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ethernet_gateway_common.json&label=Type&query=type&color=green)
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ethernet_gateway_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ethernet_gateway_common.json&label=License&query=license&color=green)
@@ -21,11 +21,12 @@ More detailed information can be found in the section [How it works](#how-it-wor
 
 This code example referred to the following code example. More detailed information can be found here:
 
-- [W5500 Ethernet Module driver](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/ethernet_w5x00)
+- [W5500 Ethernet Module driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/app/example/mikroe_eth_wiz_w5500)
 
-## Gecko SDK Suite version
+## Gecko SDK version
 
-GSDK v4.1.0
+- GSDK v4.3.1
+- [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required
 
@@ -45,39 +46,55 @@ The hardware connection is shown in the image below:
 
 ## Setup
 
-To test this application, you can either import the provided `bluetooth_ethernet_gateway.sls` project file or start with an empty example project as the following:
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-1. Create a **Bluetooth - SoC Empty** project for the **BGM220 Bluetooth Module Explorer Kit** using Simplicity Studio 5.
+### Create a project based on an example project
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "ethernet".
+
+2. Click **Create** button on **Bluetooth - Ethernet Gateway** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+![create_project](images/create_project.png)
+
+3. Build and flash this example to the board.
+
+### Start with a "Bluetooth - SoC Empty" project
+
+1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
+
+2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing).
 
 3. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
+   - [Third Party Hardware Drivers] → [Interface] → [W5500 - ETH WIZ Click (Mikroe)]
+   - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
+   - [Application] → [Utility] → [Log]
+   - [Platform] → [Driver] → [LED] → [Simple LED] → default instance name: led0
 
-    - Install **[Platform] > [Driver] > [SPIDRV]** component with the default instance name: **mikroe**. Then select **CS controlled by the application** option.
+4. Import the GATT configuration:
+   - Open the .slcp file in the project.
+   - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
+   - Find the Import button and import the  gatt_configuration.btconf file.
 
-      ![SPI configure](images/spi_configure.png)
+5. Build and flash this example to the board.
 
-    - Install **[Platform] > [IO Stream] > [IO Stream: USART]** component with the default instance name: **vcom**.
+6. Use Simplicity Studio 5 launcher to run the **Bluetooth - SOC Thunderboard sense 2** demo on the **Thunderboard Sense 2**
+![Thunderboard sense 2 demo](images/thunderboard_sense_demo.png)
 
-    - Install **[Platform] > [Driver] > [LED] > [Simple LED]** component with the default instance name: **led0**.
+**Note:**
 
-    - Install **[Application] > [Utility] > [Log]** component.
+- Make sure the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+![external_repo](images/external_repo.png)
 
-4. Build and flash the project to the **BGM220 Bluetooth Module Explorer Kit**.
+- SDK Extension must be enabled for the project to install some components.
 
-    *Note*: Flash the application image to the device by using the .hex or .s37 output file.
+- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
-5. Enable floating-point support for printf
+- Enable floating-point support for printf
     - Right clicking on your project in the **[Project Explorer]** window and select properties and then select **[C/C++ Build] > [Settings]**, then under **[GNU ARM C Linker] > [General]**, check the **[Printf float]** checkbox
 
     | ![Project properties](images/project_properties.png) | ![Enable printf floating point](images/enable_printf_floating_point.png) |
     | --- | --- |
 
-6. Use Simplicity Studio 5 launcher to run the **Bluetooth - SOC Thunderboard sense 2** demo on the **Thunderboard Sense 2**
-
-    ![Thunderboard sense 2 demo](images/thunderboard_sense_demo.png)
-
-## How it Works
+## How It Works
 
 ### Application overview  
   
@@ -136,7 +153,3 @@ To test this application, you can either import the provided `bluetooth_ethernet
     ![dweet](images/dweet_follow.png)
   - Read all message: <https://dweet.io/get/dweets/for/thunderboard-be-gateway>
   - Real-time stream: <https://dweet.io/listen/for/dweets/from/thunderboard-be-gateway>
-
-## .sls Projects Used
-
-- [bluetooth_ethernet_gateway.sls](SimplicityStudio/bluetooth_ethernet_gateway.sls)

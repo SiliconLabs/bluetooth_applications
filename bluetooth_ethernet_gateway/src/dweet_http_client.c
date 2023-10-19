@@ -41,6 +41,7 @@
 #include "ethernet_client.h"
 #include "app_log.h"
 #include "dweet_http_client.h"
+#include "sl_spidrv_instances.h"
 
 #define abs(n)      ((n) < 0 ? -(n):(n))
 
@@ -63,6 +64,7 @@ sl_status_t dweet_http_client_init(void)
   w5x00_ip4_addr_t local_ip, gateway_ip, subnet_mask;
   w5x00_dns_t dns;
 
+  w5x00_init(sl_spidrv_w5500_handle);
   status = w5x00_ethernet_dhcp_init(&eth, mac, 30000, 10000);
   app_log("DHCP configuration: %s\r\n",
           SL_STATUS_OK == status ? "success":"failed");
@@ -150,7 +152,7 @@ sl_status_t dweet_http_client_update_rht(const char *device_name,
                                         (uint8_t *)message_buffer,
                                         sizeof(message_buffer) - 1);
   }
-stop:
+  stop:
   w5x00_ethernet_client_stop(&client);
   return status;
 }
