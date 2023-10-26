@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   pulse_oximeter.h
- * @brief  Header file of pulse oximeter service
- * @version 1.1.0
+* @file   pulse_oximeter.h
+* @brief  Header file of pulse oximeter service
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -43,7 +43,7 @@
  ******************************************************************************/
 #include <stdint.h>
 #include <stdbool.h>
-//#include "native_gecko.h"
+// #include "native_gecko.h"
 #include "sl_bt_types.h"
 
 /*******************************************************************************
@@ -185,6 +185,5 @@ void pulse_oximeter_characteristic_status(sl_bt_msg_t *evt);
  *   None
  ******************************************************************************/
 void pulse_oximeter_send_new_data(uint8_t connect);
-
 
 #endif /* PULSE_OXIMETER_H_ */

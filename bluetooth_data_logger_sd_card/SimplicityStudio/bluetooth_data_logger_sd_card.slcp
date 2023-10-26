@@ -1,0 +1,143 @@
+project_name: bt_data_logger_sd_card
+label: Bluetooth - Data Logger SD Card
+
+package: Bluetooth
+category: Bluetooth Examples
+quality: experimental
+description: |
+  This project shows a demonstration of Bluetooth Data Logger SD Card application using Silabs Thunderboard Sense 2, SparkFun Micro OLED Breakout (Qwiic) board, MICROSD CLICK board and Silabs Click Shield.
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Beginner]
+- name: Wireless Technology
+  value: [Bluetooth]
+
+readme:
+- path: ../README.md
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: app_display.h
+      - path: logger_sd_card.h
+      
+source:
+  - path: ../src/app.c
+  - path: ../src/main.c
+  - path: ../src/app_display.c
+  - path: ../src/logger_sd_card.c
+
+component:
+- id: bluetooth_feature_nvm
+- id: bluetooth_stack
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_system
+- id: bluetooth_feature_sm
+- id: rail_util_pti
+- id: nvm3_lib
+- id: mpu
+- id: board_control
+- id: bt_post_build
+- id: sl_system
+- id: device_init
+- id: app_assert
+- id: app_log
+- id: sleeptimer
+- id: component_catalog
+- id: simple_led
+  instance: [led0]
+- id: sensor_rht
+- id: iostream_usart
+  instance: [vcom]
+- id: spidrv
+  instance: [exp]
+- id: sparkfun_micro_oled_ssd1306
+  from: third_party_hw_drivers
+- id: services_oled_glib
+  from: third_party_hw_drivers
+- id: mikroe_microsd
+  from: third_party_hw_drivers
+- id: services_fatfs
+  from: third_party_hw_drivers
+- id: i2cspm
+  instance: [qwiic, sensor]
+- instance: [btn0]
+  id: simple_button  
+define:
+  - name: DEBUG_EFM
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+  - override:
+      component: i2cspm
+      file_id: i2cspm_config
+      instance: qwiic
+    path: "../config/sl_i2cspm_qwiic_config.h"
+tag:
+  - hardware:rf:band:2400
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_HEAP_SIZE
+    value: "9200"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+  - name: SL_BOARD_ENABLE_SENSOR_RHT
+    value: "1"
+  - name: MIKROE_MICROSD_MMC_CD_PORT
+    value: "gpioPortA"
+  - name: MIKROE_MICROSD_MMC_CD_PIN
+    value: "6"
+  - name: FF_USE_MKFS
+    value: "1"
+other_file:
+  - path: ../images/application_init.png
+    directory: "images"
+  - path: ../images/application_overview.png
+    directory: "images"
+  - path: ../images/device_connect_event.png
+    directory: "images"
+  - path: ../images/hardware_connection.png
+    directory: "images"
+  - path: ../images/log_view.gif
+    directory: "images"
+  - path: ../images/micro_oled_qwiic_header.png
+    directory: "images"
+  - path: ../images/microsd_click.png
+    directory: "images"
+  - path: ../images/oled_display.png
+    directory: "images"
+  - path: ../images/overview.png
+    directory: "images"
+  - path: ../images/priodic_timer_event.png
+    directory: "images"
+  - path: ../images/silabs_click_shield.png
+    directory: "images"
+  - path: ../images/thunderboardsense2.png
+    directory: "images"
+  - path: ../images/create_project.png
+    directory: "images"
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 1.8.0
+
+ui_hints:
+  highlight:
+    - path: ../config/btconf/gatt_configuration.btconf
+    - path: ../README.md
+      focus: true

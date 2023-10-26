@@ -38,7 +38,6 @@
 #include "app_assert.h"
 
 #include "sl_simple_button_instances.h"
-#include "sl_sdc_platform_spi_config.h"
 #include "diskio.h"
 #include "ff.h"
 
@@ -227,7 +226,7 @@ void app_init(void)
   sl_sleeptimer_set_datetime(&date);
 
   DWORD time_data = get_fattime();
-  app_log("\nCurrent time is %u/%u/%u %2u:%02u:%02u.\r\n",
+  app_log("\nCurrent time is %lu/%lu/%lu %2lu:%02lu:%02lu.\r\n",
           (time_data >> 25) + 1980,
           (time_data >> 21) & 0x0f,
           (time_data >> 16) & 0x1f,
@@ -237,6 +236,8 @@ void app_init(void)
 #endif
 
   app_properties.data_logger_enable = get_data_logger_enable_config();
+  app_log("read config data logger enable = %d\r\n",
+          app_properties.data_logger_enable);
   if (app_properties.data_logger_enable) {
     led0_on();
   } else {
@@ -280,40 +281,40 @@ SL_WEAK void app_process_action(void)
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
   switch (SL_BT_MSG_ID(evt->header)) {
-  case sl_bt_evt_system_boot_id:
-    app_bt_system_boot();
-    break;
+    case sl_bt_evt_system_boot_id:
+      app_bt_system_boot();
+      break;
 
-  case sl_bt_evt_connection_opened_id:
-    app_bt_connection_opened(&(evt->data.evt_connection_opened));
-    break;
+    case sl_bt_evt_connection_opened_id:
+      app_bt_connection_opened(&(evt->data.evt_connection_opened));
+      break;
 
-  case sl_bt_evt_connection_parameters_id:
-    app_log("Conn.parameters: interval %u units, txsize %u\r\n",
-            evt->data.evt_connection_parameters.interval,
-            evt->data.evt_connection_parameters.txsize);
-    break;
+    case sl_bt_evt_connection_parameters_id:
+      app_log("Conn.parameters: interval %u units, txsize %u\r\n",
+              evt->data.evt_connection_parameters.interval,
+              evt->data.evt_connection_parameters.txsize);
+      break;
 
-  case sl_bt_evt_gatt_mtu_exchanged_id:
-    app_bt_gatt_mtu_exchanged(&(evt->data.evt_gatt_mtu_exchanged));
-    break;
+    case sl_bt_evt_gatt_mtu_exchanged_id:
+      app_bt_gatt_mtu_exchanged(&(evt->data.evt_gatt_mtu_exchanged));
+      break;
 
-  case sl_bt_evt_connection_closed_id:
-    app_bt_connection_closed();
-    break;
+    case sl_bt_evt_connection_closed_id:
+      app_bt_connection_closed();
+      break;
 
-  case sl_bt_evt_gatt_server_characteristic_status_id:
-    app_bt_gatt_server_characteristic_status(
-      &(evt->data.evt_gatt_server_characteristic_status));
-    break;
+    case sl_bt_evt_gatt_server_characteristic_status_id:
+      app_bt_gatt_server_characteristic_status(
+        &(evt->data.evt_gatt_server_characteristic_status));
+      break;
 
-  case sl_bt_evt_system_external_signal_id:
-    app_bt_evt_system_external_signal(&(evt->data.evt_system_external_signal));
-    break;
+    case sl_bt_evt_system_external_signal_id:
+      app_bt_evt_system_external_signal(&(evt->data.evt_system_external_signal));
+      break;
 
-  // Default event handler.
-  default:
-    break;
+    // Default event handler.
+    default:
+      break;
   }
 }
 
@@ -357,7 +358,7 @@ static sl_status_t send_notification(uint8_t connection,
       s_counters.num_pack_sent++;
       s_counters.num_bytes_sent += send_len;
     } else {
-      app_log_error("Unexpected error: %x\r\n", sc);
+      app_log_error("Unexpected error: %lx\r\n", sc);
       break;
     }
     value += send_len;
@@ -459,7 +460,7 @@ static void sensor_rht_process_log_data(void)
   rh /= 1000;
   t /= 1000;
   app_log_info("%04d/%02d/%02d %02d:%02d:%02d "
-               "Humidity = %d.%d%d %%RH, Temperature = %d.%d%d C\r\n",
+               "Humidity = %ld.%d%d %%RH, Temperature = %ld.%d%d C\r\n",
                date.year + 1900,
                date.month,
                date.month_day,
@@ -576,6 +577,9 @@ static void app_bt_system_boot(void)
   // Create an advertising set.
   sc = sl_bt_advertiser_create_set(&advertising_set_handle);
   app_assert_status(sc);
+
+  sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
+                                        sl_bt_advertiser_general_discoverable);
 
   // Set advertising interval to 100ms.
   sc = sl_bt_advertiser_set_timing(

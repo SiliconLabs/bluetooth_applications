@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file hrm_app.h
- * @brief Header file of hrm_app.c
- * @version 1.0.0
+* @file hrm_app.h
+* @brief Header file of hrm_app.c
+* @version 1.0.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -37,8 +37,8 @@
 #ifndef HRM_APP_H__
 #define HRM_APP_H__
 
-#define HRM_DEMO_NAME "si117xHRM Demo"
-#define HRM_DEMO_VERSION "1.0.0"
+#define HRM_DEMO_NAME           "si117xHRM Demo"
+#define HRM_DEMO_VERSION        "1.0.0"
 
 /*  External Events  */
 #define MAXM86161_IRQ_EVENT     0x1
@@ -46,17 +46,17 @@
 
 typedef enum hrm_spo2_state
 {
-   HRM_STATE_IDLE,
-   HRM_STATE_NOSIGNAL,
-   HRM_STATE_ACQUIRING,
-   HRM_STATE_ACTIVE,
-   HRM_STATE_INVALID
+  HRM_STATE_IDLE,
+  HRM_STATE_NOSIGNAL,
+  HRM_STATE_ACQUIRING,
+  HRM_STATE_ACTIVE,
+  HRM_STATE_INVALID
 }hrm_spo2_state_t;
 
 /**************************************************************************//**
  * @brief Initialize the HRM application.
  *****************************************************************************/
-void hrm_init_app(void);
+int32_t hrm_init_app(void);
 
 /**************************************************************************//**
  * @brief Process HRM IRQ events.
@@ -83,4 +83,4 @@ bool hrm_get_status(void);
  *****************************************************************************/
 int16_t hrm_get_spo2(void);
 
-#endif    //HRM_APP_H__
+#endif //HRM_APP_H__

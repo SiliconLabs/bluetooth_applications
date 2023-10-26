@@ -42,6 +42,6 @@
  *    Initialize temphum9 application.
  *
  ******************************************************************************/
-void temphum9_app_init();
+void temphum9_app_init(void);
 
 #endif /* TEMPHUM9_APP_H_ */

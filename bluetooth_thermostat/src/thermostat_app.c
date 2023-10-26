@@ -33,23 +33,24 @@
  * maintained and there may be no bug maintenance planned for these resources.
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
+#include "sl_bluetooth.h"
+#include "sl_udelay.h"
+#include "gatt_db.h"
+#include "printf.h"
+#include "app_assert.h"
+#include "user_config_nvm3.h"
+#include "sl_simple_led_instances.h"
+#include "sl_simple_button_instances.h"
+
 #include "thermostat_app.h"
 #include "buzz2_app.h"
-#include "sl_bluetooth.h"
 #include "temphum9_app.h"
 #include "mikroe_shtc3.h"
 #include "mikroe_cmt_8540s_smt.h"
 #include "glib.h"
-#include "mikroe_ssd1306.h"
-#include "sl_simple_led_instances.h"
-#include "sl_simple_button_instances.h"
-#include "gatt_db.h"
 #include "oled_app.h"
-#include "app_assert.h"
 #include "thermostat_app.h"
-#include "user_config_nvm3.h"
 #include "buzz2_app.h"
-#include "printf.h"
 
 /***************************************************************************//**
  * @addtogroup thermostat_app
@@ -113,9 +114,9 @@ static uint8_t bt_connection_handle = INVALID_BT_HANDLE;
 static void thermostat_timer_event_handler(void);
 static void thermostat_data_process(void);
 static void thermostat_button_event_handler (void);
-static int16_t thermostat_app_get_temperature();
-static uint16_t thermostat_app_get_humidity();
-static uint8_t thermostat_app_get_threshold_alarm_status();
+static int16_t thermostat_app_get_temperature(void);
+static uint16_t thermostat_app_get_humidity(void);
+static uint8_t thermostat_app_get_threshold_alarm_status(void);
 static void thermostat_output_control(output_control_t output_control);
 static float thermostat_calculate_average(float *data);
 static void buzzer_activate(void);
@@ -620,17 +621,17 @@ static void thermostat_button_event_handler(void)
   }
 }
 
-static int16_t thermostat_app_get_temperature()
+static int16_t thermostat_app_get_temperature(void)
 {
   return (int16_t)(measurement_value.temperature * 100);
 }
 
-static uint16_t thermostat_app_get_humidity()
+static uint16_t thermostat_app_get_humidity(void)
 {
   return (uint16_t)(measurement_value.humidity * 100);
 }
 
-static uint8_t thermostat_app_get_threshold_alarm_status()
+static uint8_t thermostat_app_get_threshold_alarm_status(void)
 {
   if (is_alarm_active == true) {
     return 2;

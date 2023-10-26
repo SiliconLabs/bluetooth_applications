@@ -1,0 +1,113 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_bthome_v2_light
+label: Bluetooth - BTHome v2 - Light
+description: |
+  This project aims to implement a BTHome v2 compatible light. The application provides a CLI to configure switches to control the onboard LED0, it supports the press event only.
+category: Example|Platform
+quality: experimental
+
+filter:
+- name: Device Type
+  value: [SoC]
+- name: MCU
+  value: [32-bit MCU]
+- name: Project Difficulty
+  value: [Beginner]
+
+readme:
+- path: ../README.md
+
+include:
+- path: ../inc
+  file_list:
+    - path: app.h
+    - path: cli.h
+
+source:
+- path: ../src/app.c
+- path: ../src/cli.c
+- path: ../src/main.c
+
+component:
+- id: iostream_usart
+  instance: [vcom]
+- id: cli
+  instance: [inst]
+- id: simple_led
+  instance: [led0]
+- id: services_bthome_v2_server
+  from: third_party_hw_drivers
+- id: services_bthome_v2
+  from: third_party_hw_drivers
+- id: app_log
+- id: app_assert
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_legacy_scanner
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_system
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: bt_post_build
+- id: component_catalog
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: ../config/btconf/gatt_configuration.btconf
+    directory: btconf
+
+sdk_extension:
+- id: third_party_hw_drivers
+  version: 1.8.0
+
+other_file:
+  - path: ../images/create_project.png
+    directory: "images"
+  - path: ../images/connection1.png
+    directory: "images"
+  - path: ../images/connection2.png
+    directory: "images"
+  - path: ../images/help.png
+    directory: "images"
+  - path: ../images/interested_list.png
+    directory: "images"
+  - path: ../images/key.png
+    directory: "images"
+  - path: ../images/logo.png
+    directory: "images"
+  - path: ../images/light_system.png
+    directory: "images"
+  - path: ../images/scan_start.png
+    directory: "images"
+  - path: ../images/application_init.png
+    directory: "images"
+  - path: ../images/bthome_v2_events.png
+    directory: "images"
+  - path: ../images/app1.png
+    directory: "images"
+  - path: ../images/app2.png
+    directory: "images"
+  - path: ../images/app3.png
+    directory: "images"
+
+configuration:
+- name: SL_STACK_SIZE
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+  condition: psa_crypto
+
+tag: hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: README.md
+      focus: true
+    - path: config/btconf/gatt_configuration.btconf

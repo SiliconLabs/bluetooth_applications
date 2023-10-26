@@ -163,23 +163,22 @@ static void reset_variables()
 /**************************************************************************/ /**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
-  if ((sl_button_get_state(&sl_button_btn0) == SL_SIMPLE_BUTTON_PRESSED)
-      || (sl_button_get_state(&sl_button_btn1) == SL_SIMPLE_BUTTON_PRESSED)) {
+  if (sl_button_get_state(&sl_button_btn0) == SL_SIMPLE_BUTTON_PRESSED) {
     sl_status_t sc;
     uint8_t count_down = 10;
 
     app_log("\r\n");
     while (count_down) {
-      if (sl_button_get_state(&sl_button_btn0) == SL_SIMPLE_BUTTON_RELEASED
-          && sl_button_get_state(&sl_button_btn1) == SL_SIMPLE_BUTTON_RELEASED) {
+      if (sl_button_get_state(&sl_button_btn0) == SL_SIMPLE_BUTTON_RELEASED) {
         break;
       }
       sl_sleeptimer_delay_millisecond(500);
 
       if (count_down % 2) {
-        app_log("Hold button for %d (sec) to delete all bonding\r", (count_down + 1) / 2);
+        app_log("Hold button for %d (sec) to delete all bonding\r",
+                (count_down + 1) / 2);
       }
       count_down--;
     }
@@ -200,7 +199,7 @@ SL_WEAK void app_init(void)
 /**************************************************************************/ /**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   if (STATE_SPP_MODE == _main_state) {
     send_spp_data();
@@ -232,14 +231,13 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       // Maximum allowed bonding count: 8
-    // New bonding will overwrite the bonding that was used the longest time ago
+      // New bonding overwrite the bonding that was used the longest time ago
       sc = sl_bt_sm_store_bonding_configuration(8, 0x2);
       app_assert_status(sc);
 
       setup_advertising_or_scanning(evt);
 
       sl_button_enable(&sl_button_btn0);
-      sl_button_enable(&sl_button_btn1);
       break;
 
     case sl_bt_evt_scanner_legacy_advertisement_report_id:
@@ -302,8 +300,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
        * this depends on the MTU.
        * up to ATT_MTU-3 bytes can be sent at once  */
       _max_packet_size = evt->data.evt_gatt_mtu_exchanged.mtu - 3;
-      _min_packet_size = _max_packet_size; /* Try to send maximum length packets
-    whenever possible */
+      _min_packet_size = _max_packet_size;
+
+      /* Try to send maximum length packets whenever possible */
       app_log("MTU exchanged: %d\r\n\n", evt->data.evt_gatt_mtu_exchanged.mtu);
       break;
 
@@ -426,7 +425,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
             if (evt->data.evt_gatt_procedure_completed.result
                 == SL_STATUS_BT_ATT_INSUFFICIENT_ENCRYPTION) {
-            app_log("Insufficient encryption, need to increase security level\r\n\n");
+              app_log(
+                "Insufficient encryption, need to increase security level\r\n\n");
               increase_security = true;
             } else {
               // Characteristic found, turn on notifications
@@ -440,7 +440,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
           }
 
           if (!increase_security
-            && get_connection_security_mode(_conn_handle) > sl_bt_connection_mode1_level2) {
+              && (get_connection_security_mode(_conn_handle)
+                  > sl_bt_connection_mode1_level2)) {
             app_log("--------------------------------------\r\n\n");
             app_log("Already bonded.\r\n");
             app_log("Authentication not needed.\r\n\n");
@@ -449,7 +450,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
             _main_state = STATE_SPP_MODE;
             // disable sleeping when SPP mode active
             sl_power_manager_add_em_requirement(SL_POWER_MANAGER_EM2);
-        } else { // If not yet bonded or need to increase security, start authenticating
+          } else {
+            // If not yet bonded or need to increase security,
+            // start authenticating
             app_log("--------------------------------------\r\n\n");
             app_log("Re-authenticating...\r\n\n");
 
@@ -500,7 +503,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       if (pStatus.characteristic == gattdb_gatt_spp_data) {
         if (pStatus.status_flags == gatt_server_client_config) {
-          // Characteristic client configuration (CCC) for spp_data has been changed
+          // Characteristic client configuration (CCC)
+          // for spp_data has been changed
           if (pStatus.client_config_flags == gatt_notification) {
             _main_state = STATE_SPP_MODE;
             // Disable sleeping when SPP mode active
@@ -606,8 +610,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 static bool process_scan_response(
   sl_bt_evt_scanner_legacy_advertisement_report_t *pResp)
 {
-  // Decoding advertising packets is done here. The list of AD types can be found
-  // at: https://www.bluetooth.com/specifications/assigned-numbers/Generic-Access-Profile
+  // Decoding advertising packets is done here.
+  // The list of AD types can be found at:
+  // https://www.bluetooth.com/specifications/assigned-numbers/Generic-Access-Profile
 
   uint8_t i = 0, ad_len, ad_type;
   bool ad_match_found = false;

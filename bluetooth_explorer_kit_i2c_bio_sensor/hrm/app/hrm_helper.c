@@ -1,44 +1,44 @@
 /***************************************************************************//**
-* @file hrm_helper.c
-* @brief Helper function to reducing burden on algorithm code
-* @version 1.0
-*******************************************************************************
-* # License
-* <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
-*******************************************************************************
-*
-* SPDX-License-Identifier: Zlib
-*
-* The licensor of this software is Silicon Laboratories Inc.
-*
-* This software is provided \'as-is\', without any express or implied
-* warranty. In no event will the authors be held liable for any damages
-* arising from the use of this software.
-*
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-*
-* 1. The origin of this software must not be misrepresented; you must not
-*    claim that you wrote the original software. If you use this software
-*    in a product, an acknowledgment in the product documentation would be
-*    appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-*    misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*
-*******************************************************************************
-* # Experimental Quality
-* This code has not been formally tested and is provided as-is. It is not
-* suitable for production environments. In addition, this code will not be
-* maintained and there may be no bug maintenance planned for these resources.
-* Silicon Labs may update projects from time to time.
-******************************************************************************/
+ * @file hrm_helper.c
+ * @brief Helper function to reducing burden on algorithm code
+ * @version 1.0
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
+ *
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided \'as-is\', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
+ ******************************************************************************/
 
-#include <hrm_helper.h>
-#include <maxm86161.h>
-#include <maxm86161_hrm_config.h>
-#include <app_log.h>
+#include "hrm/app/hrm_helper.h"
+#include "hrm/drivers/maxm86161.h"
+#include "hrm/config/maxm86161_hrm_config.h"
+#include "app_log.h"
 
 maxm86161_fifo_queue_t ppg_queue;
 maxm86161_ppg_sample_t maxm86161_irq_queue[APP_QUEUE_SIZE];
@@ -57,7 +57,7 @@ void maxm86161_helper_sample_queue_clear(void)
  *****************************************************************************/
 int32_t maxm86161_hrm_helper_sample_queue_numentries(void)
 {
-  int16_t count=0;
+  int16_t count = 0;
 
   count = maxm86161_num_samples_in_queue(&ppg_queue);
   return count;
@@ -66,9 +66,9 @@ int32_t maxm86161_hrm_helper_sample_queue_numentries(void)
 /**************************************************************************//**
  * @brief Get sample from the queue.
  *****************************************************************************/
-int32_t maxm86161_hrm_helper_sample_queue_get(maxm86161_hrm_irq_sample_t *samples)
+int32_t maxm86161_hrm_helper_sample_queue_get(
+  maxm86161_hrm_irq_sample_t *samples)
 {
-
   int ret = MAXM86161_HRM_SUCCESS;
   maxm86161_ppg_sample_t s;
 
@@ -77,13 +77,12 @@ int32_t maxm86161_hrm_helper_sample_queue_get(maxm86161_hrm_irq_sample_t *sample
     samples->ppg[0] = s.ppg1;
     samples->ppg[1] = s.ppg2;
     samples->ppg[2] = s.ppg3;
-  }
-  else {
+  } else {
     ret = MAXM86161_HRM_ERROR_SAMPLE_QUEUE_EMPTY;
     goto Error;
   }
 
-Error:
+  Error:
   return ret;
 }
 
@@ -95,7 +94,8 @@ int32_t maxm86161_hrm_helper_initialize(void)
   int16_t error = 0;
   maxm86161_allocate_ppg_data_queue(&ppg_queue,
                                     maxm86161_irq_queue,
-                                    APP_QUEUE_SIZE * MAXM86161DRV_PPG_SAMPLE_SIZE_BYTES);
+                                    APP_QUEUE_SIZE
+                                    * MAXM86161DRV_PPG_SAMPLE_SIZE_BYTES);
   maxm86161_helper_sample_queue_clear();
   return error;
 }
@@ -111,19 +111,19 @@ void maxm86161_hrm_helper_process_irq(void)
 
   maxm86161_i2c_read_from_register(MAXM86161_REG_IRQ_STATUS1, &reg_status);
   if (reg_status & MAXM86161_INT_1_FULL) {
-      maxm86161_read_samples_in_fifo(&ppg_queue);
+    maxm86161_read_samples_in_fifo(&ppg_queue);
   }
 
   if (reg_status & MAXM86161_INT_1_PROXIMITY_INT) {
     maxm86161_i2c_read_from_register(MAXM86161_REG_PPG_CONFIG2, &ppg_sr_status);
     if ((ppg_sr_status >> 3) == 0x0A) {
       maxm86161_prox_mode = true;
-    }
-    else {
+    } else {
       maxm86161_prox_mode = false;
     }
   }
 }
+
 #else
 void maxm86161_hrm_helper_process_irq(void)
 {
@@ -134,6 +134,7 @@ void maxm86161_hrm_helper_process_irq(void)
     maxm86161_read_samples_in_fifo(&ppg_queue);
   }
 }
+
 #endif
 
 /**************************************************************************//**
@@ -144,6 +145,7 @@ bool maxm86161_get_prox_mode(void)
 {
   return maxm86161_prox_mode;
 }
+
 #endif
 
 /**************************************************************************//**
@@ -157,7 +159,8 @@ void hrm_helper_output_debug_message(int16_t heart_rate, int16_t spo2)
 /**************************************************************************//**
  * @brief Prints samples to USB debug interface
  *****************************************************************************/
-void hrm_helper_output_raw_sample_debug_message(maxm86161_hrm_irq_sample_t *sample)
+void hrm_helper_output_raw_sample_debug_message(
+  maxm86161_hrm_irq_sample_t *sample)
 {
   app_log("\n%lu,%lu,%lu,", sample->ppg[0], sample->ppg[1], sample->ppg[2]);
 }

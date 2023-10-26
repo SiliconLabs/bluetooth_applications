@@ -874,4 +874,96 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
+  <descriptors name="bluetooth_bthome_v2_light" label="Bluetooth - BTHome v2 - Light"
+               description="This project aims to implement a BTHome v2 compatible light. The application provides a CLI to configure switches to control the onboard LED0, it supports the press event only.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_bthome_v2_light/SimplicityStudio/bluetooth_bthome_v2_light.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_bthome_v2_light/README.md"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd4182a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.* .*efr32mg22.*"/> 
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_data_logger_sd_card" label="Bluetooth - Data Logger SD Card"
+               description="This project shows a demonstration of Bluetooth Data Logger SD Card application using Silabs Thunderboard Sense 2, SparkFun Micro OLED Breakout (Qwiic) board, MICROSD CLICK board and Silabs Click Shield.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_data_logger_sd_card/SimplicityStudio/bluetooth_data_logger_sd_card.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_data_logger_sd_card/README.md"/>
+    <properties key="boardCompatibility" value="brd4166a  com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg12p.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_thermostat" label="Bluetooth - Thermostat (SHTC3)"
+               description="This example is intended to demonstrate the capability to scan a Thermostat and send a notification to a client device using the BLE stack on Silicon Laboratories development kits.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_thermostat/SimplicityStudio/bluetooth_thermostat.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_thermostat/README.md"/>
+    <properties key="boardCompatibility" value="brd2703a brd4314a brd4108a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg24.* .*bgm22.* .*efr32bg22.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_secure_spp_over_ble" label="Bluetooth - Secure SPP over BLE" 
+               description="This project aims to implement a secure Bluetooth connection between two EFR32 devices and how to implement secure serial communication between them.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="solutionReferenceId" value="bluetooth_secure_spp_over_ble.SimplicityStudio.bluetooth_secure_spp_over_ble.slcp"/>
+    <properties key="projectFilePaths" value="bluetooth_secure_spp_over_ble/SimplicityStudio/bluetooth_secure_spp_over_ble.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_secure_spp_over_ble/README.md"/>
+    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b"/>
+    <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>  
+  </descriptors>
+  <descriptors name="bluetooth_explorer_kit_i2c_bio_sensor" label="Bluetooth - Explorer Kit I2C Bio Sensor"
+               description="This example implements the Heart Rate service and Pulse Oximeter service. It enables a peer device to connect and receive heart rate and pulse Oximeter values via Bluetooth. The reported values are measured by a bio-sensor located on the Heart Rate 2 Click.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_explorer_kit_i2c_bio_sensor/SimplicityStudio/bluetooth_explorer_kit_i2c_bio_sensor.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_explorer_kit_i2c_bio_sensor/README.md"/>
+    <properties key="boardCompatibility" value="brd4314a brd2703a brd4108a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm220.* .*efr32mg24.* .*bg22.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_blood_glucose_meters" label="Bluetooth - Blood Glucose Meters" 
+               description="This project aims to implement the Bluetooth Glucose Profile. This shows an example of Blood Glucose Meters using the Thunderboard EFR32BG22.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="projectFilePaths" value="bluetooth_blood_glucose_meters/SimplicityStudio/bluetooth_blood_glucose_meters.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_blood_glucose_meters/README.md"/>
+    <properties key="boardCompatibility" value="brd4184a brd4166a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32[bm]g22.* .*[bm]gm22.* .*efr32mg12.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors> 
 </model:MDescriptors>  

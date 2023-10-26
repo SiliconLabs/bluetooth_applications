@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   app_timer.h
- * @brief  Application timer header file
- * @version 1.1.0
+* @file   app_timer.h
+* @brief  Application timer header file
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -53,16 +53,15 @@ extern "C" {
  **************************************************************************************************/
 
 /***************************************************************************************************
-   Public Macros and Definitions
+*     Public Macros and Definitions
 ***************************************************************************************************/
 
 /** Application timer enumeration. */
 typedef enum {
-
- /** Timer event that is reserved for the HRM application.  Note that
-  *  some HRM examples do not use this timer.
-  */
-  HEART_RATE_TIMER,
+  /** Timer event that is reserved for the HRM application.  Note that
+   *  some HRM examples do not use this timer.
+   */
+  HEART_RATE_TIMER = 10,
   PULSE_OXIMETER_TIMER
 } app_timer_t;
 

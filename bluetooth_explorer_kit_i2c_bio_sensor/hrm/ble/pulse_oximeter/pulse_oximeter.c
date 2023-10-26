@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   pulse_oximeter.c
- * @brief  Pulse oximeter service
- * @version 1.1.0
+* @file   pulse_oximeter.c
+* @brief  Pulse oximeter service
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -35,26 +35,24 @@
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
 
-
 /*******************************************************************************
  *******************************   INCLUDES   **********************************
  ******************************************************************************/
 #include <string.h>
 #include <stdio.h>
-#include "ble_att_handler.h"
+#include "hrm/ble/config/ble_att_handler.h"
 #include "gatt_db.h"
 #include "sl_bt_api.h"
 #include "pulse_oximeter.h"
-#include "hrm_app.h"
-#include "app_timer.h"
-
-#define ATT_WRITE_NOT_PERMITTED 0x03
+#include "hrm/app/hrm_app.h"
+#include "hrm/ble/config/app_timer.h"
+#include "sl_sleeptimer.h"
 
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
 // TODO:: Fill const values
-
+#define ATT_WRITE_NOT_PERMITTED 0x03
 
 /*******************************************************************************
  *******************************   TYPEDEFS   **********************************
@@ -72,6 +70,9 @@ typedef struct
  ******************************************************************************/
 static pulse_oximeter_t service_data;
 static bool notifications_enabled = false;
+static sl_sleeptimer_timer_handle_t pulse_oximeter_timer;
+static void pulse_oximeter_timer_callback(sl_sleeptimer_timer_handle_t *handle,
+                                          void *data);
 
 /*******************************************************************************
  **************************   GLOBAL FUNCTIONS   *******************************
@@ -84,15 +85,17 @@ static bool notifications_enabled = false;
  ******************************************************************************/
 void pulse_oximeter_init(void)
 {
-  //TODO:: Add suitable initialization for service
+  // TODO:: Add suitable initialization for service
 
-  //ctsDateTime_t time = {2020, 7, 31, 15, 27, 40};
-  //service_data.plx_spot_check_measurement.timestamp = time;
-  service_data.plx_spot_check_measurement.flags = 0;  // Only present SpO2 and PR
+  // ctsDateTime_t time = {2020, 7, 31, 15, 27, 40};
+  // service_data.plx_spot_check_measurement.timestamp = time;
+  service_data.plx_spot_check_measurement.flags = 0;  // Only present SpO2 and
+                                                      //   PR
   service_data.plx_spot_check_measurement.SpO2PRSpotcheck.SpO2 = 0;
   service_data.plx_spot_check_measurement.SpO2PRSpotcheck.PR = 0;
 
-  service_data.plx_continuous_measurement.flags = 0;  // Only present Normal SpO2 and PR
+  service_data.plx_continuous_measurement.flags = 0;  // Only present Normal
+                                                      //   SpO2 and PR
   service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 = 0;
   service_data.plx_continuous_measurement.SpO2PRNormal.PR = 0;
 
@@ -100,8 +103,10 @@ void pulse_oximeter_init(void)
 
   service_data.plx_record_access_control_point.opCode = 0;
   service_data.plx_record_access_control_point.operand.numberOfRecords = 0;
-  service_data.plx_record_access_control_point.operand.responseCode.reqOpCode = 0;
-  service_data.plx_record_access_control_point.operand.responseCode.rspCodeValue = 0;
+  service_data.plx_record_access_control_point.operand.responseCode.reqOpCode =
+    0;
+  service_data.plx_record_access_control_point.operand.responseCode.rspCodeValue
+    = 0;
   service_data.plx_record_access_control_point.plxOperator = 0;
 }
 
@@ -120,26 +125,25 @@ void pulse_oximeter_read_callback(sl_bt_msg_t *evt)
 
   // TODO:: Add your own code here.
 
-  switch(evt->data.evt_gatt_server_user_read_request.characteristic)
+  switch (evt->data.evt_gatt_server_user_read_request.characteristic)
   {
+    // PLX features value read
+    case gattdb_plx_features:
+    {
+      characteristicSize = sizeof(service_data.plx_features);
+      characteristicPtr = (const uint8_t *)&service_data.plx_features;
+    }
+    break;
 
-	// PLX features value read
-	case gattdb_plx_features:
-	{
-	  characteristicSize = sizeof(service_data.plx_features);
-	  characteristicPtr = (const uint8_t *)&service_data.plx_features;
-	}
-	  break;
-
-	// Do nothing
-	default:
-	  break;
+    // Do nothing
+    default:
+      break;
   }
 
   // Send response
   ble_att_send_data(evt->data.evt_gatt_server_user_read_request.connection,
-					  evt->data.evt_gatt_server_user_read_request.characteristic,
-					  characteristicPtr, characteristicSize);
+                    evt->data.evt_gatt_server_user_read_request.characteristic,
+                    characteristicPtr, characteristicSize);
 }
 
 /*******************************************************************************
@@ -153,30 +157,33 @@ void pulse_oximeter_read_callback(sl_bt_msg_t *evt)
 void pulse_oximeter_write_callback(sl_bt_msg_t *evt)
 {
   uint8_t responseCode = 0;
-  switch(evt->data.evt_gatt_server_user_write_request.characteristic)
+  switch (evt->data.evt_gatt_server_user_write_request.characteristic)
   {
-	// Record access control point characteristic written
-	case gattdb_record_access_control_point:
-	{
-	  memcpy((uint8_t *)&service_data.plx_record_access_control_point, evt->data.evt_gatt_server_user_write_request.value.data, evt->data.evt_gatt_server_user_write_request.value.len);
-	  // TODO:: Add your own code here.
-	}
-	break;
+    // Record access control point characteristic written
+    case gattdb_record_access_control_point:
+    {
+      memcpy((uint8_t *)&service_data.plx_record_access_control_point,
+             evt->data.evt_gatt_server_user_write_request.value.data,
+             evt->data.evt_gatt_server_user_write_request.value.len);
+      // TODO:: Add your own code here.
+    }
+    break;
 
-	// Write operation not permitted by default
-	default:
-	{
-	  responseCode = ATT_WRITE_NOT_PERMITTED;
-	}
-	break;
+    // Write operation not permitted by default
+    default:
+    {
+      responseCode = ATT_WRITE_NOT_PERMITTED;
+    }
+    break;
   }
 
   // TODO:: Add your own code here.
 
   // Send response
-  sl_bt_gatt_server_send_user_write_response(evt->data.evt_gatt_server_user_write_request.connection,
-												 evt->data.evt_gatt_server_user_write_request.characteristic,
-												 responseCode);
+  sl_bt_gatt_server_send_user_write_response(
+    evt->data.evt_gatt_server_user_write_request.connection,
+    evt->data.evt_gatt_server_user_write_request.characteristic,
+    responseCode);
 }
 
 /*******************************************************************************
@@ -192,10 +199,9 @@ void pulse_oximeter_disconnect_event(sl_bt_msg_t *evt)
   (void)evt;
   // TODO:: Add your own code here.
   // stop timer for indicate and notify
-  if (notifications_enabled == true)
-  {
+  if (notifications_enabled == true) {
     notifications_enabled = false;
-    sl_bt_system_set_soft_timer(0,PULSE_OXIMETER_TIMER,0);
+    sl_sleeptimer_stop_timer(&pulse_oximeter_timer);
   }
 }
 
@@ -213,37 +219,43 @@ void pulse_oximeter_characteristic_status(sl_bt_msg_t *evt)
 
   send_data[0] = service_data.plx_continuous_measurement.flags; // 0
 
-
-  service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 = (uint16_t)hrm_get_spo2();
-  service_data.plx_continuous_measurement.SpO2PRNormal.PR = (uint16_t)hrm_get_heart_rate();
-  send_data[1] = service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 & 0xff;
-  send_data[2] = (service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 >> 8) & 0xff;
+  service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 =
+    (uint16_t)hrm_get_spo2();
+  service_data.plx_continuous_measurement.SpO2PRNormal.PR =
+    (uint16_t)hrm_get_heart_rate();
+  send_data[1] = service_data.plx_continuous_measurement.SpO2PRNormal.SpO2
+                 & 0xff;
+  send_data[2] =
+    (service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 >> 8) & 0xff;
   send_data[3] = service_data.plx_continuous_measurement.SpO2PRNormal.PR & 0xff;
-  send_data[4] = (service_data.plx_continuous_measurement.SpO2PRNormal.PR >> 8) & 0xff;
+  send_data[4] =
+    (service_data.plx_continuous_measurement.SpO2PRNormal.PR >> 8) & 0xff;
 
   // Notification or Indication status changed for PLX continuous measurement
-  if (evt->data.evt_gatt_server_characteristic_status.characteristic == gattdb_plx_continuous_measurement
-      && evt->data.evt_gatt_server_characteristic_status.status_flags == gatt_server_client_config )
-  {
-    if (evt->data.evt_gatt_server_characteristic_status.client_config_flags) // Notification or Indication - enabled
-    {
-      //Start a software timer 500ms interval
-        sl_bt_system_set_soft_timer(16384,PULSE_OXIMETER_TIMER,0);
-
+  if ((evt->data.evt_gatt_server_characteristic_status.characteristic
+       == gattdb_plx_continuous_measurement)
+      && (evt->data.evt_gatt_server_characteristic_status.status_flags
+          == gatt_server_client_config)) {
+    //  Notification or Indication - enabled
+    if (evt->data.evt_gatt_server_characteristic_status.client_config_flags) {
+      // Start a software timer 500ms interval
+      sl_sleeptimer_start_periodic_timer(&pulse_oximeter_timer,
+                                         16384,
+                                         pulse_oximeter_timer_callback,
+                                         (void *)NULL, 0, 0);
       // TODO:: Add your own code here.
-      //sl_bt_gatt_server_send_characteristic_notification(0xFF,
-        sl_bt_gatt_server_send_notification(evt->data.evt_gatt_server_characteristic_status.connection,
-               evt->data.evt_gatt_server_characteristic_status.characteristic,
-               5,
-               send_data);
+      // sl_bt_gatt_server_send_characteristic_notification(0xFF,
+      sl_bt_gatt_server_send_notification(
+        evt->data.evt_gatt_server_characteristic_status.connection,
+        evt->data.evt_gatt_server_characteristic_status.characteristic,
+        5,
+        send_data);
       notifications_enabled = true;
-    }
-    else // Notification or Indication - disabled
-    {
+    } else { // Notification or Indication - disabled
       // TODO:: Add your own code here.
       notifications_enabled = false;
-      //Stop the software timer
-      sl_bt_system_set_soft_timer(0,PULSE_OXIMETER_TIMER,0);
+      // Stop the software timer
+      sl_sleeptimer_stop_timer(&pulse_oximeter_timer);
     }
   }
 }
@@ -260,19 +272,31 @@ void pulse_oximeter_send_new_data(uint8_t connect)
 
   send_data[0] = service_data.plx_continuous_measurement.flags; // 0
 
-
-  service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 = (uint16_t)hrm_get_spo2();
-  service_data.plx_continuous_measurement.SpO2PRNormal.PR = (uint16_t)hrm_get_heart_rate();
-  send_data[1] = service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 & 0xff;
-  send_data[2] = (service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 >> 8) & 0xff;
+  service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 =
+    (uint16_t)hrm_get_spo2();
+  service_data.plx_continuous_measurement.SpO2PRNormal.PR =
+    (uint16_t)hrm_get_heart_rate();
+  send_data[1] = service_data.plx_continuous_measurement.SpO2PRNormal.SpO2
+                 & 0xff;
+  send_data[2] =
+    (service_data.plx_continuous_measurement.SpO2PRNormal.SpO2 >> 8) & 0xff;
   send_data[3] = service_data.plx_continuous_measurement.SpO2PRNormal.PR & 0xff;
-  send_data[4] = (service_data.plx_continuous_measurement.SpO2PRNormal.PR >> 8) & 0xff;
+  send_data[4] =
+    (service_data.plx_continuous_measurement.SpO2PRNormal.PR >> 8) & 0xff;
 
-  if (notifications_enabled == true)
-  {
-      sl_bt_gatt_server_send_notification(connect,
-		  gattdb_plx_continuous_measurement,
-               5,
-               send_data);
+  if (notifications_enabled == true) {
+    sl_bt_gatt_server_send_notification(connect,
+                                        gattdb_plx_continuous_measurement,
+                                        5,
+                                        send_data);
   }
+}
+
+static void pulse_oximeter_timer_callback(sl_sleeptimer_timer_handle_t *handle,
+                                          void *data)
+{
+  (void)handle;
+  (void)data;
+
+  sl_bt_external_signal(PULSE_OXIMETER_TIMER);
 }

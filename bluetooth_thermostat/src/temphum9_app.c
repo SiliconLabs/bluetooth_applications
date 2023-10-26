@@ -40,11 +40,11 @@
 /***************************************************************************//**
  * Application Init.
  ******************************************************************************/
-void temphum9_app_init()
+void temphum9_app_init(void)
 {
   sl_status_t sc;
 
-  sc = mikroe_shtc3_init(sl_i2cspm_mikroe);
+  sc = mikroe_shtc3_init(sl_i2cspm_qwiic);
   app_assert_status(sc);
 
   sl_sleeptimer_delay_millisecond(100);

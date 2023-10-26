@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   ble_att_handler.h
- * @brief  Header file of ble_att_handler
- * @version 1.1.0
+* @file   ble_att_handler.h
+* @brief  Header file of ble_att_handler
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -63,7 +63,10 @@
  * @return
  *   None
  ******************************************************************************/
-void ble_att_send_data(uint8_t connection, uint16_t attHandle, const uint8_t *data, uint16_t len);
+void ble_att_send_data(uint8_t connection,
+                       uint16_t attHandle,
+                       const uint8_t *data,
+                       uint16_t len);
 
 /*******************************************************************************
  * @brief

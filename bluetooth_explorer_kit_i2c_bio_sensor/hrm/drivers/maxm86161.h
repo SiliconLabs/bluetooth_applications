@@ -1,41 +1,41 @@
 /***************************************************************************//**
-* @file maxm86161.h
-* @brief Header file of maxm86161 biometric sensor driver
-* @version 1.0.0
-*******************************************************************************
-* # License
-* <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
-*******************************************************************************
-*
-* SPDX-License-Identifier: Zlib
-*
-* The licensor of this software is Silicon Laboratories Inc.
-*
-* This software is provided \'as-is\', without any express or implied
-* warranty. In no event will the authors be held liable for any damages
-* arising from the use of this software.
-*
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-*
-* 1. The origin of this software must not be misrepresented; you must not
-*    claim that you wrote the original software. If you use this software
-*    in a product, an acknowledgment in the product documentation would be
-*    appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-*    misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*
-*******************************************************************************
-*
-* EVALUATION QUALITY
-* This code has been minimally tested to ensure that it builds with
-* the specified dependency versions and is suitable as a demonstration
-* for evaluation purposes only.
-* This code will be maintained at the sole discretion of Silicon Labs.
-*
-******************************************************************************/
+ * @file maxm86161.h
+ * @brief Header file of maxm86161 biometric sensor driver
+ * @version 1.0.0
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
+ *
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided \'as-is\', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ *
+ * EVALUATION QUALITY
+ * This code has been minimally tested to ensure that it builds with
+ * the specified dependency versions and is suitable as a demonstration
+ * for evaluation purposes only.
+ * This code will be maintained at the sole discretion of Silicon Labs.
+ *
+ ******************************************************************************/
 
 #ifndef MAXM86161_H_
 #define MAXM86161_H_
@@ -50,8 +50,7 @@ extern "C" {
 #include "sl_status.h"
 #include "sl_udelay.h"
 
-
-typedef void* HANDLE;
+typedef void *HANDLE;
 
 /***************************************************************************//**
  ********    max86161 Register and Parameter Bit Definitions  ******************
@@ -147,7 +146,7 @@ enum maxm86161_ledsq_setting {
 #define MAXM86161_PIN_HIGH                              1
 #define MAXM86161_PIN_LOW                               0
 
-//Cfg shift data
+// Cfg shift data
 #define MAXM86161_PPG_CFG_ALC                           7
 #define MAXM86161_PPG_CFG_OFFSET                        6
 #define MAXM86161_PPG_CFG_ADC_RANGE                     2
@@ -155,15 +154,15 @@ enum maxm86161_ledsq_setting {
 #define MAXM86161_PPG_CFG_SMP_RATE                      3
 #define MAXM86161_PPG_CFG_SMP_AVG                       0
 
-//Led range shift data
+// Led range shift data
 #define MAXM86161_LED_RANGE_SHIFT_GREEN                 0
 #define MAXM86161_LED_RANGE_SHIFT_IR                    2
 #define MAXM86161_LED_RANGE_SHIFT_RED                   4
 
-//Led sequence shift
+// Led sequence shift
 #define MAXM86161_LEDSQ_SHIFT                           4
 
-//Int shift data and int mask
+// Int shift data and int mask
 #define MAXM86161_INT_SHIFT_FULL                        7
 #define MAXM86161_INT_SHIFT_DATA_RDY                    6
 #define MAXM86161_INT_SHIFT_ALC_OVF                     5
@@ -173,7 +172,6 @@ enum maxm86161_ledsq_setting {
 #define MAXM86161_INT_SHIFT_PWR_RDY                     0
 #define MAXM86161_INT_SHIFT_SHA                         0
 #define MAXM86161_INT_MASK                              0x01
-
 
 #define MAXM86161_SYS_CTRL_SW_RESET                     0x01
 #define MAXM86161_SYS_CTRL_SHUT_DOWN                    0x02
@@ -197,7 +195,6 @@ enum maxm86161_ledsq_setting {
 #define MAXM86161_INT_1_PWR_RDY                         0x01
 #define MAXM86161_INT_1_PWR_NOT_RDY                     0x00
 
-
 /**
  * @brief Structure for reading fifo data
  */
@@ -216,7 +213,8 @@ typedef struct {
   volatile uint16_t used;        ///< Number of bytes queued.
   uint16_t size;                 ///< Size of FIFO.
   uint8_t located;
-  int8_t *fifo;                  ///< Pointer to FIFO of queue data (allocated by user)
+  int8_t *fifo;                  ///< Pointer to FIFO of queue data (allocated
+                                 ///<   by user)
 } maxm86161_fifo_queue_t;
 
 typedef struct {
@@ -239,7 +237,8 @@ typedef struct
 {
   uint8_t alc;        ///< Enable/disable ALC
   uint8_t offset;     ///< Enable/disable dark current measurement
-  uint8_t ppg_tint;   ///< Set the pulse width of the LED drivers and the integration time of PPG ADC
+  uint8_t ppg_tint;   ///< Set the pulse width of the LED drivers and the
+                      ///<   integration time of PPG ADC
   uint8_t adc_range;  ///< Set the ADC range of the sensor
   uint8_t smp_rate;   ///< Set the number of exposure per sample
   uint8_t smp_freq;   ///< Set the effective sampling rate of the PPG sensor
@@ -252,7 +251,8 @@ typedef struct
 {
   uint8_t full_fifo;      ///< The FIFO buffer is full
   uint8_t data_rdy;       ///< New data in the FIFO
-  uint8_t alc_ovf;        ///< The ambient light cancellation function of the photodiode
+  uint8_t alc_ovf;        ///< The ambient light cancellation function of the
+                          ///<   photodiode
   uint8_t proxy;          ///< Proximity mode
   uint8_t led_compliant;  ///< LED is not compliant
   uint8_t die_temp;       ///< The TEMP ADC has finished its current conversion
@@ -265,9 +265,9 @@ typedef struct
  */
 typedef struct
 {
-  uint8_t green;  ///<set the nominal drive current of green LED
-  uint8_t ir;     ///<set the nominal drive current of ir LED
-  uint8_t red;    ///<set the nominal drive current of red LED
+  uint8_t green;  ///< set the nominal drive current of green LED
+  uint8_t ir;     ///< set the nominal drive current of ir LED
+  uint8_t red;    ///< set the nominal drive current of red LED
 } maxm86161_ledpa_t;
 
 /**
@@ -275,12 +275,12 @@ typedef struct
  */
 typedef struct
 {
-  uint8_t ledsq1; ///<set the data type for LED Sequence 1 of the FIFO
-  uint8_t ledsq2; ///<set the data type for LED Sequence 2 of the FIFO
-  uint8_t ledsq3; ///<set the data type for LED Sequence 3 of the FIFO
-  uint8_t ledsq4; ///<set the data type for LED Sequence 4 of the FIFO
-  uint8_t ledsq5; ///<set the data type for LED Sequence 5 of the FIFO
-  uint8_t ledsq6; ///<set the data type for LED Sequence 6 of the FIFO
+  uint8_t ledsq1; ///< set the data type for LED Sequence 1 of the FIFO
+  uint8_t ledsq2; ///< set the data type for LED Sequence 2 of the FIFO
+  uint8_t ledsq3; ///< set the data type for LED Sequence 3 of the FIFO
+  uint8_t ledsq4; ///< set the data type for LED Sequence 4 of the FIFO
+  uint8_t ledsq5; ///< set the data type for LED Sequence 5 of the FIFO
+  uint8_t ledsq6; ///< set the data type for LED Sequence 6 of the FIFO
 } maxm86161_ledsq_cfg_t;
 
 /**
@@ -288,9 +288,9 @@ typedef struct
  */
 typedef struct
 {
-  uint8_t green;  ///<Range selection of the green LED current
-  uint8_t ir;     ///<Range selection of the ir LED current
-  uint8_t red;    ///<Range selection of the red LED current
+  uint8_t green;  ///< Range selection of the green LED current
+  uint8_t ir;     ///< Range selection of the ir LED current
+  uint8_t red;    ///< Range selection of the red LED current
 } maxm86161_led_range_curr_t;
 
 /**
@@ -304,7 +304,6 @@ typedef struct maxm86161_device_config
   maxm86161_ppg_cfg_t ppg_cfg;
   maxm86161_int_t int_cfg;
 } maxm86161_device_config_t;
-
 
 /***************************************************************************//**
  *******************   Functions supplied by maxm86161.c   *********************
@@ -327,8 +326,10 @@ sl_status_t maxm86161_init_device(maxm86161_device_config_t global_cfg);
  *    Turn on/off shutdown mode
  *
  *    All interrupts are cleared.
- *    In this mode, the oscillator is shutdown and the part draws minimum current
- *    If this bit is asserted during an active conversion, then the conversion is aborted.
+ *    In this mode, the oscillator is shutdown and the part draws minimum
+ *   current
+ *    If this bit is asserted during an active conversion, then the conversion
+ *   is aborted.
  *
  * @param[in] turn_off
  * bool value for turn on/off option
@@ -463,84 +464,83 @@ sl_status_t maxm86161_interupt_control(maxm86161_int_t *int_ctrl);
  ******************************************************************************/
 void maxm86161_get_irq_status(maxm86161_int_t *int_status);
 
-
 /***************************************************************************//**
  ************************** Maxm86161 I2C Registers ****************************
  ******************************************************************************/
 
-//Status group
-#define MAXM86161_REG_IRQ_STATUS1		0x00
-#define MAXM86161_REG_IRQ_STATUS2		0x01
-#define MAXM86161_REG_IRQ_ENABLE1		0x02
-#define MAXM86161_REG_IRQ_ENABLE2		0x03
+// Status group
+#define MAXM86161_REG_IRQ_STATUS1         0x00
+#define MAXM86161_REG_IRQ_STATUS2         0x01
+#define MAXM86161_REG_IRQ_ENABLE1         0x02
+#define MAXM86161_REG_IRQ_ENABLE2         0x03
 
-//FIFO group
-#define MAXM86161_REG_FIFO_WRITE_PTR	  0x04
-#define MAXM86161_REG_FIFO_READ_PTR		  0x05
-#define MAXM86161_REG_OVF_COUNTER			  0x06
-#define MAXM86161_REG_FIFO_DATA_COUNTER	0x07
-#define MAXM86161_REG_FIFO_DATA			    0x08
-#define MAXM86161_REG_FIFO_CONFIG1		  0x09
-#define MAXM86161_REG_FIFO_CONFIG2		  0x0A
+// FIFO group
+#define MAXM86161_REG_FIFO_WRITE_PTR      0x04
+#define MAXM86161_REG_FIFO_READ_PTR       0x05
+#define MAXM86161_REG_OVF_COUNTER         0x06
+#define MAXM86161_REG_FIFO_DATA_COUNTER   0x07
+#define MAXM86161_REG_FIFO_DATA           0x08
+#define MAXM86161_REG_FIFO_CONFIG1        0x09
+#define MAXM86161_REG_FIFO_CONFIG2        0x0A
 
-//System
-#define MAXM86161_REG_SYSTEM_CONTROL		0x0D
+// System
+#define MAXM86161_REG_SYSTEM_CONTROL      0x0D
 
-//PPG configuration
-#define MAXM86161_REG_PPG_SYNC_CONTROL	  0x10
-#define MAXM86161_REG_PPG_CONFIG1			    0x11
-#define MAXM86161_REG_PPG_CONFIG2			    0x12
-#define MAXM86161_REG_PPG_CONFIG3			    0x13
-#define MAXM86161_REG_PROX_INT_THRESHOLD	0x14
-#define MAXM86161_REG_PD_BIAS				      0x15
+// PPG configuration
+#define MAXM86161_REG_PPG_SYNC_CONTROL    0x10
+#define MAXM86161_REG_PPG_CONFIG1         0x11
+#define MAXM86161_REG_PPG_CONFIG2         0x12
+#define MAXM86161_REG_PPG_CONFIG3         0x13
+#define MAXM86161_REG_PROX_INT_THRESHOLD  0x14
+#define MAXM86161_REG_PD_BIAS             0x15
 
-//PPG picket fence detect and replace
-#define MAXM86161_REG_PICKET_FENCE	0x16
+// PPG picket fence detect and replace
+#define MAXM86161_REG_PICKET_FENCE        0x16
 
-//LEd sequence control
-#define MAXM86161_REG_LED_SEQ1		0x20
-#define MAXM86161_REG_LED_SEQ2		0x21
-#define MAXM86161_REG_LED_SEQ3		0x22
+// LEd sequence control
+#define MAXM86161_REG_LED_SEQ1            0x20
+#define MAXM86161_REG_LED_SEQ2            0x21
+#define MAXM86161_REG_LED_SEQ3            0x22
 
-//LED pulse amplitude
-#define MAXM86161_REG_LED1_PA			  0x23
-#define MAXM86161_REG_LED2_PA			  0x24
-#define MAXM86161_REG_LED3_PA			  0x25
-#define MAXM86161_REG_LED_PILOT_PA	0x29
-#define MAXM86161_REG_LED_RANGE1		0x2A
+// LED pulse amplitude
+#define MAXM86161_REG_LED1_PA             0x23
+#define MAXM86161_REG_LED2_PA             0x24
+#define MAXM86161_REG_LED3_PA             0x25
+#define MAXM86161_REG_LED_PILOT_PA        0x29
+#define MAXM86161_REG_LED_RANGE1          0x2A
 
-//PPG1_HI_RES_DAC
-#define MAXM86161_REG_S1_HI_RES_DAC1	0x2C
-#define MAXM86161_REG_S2_HI_RES_DAC1	0x2D
-#define MAXM86161_REG_S3_HI_RES_DAC1	0x2E
-#define MAXM86161_REG_S4_HI_RES_DAC1	0x2D
-#define MAXM86161_REG_S5_HI_RES_DAC1	0x30
-#define MAXM86161_REG_S6_HI_RES_DAC1	0x31
+// PPG1_HI_RES_DAC
+#define MAXM86161_REG_S1_HI_RES_DAC1      0x2C
+#define MAXM86161_REG_S2_HI_RES_DAC1      0x2D
+#define MAXM86161_REG_S3_HI_RES_DAC1      0x2E
+#define MAXM86161_REG_S4_HI_RES_DAC1      0x2D
+#define MAXM86161_REG_S5_HI_RES_DAC1      0x30
+#define MAXM86161_REG_S6_HI_RES_DAC1      0x31
 
-//Die temperature
-#define MAXM86161_REG_DIE_TEMP_CONFIG		0x40
-#define MAXM86161_REG_DIE_TEMP_INT		  0x41
-#define MAXM86161_REG_DIE_TEMP_FRACTION	0x42
+// Die temperature
+#define MAXM86161_REG_DIE_TEMP_CONFIG     0x40
+#define MAXM86161_REG_DIE_TEMP_INT        0x41
+#define MAXM86161_REG_DIE_TEMP_FRACTION   0x42
 
-//DAC calibration
-#define MAXM86161_REG_DAC_CALIB_ENABLE	0x50
+// DAC calibration
+#define MAXM86161_REG_DAC_CALIB_ENABLE    0x50
 
-//SHA256
-#define MAXM86161_REG_SHA_CMD		  0xF0
-#define MAXM86161_REG_SHA_CONFIG	0xF1
+// SHA256
+#define MAXM86161_REG_SHA_CMD             0xF0
+#define MAXM86161_REG_SHA_CONFIG          0xF1
 
-//Memory
-#define MAXM86161_REG_MEMORY_CONTROL	0xF2
-#define MAXM86161_REG_MEMORY_INDEX	  0xF3
-#define MAXM86161_REG_MEMORY_DATA		  0xF4
+// Memory
+#define MAXM86161_REG_MEMORY_CONTROL      0xF2
+#define MAXM86161_REG_MEMORY_INDEX        0xF3
+#define MAXM86161_REG_MEMORY_DATA         0xF4
 
 // Part ID
-#define MAXM86161_REG_REV_ID		0xFE
-#define MAXM86161_REG_PART_ID		0xFF
+#define MAXM86161_REG_REV_ID              0xFE
+#define MAXM86161_REG_PART_ID             0xFF
 
-#define MAXM86161_REG_FIFO_DATA_MASK  0x07FFFF
-#define MAXM86161_REG_FIFO_RES        19
-#define MAXM86161_REG_FIFO_TAG_MASK   0x1F
+#define MAXM86161_REG_FIFO_DATA_MASK      0x07FFFF
+#define MAXM86161_REG_FIFO_RES            19
+#define MAXM86161_REG_FIFO_TAG_MASK       0x1F
 
 /***************************************************************************//**
  ***************    Data Fifo Queue Functions   ********************************
@@ -636,9 +636,9 @@ sl_status_t maxm86161_dequeue_ppg_sample_data (maxm86161_fifo_queue_t *queue,
  *    sl_status_t error code
  *
  ******************************************************************************/
-sl_status_t maxm86161_allocate_ppg_data_queue( maxm86161_fifo_queue_t *queue,
-                                               maxm86161_ppg_sample_t *queueBuffer,
-                                               int16_t queueSizeInBytes);
+sl_status_t maxm86161_allocate_ppg_data_queue(maxm86161_fifo_queue_t *queue,
+                                              maxm86161_ppg_sample_t *queueBuffer,
+                                              int16_t queueSizeInBytes);
 
 #ifdef __cplusplus
 }

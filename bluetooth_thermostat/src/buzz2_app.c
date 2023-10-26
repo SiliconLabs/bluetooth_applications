@@ -55,7 +55,7 @@ void buzz2_app_init(void)
 {
   sl_status_t sc;
 
-  sc = mikroe_cmt_8540s_smt_init(&sl_pwm_buzz2);
+  sc = mikroe_cmt_8540s_smt_init(&sl_pwm_mikroe);
   app_assert_status(sc);
 
   app_log("> Buzzer 2 Click board driver init successfully.\n");

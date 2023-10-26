@@ -1,0 +1,156 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_explorer_kit_i2c_bio_sensor
+package: Bluetooth
+label: Bluetooth - Explorer Kit I2C Bio Sensor
+description: |
+  This example implements the Heart Rate service and Pulse Oximeter service. It enables a peer device to connect and receive heart rate and pulse Oximeter values via Bluetooth. The reported values are measured by a bio-sensor located on the Heart Rate 2 Click.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Beginner]
+- name: Wireless Technology
+  value: [Bluetooth]
+
+readme:
+- path: ../README.md
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+  - path: ../hrm/app
+    file_list:
+      - path: hrm_app.h
+      - path: hrm_helper.h
+    directory: hrm/app
+  - path: ../hrm/ble/config
+    file_list:
+      - path: app_timer.h
+      - path: ble_att_handler.h
+    directory: hrm/ble/config
+  - path: ../hrm/ble/device_information
+    file_list:
+      - path: device_information.h
+    directory: hrm/ble/device_information
+  - path: ../hrm/ble/heart_rate
+    file_list:
+      - path: heart_rate.h
+    directory: hrm/ble/heart_rate
+  - path: ../hrm/ble/pulse_oximeter
+    file_list:
+      - path: pulse_oximeter.h
+    directory: hrm/ble/pulse_oximeter
+  - path: ../hrm/config
+    file_list:
+      - path: maxm86161_hrm_config.h
+    directory: hrm/config
+  - path: ../hrm/drivers
+    file_list:
+      - path: maxm86161.h
+      - path: maxm86161_i2c.h
+    directory: hrm/drivers
+  - path: ../hrm/lib
+    file_list:
+      - path: maxm86161_hrm_spo2.h
+    directory: hrm/lib
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../hrm/app/hrm_app.c
+    directory: hrm/app
+  - path: ../hrm/app/hrm_helper.c
+    directory: hrm/app
+  - path: ../hrm/ble/config/ble_att_handler.c
+    directory: hrm/ble/config
+  - path: ../hrm/ble/device_information/device_information.c
+    directory: hrm/ble/device_information
+  - path: ../hrm/ble/heart_rate/heart_rate.c
+    directory: hrm/ble/heart_rate
+  - path: ../hrm/ble/pulse_oximeter/pulse_oximeter.c
+    directory: hrm/ble/pulse_oximeter
+  - path: ../hrm/drivers/maxm86161.c
+    directory: hrm/drivers
+  - path: ../hrm/drivers/maxm86161_i2c.c
+    directory: hrm/drivers
+  - path: ../hrm/lib/maxm86161_hrm_spo2.c
+    directory: hrm/lib
+
+component:
+- id: simple_button
+  instance: [btn0]
+- id: iostream_usart
+  instance: [vcom]
+- id: i2cspm 
+  instance: [mikroe]
+- id: app_log 
+- id: app_assert 
+- id: mpu 
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_legacy_scanner
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_system
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: bt_post_build
+- id: component_catalog
+
+config_file:    
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 1.6.0
+    
+other_file:
+  - path: ../images/board.png
+    directory: images
+  - path: ../images/create_project.png
+    directory: images
+  - path: ../images/i2c_mikroe_component.png
+    directory: images
+  - path: ../images/button_component.png
+    directory: images
+  - path: ../images/usart_component.png
+    directory: images
+  - path: ../images/external_repo.png
+    directory: images
+  - path: ../images/software_architecture.png
+    directory: images
+  - path: ../images/efr_connect.png
+    directory: images    
+  - path: ../images/efr_connect_app.png
+    directory: images
+  - path: ../images/heart_rate_service.png
+    directory: images
+  - path: ../images/log.png
+    directory: images  
+
+configuration:
+- name: SL_STACK_SIZE 
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+  condition: psa_crypto
+  
+tag: hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+  - path: README.md
+    focus: true
+  - path: config/btconf/gatt_configuration.btconf

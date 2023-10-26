@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   heart_rate.h
- * @brief  Header file of heart rate service
- * @version 1.1.0
+* @file   heart_rate.h
+* @brief  Header file of heart rate service
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -34,7 +34,7 @@
 * maintained and there may be no bug maintenance planned for these resources.
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
- 
+
 #ifndef __HEART_RATE_H
 #define __HEART_RATE_H
 
@@ -49,11 +49,10 @@
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
 
- 
 /*******************************************************************************
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
- 
+
 /*******************************************************************************
  * @brief
  *   Service Heart Rate initialization

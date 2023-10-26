@@ -66,9 +66,15 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 43 | Bluetooth - BTHome v2 - Switch | [Click Here](./bluetooth_bthome_v2_switch/) |
 | 44 | Bluetooth - Ethernet Gateway | [Click Here](./bluetooth_ethernet_gateway) |
 | 45 | Bluetooth - Continuous Glucose Monitoring | [Click Here](./bluetooth_continuous_glucose_monitoring) |
+| 46 | Bluetooth - BTHome v2 - Light | [Click Here](./bluetooth_bthome_v2_light) |
+| 47 | Bluetooth - Data Logger SD Card | [Click Here](./bluetooth_data_logger_sd_card) |
+| 48 | Bluetooth - Thermostat (SHTC3) | [Click Here](./bluetooth_thermostat) |
+| 49 | Bluetooth - Secure SPP over BLE | [Click Here](./bluetooth_secure_spp_over_ble) |
+| 50 | Bluetooth - Explorer Kit I2C Bio Sensor | [Click Here](./bluetooth_explorer_kit_i2c_bio_sensor) |
+| 51 | Bluetooth - Blood Glucose Meters | [Click Here](./bluetooth_blood_glucose_meters) |
+
 
 ## Requirements ##
-
 
 1. Silicon Labs EFR32 Development Kit
 2. Simplicity Studio 5

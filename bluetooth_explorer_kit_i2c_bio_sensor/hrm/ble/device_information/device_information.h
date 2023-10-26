@@ -1,7 +1,7 @@
 /**************************************************************************//**
- * @file   device_information.h
- * @brief  Header file of device information service
- * @version 1.1.0
+* @file   device_information.h
+* @brief  Header file of device information service
+* @version 1.1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -34,7 +34,7 @@
 * maintained and there may be no bug maintenance planned for these resources.
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
- 
+
 #ifndef __DEVICE_INFORMATION_H
 #define __DEVICE_INFORMATION_H
 
@@ -43,18 +43,17 @@
  ******************************************************************************/
 #include <stdint.h>
 #include <stdbool.h>
-//#include "native_gecko.h"
+// #include "native_gecko.h"
 #include "sl_bt_types.h"
 
 /*******************************************************************************
  *******************************   DEFINES   ***********************************
  ******************************************************************************/
 
- 
 /*******************************************************************************
  *****************************   PROTOTYPES   **********************************
  ******************************************************************************/
- 
+
 /*******************************************************************************
  * @brief
  *   Service Device Information initialization

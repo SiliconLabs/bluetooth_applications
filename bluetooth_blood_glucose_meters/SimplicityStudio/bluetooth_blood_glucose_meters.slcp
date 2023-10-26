@@ -1,0 +1,129 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_blood_glucose_meters
+package: Bluetooth
+label: Bluetooth - Blood Glucose Meters
+description: |
+  This project aims to implement the Bluetooth Glucose Profile. This shows an example of Blood Glucose Meters using the Thunderboard EFR32BG22.
+quality: experimental
+
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Beginner]
+- name: Wireless Technology
+  value: [Bluetooth]
+
+readme:
+- path: ../README.md
+
+include:
+- path: ../inc
+  file_list:
+  - path: app.h 
+  - path: sl_bt_bgm.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/sl_bt_bgm_error_handle.c
+  - path: ../src/sl_bt_bgm_measure.c
+  - path: ../src/sl_bt_bgm_measure_context.c
+  - path: ../src/sl_bt_bgm_on_event.c
+  - path: ../src/sl_bt_bgm_racp.c
+  - path: ../src/sl_bt_bgm_racp_handler.c
+
+component:
+- id: simple_button
+  instance: [btn0]
+- id: iostream_usart 
+  instance: [vcom]
+- id: app_log 
+- id: app_assert 
+- id: mpu
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: bluetooth_feature_legacy_advertiser
+- id: bluetooth_feature_gatt
+- id: bluetooth_feature_legacy_scanner
+- id: bluetooth_feature_connection
+- id: bluetooth_feature_system
+- id: gatt_configuration
+- id: gatt_service_device_information
+- id: bt_post_build
+- id: in_place_ota_dfu
+- id: component_catalog
+
+config_file:    
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+other_file:
+  - path: ../images/racp.jpg
+    directory: images
+  - path: ../images/context.jpg
+    directory: images
+  - path: ../images/measure.jpg
+    directory: images
+  - path: ../images/read_all_records.jpg
+    directory: images
+  - path: ../images/set_notify.jpg
+    directory: images
+  - path: ../images/service.jfif
+    directory: images
+  - path: ../images/external_repo.png
+    directory: images
+  - path: ../images/create_project.png
+    directory: images
+  - path: ../images/bgm.png
+    directory: images
+  - path: ../images/role.jpg
+    directory: images
+  - path: ../images/bgmservice.jpg
+    directory: images
+  - path: ../images/BGM.jpeg
+    directory: images
+  - path: ../images/dongle.jpg
+    directory: images
+  - path: ../images/connectdongle.jpg
+    directory: images
+  - path: ../images/newworkspace.jpg
+    directory: images
+  - path: ../images/devicesearch.jpg
+    directory: images
+  - path: ../images/selectprofile.jpg
+    directory: images
+  - path: ../images/unlockcase.jpg
+    directory: images
+  - path: ../images/service-profile.jpg
+    directory: images
+  - path: ../images/wholepicture.jpg
+    directory: images
+  - path: ../images/passflag.jpg
+    directory: images
+  - path: ../images/failflag.jpg
+    directory: images
+  - path: ../images/spec.jpg
+    directory: images
+
+configuration:
+- name: SL_STACK_SIZE 
+  value: '2752'
+- name: SL_HEAP_SIZE
+  value: '9200'
+- name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '0'
+  condition: psa_crypto
+
+tag: hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+  - path: README.md
+    focus: true
+  - path: config/btconf/gatt_configuration.btconf
+

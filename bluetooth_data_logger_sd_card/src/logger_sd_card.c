@@ -36,6 +36,8 @@
 #include <stdio.h>
 #include "sl_status.h"
 #include "logger_sd_card.h"
+#include "sl_spidrv_instances.h"
+#include "sl_sdc_sd_card.h"
 
 #define EOL                       "\n"
 #define EOL_LENGTH                (1)
@@ -53,6 +55,7 @@ sl_status_t logger_sd_card_init(void)
 {
   FRESULT fr;
   int i;
+  sd_card_spi_init(sl_spidrv_exp_handle);
 
   for (i = 0; i < 5; i++) {
     fr = f_mount(&fs, "", 0);
