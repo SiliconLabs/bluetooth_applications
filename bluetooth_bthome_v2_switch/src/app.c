@@ -138,7 +138,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
         bthome_v2_reset_measurement();
         bthome_v2_add_measurement_state(EVENT_BUTTON, button_type, 0);
-        bthome_v2_build_packet();
+        bthome_v2_send_packet();
 
         app_log("[BTHome]: Send %s event.\n",
                 (button_type == EVENT_BUTTON_PRESS) ? "BUTTON_PRESS"

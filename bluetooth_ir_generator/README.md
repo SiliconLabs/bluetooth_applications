@@ -1,88 +1,117 @@
 # BLE IR Generator Example #
+
 ![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=Type&query=type&color=green)
 ![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=Technology&query=technology&color=green)
 ![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=License&query=license&color=green)
 ![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=SDK&query=sdk&color=green)
+[![Required board](https://img.shields.io/badge/Amazon-Infrared%20diode-green)](https://www.amazon.com/Digital-Receiver-Transmitter-Arduino-Compatible/dp/B01E20VQD8/ref=sr_1_14?dchild=1&keywords=IR+receiver&qid=1591754671&s=aht&sr=1-14)
+[![Required board](https://img.shields.io/badge/Amazon-4x4%20Matrix%2016%20Keys%20Button%20Keypad.-green)](https://www.amazon.com/Tegg-Matrix-Button-Arduino-Raspberry/dp/B07QKCQGXS/ref=sr_1_4?dchild=1&keywords=Key+matrix&qid=1591754882&sr=8-4)
 ![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_build_status.json)
 ![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=Flash&query=flash&color=blue)
 ![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ir_generator_common.json&label=RAM&query=ram&color=blue)
 
 ## Summary ##
 
-This project shows the implementation of an IR signal generator and 4x4 matrix key scan with BLE on our EFR32 devices. 
+This project shows the implementation of an IR signal generator and 4x4 matrix key scan with BLE on our EFR32 devices.
 The expectation is to ensure the IR signal generator works well in cases with heavy BLE traffic.
-<div align="left">
-  <img src="./doc/images/framework.png" height="480">
-</div>
 
-## Gecko SDK Version ##
+![framework](image/framework.png)
 
-v2.7
+## Gecko SDK Suite version ##
+
+- GSDK v4.3.1
+- [Third Party Hardware Drivers v1.8.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
-- BRD4182A EFR32xG22 radio board
-- BRD4001A WSTK board
+- [EFR32xG22 Wireless Gecko Radio Board.](https://www.silabs.com/development-tools/wireless/slwrb4182a-efr32xg22-wireless-gecko-radio-board)
+- [Silicon Labs Wireless Starter Kits.](https://www.silabs.com/development-tools/wireless)
+- [4x4 Matrix 16 Keys Button Keypad.](https://www.amazon.com/Tegg-Matrix-Button-Arduino-Raspberry/dp/B07QKCQGXS/ref=sr_1_4?dchild=1&keywords=Key+matrix&qid=1591754882&sr=8-4)
+- [Infrared diode](https://www.amazon.com/Digital-Receiver-Transmitter-Arduino-Compatible/dp/B01E20VQD8/ref=sr_1_14?dchild=1&keywords=IR+receiver&qid=1591754671&s=aht&sr=1-14)
+
+## Connections Required ##
+
+![connection](image/hardware_connection.png)
+
+Connect [4x4 Matrix 16 Keys Button Keypad](https://www.amazon.com/Tegg-Matrix-Button-Arduino-Raspberry/dp/B07QKCQGXS/ref=sr_1_4?dchild=1&keywords=Key+matrix&qid=1591754882&sr=8-4) and [Infrared diode](https://www.amazon.com/Digital-Receiver-Transmitter-Arduino-Compatible/dp/B01E20VQD8/ref=sr_1_14?dchild=1&keywords=IR+receiver&qid=1591754671&s=aht&sr=1-14) to WSTK board through the expansion header.
 
 ## Setup ##
-1. Hardware connection.
 
-   ![](doc/images/hardware_connection.png)
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-   Connect [matrix(4x4) key pad](https://www.amazon.com/Tegg-Matrix-Button-Arduino-Raspberry/dp/B07QKCQGXS/ref=sr_1_4?dchild=1&keywords=Key+matrix&qid=1591754882&sr=8-4) and [Infrared diode](https://www.amazon.com/Digital-Receiver-Transmitter-Arduino-Compatible/dp/B01E20VQD8/ref=sr_1_14?dchild=1&keywords=IR+receiver&qid=1591754671&s=aht&sr=1-14) to WSTK board through the expansion header. 
+### Create a project based on an example project ###
 
-2. Import the bluetooth_ir_generator.sls file, build and program the EFR32 device with the hex file.
+![create_example](image/create_example.png)
+
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "ir generator".
+
+2. Click **Create** button on both **Bluetooth - IR Generator** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+
+3. Build and flash this example to the board.
+
+### Start with a "Bluetooth - SoC Empty" project ###
+
+1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
+
+2. Copy all attached files in inc and src folders into the project root folder (overwriting existing).
+
+3. Import the GATT configuration:
+
+    - Open the .slcp file in the project.
+
+    - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
+
+    - Find the Import button and import the attached gatt_configuration.btconf file.
+
+4. Open the .slcp file. Select the **SOFTWARE COMPONENTS** tab and install the software components:
+    - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: **vcom**
+    - [Application] → [Utility] → [Log]
+    - [Third Party Hardware Drivers] → [Miscellaneous] → [IR Generator (Silabs)]
+    - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: **btn0** and **btn1**
+
+5. Build and flash the project to your device.
+
+**Note:**
+
+- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- SDK Extension must be enabled for the project to install the [IR Generator (Silabs)] component.
+- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
-### Keypad
+### Keypad ###
 
-Most of the time the system stays in an idle state. When a key is active(pressed), the GPIO interrupt wakeups the system, then the key scan and key timer(10ms) starts to work. When a key is available or a key is released,  the key callback is invoked to indicate which key is detected or released, after a key release the system back to idle again.
+When a key is active (pressed), the GPIO interrupt wakes-up the system, then the key scan and key timer (10ms) start to work. When a key is available or a key is released, the key callback is invoked to indicate, which key is detected or released. After a key is released, the system backs to idle state again.
+
 - Initialization.
-    - key_init() function initializes the keypad with 2 callback, set GPIO direction, and interrupt.
-    - key_wakeup_callback_t wakeup_cb, is called in GPIO IRQ. It starts the key timer.
-    - key_callback_t cb, is called in the key detection. It reports which key is detected or released.
+  - key_init() function initializes the keypad with 2 callback, set GPIO direction, and interrupt.
+  - key_wakeup_callback_t wakeup_cb, is called in GPIO IRQ. It starts the key timer.
+  - key_callback_t cb, is called in the key detection. It reports which key is detected or released.
 - Running the key detection
-    - key_scan() function runs in a key time slice, checks which key and how long the key is pressed, then reports the key status.
-#### Keypad flowchart
+  - key_scan() function runs in a key time slice, checks which key and how long the key is pressed, then reports the key status.
 
-<div align="left">
-  <img src="./doc/images/keypad.png" height="480">
-</div>
+#### Keypad flowchart ###
 
-### IR generate
+![keypad flowchart](image/keypad.png)
 
-Most of the time the system stays in an idle state. When an IR send is required, the system configures the stream according to the given data, then sends out all the stream bit. If no stop command is inputted, the system will repeat the stream. If no need to repeat the IR signal, the system will go back to the idle state. 
+### IR generate ###
+
+Most of the time the system stays in an idle state. When an IR send is required, the system configures the stream according to the given data, then sends out all the stream bit. If no stop command is inputted, the system will repeat the stream. If no need to repeat the IR signal, the system will go back to the idle state.
+
 - Initialization.
-    - ir_generate_init() function initializes the keypad with callback.
-    - code_t ir_code sets the IR protocol, currently supports NEC and SONY type.
-    - ir_callback_t cb is called if one frame stream is sent.
+  - ir_generate_init() function initializes the keypad with callback.
+  - code_t ir_code sets the IR protocol, currently supports NEC and SONY types only.
+  - ir_callback_t cb is called if one frame stream is sent.
 - Running the IR generate
-    - ir_generate_stream() function configures the data that desire to send and start, repeat flag used in NEC IR protocol.
-    - ir_generate_stop() function can stop the IR generate.
+  - ir_generate_stream() function configures the data that desires to send and start, repeats flag used in NEC IR protocol.
+  - ir_generate_stop() function can stop the IR generate.
 
-#### IR flowchart
+#### IR flowchart ####
 
-<div align="left">
-  <img src="./doc/images/ir.png" height="480">
-</div>
+![ir flowchart](image/ir.png)
 
-In this example, IR stream start/stop is controlled by a key event. We can use tera term for tracking the run status and logic analyzer/oscilloscope to check the IR waveform.
+### Testing ###
 
-## .sls Projects Used ##
+In this example, IR stream start/stop is controlled by a key event. We can use Console window for tracking the run status and logic analyzer/oscilloscope to check the IR waveform.
 
--bluetooth_ir_generator.sls
-
-## How to Port to Another Part ##
-
-1. Create a new SoC-Empty project for target device.
-
-2. Import the gatt.xml file.
-
-3. Press Save and then Generate in the GATT Configurator.
-
-4. Copy the relevant files(app.c,app.h,ir_generate.c,ir_generate.h,key_scan.c,key_scan.h) into your project (overwriting the existing one).
-
-5. Copy the src directory from ..\SiliconLabs\Simplicity\Studio\v4\developer\sdks\gecko_sdk_suite\v2.7\platform\emdrv\gpiointerrupt to your project's ..\platform\emdrv\gpiointerrupt directory.
-
-6. Build and flash the project to your device.
+![console](image/console.png)

@@ -1,10 +1,6 @@
 /***************************************************************************//**
- * @file app.c
- * @brief Silicon Labs Empty Example Project
- * This example demonstrates the implementation of IR signal generate and 
- * 4x4 matrix key scan with BLE on our EFR32 device(lynx). 
- * Need to ensure IR signal generate work well in case that BLE in a heavy communication.
- * @version 1.0.1
+ * @file
+ * @brief Core application logic.
  *******************************************************************************
  * # License
  * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -30,86 +26,69 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
- *******************************************************************************
- * # EVALUATION QUALITY
- * This code has been minimally tested to ensure that it builds with the specified
- * dependency versions and is suitable as a demonstration for evaluation purposes only.
- * This code will be maintained at the sole discretion of Silicon Labs.
  ******************************************************************************/
-
-/* Bluetooth stack headers */
-
-#include "bg_types.h"
-#include "native_gecko.h"
-#include "gatt_db.h"
-
-#include "gpiointerrupt.h"
 #include "app.h"
-#include "sleep.h"
-#include "ir_generate.h"
-#include "key_scan.h"
-
-#define TIMER_TEST_NOTIFY	1
-#define TIMER_KEY_SCAN		2
-#define TIMER_IR_REPEAT		3
+#include "app_log.h"
+#include "gatt_db.h"
+#include "sl_bluetooth.h"
+#include "sl_simple_button_instances.h"
 
 #define TICKS_PER_SECOND    (32768)
-#define TICKS_STOP			(0)
-#define TICKS_NOTIFY		(TICKS_PER_SECOND/50)		//20ms
-#define TICKS_KEY_SCAN		(TICKS_PER_SECOND/100)		//10ms
-#define TICKS_IR_REPEAT		(TICKS_PER_SECOND*9/200) 	//45ms
+#define TICKS_STOP          (0)
+#define TICKS_NOTIFY        (TICKS_PER_SECOND / 50) // 20ms
+#define TICKS_KEY_SCAN      (TICKS_PER_SECOND / 100) // 10ms
+#define TICKS_IR_REPEAT     (TICKS_PER_SECOND * 9 / 200) // 45ms
+#define SIGNAL_NOTIFY       20
+#define SIGNAL_KEY_SCAN     10
+#define SIGNAL_IR_REPEAT    45
 
-#define REPEATING			0
-#define ONCE 				1
+static sl_sleeptimer_timer_handle_t timer_test_notify;
+static sl_sleeptimer_timer_handle_t timer_key_scan;
+static sl_sleeptimer_timer_handle_t timer_ir_repeat;
 
-static uint8 connect_handle = 0xFF;
-static uint8 battery_alert_nodif_data = 0;
-/* Print boot message */
-static void bootMessage(struct gecko_msg_system_boot_evt_t *bootevt);
+// The advertising set handle allocated from Bluetooth stack.
+static uint8_t advertising_set_handle = 0xff;
+static uint8_t connect_handle = 0xff;
 
 /* Flag for indicating DFU Reset must be performed */
 static uint8_t boot_to_dfu = 0;
-#if !D_KEYSCAN
-#define BUTTON0		(uint32)(1 << 0)   // Bit flag to external signal command
-#define BUTTON1		(uint32)(1 << 1)   // Bit flag to external signal command
-/**
- * @brief handle_button_change
- * Callback function to handle buttons press and release actions
- * @param pin -  push button mask
- */
-void handle_button_change(uint8_t pin) {
+static uint8_t battery_alert_nodif_data = 0;
+static uint8_t key_test = 0xFF;
+static uint8_t key_repeat = 0xFF;
 
-  if(pin == BSP_BUTTON0_PIN) {
-    if(!GPIO_PinInGet(BSP_BUTTON0_PORT, BSP_BUTTON0_PIN))
-      // PB0 pressed down
-      gecko_external_signal(BUTTON0);
-  } else if(pin == BSP_BUTTON1_PIN) {
-    if (!GPIO_PinInGet(BSP_BUTTON1_PORT, BSP_BUTTON1_PIN))
-      // PB1 pressed
-    	gecko_external_signal(BUTTON1);
+static void timer_cb(sl_sleeptimer_timer_handle_t *timer, void *data)
+{
+  (void)&data;
+
+  if (timer == &timer_test_notify) {
+    sl_bt_external_signal(SIGNAL_NOTIFY);
+  } else if (timer == &timer_key_scan) {
+    sl_bt_external_signal(SIGNAL_KEY_SCAN);
+  } else {
+    sl_bt_external_signal(SIGNAL_IR_REPEAT);
   }
 }
-/**
- * @brief setup_pins_interrupts
- * Configure push buttons and button interrupts
- */
-void setup_pins_interrupts(void) {
-  // Configure PB0 and PB1 as inputs on the WSTK
-  GPIO_PinModeSet(BSP_BUTTON0_PORT, BSP_BUTTON0_PIN, gpioModeInputPullFilter, 1);
-  GPIO_PinModeSet(BSP_BUTTON1_PORT, BSP_BUTTON1_PIN, gpioModeInputPullFilter, 1);
-  // Initialize interrupts
-  GPIOINT_Init();
-  // Configuring push buttons PB0 and PB1 on the WSTK to generate interrupt
-  GPIO_ExtIntConfig(BSP_BUTTON0_PORT, BSP_BUTTON0_PIN, BSP_BUTTON0_PIN, true, true, true);
-  GPIOINT_CallbackRegister(BSP_BUTTON0_PIN, handle_button_change);
 
-  GPIO_ExtIntConfig(BSP_BUTTON1_PORT, BSP_BUTTON1_PIN, BSP_BUTTON1_PIN, true, true, true);
-  GPIOINT_CallbackRegister(BSP_BUTTON1_PIN, handle_button_change);
+#if !D_KEYSCAN
+#define BUTTON0   (uint32_t)(1 << 0)   // Bit flag to external signal command
+#define BUTTON1   (uint32_t)(1 << 1)   // Bit flag to external signal command
+void sl_button_on_change(const sl_button_t *handle)
+{
+  if (handle == &sl_button_btn0) {
+    if (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_PRESSED) {
+      // PB0 pressed down
+      sl_bt_external_signal(BUTTON0);
+    }
+  } else if (handle == &sl_button_btn1) {
+    if (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_PRESSED) {
+      // PB1 pressed
+      sl_bt_external_signal(BUTTON1);
+    }
+  }
 }
+
 #endif
 
-uint8_t key_test = 0xFF;
-uint8_t key_repeat = 0xFF;
 /**
  * @brief key press wakeup callback
  *
@@ -120,14 +99,20 @@ uint8_t key_repeat = 0xFF;
  */
 void app_key_wakeup(uint8_t pin)
 {
-  //Test code, key jitter, avoid multiple set the timer.
-  if(key_test == pin)
-	  return;
+  // Test code, key jitter, avoid multiple set the timer.
+  if (key_test == pin) {
+    return;
+  }
   key_test = pin;
 
-  //printLog("key wakeup %d\r\n", pin);
-  //Start the key timer
-  gecko_cmd_hardware_set_soft_timer(TICKS_KEY_SCAN, TIMER_KEY_SCAN, REPEATING);
+  // app_log("key wakeup %d\r\n", pin);
+  // Start the key timer
+  sl_sleeptimer_start_periodic_timer(&timer_key_scan,
+                                     TICKS_KEY_SCAN,
+                                     timer_cb,
+                                     NULL,
+                                     0,
+                                     0);
 }
 
 /**
@@ -140,19 +125,23 @@ void app_key_wakeup(uint8_t pin)
  */
 void app_key_detect(key_code_t key)
 {
-  if(key == KEY_NONE){
-	printLog("key release\r\n");
-	key_test =0xFF;
-	//Key have release, stop the key timer
-	gecko_cmd_hardware_set_soft_timer(TICKS_STOP, TIMER_KEY_SCAN, ONCE);
-	gecko_cmd_hardware_set_soft_timer(TICKS_STOP, TIMER_IR_REPEAT, ONCE);
-
-  }else{
-	key_repeat = key;
-    printLog("key detect %d\r\n", key);
-    SLEEP_SleepBlockBegin(sleepEM2);	// block the EM2, otherwise, timer1 may stop.
-    ir_generate_stream(ir_table[key%18][0],ir_table[key%18][1], false);
-    gecko_cmd_hardware_set_soft_timer(TICKS_IR_REPEAT, TIMER_IR_REPEAT, ONCE);
+  if (key == KEY_NONE) {
+    app_log("key release\r\n");
+    key_test = 0xFF;
+    // Key have release, stop the key timer
+    sl_sleeptimer_stop_timer(&timer_key_scan);
+    sl_sleeptimer_stop_timer(&timer_ir_repeat);
+  } else {
+    key_repeat = key;
+    app_log("key detect %d\r\n", key);
+//    EMU_EnterEM2(true); // block the EM2, otherwise, timer1 may stop.
+    ir_generate_stream(ir_table[key % 18][0], ir_table[key % 18][1], false);
+    sl_sleeptimer_start_timer(&timer_ir_repeat,
+                              TICKS_IR_REPEAT,
+                              timer_cb,
+                              NULL,
+                              0,
+                              0);
   }
 }
 
@@ -166,169 +155,207 @@ void app_key_detect(key_code_t key)
  */
 void app_ir_complete(void)
 {
-  printLog("ir complete\r\n");
-  SLEEP_SleepBlockEnd(sleepEM2); // Here should consider whether it can stop, other component may still need to blocking sleep.
-}
-
-/* Main application */
-void appMain(gecko_configuration_t *pconfig)
-{
-  #if DISABLE_SLEEP > 0
-  pconfig->sleep.flags = 0;
-  #endif
-  #if !D_KEYSCAN
-  setup_pins_interrupts();
-  #endif
-  /* Initialize debug prints. Note: debug prints are off by default. See DEBUG_LEVEL in app.h */
-  initLog();
-
-  /* Initialize stack */
-  gecko_init(pconfig);
-
-  while (1) {
-    /* Event pointer for handling events */
-    struct gecko_cmd_packet* evt;
-
-    /* if there are no events pending then the next call to gecko_wait_event() may cause
-     * device go to deep sleep. Make sure that debug prints are flushed before going to sleep */
-    if (!gecko_event_pending()) {
-      flushLog();
-    }
-
-    /* Check for stack event. This is a blocking event listener. If you want non-blocking please see UG136. */
-    evt = gecko_wait_event();
-
-    /* Handle events */
-    switch (BGLIB_MSG_ID(evt->header)) {
-      /* This boot event is generated when the system boots up after reset.
-       * Do not call any stack commands before receiving the boot event.
-       * Here the system is set to start advertising immediately after boot procedure. */
-      case gecko_evt_system_boot_id:
-
-        bootMessage(&(evt->data.evt_system_boot));
-        printLog("boot event - starting advertising\r\n");
-
-        /* Set advertising parameters. 100ms advertisement interval.
-         * The first parameter is advertising set handle
-         * The next two parameters are minimum and maximum advertising interval, both in
-         * units of (milliseconds * 1.6).
-         * The last two parameters are duration and maxevents left as default. */
-        gecko_cmd_le_gap_set_advertise_timing(0, 160, 160, 0, 0);
-
-        /* Start general advertising and enable connections. */
-        gecko_cmd_le_gap_start_advertising(0, le_gap_general_discoverable, le_gap_connectable_scannable);
-		#if D_KEYSCAN
-        key_init(app_key_detect, app_key_wakeup);
-		#endif
-		#if D_IR
-        ir_generate_init(CODE_SONY, app_ir_complete);
-		#endif
-        break;
-
-      case gecko_evt_le_connection_opened_id:
-        printLog("connection opened\r\n");
-        connect_handle = evt->data.evt_le_connection_opened.connection;
-        gecko_cmd_hardware_set_soft_timer(TICKS_NOTIFY, TIMER_TEST_NOTIFY, REPEATING);
-        break;
-
-      case gecko_evt_le_connection_closed_id:
-
-        printLog("connection closed, reason: 0x%2.2x\r\n", evt->data.evt_le_connection_closed.reason);
-
-        /* Check if need to boot to OTA DFU mode */
-        if (boot_to_dfu) {
-          /* Enter to OTA DFU mode */
-          gecko_cmd_system_reset(2);
-        } else {
-          /* Restart advertising after client has disconnected */
-          gecko_cmd_le_gap_start_advertising(0, le_gap_general_discoverable, le_gap_connectable_scannable);
-        }
-        break;
-
-      case gecko_evt_system_external_signal_id:
-    	  // The capability status was changed
-          #if !D_KEYSCAN
-      	  if(evt->data.evt_system_external_signal.extsignals == BUTTON0) {
-      		printLog("BUTTON0\r\n");
-			#if D_IR
-      		ir_generate_stream(ir_table[0][0],ir_table[0][1], false);
-			#endif
-      	  }else if(evt->data.evt_system_external_signal.extsignals == BUTTON1) {
-      		printLog("BUTTON1\r\n");
-			#if D_IR
-      		ir_generate_stream(ir_table[0][0],ir_table[0][1], true);
-			#endif
-      	  }
-          #endif
-    	  break;
-
-      /* Events related to OTA upgrading
-         ----------------------------------------------------------------------------- */
-
-      /* Check if the user-type OTA Control Characteristic was written.
-       * If ota_control was written, boot the device into Device Firmware Upgrade (DFU) mode. */
-      case gecko_evt_gatt_server_user_write_request_id:
-
-        if (evt->data.evt_gatt_server_user_write_request.characteristic == gattdb_ota_control) {
-          /* Set flag to enter to OTA mode */
-          boot_to_dfu = 1;
-          /* Send response to Write Request */
-          gecko_cmd_gatt_server_send_user_write_response(
-            evt->data.evt_gatt_server_user_write_request.connection,
-            gattdb_ota_control,
-            bg_err_success);
-
-          /* Close connection to enter to DFU OTA mode */
-          gecko_cmd_le_connection_close(evt->data.evt_gatt_server_user_write_request.connection);
-        }
-        break;
-
-      /* Add additional event handlers as your application requires */
-      case gecko_evt_hardware_soft_timer_id:
-		  switch(evt->data.evt_hardware_soft_timer.handle){
-		    case TIMER_TEST_NOTIFY:
-		      {
-		      uint8_t d = battery_alert_nodif_data++;
-			  uint16_t result = gecko_cmd_gatt_server_send_characteristic_notification(connect_handle, gattdb_my_test, 250, &d)->result;
-			  result = result;
-			  //printLog("Battery Notity,result:%d\r\n",result);
-		      }
-		      break;
-		    case TIMER_KEY_SCAN:
-			  //printLog("key scan\r\n");
-			  //IrGenelateStream(ir_table[0][0],ir_table[0][1], false);
-			  #if D_KEYSCAN
-			  key_scan();
-			  #endif
-		  	  break;
-		    case TIMER_IR_REPEAT:
-		      SLEEP_SleepBlockBegin(sleepEM2);	// block the EM2, otherwise, timer1 may stop.
-		      ir_generate_stream(ir_table[key_repeat%18][0],ir_table[key_repeat%18][1], false);
-		      gecko_cmd_hardware_set_soft_timer(TICKS_IR_REPEAT, TIMER_IR_REPEAT, ONCE);
-		      break;
-		  }
-		  break;
-		  
-      default:
-        break;
-    }
-  }
+  app_log("ir complete\r\n");
 }
 
 /* Print stack version and local Bluetooth address as boot message */
-static void bootMessage(struct gecko_msg_system_boot_evt_t *bootevt)
+static void bootMessage(sl_bt_evt_system_boot_t *bootevt)
 {
 #if DEBUG_LEVEL
+  sl_status_t sc;
   bd_addr local_addr;
+  uint8_t address_type;
   int i;
 
-  printLog("stack version: %u.%u.%u\r\n", bootevt->major, bootevt->minor, bootevt->patch);
-  local_addr = gecko_cmd_system_get_bt_address()->address;
-
-  printLog("local BT device address: ");
+  app_log("stack version: %u.%u.%u\r\n",
+          bootevt->major,
+          bootevt->minor,
+          bootevt->patch);
+  sc = sl_bt_system_get_identity_address(&local_addr, &address_type);
+  app_assert_status(sc);
+  app_log("local BT device address: ");
   for (i = 0; i < 5; i++) {
-    printLog("%2.2x:", local_addr.addr[5 - i]);
+    app_log("%2.2x:", local_addr.addr[5 - i]);
   }
-  printLog("%2.2x\r\n", local_addr.addr[0]);
+  app_log("%2.2x\r\n", local_addr.addr[0]);
 #endif
+}
+
+/**************************************************************************//**
+ * Application Init.
+ *****************************************************************************/
+SL_WEAK void app_init(void)
+{
+  /////////////////////////////////////////////////////////////////////////////
+  // Put your additional application init code here!                         //
+  // This is called once during start-up.                                    //
+  /////////////////////////////////////////////////////////////////////////////
+}
+
+/**************************************************************************//**
+ * Application Process Action.
+ *****************************************************************************/
+SL_WEAK void app_process_action(void)
+{
+  /////////////////////////////////////////////////////////////////////////////
+  // Put your additional application code here!                              //
+  // This is called infinitely.                                              //
+  // Do not call blocking functions from here!                               //
+  /////////////////////////////////////////////////////////////////////////////
+}
+
+/**************************************************************************//**
+ * Bluetooth stack event handler.
+ * This overrides the dummy weak implementation.
+ *
+ * @param[in] evt Event coming from the Bluetooth stack.
+ *****************************************************************************/
+void sl_bt_on_event(sl_bt_msg_t *evt)
+{
+  sl_status_t sc;
+
+  switch (SL_BT_MSG_ID(evt->header)) {
+    // -------------------------------
+    // This event indicates the device has started and the radio is ready.
+    // Do not call any stack command before receiving this boot event!
+    case sl_bt_evt_system_boot_id:
+      bootMessage(&(evt->data.evt_system_boot));
+      app_log("boot event - starting advertising\r\n");
+
+      // Create an advertising set.
+      sc = sl_bt_advertiser_create_set(&advertising_set_handle);
+      app_assert_status(sc);
+
+      // Generate data for advertising
+      sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
+                                                 sl_bt_advertiser_general_discoverable);
+      app_assert_status(sc);
+
+      // Set advertising interval to 100ms.
+      sc = sl_bt_advertiser_set_timing(
+        advertising_set_handle,
+        160, // min. adv. interval (milliseconds * 1.6)
+        160, // max. adv. interval (milliseconds * 1.6)
+        0,   // adv. duration
+        0);  // max. num. adv. events
+      app_assert_status(sc);
+
+      // Start advertising and enable connections.
+      sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
+                                         sl_bt_advertiser_connectable_scannable);
+      app_assert_status(sc);
+#if D_KEYSCAN
+      key_init(app_key_detect, app_key_wakeup);
+#endif
+#if D_IR
+      ir_generate_init(CODE_SONY, app_ir_complete);
+#endif
+      break;
+
+    // -------------------------------
+    // This event indicates that a new connection was opened.
+    case sl_bt_evt_connection_opened_id:
+      app_log("connection opened\r\n");
+      connect_handle = evt->data.evt_connection_opened.connection;
+      sl_sleeptimer_start_periodic_timer(&timer_test_notify,
+                                         TICKS_NOTIFY,
+                                         timer_cb,
+                                         NULL,
+                                         0,
+                                         0);
+      break;
+
+    // -------------------------------
+    // This event indicates that a connection was closed.
+    case sl_bt_evt_connection_closed_id:
+      app_log("connection closed, reason: 0x%2.2x\r\n",
+              evt->data.evt_connection_closed.reason);
+      if (boot_to_dfu) {
+        /* Enter to OTA DFU mode */
+        sl_bt_system_reset(2);
+      } else {
+        // Generate data for advertising
+        sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
+                                                   sl_bt_advertiser_general_discoverable);
+        app_assert_status(sc);
+
+        // Restart advertising after client has disconnected.
+        sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
+                                           sl_bt_advertiser_connectable_scannable);
+        app_assert_status(sc);
+      }
+      break;
+
+    case sl_bt_evt_system_external_signal_id:
+      if (evt->data.evt_system_external_signal.extsignals == SIGNAL_NOTIFY) {
+        uint8_t d = battery_alert_nodif_data++;
+        sc = sl_bt_gatt_server_notify_all(gattdb_my_test,
+                                          sizeof(d),
+                                          &d);
+        if (sc == SL_STATUS_OK) {
+          app_log("\rsend notification ok\n");
+        } else {
+          app_log("\rsend notification fail: 0x%.4lx\n", sc);
+        }
+      }
+
+      if (evt->data.evt_system_external_signal.extsignals == SIGNAL_KEY_SCAN) {
+#if D_KEYSCAN
+        key_scan();
+#endif
+      }
+
+      if (evt->data.evt_system_external_signal.extsignals == SIGNAL_IR_REPEAT) {
+//        EMU_EnterEM2(true);  // block the EM2, otherwise, timer1 may stop.
+        ir_generate_stream(ir_table[key_repeat % 18][0],
+                           ir_table[key_repeat % 18][1],
+                           false);
+        sl_sleeptimer_start_timer(&timer_ir_repeat,
+                                  TICKS_IR_REPEAT,
+                                  timer_cb,
+                                  NULL,
+                                  0,
+                                  0);
+      }
+      // The capability status was changed
+#if !D_KEYSCAN
+      if (evt->data.evt_system_external_signal.extsignals == BUTTON0) {
+        app_log("BUTTON0\r\n");
+#if D_IR
+        ir_generate_stream(ir_table[0][0], ir_table[0][1], false);
+#endif
+      } else if (evt->data.evt_system_external_signal.extsignals == BUTTON1) {
+        app_log("BUTTON1\r\n");
+#if D_IR
+        ir_generate_stream(ir_table[0][0], ir_table[0][1], true);
+#endif
+      }
+#endif
+      break;
+
+    /* Check if the user-type OTA Control Characteristic was written.
+     * If ota_control was written, boot the device into Device Firmware Upgrade
+     * (DFU) mode.
+     */
+    case sl_bt_evt_gatt_server_user_write_request_id:
+      if (evt->data.evt_gatt_server_user_write_request.characteristic
+          == gattdb_ota_control) {
+        /* Set flag to enter to OTA mode */
+        boot_to_dfu = 1;
+
+        /* Send response to Write Request */
+        sl_bt_gatt_server_send_user_write_response(
+          evt->data.evt_gatt_server_user_write_request.connection,
+          gattdb_ota_control,
+          SL_STATUS_OK);
+
+        /* Close connection to enter to DFU OTA mode */
+        sl_bt_connection_close(
+          evt->data.evt_gatt_server_user_write_request.connection);
+      }
+      break;
+
+    default:
+      break;
+  }
 }

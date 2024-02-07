@@ -72,6 +72,9 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 49 | Bluetooth - Secure SPP over BLE | [Click Here](./bluetooth_secure_spp_over_ble) |
 | 50 | Bluetooth - Explorer Kit I2C Bio Sensor | [Click Here](./bluetooth_explorer_kit_i2c_bio_sensor) |
 | 51 | Bluetooth - Blood Glucose Meters | [Click Here](./bluetooth_blood_glucose_meters) |
+| 52 | Bluetooth - HID Tripwire | [Click Here](./bluetooth_hid_tripwire) |
+| 53 | Bluetooth - Ir Generator | [Click Here](./bluetooth_ir_generator) |
+| 54 | Bluetooth - BTHome v2 - Server Example | [Click Here](./bluetooth_bthome_v2_server/) |
 
 
 ## Requirements ##
