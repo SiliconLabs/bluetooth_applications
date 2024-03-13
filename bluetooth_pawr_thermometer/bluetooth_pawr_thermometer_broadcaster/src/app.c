@@ -200,7 +200,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_system_boot_id:
       sc = sl_bt_sm_set_bondable_mode(1);
       app_assert_status(sc);
-      sc = sl_bt_sm_configure(0, sm_io_capability_noinputnooutput);
+      sc = sl_bt_sm_configure(0, sl_bt_sm_io_capability_noinputnooutput);
       app_assert_status(sc);
       sc = sl_bt_sm_store_bonding_configuration(8, 2);
       app_assert_status(sc);

@@ -15,7 +15,7 @@ filter:
 
 package: Bluetooth
 
-quality: production
+quality: experimental
 
 readme:
 - path: ../README.md
@@ -24,36 +24,34 @@ source:
 - path: ../src/sensor/main.c
 - path: ../src/sensor/app.c
 
-tag: ['hardware:rf:band:2400']
-
 include:
 - path: ../inc
   file_list:
   - path: ../inc/sensor/app.h
 
-toolchain_settings: []
-
 component:
-- from: third_party_hw_drivers
-  id: sparkfun_distance_vl53l1x
+- id: mpu
 - id: bluetooth_feature_nvm
 - id: bluetooth_feature_gatt_server
 - id: bluetooth_feature_sm
-- id: mpu
 - id: bluetooth_feature_legacy_advertiser
 - id: gatt_configuration
 - id: gatt_service_device_information
 - id: bluetooth_stack
 - id: bluetooth_feature_gatt
 - id: bluetooth_feature_legacy_scanner
-- id: app_log
+- id: bluetooth_feature_system
 - id: bt_post_build
 - id: bluetooth_feature_connection
-- instance: [vcom]
-  id: iostream_usart
-- id: bluetooth_feature_system
 - id: component_catalog
+- id: app_log
 - id: app_assert
+- id: iostream_usart
+  instance: [vcom]
+- id: sparkfun_distance_vl53l1x
+  from: third_party_hw_drivers
+- id: i2cspm
+  instance: [qwiic]
 
 config_file:
   - override:
@@ -97,6 +95,12 @@ other_file:
     directory: images
   - path: ../images/create_project.png
     directory: images
+  - path: ../images/con_hardware1.png
+    directory: images
+  - path: ../images/con_hardware2.png
+    directory: images
+  - path: ../images/con_hardware3.png
+    directory: images
 
 configuration:
 - name: SL_STACK_SIZE
@@ -107,13 +111,12 @@ configuration:
   name: SL_PSA_KEY_USER_SLOT_COUNT
   value: '0'
 
-ui_hints:
-  highlight:
-  - path: ../README.md
-    focus: true
-  - path: ../config/btconf/sensor/gatt_configuration.btconf
-
 sdk_extension:
 - id: third_party_hw_drivers
-  version: 1.2.0
+  version: 2.0.0
 
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

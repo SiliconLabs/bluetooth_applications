@@ -15,30 +15,34 @@ This code example demonstrates how to handle multiple (simultaneous) connections
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
 - [A Silicon Labs compatible-radio board.](https://www.silabs.com/development-tools/wireless/bluetooth)
 
+## Connections Required ##
+
+- Connect the Bluetooth Development Kits to the PC through a compatible-cable. For example, a micro USB cable for the BGM220 Bluetooth Module Explorer Kit.
+
 ## Setup ##
 
-To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-### Create a project based on a example project ###
+### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "multi-central".
+1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "multi-central".
 
 2. Click **Create** button on the **Bluetooth - Multi-Central Multi-Peripheral Dual Topology** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![board](images/create_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with an "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing).
+2. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting existing).
 
 3. Import the GATT configuration:
 
@@ -89,7 +93,7 @@ If the device role on a newly opened connection is 'central', the device is conn
 2. The Temperature Measurement characteristic has to be discovered.
 3. Indications on the Temperature Measurement characteristic has to be enabled.
 
-Therefore, the example applications goes through these steps. After indications are enabled, the new temperature values provided by the thermometers will trigger a [sl_bt_evt_gatt_characteristic_value](https://docs.silabs.com/bluetooth/3.1/group-sl-bt-evt-gatt-characteristic-value) event. In this event handler the central device will forward the indicated value to all those central devices that have subscribed to indications. To differentiate between values received from different thermometers, the central device implements multiple Temperature Measurement characteristics in one Health Thermometer service.
+Therefore, the example applications go through these steps. After indications are enabled, the new temperature values provided by the thermometers will trigger a [sl_bt_evt_gatt_characteristic_value](https://docs.silabs.com/bluetooth/3.1/group-sl-bt-evt-gatt-characteristic-value) event. In this event handler the central device will forward the indicated value to all those central devices that have subscribed to indications. To differentiate between values received from different thermometers, the central device implements multiple Temperature Measurement characteristics in one Health Thermometer service.
 
 ### Testing ###
 

@@ -15,49 +15,48 @@ This example project is designed to be used within an energy-harvesting project 
 This example is purely demonstrative of the lowest-power software configuration and provides valuable timing and energy measurements across different radio and MCU tasks.
 The correct way to use this example is to have a known power budget in mind – this example will walk you through the various parameter settings and their tradeoffs to determine the most optimal application for the known energy budget.
 
-For a reference design example visit here 
+For a reference design example visit here
 
-  - [https://www.silabs.com/support/training/optimize-iiot-with-wireless-asset-monitoring-and-energy-harvesting](https://www.silabs.com/support/training/optimize-iiot-with-wireless-asset-monitoring-and-energy-harvesting)
+    - [https://www.silabs.com/support/training/optimize-iiot-with-wireless-asset-monitoring-and-energy-harvesting](https://www.silabs.com/support/training/optimize-iiot-with-wireless-asset-monitoring-and-energy-harvesting)
 
-  - [https://www.silabs.com/support/training/app-104-harvesting-thermal-energy-to-power-asset-monitors-in-a-factory](https://www.silabs.com/support/training/app-104-harvesting-thermal-energy-to-power-asset-monitors-in-a-factory)
+    - [https://www.silabs.com/support/training/app-104-harvesting-thermal-energy-to-power-asset-monitors-in-a-factory](https://www.silabs.com/support/training/app-104-harvesting-thermal-energy-to-power-asset-monitors-in-a-factory)
 
-**Compatible energy harvest devices**
+**Compatible energy harvest devices:**
 
 ![pv](images/pv.png)
 
-This application is meant to be powered from PV solar, vibration or thermal power sources.
+This application is meant to be powered by PV solar, vibration or thermal power sources.
 These designs will require super-capacitor storage and power management circuits.
 
 This project demonstrates the most energy-efficient way to take a sensor reading and transmit it.
 This is achieved by putting the sensor and radio device to frequent sleep and making energy-based decisions before transmitting.
 
-
 ![overview](images/overview.png)
 
 The system is composed of a sensor and a (at least one) client device. The sensor device will measure the internal temperature and then broadcast it within 1 second and then go to sleep mode. The client device will scan for the sensor device and get the temperature value from the sensor device's advertisement data then display it on the OLED screen or EFR Connect Application.
 
-**Sensor**
+**Sensor:**
 
 This device will broadcast the internal temperature in the advertisement package in 1 second and then it will go into EM2 mode in 1 second then wake up to broadcast again. The sensor device will repeat that process 2 times before going into EM4 mode for 5 seconds.
 
-**Sensor Status Display**
+**Sensor Status Display:**
 
 The client device will scan periodically the BLE network. Once it found the sensor device, it tries to get internal temperature value from the advertisement package to update the OLED display.
 
 ## Gecko SDK version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
-**Sensor**
+**Sensor:**
 
 - [EFR32xG22 2.4 GHz 6 dBm Radio Board](https://www.silabs.com/development-tools/wireless/slwrb4183a-efr32xg22-wireless-gecko-radio-board)
 
 - [Wireless Starter Kit Mainboard](https://www.silabs.com/development-tools/wireless/bluetooth)
 
-**Sensor Status Display**
+**Sensor Status Display:**
 
 - [BG22 Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)
 
@@ -67,9 +66,9 @@ The client device will scan periodically the BLE network. Once it found the sens
 
 The hardware connection is shown in the image below:
 
-**Sensor** | **Sensor Status Display**
-:-------------------------:|:-------------------------:
-![sensor](images/sensor.png)                | ![client](images/client.png)
+|**Sensor** | **Sensor Status Display**|
+|:-------------------------:|:-------------------------:|
+|![sensor](images/sensor.png) | ![client](images/client.png)|
 
 ## Setup ##
 
@@ -85,13 +84,13 @@ To test this application, you can either create a project based on an example pr
 
 1. From the Launcher Home, add your hardware to My Products, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with the filter "optimized energy".
 
-2. Click Create button on both **Bluetooth - Optimized Energy Consuming Sensor** and **Bluetooth - Optimized Energy Consuming Sensor - Status Display** examples. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
+2. Click **Create** button on both **Bluetooth - Optimized Energy Consuming Sensor** and **Bluetooth - Optimized Energy Consuming Sensor - Status Display** examples. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
 
-**Ssensor Device**
+**Ssensor Device:**
 
 ![create example sensor](images/create_example_sensor.png)
 
-**Sensor Status Display Device**
+**Sensor Status Display Device:**
 
 ![create example](images/create_example.png)
 
@@ -102,7 +101,7 @@ To test this application, you can either create a project based on an example pr
 
 1. Create **Bluetooth - SoC Empty** projects for your hardware using Simplicity Studio 5 (for both sensor and client devices).
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing).
+2. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting existing).
 
     - With **sensor** device: [bluetooth_optimized_energy_consuming_sensor](bluetooth_optimized_energy_consuming_sensor)
     - With **client** device: [bluetooth_optimized_energy_consuming_client](bluetooth_optimized_energy_consuming_client)
@@ -127,7 +126,7 @@ The switch application uses the bare minimum of services to avoid wasting any en
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 
 ![sdk_extension](images/sdk_extension.png)
 
@@ -160,8 +159,7 @@ In your implementation, you can vary the level and duration of sleep, and modify
 
 More information about Bluetooth energy optimization is available [here](https://www.silabs.com/documents/public/application-notes/an1366-bluetooth-use-case-based-low-power-optimization.pdf).
 
-
-**Bluetooth Stack Initialization**
+**Bluetooth Stack Initialization:**
 
 The device is configured as:
 
@@ -171,11 +169,11 @@ The device is configured as:
 
 A configuration switch is added to reduce the number of primary channels.
 
-**Application runtime**
+**Application runtime:**
 
 ![sensor device runtime](images/runtime.png)
 
-**Advertisement Packet**
+**Advertisement Packet:**
 
 The AdvData field in the advertisement packet is as table below:
 
@@ -186,8 +184,7 @@ The AdvData field in the advertisement packet is as table below:
 - Internal Temperature is in Celsius unit.
 - Device is not connectable. It sends [manufacturer specific advertisement](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/advertising/advertising_manufacturer_specific_data) packets.
 
-
-**Performance Measurements**
+**Performance Measurements:**
 
 > **The results of the performance measurements below are not officially specified values!**
 
@@ -276,7 +273,7 @@ The AdvData field in the advertisement packet is as table below:
 
 ![Application overview](images/client_overview.png)
 
-**Display**
+**Display:**
 
 The client device will display no data if there is no result after scanning for a period of time. Otherwise, it will display the internal temperature that is broadcasted by the sensor device.
 
@@ -284,7 +281,7 @@ The client device will display no data if there is no result after scanning for 
 
 ### Testing ###
 
-**Sensor**
+**Sensor:**
 
 You can use a smartphone application such as the EFR Connect application, to see the advertising packet from the Sensor.
 
@@ -300,7 +297,7 @@ To see how the sensor device optimizes energy consumption, you can open the Ener
 
 ![energy monitor](images/energy_monitor.png)
 
-**Sensor Status Display**
+**Sensor Status Display:**
 
 The client device will display the temperature value that is broadcasted by the sensor device. If there is no device named **BG22_SE** found within 5 seconds client device will display "no data".
 

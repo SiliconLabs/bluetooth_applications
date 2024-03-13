@@ -128,7 +128,7 @@ static void btssp_record_create(void)
   sc = sl_bt_sm_delete_bondings();
   app_assert_status(sc);
 
-  sc = sl_bt_sm_configure(0x0A, sm_io_capability_noinputnooutput);
+  sc = sl_bt_sm_configure(0x0A, sl_bt_sm_io_capability_noinputnooutput);
   app_assert_status(sc);
 
   sc = sl_bt_sm_set_bondable_mode(1);
@@ -337,7 +337,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       /* Start general advertising and enable connections. */
       sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
-                                         advertiser_connectable_scannable);
+                                         sl_bt_legacy_advertiser_connectable);
       app_assert_status(sc);
       break;
 
@@ -357,7 +357,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_connection_closed_id:
       // Restart advertising after client has disconnected.
       sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
-                                         advertiser_connectable_scannable);
+                                         sl_bt_legacy_advertiser_connectable);
       app_assert_status(sc);
       break;
 

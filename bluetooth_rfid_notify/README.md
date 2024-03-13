@@ -18,7 +18,7 @@ This example is also the foundation for developing automatic door lock systems, 
 
 ##  Gecko SDK version ##
 
- - GSDK v4.3.0
+ - GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -88,7 +88,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
@@ -103,12 +103,9 @@ Advertisement Packet Device name: **RFID Notify**
 GATT Database
 
 - Device name: **RFID Notify**
-
-- **[Service] RFID Notify**
-
-    - **[Char] RFID Card**
-
-        - [N] Notify card's UID.
+- [Service] **RFID Notify**
+  - [Char] **RFID Card**
+    - [N] Notify card's UID.
 
 ### Testing ###
 

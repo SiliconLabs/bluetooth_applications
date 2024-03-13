@@ -159,7 +159,7 @@ Examples:
   </service>
 
   <!--Human Interface Device-->
-  <service advertise="false" id="human_interface_device_0" name="Human Interface Device" requirement="mandatory" sourceId="org.bluetooth.service.human_interface_device" type="primary" uuid="1812">
+  <service advertise="true" id="human_interface_device_0" name="Human Interface Device" requirement="mandatory" sourceId="org.bluetooth.service.human_interface_device" type="primary" uuid="1812">
     <informativeText>Abstract: This service exposes the HID reports and other HID data intended for HID Hosts and HID Devices.
 Summary: The HID Service exposes characteristics required for a HID Device to transfer HID report descriptors and reports to a HID Host. This also exposes the characteristics for a HID Host to write to a Device. The Human Interface Device Service is instantiated as a Primary Service. </informativeText>
 

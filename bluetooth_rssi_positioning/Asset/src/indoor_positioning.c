@@ -538,7 +538,7 @@ void start_position_advertisement(void)
 
   // Start advertising using custom data
   sc = sl_bt_legacy_advertiser_start(normalMode_advertising_set_handle,
-                                     advertiser_non_connectable);
+                                     sl_bt_advertiser_non_connectable);
   app_assert_status(sc);
 }
 

@@ -105,7 +105,7 @@ All of the above is implemented in the attached app.c file. After setting up the
 
 ## Gecko SDK version ##
 
-* GSDK v4.2.1
+* GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -170,7 +170,7 @@ To test this application, you can either create a project based on an example pr
 
 * Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
-## Usage ##
+## How It Works ##
 
 1. Start `EFR Connect` application on your smartphone
 

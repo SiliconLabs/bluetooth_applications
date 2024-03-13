@@ -13,7 +13,7 @@ This project shows a demonstration of **Bluetooth smart band application** using
 
 ## Gecko SDK Suite version
 
-GSDK v4.2.3
+GSDK v4.4.0
 
 ## Hardware Required
 
@@ -54,7 +54,7 @@ To test this application, you can either create a project based on an example pr
 
 ### Start with a "Bluetooth - SoC Empty" project
 
-1. Create a **Bluetooth - SoC Empty** project for the **EFR32xG21 Radio Board** . Use the default project settings. Make sure to connect and select the EFR32xG21 from the **Debug Adapters** on the left before creating a project.
+1. Create a **Bluetooth - SoC Empty** project for the **EFR32xG21 Radio Board**. Use the default project settings. Make sure to connect and select the EFR32xG21 from the **Debug Adapters** on the left before creating a project.
 
    ![create_demo](image/create_demo.png "Create a Bluetooth - SoC Empty project")
 
@@ -120,7 +120,7 @@ To test this application, you can either create a project based on an example pr
 
     - Open the .slcp file in the project again.
     - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
-    - Find the Import button and import the  gatt_configuration.btconf file [gatt_configuration.btconf](config/gatt_configuration.btconf)
+    - Find the Import button and import the attached file: `config/btconf/gatt_configuration.btconf`
     - Save the GATT configuration (ctrl-s).
       ![import gatt configuration](image/import_gatt_configuaration.png)
 

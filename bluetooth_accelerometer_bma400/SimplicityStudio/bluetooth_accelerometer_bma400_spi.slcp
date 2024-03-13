@@ -69,7 +69,7 @@ config_file:
 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.3.0
+    version: 2.0.0
 
 tag:
   - hardware:rf:band:2400
@@ -98,6 +98,6 @@ configuration:
 
 ui_hints:
   highlight:
-    - path: ../config/gatt_configuration.btconf
+    - path: config/btconf/gatt_configuration.btconf
     - path: README.md
       focus: true

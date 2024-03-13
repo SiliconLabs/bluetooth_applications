@@ -54,6 +54,6 @@ void fingerprint_oled_init(void);
  *
  ******************************************************************************/
 void fingerprint_oled_update(const char *string_midle,
-                                      const char *string_lower);
+                             const char *string_lower);
 
 #endif /* FINGERPRINT_OLED_H_ */

@@ -70,7 +70,6 @@ configuration:
   condition: psa_crypto
 ui_hints:
   highlight:
-  - path: ../README.md
-    focus: true
-  - path: ../config/btconf/gatt_configuration.btconf
-
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

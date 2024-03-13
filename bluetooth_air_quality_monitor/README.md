@@ -26,8 +26,8 @@ This code example referred to the following code examples. More detailed informa
 
 ## Gecko SDK version ##
 
-- GSDK v4.3.1
-- [Third-Party Hardware Drivers v1.8.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third-Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 

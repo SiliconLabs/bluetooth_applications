@@ -70,7 +70,7 @@ config_file:
     path: "../config/sl_simple_button_btn0_config.h" 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.3.0
+    version: 2.0.0
 other_file:
   - path: ../../images/create_project.png
     directory: images
@@ -115,7 +115,6 @@ configuration:
 tag: hardware:rf:band:2400
 ui_hints:
   highlight:
-  - path: README.md
-    focus: true
-  - path: ../config/btconf/gatt_configuration.btconf
-  
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

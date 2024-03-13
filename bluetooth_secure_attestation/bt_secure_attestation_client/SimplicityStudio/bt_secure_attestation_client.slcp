@@ -5,7 +5,7 @@ description: |
   This project aims to implement a secure identity exchange over Bluetooth Low Energy for client device. The client acts as a central device for the accompanying server.
 category: Bluetooth Examples
 package: Bluetooth
-quality: production
+quality: experimental
 readme:
 - path: ../../README.md
 include:
@@ -93,4 +93,3 @@ ui_hints:
     - path: config/btconf/gatt_configuration.btconf
     - path: README.md
       focus: true
-

@@ -13,8 +13,8 @@ This project aims to implement a people counting application using [SparkFun Hum
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
-- [Third Party Hardware Drivers v1.2.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -81,7 +81,7 @@ Listed below are the port and pin mappings for working with this example.
 
 ## Setup ##
 
-To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. 
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
 **NOTE:**
 
@@ -125,20 +125,21 @@ To test this application, you can either create a project based on an example pr
 5. Build and flash the project to your device.
 
 **NOTE:**
-- Some boards do not have an integrated button. In this case, the user has to connect an external button to the board and config this button in accordance with project specifics. 
-![btn_config](images/btn_config.png) 
+
+- Some boards do not have an integrated button. In this case, the user has to connect an external button to the board and config this button in accordance with project specifics.
+![btn_config](images/btn_config.png)
 To make the driver more stable, use a ceramic capacitor (ex: Ceramic Capacitor 104) to avoid the anti-vibration button used in the project as below:
 ![btn_setup](images/btn_setup.png)
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
-## How it Works
+## How it Works ##
 
-### Application overview
+### Application overview ###
 
 ![Application overview](images/application_overview.png)
 
-### GATT Configuration
+### GATT Configuration ###
 
 The application is based on the Bluetooth - SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required.
 
@@ -186,15 +187,15 @@ A new custom service (People Counting) with 8 characteristic must be added.
 
   - [**Writable**] - Set the notification status
 
-### People Counting Implementation
+### People Counting Implementation ###
 
-#### Application initialization
+#### Application initialization ####
 
 ![Application init](images/app_init.png)
 
-#### Sensor initialization
+#### Sensor initialization ####
 
-#### Application Workflows
+#### Application Workflows ####
 
 1. Initialize the peripherals, the Bluetooth stack
 
@@ -214,7 +215,7 @@ A new custom service (People Counting) with 8 characteristic must be added.
 
 7. Handle GATT event to help users configure the [counting algorithm](#counting-algorithm) and get the result from the algorithm calculation over the *EFR32 connect* mobile
 
-### Counting algorithm
+### Counting algorithm ###
 
 The AK9753 sensor includes 4 IR sensors that are arranged in the picture below, and the detection algorithm will be based on the values of the IR2 and IR4.
 
@@ -229,28 +230,29 @@ We divide the ambient space into 3 areas: front, back and middle zone. Whenever 
 When no-one is seen in either of the two zones, the list of states will be reset. The workflow of the whole algorithm is described in the picture below.
 
 ![algorithm_workflow](images/algorithm_workflow.png)
-### OLED Display
+
+### OLED Display ###
 
 - Display the current people count and people entered so far values.
 
-### Button
+### Button ###
 
 - Press the button to reset the people count to 0.
 
-### Room status notification
+### Room status notification ###
 
 - To receive the status of the room (full or empty), the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to enable notification
 - If the number of people counts is greater than the room capacity then the device will send a "room is full" notification
 - If the number of people count is zero then the device will send a "room is empty".
 
-### Reset the counting value
+### Reset the counting value ###
 
 - To reset the number of total people who entered the room, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Entered So Far* characteristic
 - To reset the number of people count, the user should use the [EFR Connect Mobile Application](#use-efr-connect-mobile-application) to write 0 to the *People Count* characteristic.
 
-### Use EFR Connect Mobile Application
+### Use EFR Connect Mobile Application ###
 
-#### Connect to the device
+#### Connect to the device ####
 
 The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with the installed EFR Connect application is required.
 
@@ -261,15 +263,15 @@ Open the EFR Connect application on your smartphone and allow the permission req
 | ![EFR32 Connect App](images/efr32_connect_app1.png) | ![EFR32 Connect App](images/efr32_connect_app2.png)|![EFR32 Connect App](images/efr32_connect_app3.png)|
 | - | - | -|
 
-#### Read/Write characteristics
+#### Read/Write characteristics ####
 
 The parameters of this example application can be easily configured via BLE characteristics. Values for the characteristics are handled by the application as ASCII strings. Tap on the main service to see the available characteristics. Please refer [GATT Configurator](#gatt-configurator) to choose the correct characteristic.
 
-**Read**
+**Read:**
 
 Push the read button to request the value of a characteristic. (See ASCII fields.)
 
-**Write**
+**Write:**
 
 For setting a parameter select a characteristic and tap on its write button. Type a new value in the ASCII field and push the **Send** button.
 

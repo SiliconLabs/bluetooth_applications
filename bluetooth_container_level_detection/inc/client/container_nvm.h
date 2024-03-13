@@ -40,13 +40,12 @@
 #include "nvm3_default.h"
 #include "nvm3_default_config.h"
 
-//max container supported
+// max container supported
 #define CONTAINER_MAX_SLOT         4
 #define CONTAINER_NVM_KEY_0        (NVM3_KEY_MIN)
 #define CONTAINER_NVM_KEY_2        (NVM3_KEY_MIN + 1)
 #define CONTAINER_NVM_KEY_3        (NVM3_KEY_MIN + 2)
 #define CONTAINER_NVM_KEY_4        (NVM3_KEY_MIN + 3)
-
 
 // Use the default nvm3 handle from nvm3_default.h
 #define NVM3_DEFAULT_HANDLE        nvm3_defaultHandle
@@ -85,7 +84,8 @@ sl_status_t container_nvm3_write(nvm3_ObjectKey_t key,
  * @return sl_status_t  status of function
  *
  ******************************************************************************/
-sl_status_t container_nvm3_read(nvm3_ObjectKey_t key, container_nvm_config_t *cfg);
+sl_status_t container_nvm3_read(nvm3_ObjectKey_t key,
+                                container_nvm_config_t *cfg);
 
 /***************************************************************************//**
  * @brief NVM get config data

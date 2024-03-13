@@ -18,7 +18,7 @@ This code example has a related code example, which may be worth reading before.
 
 ## Gecko SDK version
 
-- GSDK v4.3.1
+- GSDK v4.4.0
 
 ## Hardware Required
 
@@ -68,13 +68,17 @@ To test this application, you can either create a project based on an example pr
 - Select the SOFTWARE COMPONENTS tab.
 
 - Install the following components:
+
   - Install the **I2CSPM** component with the default instance name: **mikroe**.
+
     ![i2c_mikroe_component](images/i2c_mikroe_component.png)
 
   - Install the first **Simple Button** component with the default instance name: **btn0**.
+
     ![button_component](images/button_component.png)
 
   - Install **IO Stream: USART** component with the default instance name: **vcom**.
+
     ![usart_component](images/usart_component.png)
 
   - Install the **Log** component (found under **[Application] > [Utility]** group).
@@ -83,7 +87,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the *bluetooth_applications* repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the *bluetooth_applications* repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 ![external_repo](images/external_repo.png)
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
@@ -102,15 +106,15 @@ The application is based on the Bluetooth - SoC Empty example. Since the example
 
 The GATT changes were adding a new *Heart Rate* service and *Pulse Oximeter Service* service. The *Heart Rate* service uses the UUID 0x180D that has a *Heart Rate Measurement* characteristic with the *Notify* property. The *Pulse Oximeter Service* service uses the UUID 0x1822 that has a *PLX Continuous Measurement* characteristic with the *Notify* property. As they are the Bluetooth SIG Assigned UUID, most applications know how to display the value correctly.
 
-When the connection is opened and the notification was enabled, a 500 milliseconds periodic timer is started. When the timer is triggered, the client is notified about the updated values. The sl_bt_evt_gatt_server_characteristic_status_id-event is handling the notification enable/disable control. If the connection is closed, the periodic timer will be stopped, too.
+When the connection is opened and the notification is enabled, a 500 milliseconds periodic timer is started. When the timer is triggered, the client is notified about the updated values. The sl_bt_evt_gatt_server_characteristic_status_id-event is handling the notification enable/disable control. If the connection is closed, the periodic timer will be stopped, too.
 
 ### Start/Stop the HRM/SpO2 Measurement
 
-BTN0 button is used to start/stop the measurement. Upon reset, press BTN0 button to start the HRM/SpO2 measurement. Users should put their finger on the sensor with a proper pressure (solid contact between the finger and the sensor without optical leakage and don’t press with force) and stay idle for at least 10 s. Once started, the measurement can be stopped at anytime by pressing BTN0 button again.
+BTN0 button is used to start/stop the measurement. Upon reset, press the BTN0 button to start the HRM/SpO2 measurement. Users should put their finger on the sensor with a proper pressure (solid contact between the finger and the sensor without optical leakage and don’t press with force) and stay idle for at least 10 seconds. Once started, the measurement can be stopped at anytime by pressing the BTN0 button again.
 
 ### Proximity Mode
 
-Maxm86161 includes an optical proximity function which could significantly reduce energy consumption and extend the battery life when the sensor is not in contact with the skin. There is a complier option PROXIMITY in the build configuration of the project that can choose Green/IR/Red LED for this feature.
+Maxm86161 includes an optical proximity function which could significantly reduce energy consumption and extend the battery life when the sensor is not in contact with the skin. There is a compiler option PROXIMITY in the build configuration of the project that can choose Green/IR/Red LED for this feature.
 
 ### Use EFR Connect Mobile Application
 

@@ -68,7 +68,7 @@
 #define ADVERTISE_TYPE_LOCAL_NAME                          0x09
 #define ADVERTISE_DEVICE_NAME_LEN                          20
 #define ADVERTISE_DEVICE_NAME \
-        "FINGERPRINT DOORLOCK"
+  "FINGERPRINT DOORLOCK"
 
 /** Helper macro */
 #define UINT16_TO_BYTES(x) { (uint8_t)(x), (uint8_t)((x) >> 8) }
@@ -88,20 +88,20 @@ typedef struct {
   uint8_t local_name[ADVERTISE_DEVICE_NAME_LEN]; /**< Local name field. */
 } advertise_scan_response_t;
 
-#define ADVERTISE_SCAN_RESPONSE_DEFAULT                                      \
-        {                                                                    \
-          .flags_length = ADVERTISE_FLAGS_LENGTH,                            \
-          .flags_type = ADVERTISE_FLAGS_TYPE,                                \
-          .flags = ADVERTISE_FLAGS_LE_GENERAL_DISCOVERABLE                   \
-                   | ADVERTISE_FLAGS_BR_EDR_NOT_SUPPORTED,                   \
-          .mandatory_data_length = ADVERTISE_MANDATORY_DATA_LENGTH,          \
-          .mandatory_data_type = ADVERTISE_MANDATORY_DATA_TYPE_MANUFACTURER, \
-          .company_id = UINT16_TO_BYTES(ADVERTISE_COMPANY_ID),               \
-          .firmware_id = UINT16_TO_BYTES(ADVERTISE_FIRMWARE_ID),             \
-          .local_name_length = ADVERTISE_DEVICE_NAME_LEN + 1,                \
-          .local_name_type = ADVERTISE_TYPE_LOCAL_NAME,                      \
-          .local_name = ADVERTISE_DEVICE_NAME                                \
-        }
+#define ADVERTISE_SCAN_RESPONSE_DEFAULT                                \
+  {                                                                    \
+    .flags_length = ADVERTISE_FLAGS_LENGTH,                            \
+    .flags_type = ADVERTISE_FLAGS_TYPE,                                \
+    .flags = ADVERTISE_FLAGS_LE_GENERAL_DISCOVERABLE                   \
+             | ADVERTISE_FLAGS_BR_EDR_NOT_SUPPORTED,                   \
+    .mandatory_data_length = ADVERTISE_MANDATORY_DATA_LENGTH,          \
+    .mandatory_data_type = ADVERTISE_MANDATORY_DATA_TYPE_MANUFACTURER, \
+    .company_id = UINT16_TO_BYTES(ADVERTISE_COMPANY_ID),               \
+    .firmware_id = UINT16_TO_BYTES(ADVERTISE_FIRMWARE_ID),             \
+    .local_name_length = ADVERTISE_DEVICE_NAME_LEN + 1,                \
+    .local_name_type = ADVERTISE_TYPE_LOCAL_NAME,                      \
+    .local_name = ADVERTISE_DEVICE_NAME                                \
+  }
 
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
@@ -258,7 +258,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       // Capabilities: No Input and No Output
-      sc = sl_bt_sm_configure(0b00000010, sm_io_capability_noinputnooutput);
+      sc =
+        sl_bt_sm_configure(0b00000010, sl_bt_sm_io_capability_noinputnooutput);
       app_assert_status(sc);
 
       // Allow bondings

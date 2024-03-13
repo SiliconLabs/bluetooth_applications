@@ -18,8 +18,8 @@ If the Indication feature is enabled, the client will be notified about any upda
 
 ## Gecko SDK version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -46,17 +46,17 @@ The Power LED on IrThermo 3 Click board will light when the kit is powered.
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-### Create a project based on an example project ### 
+### Create a project based on an example project ###
 
 1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "mlx90632".
 
 2. Click **Create** button on **Bluetooth - IR Thermometer 3 Click (MLX90632)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 
-![create an example project](images/create_example_project.png)
+    ![create an example project](images/create_example_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with a "Bluetooth - SoC Empty" project
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
@@ -89,7 +89,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 
 - SDK Extension must be enabled for the project to install some components for the IR thermometer sensor.
 

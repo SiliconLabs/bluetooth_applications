@@ -12,13 +12,14 @@ More detailed information can be found in the section [How it works](#how-it-wor
 This code example referred to the following code examples. More detailed information can be found here:
 
 - [OLED SSD1306 driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/driver/public/mikroe/oledw_ssd1306)
-- [Bluetooth security feature](https://github.com/SiliconLabs/bluetooth_stack_features_staging/tree/master/security)
+- [Bluetooth security feature](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/security)
 - [SparkFun RFID Qwiic Kit - ID12LA driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/driver/public/silabs/rfid_id12la)
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
-- [Third Party Hardware Drivers v1.2.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Required Hardware ##
 
@@ -103,14 +104,14 @@ To test this application, you can either create a project based on an example pr
 
 1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "rfid".
 
-2. Click **Create** button on the **Bluetooth - Door Lock RFID (ID-12LA)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+2. Click the **Create** button on the **Bluetooth - Door Lock RFID (ID-12LA)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![setup](image/create_example.png)
 
 or you can start with an empty example project as the following:
 
 1. Create a "Bluetooth - SoC  Empty" using Simplicity Studio v5. Use the default project settings.
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
+2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing the app.c file).
 
 3. Install the software components:
 

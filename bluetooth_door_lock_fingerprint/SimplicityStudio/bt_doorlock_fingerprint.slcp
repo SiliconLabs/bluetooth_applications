@@ -29,9 +29,12 @@ component:
   - id: app_assert
   - id: component_catalog
   - id: mpu
-  - {from: third_party_hw_drivers, id: services_oled_glib}
-  - {from: third_party_hw_drivers, id: sparkfun_micro_oled_ssd1306}
-  - {from: third_party_hw_drivers, id: mikroe_fingerprint2}
+  - id: services_oled_glib
+    from: third_party_hw_drivers
+  - id: sparkfun_micro_oled_ssd1306
+    from: third_party_hw_drivers
+  - id: mikroe_fingerprint2
+    from: third_party_hw_drivers
   - id: iostream_usart
     instance: [mikroe]
   - id: iostream_eusart
@@ -41,8 +44,9 @@ component:
   - id: simple_led
     instance: [lock]
 
-sdk_extension: 
-  - {id: third_party_hw_drivers, version: 1.2.0}
+sdk_extension:
+- id: third_party_hw_drivers
+  version: 2.0.0
 
 readme:
 - path: ../README.md
@@ -108,6 +112,8 @@ other_file:
     directory: "images"
   - path: ../images/terminal_start.png
     directory: "images"
+  - path: ../images/terminal_normal.png
+    directory: "images"
   - path: ../images/led_lock_config.png
     directory: "images"
 
@@ -126,6 +132,6 @@ tag:
 
 ui_hints:
   highlight:
-    - path: ../config/btconf/gatt_configuration.btconf
-    - path: ../README.md
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
       focus: true

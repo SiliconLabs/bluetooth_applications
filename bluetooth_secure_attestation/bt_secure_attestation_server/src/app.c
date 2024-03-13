@@ -187,7 +187,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       // configure security
-      sc = sl_bt_sm_configure(0, sm_io_capability_noinputnooutput);
+      sc = sl_bt_sm_configure(0, sl_bt_sm_io_capability_noinputnooutput);
       app_assert_status(sc);
       sc = sl_bt_sm_set_bondable_mode(1);
       app_assert_status(sc);

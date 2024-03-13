@@ -70,7 +70,7 @@ config_file:
     directory: "btconf"
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.2.0
+    version: 2.0.0
 other_file:
   - path: ../image/algorithm_workflows.png
     directory: image
@@ -113,9 +113,9 @@ configuration:
   value: '0'
   condition: psa_crypto
 tag: hardware:rf:band:2400
+
 ui_hints:
   highlight:
-  - path: ../README.md
-    focus: true
-  - path: ../config/btconf/gatt_configuration.btconf
-  
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

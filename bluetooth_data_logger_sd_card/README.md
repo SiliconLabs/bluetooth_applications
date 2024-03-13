@@ -28,8 +28,8 @@ This code example referred to the following code examples. More detailed informa
 
 ## Gecko SDK version
 
-- GSDK v4.3.1
-- [Third-Party Hardware Drivers v1.8.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third-Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required
 
@@ -59,7 +59,7 @@ The hardware connection is shown in the image below:
   The Thunderboard Sense 2  and MICRO SD CLICK pinout diagram is shown below:
   | Thunderboard sense 2 | MICRO SD CLICK |
   | --- | --- |
-  | ![Thunderboard sense 2 diagram](images/thunderboardsense2.png) | ![MICRO SD CLICK](images/microsd_click.png)  
+  | ![Thunderboard sense 2 diagram](images/thunderboardsense2.png) | ![MICRO SD CLICK](images/microsd_click.png)
 
 - We can use some **female-to-female jumper wire** to connect **Micro OLED** and the **Thunderboard sense 2** or we can connect them through the [Mikroe Silabs Click Shield EXP header](https://www.mikroe.com/silabs-click-shield) with some **male-to-female jumper wire** as shown in the table below:
 

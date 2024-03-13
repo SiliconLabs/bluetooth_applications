@@ -23,7 +23,7 @@
 #include "app_log.h"
 #include "app_assert.h"
 
-#include "sl_simple_timer.h"
+#include "app_timer.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
 #ifdef SL_COMPONENT_CATALOG_PRESENT
@@ -41,8 +41,7 @@
 #define OTA_FIRMWARE_START        0x00
 #define OTA_FIRMWARE_END          0x03
 
-static sl_simple_timer_t app_timer_handle;
-static void app_timer_callback(sl_simple_timer_t *handle, void *data);
+static app_timer_t app_timer_handle;
 
 // The advertising set handle allocated from Bluetooth stack
 static uint8_t advertising_set_handle = 0xff;
@@ -66,7 +65,7 @@ static int32_t get_slot_info(void);
 static void erase_slot_if_needed(void);
 static void print_progress(void);
 static int32_t verify_application(void);
-static void app_timer_callback(sl_simple_timer_t *handle, void *data);
+static void app_timer_callback(app_timer_t *handle, void *data);
 
 /**************************************************************************//**
  * Application Init.
@@ -76,12 +75,11 @@ void app_init(void)
   sl_status_t sc;
 
   app_log("...........................................\r\n");
-  app_log("old firmware.\r\n");
-  sc = sl_simple_timer_start(&app_timer_handle,
-                             200,
-                             app_timer_callback,
-                             (void *)NULL,
-                             true);
+  sc = app_timer_start(&app_timer_handle,
+                       200,
+                       app_timer_callback,
+                       (void *)NULL,
+                       true);
   app_assert_status(sc);
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
@@ -229,11 +227,11 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         }
       } else if (characteristic == gattdb_ota_data) {
         if (ota_in_progress) {
-          bootloader_writeStorage(0,
-                                  // use slot 0
-                                  ota_image_position,
-                                  evt->data.evt_gatt_server_user_write_request.value.data,
-                                  evt->data.evt_gatt_server_user_write_request.value.len);
+          bootloader_writeStorage(
+            0, // use slot 0
+            ota_image_position,
+            evt->data.evt_gatt_server_user_write_request.value.data,
+            evt->data.evt_gatt_server_user_write_request.value.len);
           ota_image_position +=
             evt->data.evt_gatt_server_user_write_request.value.len;
         }
@@ -335,7 +333,7 @@ static int32_t verify_application(void)
   return err;
 }
 
-static void app_timer_callback(sl_simple_timer_t *handle, void *data)
+static void app_timer_callback(app_timer_t *handle, void *data)
 {
   (void) handle;
   (void) data;

@@ -20,7 +20,7 @@ The Direct Test Mode (DTM) routines are part of the BGAPI. The most common way t
 
 ## Gecko SDK Version ##
 
-- GSDK v4.3.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -50,7 +50,7 @@ To test this application, You can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy the app.c file from the [*src*](src/) folder into the project root folder (overwriting the existing app.c).
+2. Copy the app.c file from the *src* folder into the project root folder (overwriting the existing app.c).
 
 3. Import the GATT configuration:
 
@@ -75,7 +75,7 @@ The following flowchart explains how the application works from the perspective 
 
 The application is based on the Bluetooth - SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required.
 
-The GATT changes were adding 3 custom services, which the configuration parameters are organized to. The control service also stores the test result which is published after the test has finished. 
+The GATT changes were adding 3 custom services, which the configuration parameters are organized to. The control service also stores the test result which is published after the test has finished.
 
 | Service Name      | UUID                                 |
 | ----------------- | ------------------------------------ |
@@ -85,10 +85,10 @@ The GATT changes were adding 3 custom services, which the configuration paramete
 
 ### Silicon Labs DTM control service ###
 
-Custom service contains characteristics to run a DTM test on the device. 
+Custom service contains characteristics to run a DTM test on the device.
 This service provides the following characteristics:
 
-| Characteristic Name       | Length | Properties | Description | 
+| Characteristic Name       | Length | Properties | Description |
 | ------------------------- | ------ | ---------- | ----------- |
 | Silicon Labs DTM mode     | 1 byte | Read, Write | The DTM mode of the device: RX: 1, TX: 2, CW: 3 |
 | Silicon Labs DTM duration | 2 bytes | Read, Write | The duration of the DTM test in seconds |
@@ -98,7 +98,7 @@ This service provides the following characteristics:
 
 Custom service contains characteristics to configure the device in DTM receiver mode.
 
-| Characteristic Name       | Length | Properties | Description | 
+| Characteristic Name       | Length | Properties | Description |
 | ------------------------- | ------ | ---------- | ----------- |
 | Silicon Labs DTM rx channel | 1 byte | Read, Write | Bluetooth channel to use |
 | Silicon Labs DTM rx phy | 1 byte | Read, Write | PHY to use (enum)|
@@ -107,10 +107,10 @@ Custom service contains characteristics to configure the device in DTM receiver 
 
 Custom service contains characteristics to configure the device in DTM transmitter mode.
 
-| Characteristic Name       | Length | Properties | Description | 
+| Characteristic Name       | Length | Properties | Description |
 | ------------------------- | ------ | ---------- | ----------- |
 | Silicon Labs DTM tx packet type | 1 byte | Read, Write | Packet type to transmit |
-| Silicon Labs DTM tx length | 1 byte | Read, Write | Packet length in bytes | 
+| Silicon Labs DTM tx length | 1 byte | Read, Write | Packet length in bytes |
 | Silicon Labs DTM tx channel | 1 byte | Read, Write | Bluetooth channel to use |
 | Silicon Labs DTM tx phy | 1 byte | Read, Write | PHY to use (enum)|
 | Silicon Labs DTM tx power level | 1 byte | Read, Write | TX power level in unit dBm |
@@ -131,7 +131,7 @@ The transmitter portion of the test is triggered using the following routine (se
                            uint8_t phy,
                            int8_t power_level);
 
-The client will send the arguments of the sl_bt_test_dtm_rx and sl_bt_test_dtm_tx_v4 routines respectively to the receiver and the transmitter. In addition, it will also pass a time argument which is the duration of the test. This example allows passing the arguments to the DUT over the air, through a custom GATT service for each of the commands and triggers the test commands on both the receiver and the transmitter. Furthermore, it allows reading the number of packets received/sent after the test is completed on both TX/RX DUTs. The following charts indicate the sequence of steps allowing the client to control the two devices. Typically, one is the transmitter and the other is the receiver. 
+The client will send the arguments of the sl_bt_test_dtm_rx and sl_bt_test_dtm_tx_v4 routines respectively to the receiver and the transmitter. In addition, it will also pass a time argument which is the duration of the test. This example allows passing the arguments to the DUT over the air, through a custom GATT service for each of the commands and triggers the test commands on both the receiver and the transmitter. Furthermore, it allows reading the number of packets received/sent after the test is completed on both TX/RX DUTs. The following charts indicate the sequence of steps allowing the client to control the two devices. Typically, one is the transmitter and the other is the receiver.
 
 ![client operation](images/client_operation.png)
 
@@ -148,8 +148,8 @@ If an error occurs, the device sets all characteristics to zero in the *DTM mode
 ### Advertising ###
 
 The device is advertising the following elements:
- - Device name which is "dtm_test" by default
- - The Silicon Labs DTM control service UUID (0d8991ee-e355-47eb-8810-ea89a67dddeb) 
+      - Device name which is "dtm_test" by default
+      - The Silicon Labs DTM control service UUID (0d8991ee-e355-47eb-8810-ea89a67dddeb)
 
 ## Testing ##
 
@@ -173,13 +173,13 @@ The device is advertising the following elements:
 
       ![tx device configuration](images/tx_device_config.png)
 
-9. Disconnect the client device from the __receiver__ first (that will trigger the receiver to start RX test mode).
+9. Disconnect the client device from the **receiver** first (that will trigger the receiver to start RX test mode).
 
-11. Afterwards, disconnect the client device from the __transmitter__ (that will trigger the transmitter to start TX test mode).
+10. Afterwards, disconnect the client device from the **transmitter** (that will trigger the transmitter to start TX test mode).
 
-12. Test is running until the configured test duration time expires.
+11. Test is running until the configured test duration time expires.
 
-13. After the test has finished on the devices, they start advertising again.
+12. After the test has finished on the devices, they start advertising again.
 
       ![connect device after test](images/device_connect.png)
 
@@ -187,4 +187,4 @@ The device is advertising the following elements:
 
       ![result test](images/result_test.png)
 
- Enable the read feature for the DTM Result characteristic and get the result. To ensure the TX/RX function work properly, it is important for the value on both the receiver and transmitter to be identical.
+ Enable the read feature for the DTM Result characteristic and get the result. To ensure the TX/RX function works properly, it is important for the value on both the receiver and transmitter to be identical.

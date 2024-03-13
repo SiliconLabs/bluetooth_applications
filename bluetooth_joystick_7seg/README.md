@@ -21,8 +21,8 @@ For more information about the SparkFun Qwiic Joystick, see the [specification p
 
 ## Gecko SDK version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.6.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -38,7 +38,7 @@ Attach the UT-L 7-SEG R Click board to the Explorer kit. Make sure that the 45-d
 
 The Sparkfun Qwiic Joystick board can be easily connected by using a Qwiic cable.
 
-![](images/connection.png)
+![connection](images/connection.png)
 
 ## Setup ##
 
@@ -49,7 +49,7 @@ To test this application, you can either create a project based on an example pr
 1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "joystick_7seg".
 
 2. Click **Create** button on the **Bluetooth - Joystick 7seg** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![](images/create_project.png)
+![create project](images/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -79,7 +79,7 @@ To test this application, you can either create a project based on an example pr
     - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
     - Click on the Import button and import the attached `config/btconf/gatt_configuration.btconf` file.
     - Save the GATT configuration (ctrl-s).
-        ![](images/import_gatt_configuaration.png)
+    ![gatt config](images/import_gatt_configuaration.png)
 
 5. Build and flash this example to the board.
 
@@ -90,13 +90,13 @@ Follow the below steps to test the example:
 
 1. Open the EFR Connect app on your smartphone.
 2. Find your device in the Bluetooth Browser, advertising as joystick_7seg, and tap Connect.
-3. Find the Unknown Service at the GATT database.
+3. Find the Unknown Service in the GATT database.
 4. Try to read, write, re-read the characteristics, and check the value.
 5. Enable Notification on this service. Try to move up/down the joystick then check the value on the 7-segment LED display and on the EFR Connect app.
 6. Try to use the BTN0 button to turn on/off the 7-segment LED display at any time.
 
-![](images/efr_connect.png)
+![efr connect](images/efr_connect.png)
 
 You can launch the Console that is integrated in Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the logs from the virtual COM port.
 
-![](images/console.png)
+![console](images/console.png)

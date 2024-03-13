@@ -41,7 +41,7 @@
 #include "glib.h"
 #include "glib_font.h"
 #include "micro_oled_ssd1306.h"
-#include "sl_simple_timer.h"
+#include "app_timer.h"
 #include "custom_font.h"
 
 /***************************************************************************//**
@@ -53,7 +53,7 @@ typedef struct {
   uint8_t *first_letter; ///<  Actual first letter of the param_text
   uint8_t max_char_per_line; ///< Maximum length of characters to be displayed
   uint8_t text_length; ///< Length of the param_text
-  sl_simple_timer_t timer_handle; ///< Timer handler for screen update
+  app_timer_t timer_handle; ///< Timer handler for screen update
 } disconnected_display_data_t;
 
 /***************************************************************************//**

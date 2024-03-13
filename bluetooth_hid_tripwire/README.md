@@ -9,6 +9,7 @@
 ![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_hid_tripwire_common.json&label=RAM&query=ram&color=blue)
 
 ## Description
+
 Premise: Sometimes, I want to play games at work without anyone knowing. Instead of being alert and listening for someone who may enter my room, I wanted a device that would automatically change my game to another tab/application whenever the door opened.
 
 This project shows you how to make a battery-powered Silabs BLE HID device that connects to a computer and changes tabs (ALT+TAB) when motion is detected. The device hangs on the doorknob and an IMU is used to wake the device when motion is detected. When the device wakes up on motion, the keyboard command ALT+TAB is sent to the computer over the HID over GATT service to change your current workspace.
@@ -16,21 +17,25 @@ This project shows you how to make a battery-powered Silabs BLE HID device that 
 There are other methods of detecting when someone enters the door such as using a magnet and magnetic sensor or a light/distance sensor which can be adapted to this project. I chose motion detection to hide the device behind the door and keep the final device simple to just hang on the door.
 
 ## Gecko SDK version
-- GSDK v4.3.2
+
+- GSDK v4.4.0
 
 ## Hardware Required
+
 - [SLTB010A - BRD4184B BG22 Thunderboard (EFR32BG22)](https://www.silabs.com/development-tools/thunderboard/thunderboard-bg22-kit?tab=overview)
-    - BRD4184A is also acceptable, but the [Connections Required](#connections-required) section thoroughly for differences.
+- BRD4184A is also acceptable, but the [Connections Required](#connections-required) section thoroughly for differences.
 - PC with Windows keyboard layout
 
 ### Custom board
+
 - EFR32BG22
 - IMU ICM-20648
 - Button
 - LED
 
 ## Connections Required
-Please note there are different BG22 Thunderboard revisions: BRD4184A and BRD4184B. Please check your board's silkscreen for the correct version. This [document](https://www.silabs.com/documents/public/pcns/2112141157-Replacement-of-BRD4184A-with-BRD4184B-in-SLTB010A-kit.pdf) has the additional information on the board changes. The BRD4184B is the latest version. There are slight differences in the connections of the buttons and IMU between the two board variations.
+
+Please note there are different BG22 Thunderboard revisions: BRD4184A and BRD4184B. Please check your board's silkscreen for the correct version. The BRD4184B is the latest version. There are slight differences in the connections of the buttons and IMU between the two board variations.
 
 No matter the version of the board you have, the BG22 Thunderboard contains all the parts needed for this project. All the necessary connections will automatically be selected for the drivers if you create a studio project targeted specifically for the BG22 Thunderboard version that you have.
 
@@ -39,13 +44,16 @@ As a reference, the connections between the BG22 and IMU for the BRD4184B can be
 ![BG22 to IMU connections](images/ug464_icm20648_connections.png)
 
 On the BRD4184B, the additional connections are:
+
 - PB03 : Button
 - PA04 : LED
 
 ## Setup
+
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
 ### Create a project based on an example project
+
 1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "tripwire".
 2. Click **Create** button on the **Bluetooth - HID Tripwire** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![example project & demos tab](images/export_projects_and_demos_tab.png)
@@ -54,6 +62,7 @@ To test this application, you can either create a project based on an example pr
 If you do not see the project, add this repo to Simplicity Studio with these [instructions](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs#example-projects-demos-tab).
 
 ### Start with a "Bluetooth - SoC Empty" project
+
 1. Create a "Bluetooth - SoC Empty" project in Simplicity Studio 5. For this example, I named the project tripwire.
 2. Replace the project's default app.c with the app.c contained within this repo.
 3. Download [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) that is contained in this repo.
@@ -83,12 +92,13 @@ Note: Do not forget to flash a bootloader to your board, see [Bootloader](https:
 5. Pressing BTN0 again will disengage the tripwire if the device has not detected any motion.
 
 LED: Indicates device activity.
+
 - Heartbeat/blinking pattern indicates the device is primed and any motion will make the device send the ALT+TAB command to the computer.
 - Constant on light indicates the device is in `Delay` mode to allow the user to place the device onto the door handle and stabilize the device.
 
 Button 0 (BTN0): Engage or disengage the tripwire.
 
-### States:
+### States
 
 ![state machine](images/tripwire_fsm_light.png)
 
@@ -102,8 +112,7 @@ Button 0 (BTN0): Engage or disengage the tripwire.
 There is additional documentation in the code. If you would like to add your own sensor to detect someone entering your room (e.g. laser), the IMU Wake Up callback function handles the state change. Remove that code and make sure some code triggers the state change from Primed to Tripped (i.e. set tw_next_state from TW_PRIMED to TW_TRIPPED then call sl_bt_external_signal to update the FSM).
 
 ## Project does not work for some reason? Bootloader
+
 If you flash the project and it seems the device is not working e.g. cannot find the device on your PC, the LED does not blink, etc, then the bootloader may be missing. Depending on the part and flash size, there are different bootloader projects. For this project and any BLE-capable part, create the `Bootloader - SoC Bluetooth Apploader OTA DFU` project, build, and flash the bootloader project.
 
 More information on the bootloader and apploader can be found in [UG489 Gecko Bootloader User Guide](https://www.silabs.com/documents/public/user-guides/ug489-gecko-bootloader-user-guide-gsdk-4.pdf) and [AN1086 AN1086: Using the Gecko Bootloader with the Silicon Labs Bluetooth® Applications](https://www.silabs.com/documents/public/application-notes/an1086-gecko-bootloader-bluetooth.pdf)
-
-

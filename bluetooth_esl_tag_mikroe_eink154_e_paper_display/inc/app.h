@@ -1,6 +1,6 @@
 /***************************************************************************//**
- * @file  ssd1306_config.h
- * @brief SSD1306 configure
+ * @file
+ * @brief Application interface provided to main().
  *******************************************************************************
  * # License
  * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -10,7 +10,7 @@
  *
  * The licensor of this software is Silicon Laboratories Inc.
  *
- * This software is provided \'as-is\', without any express or implied
+ * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
  * arising from the use of this software.
  *
@@ -26,20 +26,19 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
- *******************************************************************************
- *
- * EVALUATION QUALITY
- * This code has been minimally tested to ensure that it builds with the
- *   specified
- * dependency versions and is suitable as a demonstration for evaluation
- *   purposes only.
- * This code will be maintained at the sole discretion of Silicon Labs.
- *
  ******************************************************************************/
-#ifndef SSD1306_CONFIG_H
-#define SSD1306_CONFIG_H
 
-#define SSD1306_DISPLAY_WIDTH           64
-#define SSD1306_DISPLAY_HEIGHT          48
+#ifndef APP_H
+#define APP_H
 
-#endif
+/**************************************************************************//**
+ * Application Init.
+ *****************************************************************************/
+void app_init(void);
+
+/**************************************************************************//**
+ * Application Process Action.
+ *****************************************************************************/
+void app_process_action(void);
+
+#endif // APP_H

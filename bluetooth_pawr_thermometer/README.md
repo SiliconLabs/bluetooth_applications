@@ -15,17 +15,17 @@ For more information about PAwR please visit [this document](https://www.bluetoo
 
 This project aims to implement a PAwR-based Thermometer example.
 
-**Broadcaster Device**
+**Broadcaster Device:**
 
 The broadcaster supports multiple observers to sync with. This device is a WSTK and the application uses the display on the WSTK to show the connected nodes and temperatures. The BTN0 on the WSTK controls the LED0 on the observer boards. If the user pushes the BTN0 on the Broadcaster, then the LED0 toggles on each synced observer.
 
-**Observer Device**
+**Observer Device:**
 
-The observer device is one of the Silabs Development Kits listed in the section **Required Hardware**, which has a built-in temperature sensor. This device periodically measures the temperature and send it to Broadcaster in a small packet with subevent and response slot are decided by the Broadcaster. The package contains a processed temperature in Celsius and the LED0 status.
+The observer device is one of the Silabs Development Kits listed in the section **Required Hardware**, which has a built-in temperature sensor. This device periodically measures the temperature and sends it to the Broadcaster in a small packet with subevent and response slot decided by the Broadcaster. The package contains a processed temperature in Celsius and the LED0 status.
 
 ## Gecko SDK version
 
-- GSDK v4.3.2
+- GSDK v4.4.0
 
 ## Hardware Required
 
@@ -103,7 +103,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the bluetooth_applications repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the bluetooth_applications repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 ![external_repo](images/external_repo.png)
 
 - These examples expect a specific Gecko Bootloader to be present on your device. For more details see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader).
@@ -114,25 +114,25 @@ To test this application, you can either create a project based on an example pr
 
 - [Service] **PAwR Service** with UUID = `74e2e878-e82c-4e07-b276-5d2affe4239f`
   - [Char] **Device Address** with UUID = `6a02d89c-80d5-4f4a-9162-4946120aab7c`
-    - [W] The Broadcaster shall configure the Observer Address by writing an Observer Address value to this characteristic. Each Observer Address consists of 15 bits and is split into a Group ID and an Device ID. The Device ID is at the low byte, it's an 8-bit value, valid in the range of 1-255. 0 is the default (reset) value meaning no address assigned to the device yet. At the high byte position there's the 7bit Group ID ranging from 0-127. The most significant bit within the high byte is reserved for future use. Each Observer is a member of a single group. Therefore, with 128 groups and 255 Device IDs per group, a total of 32,640 Observer devices can be allocated a locally unique address. Accessing Observer address requires bonding and encryption.
+    - [W] The Broadcaster shall configure the Observer Address by writing an Observer Address value to this characteristic. Each Observer Address consists of 15 bits and is split into a Group ID and a Device ID. The Device ID is at the low byte, it's an 8-bit value, valid in the range of 1-255. 0 is the default (reset) value meaning no address assigned to the device yet. At the high byte position, there's the 7bit Group ID ranging from 0-127. The most significant bit within the high byte is reserved for future use. Each Observer is a member of a single group. Therefore, with 128 groups and 255 Device IDs per group, a total of 32,640 Observer devices can be allocated a locally unique address. Accessing the Observer address requires bonding and encryption.
 
 ### Synchronization Procedure
 
-**Observer**
+**Observer:**
 
-The Observers on the network can be in one of three different states: Unconfigured, Configuring, Synchronized, as shown below figure. Transitions between states is controlled by the Broadcaster and configuration parameters (subevent and response slot) are decided by the Broadcaster.
+The Observers on the network can be in one of three different states: Unconfigured, Configuring, or Synchronized, as shown below figure. Transitions between states are controlled by the Broadcaster and configuration parameters (subevent and response slot) are decided by the Broadcaster.
 
 ![config_flow](images/observer_state.png)
 
-After power on, Observer will be on Unconfigured state, sending undirected, connectable advertisement packets. Once the Observer has been configured, this device periodically measures the temperature and send it along with LED status to Broadcaster.
+After power on, the Observer will be in an Unconfigured state, sending undirected, connectable advertisement packets. Once the Observer has been configured, this device periodically measures the temperature and sends it along with LED status to the Broadcaster.
 
-**Broadcaster**
+**Broadcaster:**
 
-After power on, the Broadcaster starts scanning for Observers by UUID, and once it finds one, creates a connection to it, writes configuration values (group ID and device ID) and then closes the connection. Figure below shows the Broadcaster state diagram. Once the Observer has been configured and the Broadcaster has closed the connection, the Observer will be in the Synchronized state (see Observer above). At this point, the Broadcaster will also show group ID, device ID, temperature and LED status of synchronized Observers on the WSTK LCD screen.
+After power on, the Broadcaster starts scanning for Observers by UUID, and once it finds one, creates a connection to it, writes configuration values (group ID and device ID) and then closes the connection. The figure below shows the Broadcaster state diagram. Once the Observer has been configured and the Broadcaster has closed the connection, the Observer will be in the Synchronized state (see Observer above). At this point, the Broadcaster will also show group ID, device ID, temperature and LED status of synchronized Observers on the WSTK LCD screen.
 
 ![config_flow](images/broadcaster_state.png)
 
-### Testing ###
+### Testing
 
 This example will look something like the GIF below.
 

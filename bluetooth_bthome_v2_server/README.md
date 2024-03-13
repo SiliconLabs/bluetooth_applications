@@ -22,7 +22,7 @@ This example uses the source files which are generated from **[SquareLine Studio
 
 - GSDK 4.4.0
 
-- [Third Party Hardware Drivers v1.11.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 

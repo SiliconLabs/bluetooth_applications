@@ -250,7 +250,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
             // Characteristic found, turn on indications
             sl_bt_gatt_set_characteristic_notification(conn_handle,
                                                        char_handle,
-                                                       gatt_notification);
+                                                       sl_bt_gatt_notification);
             main_state = ENABLE_NOTIF;
           } else {
             // Characteristic is not found: disconnect

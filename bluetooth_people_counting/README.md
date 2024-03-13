@@ -11,13 +11,13 @@
 
 This project aims to implement a people-counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensor.
 
-This example can be as the first step in developing other upgrade applications based on it. It will be upgraded as a part of the people tracking system in the building or the factory and so on soon. Integrated with BLE wireless technology, therefore the user can control and monitor this system so easily. 
+This example can be as the first step in developing other upgrade applications based on it. It will be upgraded as a part of the people tracking system in the building or the factory and so on soon. Integrated with BLE wireless technology, therefore the user can control and monitor this system so easily.
 
-##  Gecko SDK version ##
+## Gecko SDK version ##
 
- - GSDK v4.3.1
+- GSDK v4.4.0
   
- - [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -38,7 +38,7 @@ Tested boards for working with this example:
 | BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)  |
 | BRD2704A | [SparkFun Thing Plus Matter - MGM240P](https://www.sparkfun.com/products/20270)  |
 
-## Connections Required
+## Connections Required ##
 
 The I2C connection is made from the BGM220 Bluetooth Module Explorer Kit to the Distance Sensor Breakout board and the Micro OLED Breakout by using the Qwiic cable.
 
@@ -78,7 +78,7 @@ To test this application, you can either create a project based on an example pr
     - Open the .slcp file in the project.
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
-    
+
     - Find the Import button and import the configuration `bluetooth_people_counting/config/btconfig/gatt_configuration.btconf` file.
 
     - Save the GATT configuration (ctrl-s).
@@ -103,7 +103,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
@@ -113,61 +113,35 @@ To test this application, you can either create a project based on an example pr
 
 Advertisement Packet Device name: **People Counting**
 
-**GATT Database**
+**GATT Database:**
 
-- Device name: **RFID Notify**
-
-- **[Service] People Counting**
-
-    - **[Char] People Entered So Far** UUID: `cf88405b-e223-4976-82aa-78c6b305b0a8`
-
-        - [R] Get the number of people entering the room.
-  
-        - [W] Clear the number of people entering the room.
-  
-    - **[Char] People Count** UUID: `2b9837e1-5560-49e5-a8cf-2f3b0db0bd6b`
-
-        - [R] Get the number of people in the room.
-  
-        - [W] Clear the number of people in the room.
-
-    - **[Char] Min Distance:** UUID: `f2f7c459-e623-4970-ab36-d3a4651a694e`
-
-        - [R] Get minimum distance that is used by counting people algorithm (mm).
-  
-        - [W] Set minimum distance that is used by counting people algorithm (mm).
-
-    - **[Char] Max Distance:** UUID: `d0a946d7-a183-4cb7-a9cb-b9c879cdb6fa`
-
-        - [R] Get maximum distance that is used by counting people algorithm (mm).
-  
-        - [W] Set maximum distance that is used by counting people algorithm (mm).
-
-    - **[Char] Distance Threshold:** UUID: `0192bd9d-cb4f-49cc-b3dc-2d7facc9edcd`
-
-        - [R] Get distance threshold that is used by counting people algorithm (mm).
-  
-        - [W] Set distance threshold that is used by counting people algorithm (mm).
-
-    - **[Char] Timing Budget:** UUID: `01fb0e47-13c9-4369-88cc-07f58759a6a6`
-
-        - [R] Get timing budget that is used by counting people algorithm (ms).
-  
-        - [W] Set timing budget that is used by counting people algorithm (ms).
-
-    - **[Char] Notification Status:** UUID: `ca89196b-76e2-41a0-9e41-342f4a2ff6f1`
-
-        - [R] Get notification status.
-  
-        - [W] Enable & disable notification status.
-
-    - **[Char] Room capacity:** UUID: `c714d394-7e0d-4c6a-a864-1183046a244c`
-
-        - [R] Get room capacity.
-  
-        - [W] Set room capacity.
-  
-        - [N] Get notification of room status( full or empty).
+- Device name: **People Counting**
+- [Service] **People Counting**
+  - [Char] **People Entered So Far**: `cf88405b-e223-4976-82aa-78c6b305b0a8`
+    - [R] Get the number of people entering the room.
+    - [W] Clear the number of people entering the room.
+  - [Char] **People Count**: `2b9837e1-5560-49e5-a8cf-2f3b0db0bd6b`
+    - [R] Get the number of people in the room.
+    - [W] Clear the number of people in the room.
+  - [Char] **Min Distance:**: `f2f7c459-e623-4970-ab36-d3a4651a694e`
+    - [R] Get minimum distance that is used by counting people algorithm (mm).
+    - [W] Set minimum distance that is used by counting people algorithm (mm).
+  - [Char] **Max Distance:**: `d0a946d7-a183-4cb7-a9cb-b9c879cdb6fa`
+    - [R] Get maximum distance that is used by counting people algorithm (mm).
+    - [W] Set maximum distance that is used by counting people algorithm (mm).
+  - [Char] **Distance Threshold:**: `0192bd9d-cb4f-49cc-b3dc-2d7facc9edcd`
+    - [R] Get distance threshold that is used by counting people algorithm (mm).
+    - [W] Set distance threshold that is used by counting people algorithm (mm).
+  - [Char] **Timing Budget:**: `01fb0e47-13c9-4369-88cc-07f58759a6a6`
+    - [R] Get timing budget that is used by counting people algorithm (ms).
+    - [W] Set timing budget that is used by counting people algorithm (ms).
+  - [Char] **Notification Status:**: `ca89196b-76e2-41a0-9e41-342f4a2ff6f1`
+    - [R] Get notification status.
+    - [W] Enable & disable notification status.
+  - [Char] **Room capacity:**: `c714d394-7e0d-4c6a-a864-1183046a244c`
+    - [R] Get room capacity.
+    - [W] Set room capacity.
+    - [N] Get notification of room status( full or empty).
 
 ### People Counting Implementation ###
 
@@ -213,9 +187,9 @@ Advertisement Packet Device name: **People Counting**
 
 7. Start a periodical timer with 1000 milliseconds for each periodic period, The timer callback will raise an external event to the BLE stack and the event handler will display people counting data which was calculated by the people counting algorithm calculation.
 
-8.  After the **sl_bt_evt_system_boot_id** event arrives, the application sets up the security manager to bond with an iOS or Android device. And then start advertising.
+8. After the **sl_bt_evt_system_boot_id** event arrives, the application sets up the security manager to bond with an iOS or Android device. And then start advertising.
 
-9.  Handle GATT events to help the user configures the counting algorithm and get the result from the algorithm calculation over the **EFR Connect** mobile application.
+9. Handle GATT events to help the user configure the counting algorithm and get the result from the algorithm calculation over the **EFR Connect** mobile application.
 
 ### People Counting algorithm ###
 

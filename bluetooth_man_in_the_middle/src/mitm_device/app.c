@@ -44,6 +44,7 @@ typedef struct {
 /**************************************************************************//**
  * Static variables.
  *****************************************************************************/
+static bool smart_phone_connected = false;
 // create health thermometer server object to contain information
 static device_properties_t thermo_server;
 // create health smart phone object to contain information
@@ -55,7 +56,7 @@ static uint8_t thermoService[2] = { 0x09, 0x18 };
 // Temperature Measurement characteristic UUID defined by Bluetooth SIG
 static uint8_t thermoCharacter[2] = { 0x1c, 0x2a };
 // Device's name of thermometer server to connect
-uint8_t target_name[] = "health thermometer";
+uint8_t target_name[] = "Thermometer Example";
 // flags indicate the discovery for health thermometer service completed
 uint8_t discover_service_done = 0;
 // flags indicate the discovery for health thermometer characteristic completed
@@ -181,6 +182,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
                                                      thermoService);
       } else {
         smart_phone.connection = evt->data.evt_connection_opened.connection;
+        smart_phone_connected = true;
         app_log("Smart Phone connected\n");
       }
       break;
@@ -233,12 +235,14 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       /* Indication requires confirmation that data has been received. */
       sl_bt_gatt_send_characteristic_confirmation(thermo_server.connection);
 
-      /* Indicate to smart phone. Send malicious data to smart phone. */
-      sl_bt_gatt_server_send_indication(smart_phone.connection,
-                                        gattdb_temperature_measurement,
-                                        5,
-                                        malicious_data);
-      app_log("sent to smart phone.\n");
+      if (smart_phone_connected == true) {
+        /* Indicate to smart phone. Send malicious data to smart phone. */
+        sl_bt_gatt_server_send_indication(smart_phone.connection,
+                                          gattdb_temperature_measurement,
+                                          5,
+                                          malicious_data);
+        app_log("sent to smart phone.\n");
+      }
       break;
     }
 
@@ -279,6 +283,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       if (evt->data.evt_connection_closed.connection
           == smart_phone.connection) {
         app_log("Smartphone's connection closed");
+        smart_phone_connected = false;
         // Start advertising and enable connections.
         sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
                                            sl_bt_advertiser_connectable_scannable);

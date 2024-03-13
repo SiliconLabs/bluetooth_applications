@@ -18,11 +18,10 @@ The application uses a Mikore Pressure 3 Click using mikroE mikroBUS-socket I2C 
 
 This example can be used as a barometer pressure sensor in the weather station or an altitude sensor and so on.
 
-##  Gecko SDK version ##
+## Gecko SDK version ##
 
- - GSDK v4.3.1
-
- - Third Party Hardware Drivers v1.5.0
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -38,7 +37,6 @@ Tested boards for working with this example:
 | BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)  |
 | BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A ](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
 | BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)  |
-
 
 ## Connections Required ##
 
@@ -65,14 +63,14 @@ To test this application, you can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy all attached files in **inc** and **src** folders into the project root folder (overwriting existing).
+2. Copy all attached files in the **inc** and **src** folders into the project root folder (overwriting existing).
 
 3. Import the GATT configuration:
 
     - Open the .slcp file in the project.
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
-    
+
     - Find the Import button and import the configuration `bluetooth_rfid_notify/config/btconfig/gatt_configuration.btconf` file.
 
     - Save the GATT configuration (ctrl-s).
@@ -96,7 +94,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
@@ -111,18 +109,13 @@ Advertisement Packet Device name: **Silabs Barometer I2C**
 GATT Database
 
 - Device name: **Silabs Barometer I2C**
-
 - **[Service] Environmental Sensing**
-
-    - **[Char] Pressure**
-
-        - [R] Read pressure value.
-        - [N] Notify to update pressure value automatically.
-  
-    - **[Char] Temperature**
-
-        - [R] Read temperature value.
-        - [N] Notify to update temperature value automatically.
+  - **[Char] Pressure**
+    - [R] Read pressure value.
+    - [N] Notify to update pressure value automatically.
+  - **[Char] Temperature**
+    - [R] Read temperature value.
+    - [N] Notify to update temperature value automatically.
 
 ### Testing ###
 

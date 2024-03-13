@@ -184,9 +184,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
           == gattdb_temperature) {
         // client characteristic configuration changed by remote GATT client
         if (evt->data.evt_gatt_server_characteristic_status.status_flags
-            == gatt_server_client_config) {
+            == sl_bt_gatt_server_client_config) {
           if (evt->data.evt_gatt_server_characteristic_status.
-              client_config_flags == gatt_notification) {
+              client_config_flags == sl_bt_gatt_notification) {
             temperature_notify_enable = true;
             app_log("[BLE]: Enable temperature notification.\n");
           } else {
@@ -197,9 +197,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       } else if (evt->data.evt_gatt_server_characteristic_status.characteristic
                  == gattdb_pressure) {
         if (evt->data.evt_gatt_server_characteristic_status.status_flags
-            == gatt_server_client_config) {
+            == sl_bt_gatt_server_client_config) {
           if (evt->data.evt_gatt_server_characteristic_status.
-              client_config_flags == gatt_notification) {
+              client_config_flags == sl_bt_gatt_notification) {
             pressure_notify_enable = true;
             app_log("[BLE]: Enable pressure notification.\n");
           } else {

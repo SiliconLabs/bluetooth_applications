@@ -25,14 +25,15 @@ If the BTN0 is pressed during the initialization sequence, then the application 
 
 If the BTN0 is released during the initialization phase, the application starts scanning the BLE network. The application periodically scans the BLE network looking for a sensor device. The client device subscribes to the operation time characteristic to get notifications about changes in the measured operation time.
 
-## Gecko SDK Suite version
+## Gecko SDK Suite version ##
 
-- GSDK v4.2.2
-- [Third Party Hardware Drivers v1.3.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
 
-## Hardware Required
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
-**Silabs Development Kits**
+## Hardware Required ##
+
+**Silabs Development Kits:**
 
 - [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)
 
@@ -40,7 +41,7 @@ If the BTN0 is released during the initialization phase, the application starts 
 
 - [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)
 
-**External Hardware**
+**External Hardware:**
 
 - [Adafruit IS31FL3741 13x9 PWM RGB LED Matrix Driver - STEMMA QT / Qwiic](https://www.adafruit.com/product/5201)
 
@@ -55,7 +56,7 @@ Tested boards for working with this example:
 | BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview) |
 | BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)   |
 
-## Connections Required
+## Connections Required ##
 
 The hardware connection is shown in the image below:
 
@@ -67,23 +68,22 @@ The ACCEL 5 CLICK board can be easily connected to the EFR32xG24 Explorer Kit vi
 
 **Client:**
 
-Adafruit IS31FL3741 13x9 PWM RGB LED Matrix board can be easily connected to the EFR32xG24 Explorer Kit by using a Qwiic cable. 
+Adafruit IS31FL3741 13x9 PWM RGB LED Matrix board can be easily connected to the EFR32xG24 Explorer Kit by using a Qwiic cable.
 
-## Setup
+## Setup ##
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-### Create a project based on an example project
+### Create a project based on an example project ###
 
 1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "bma400".
 
 2. Click **Create** button on both **Bluetooth - Operation Time Measurement (BMA400) - Client** and **Bluetooth - Operation Time Measurement (BMA400) - Sensor** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-
 ![create_project](images/create_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with a "Bluetooth - SoC Empty" project
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
@@ -113,7 +113,7 @@ To test this application, you can either create a project based on an example pr
 
     - Install the following components for **client** device:
         - [Application] → [Service] → [Simple timer]
-        - [Bluetooth] → [NVM] → NVM Support 
+        - [Bluetooth] → [NVM] → NVM Support
         - [Services] →  [NVM3] → NVM3 Core
         - [Services] →  [NVM3] → NVM3 Default Instance
         - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
@@ -139,7 +139,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 ![external_repo](images/external_repo.png)
 
@@ -147,20 +147,21 @@ To test this application, you can either create a project based on an example pr
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
-## How it Works
+## How it Works ##
 
-#### Sensor overview ####
+### Sensor Overview ###
 
 ![sensor_overview](images/sensor_overview.png)
 
-#### Sensor GATT Database ###
+#### Sensor GATT Database ####
 
-Advertisement Packet
-Device name: bma400_sensor
-- [Service] Operation Time Sensor 
+- Advertisement Packet
+- Device name: **bma400_sensor**
+- [Service] **Operation Time Sensor**
   - [Char] Operation Time
     - [R/N] Get operation time so far in seconds
     - [W] Reset the operation time counter (valid value: 1)
+
 #### Sensor Implementation ####
 
 **Application initialization:**
@@ -190,7 +191,7 @@ AdvData field in the advertisement packet is as table below:
 
 ### Client ###
 
-#### Client overview ###
+#### Client Overview ###
 
 ![client_overview](images/client_overview.png)
 
@@ -205,7 +206,6 @@ GATT Database
   - [Char] Operation Time Threshold
     - [R] Get the configured operation time threshold value
     - [W] Set operation time threshold value
-
 
 #### Client Implementation ####
 
@@ -225,18 +225,18 @@ GATT Database
 
 *BLE Notification Event:*
 
-This function processes the measured values, checks the values against the configured thresholds. 
+This function processes the measured values, checks the values against the configured thresholds.
 
-The measured operation time displayed on the connected LED matrix display.
+The measured operation time is displayed on the connected LED matrix display.
 
 ![client_ble_notify](images/client_ble_notify.png)
 
 **Display:**
 
-If the Client is in the configuration mode, the RGB LED matrix will show threshold value.
+If the Client is in the configuration mode, the RGB LED matrix will show a threshold value.
 
-If the Client is in the normal mode, the OLED will show operation time receive from sensor device.
-If the measured operation time reached the configured threshold, then besides showing the measured operation time, the background of the text blink in red.
+If the Client is in normal mode, the OLED will show the operation time received from the sensor device.
+If the measured operation time reaches the configured threshold, then besides showing the measured operation time, the background of the text blinks in red.
 
 ### Testing ###
 
@@ -257,7 +257,6 @@ You can use a smartphone application such as the EFR Connect application, to see
 - After flashing the code to the sensor board, a similar output from the serial terminal is shown as below.
 
   ![sensor_log ](images/sensor_log.png)
-
 
 **Client:**
 

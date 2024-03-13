@@ -31,8 +31,8 @@ This code example referred to the following code examples. More detailed informa
 
 ## Gecko SDK version
 
-- GSDK v4.3.1
-- [Third-Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third-Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required
 
@@ -121,9 +121,9 @@ Once the password is entered, the buzzer plays a sound, and the OLED displays th
 
 The application is based on the Bluetooth - SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required.
 
-The GATT changes were adding a new custom service using UUID `02AE647B-83B7-45AA-AA59-D3DDFEE325E9` that has a characteristic UUID `8AF6DEB2-B277-49F9-A4F2-14210C6766CF`. The **new_password** characteristic only has a written property with permission level **encrypted** and **bonded**, which means that the characteristic can be written only on encrypted and bonded connections. This protects against password alteration by a third party. The **new_password** characteristic has a **user data** type and 6 bytes length.
+The GATT changes were adding a new custom service using UUID `02AE647B-83B7-45AA-AA59-D3DDFEE325E9` that has a characteristic UUID `8AF6DEB2-B277-49F9-A4F2-14210C6766CF`. The **new_password** characteristic only has a written property with permission level **encrypted** and **bonded**, which means that the characteristic can be written only on encrypted and bonded connections. This protects against password alteration by a third party. The **new_password** characteristic has a **user data** type and 6-bytes length.
 
-The GATT should contain the following service and characteristics:
+The GATT should contain the following services and characteristics:
 
 | Name      | UUID                                 |
 | --------- | ------------------------------------ |

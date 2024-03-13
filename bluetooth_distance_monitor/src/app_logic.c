@@ -503,8 +503,7 @@ static void _buzzer_init(void)
 {
   // Legacy buzzer driver, this should be replaced to the revised version
   mikroe_cmt_8540s_smt_init(&sl_pwm_mikroe);
-  mikroe_cmt_8540s_smt_set_duty_cycle(
-    distance_monitor_config.buzzer_volume / 1000.0);
+  mikroe_cmt_8540s_smt_set_duty_cycle(0.0);
   mikroe_cmt_8540s_smt_pwm_start();
 }
 
@@ -529,7 +528,7 @@ static void _notification_change_status(void)
 static void _buzzer_activate(void)
 {
   mikroe_cmt_8540s_smt_pwm_start();
-  mikroe_cmt_8540s_smt_play_sound(MIKROE_BUZZ2_NOTE_C2,
+  mikroe_cmt_8540s_smt_play_sound(MIKROE_BUZZ2_NOTE_A6,
                                   distance_monitor_config.buzzer_volume,
                                   500);
   dm_runtime_data.is_notification_active = true;
@@ -635,6 +634,7 @@ void app_logic_on_update_display(void)
   if (dm_runtime_data.is_sensor_ready) {
     _display_update_distance_page();
   }
+
   // If notification is active, then blink RANGE label
   if (dm_runtime_data.is_notification_active) {
     // Blink RANGE label if notification is active

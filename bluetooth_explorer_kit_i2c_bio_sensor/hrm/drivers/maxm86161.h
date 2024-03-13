@@ -644,4 +644,4 @@ sl_status_t maxm86161_allocate_ppg_data_queue(maxm86161_fifo_queue_t *queue,
 }
 #endif
 
-#endif
+#endif /* MAXM86161_H_ */

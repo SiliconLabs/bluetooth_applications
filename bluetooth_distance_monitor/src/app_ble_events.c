@@ -276,7 +276,7 @@ static void ble_connection_closed_handler(sl_bt_msg_t *evt)
 
   // Restart advertising after client has disconnected.
   sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
-                                     advertiser_connectable_scannable);
+                                     sl_bt_legacy_advertiser_connectable);
 
   app_assert(sc == SL_STATUS_OK, "[E: 0x%04x] Failed to start advertising\r\n",
              (int )sc);

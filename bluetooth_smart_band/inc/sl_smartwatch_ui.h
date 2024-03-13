@@ -40,7 +40,7 @@
 // <o SMARTWATCH_UI_LOG_ENABLE> Enable logging
 // <i> Enables UI logging.
 // <i> Default: 1
-#define SMARTWATCH_UI_LOG_ENABLE          0
+#define SMARTWATCH_UI_LOG_ENABLE          1
 
 #if defined(SMARTWATCH_UI_LOG_ENABLE) && SMARTWATCH_UI_LOG_ENABLE
 #define LOG(...) app_log_info(__VA_ARGS__)

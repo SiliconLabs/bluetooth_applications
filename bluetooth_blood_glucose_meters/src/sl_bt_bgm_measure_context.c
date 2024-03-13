@@ -56,7 +56,7 @@ void sl_bt_bgm_measurement_context_handler(sl_bt_msg_t *evt)
   // client characteristic configuration changed by remote GATT client
   if (sl_bt_gatt_server_client_config == status.status_flags) {
     if (sl_bt_gatt_server_notification == status.client_config_flags) {
-      if (gatt_disable != status.client_config_flags) {
+      if (sl_bt_gatt_disable != status.client_config_flags) {
         app_log("measure context enable notification\n");
         measure_context_enabled = true;
       } else {

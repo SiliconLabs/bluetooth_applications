@@ -167,17 +167,18 @@ static void hrm_gpio_setup(void)
                   1);
   GPIO_PinModeSet(MAXM86161_INT_GPIO_PORT,
                   MAXM86161_INT_GPIO_PIN,
-                  gpioModeInput,
-                  0);
+                  gpioModeInputPull,
+                  1);
 
+  GPIOINT_Init();
+  GPIOINT_CallbackRegister(MAXM86161_INT_GPIO_PIN, max86161_int_callback);
   GPIO_ExtIntConfig(MAXM86161_INT_GPIO_PORT,
                     MAXM86161_INT_GPIO_PIN,
                     MAXM86161_INT_GPIO_PIN,
                     true,
                     true,
                     true);
-  GPIOINT_CallbackRegister(MAXM86161_INT_GPIO_PIN, max86161_int_callback);
-  GPIO_IntEnable(MAXM86161_INT_GPIO_PIN);
+
   // need delay to wait the Maxim ready before we can read and write to register
   sl_sleeptimer_delay_millisecond(5);
 }
@@ -283,7 +284,7 @@ int16_t hrm_get_spo2(void)
 static void max86161_int_callback(uint8_t intNo)
 {
   (void) intNo;
-  if (GPIO_PinInGet(MAXM86161_INT_GPIO_PORT, MAXM86161_INT_GPIO_PIN) == 1) {
+  if (!GPIO_PinInGet(MAXM86161_INT_GPIO_PORT, MAXM86161_INT_GPIO_PIN)) {
     sl_bt_external_signal(MAXM86161_IRQ_EVENT);
   }
 }

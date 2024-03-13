@@ -27,12 +27,12 @@ This code example referred to the following code examples. More detailed informa
 - [SHTC3 Humidity Sensor driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/app/documentation/example/mikroe_temphum9_shtc3)
 - [Buzzer driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/app/documentation/example/mikroe_buzz2_cmt_8540s_smt)
 
-## Gecko SDK Version ##
+## Gecko SDK Version
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
-## Required Hardware ##
+## Required Hardware
 
 - [BGM220 Bluetooth Module Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
 
@@ -54,55 +54,55 @@ The I2C connection is made from the BGM220 Bluetooth Module Explorer Kit to the 
 
 To test this application, you can either create a project based on an example project or start with an empty example project.
 
-### Create a project based on an example project ###
+### Create a project based on an example project
 
 1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "thermostat".
 
 2. Click **Create** button on **Bluetooth - Thermostat** project. Example project creation dialog pops up -> click Create and Finish and source code should be generated.
-
-![create example project](images/create_example.png)
+  ![create example project](images/create_example.png)
 
 3. Build and flash this example to your board.
 
-### Start with a "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC Empty" project
+
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
 2. Copy all attached files in `inc` and `src` folders into the project root folder (overwriting the existing files).
 
 3. Import the GATT configuration:
 
-   - Open the .slcp file in the project.
+    - Open the .slcp file in the project.
 
-   - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
+    - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
 
-  - Find the Import button and import the attached `config/btconf/gatt_configuration.btconf` file.
+    - Find the Import button and import the attached `config/btconf/gatt_configuration.btconf` file.
 
-   - Save the GATT configuration (ctrl-s).
+    - Save the GATT configuration (ctrl-s).
 
 4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
 
-        - [Services] → [Timers] → [Sleep Timer]
-        - [Services] →  [NVM3] → [NVM3 Core]
-        - [Services] →  [NVM3] → NVM3 Default Instance
-        - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
-        - [Application] → [Utility] → [Log]
-        - [Application] → [Utility] → [Assert]
-        - [Third Party] → [Tiny printf]
-        - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0
-        - [Platform] → [Driver] → [LED] → [Simple LED] → default instance name: led0
-        - [Platform] → [Driver] → [PWM] → [PWM] → default instance name: "mikroe".
-        - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C]
-        - [Third Party Hardware Drivers] → [Audio & Voice] → [CMT_8540S_SMT - Buzz 2 Click (Mikroe)]
-        - [Third Party Hardware Drivers] → [Sensors] → [SHTC3 - Temp&Hum 9 Click (Mikroe)]
-        - [Third Party Hardware Drivers] → [Service] → [GLIB - OLED Graphics Library]
+    - [Services] → [Timers] → [Sleep Timer]
+    - [Services] →  [NVM3] → [NVM3 Core]
+    - [Services] →  [NVM3] → NVM3 Default Instance
+    - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
+    - [Application] → [Utility] → [Log]
+    - [Application] → [Utility] → [Assert]
+    - [Third Party] → [Tiny printf]
+    - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0
+    - [Platform] → [Driver] → [LED] → [Simple LED] → default instance name: led0
+    - [Platform] → [Driver] → [PWM] → [PWM] → default instance name: "mikroe".
+    - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C]
+    - [Third Party Hardware Drivers] → [Audio & Voice] → [CMT_8540S_SMT - Buzz 2 Click (Mikroe)]
+    - [Third Party Hardware Drivers] → [Sensors] → [SHTC3 - Temp&Hum 9 Click (Mikroe)]
+    - [Third Party Hardware Drivers] → [Service] → [GLIB - OLED Graphics Library]
 
 5. Build and flash the project to your device.
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 
-![add Third Party Hardware Drivers extension](images/sdk_extension.png)
+  ![add Third Party Hardware Drivers extension](images/sdk_extension.png)
 
 - SDK Extension must be enabled for the project to install components.
 

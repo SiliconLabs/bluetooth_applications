@@ -17,8 +17,8 @@ This example aims to implement a Secure Bluetooth Pairing Using NFC with an NT3H
 
 ## Gecko SDK version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.6.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 

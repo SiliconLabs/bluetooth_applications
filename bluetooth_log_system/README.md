@@ -33,7 +33,7 @@ The images above show different levels of logging in different colors. This exam
 
 ## Gecko SDK version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 

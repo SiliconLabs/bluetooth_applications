@@ -50,6 +50,7 @@ static uint8_t fp_slot[10];
 static uint8_t fp_count = 0;
 static uint8_t fp_authorized_index = 0;
 static volatile bool register_completed = false;
+static bool send_cmd = false;
 static sl_sleeptimer_timer_handle_t fingerprint_process_timer;
 
 /***************************************************************************//**
@@ -134,6 +135,7 @@ sl_status_t fingerprint_remove(uint8_t index)
   fp_slot[index] = 0xFF;
   fp_count--;
   mikroe_a172mrq_delete_one_fp(index);
+  send_cmd = false;
   app_log("Fingerprint has been removed from location : %d \r\n", index);
 
   return fingerprint_nvm3_u8_write(NVM3_FINGERPRINT_KEY + index,

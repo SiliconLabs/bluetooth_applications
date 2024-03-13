@@ -36,7 +36,7 @@
 #include <stdio.h>
 #include "em_common.h"
 #include "app_assert.h"
-#include "sl_simple_timer.h"
+#include "sl_sleeptimer.h"
 #include "sl_bluetooth.h"
 #include "app.h"
 #include "gatt_db.h"
@@ -137,7 +137,7 @@ static advertising_packet_t advertising_data = {
 };
 
 // Timer handle
-static sl_simple_timer_t co_timer;
+static sl_sleeptimer_timer_handle_t co_timer;
 
 // Ppm value unit
 static uint32_t value_co_ppm;
@@ -153,7 +153,7 @@ static void app_bt_evt_system_external_signal(uint32_t extsignals);
 static void app_co_timer_handle(void);
 
 // CO timer callback
-static void app_co_callback(sl_simple_timer_t *timer, void *data);
+static void app_co_callback(sl_sleeptimer_timer_handle_t *timer, void *data);
 
 // Function to update avertise data
 static void update_adv_data(void);
@@ -178,7 +178,12 @@ void app_init(void)
     app_log("Initialize CO sensor successfully\n");
   }
 
-  sl_simple_timer_start(&co_timer, 5000, app_co_callback, NULL, true);
+  sl_sleeptimer_start_periodic_timer_ms(&co_timer,
+                                        5000,
+                                        app_co_callback,
+                                        NULL,
+                                        0,
+                                        0);
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
   // This is called once during start-up.                                    //
@@ -197,7 +202,7 @@ void app_process_action(void)
   /////////////////////////////////////////////////////////////////////////////
 }
 
-static void app_co_callback(sl_simple_timer_t *timer, void *data)
+static void app_co_callback(sl_sleeptimer_timer_handle_t *timer, void *data)
 {
   (void) timer;
   (void) data;

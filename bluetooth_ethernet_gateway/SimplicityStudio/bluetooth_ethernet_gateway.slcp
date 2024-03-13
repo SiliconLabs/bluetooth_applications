@@ -38,6 +38,7 @@ component:
   from: third_party_hw_drivers
 - id: app_log 
 - id: app_assert 
+- id: printf
 - id: mpu  
 - id: bluetooth_stack
 - id: bluetooth_feature_gatt_server
@@ -61,7 +62,7 @@ config_file:
 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.7.0
+    version: 2.0.0
 
 other_file:
   - path: ../images/app_init.png
@@ -102,6 +103,6 @@ tag: hardware:rf:band:2400
 
 ui_hints:
   highlight:
-  - path: README.md
-    focus: true
-  - path: config/btconf/gatt_configuration.btconf
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

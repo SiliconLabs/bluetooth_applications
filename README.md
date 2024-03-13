@@ -13,6 +13,11 @@
 
 # Silicon Labs Bluetooth Applications #
 
+[![Version Badge](https://img.shields.io/badge/-v2.0.0-green)](https://github.com/SiliconLabs/bluetooth_applications/releases)
+[![GSDK Badge](https://img.shields.io/badge/GSDK-v4.4.0-green)](https://github.com/SiliconLabs/gecko_sdk/releases)
+[![TPHD Version Badge](https://img.shields.io/badge/TPHD-v2.0.0+-green)](https://github.com/SiliconLabs/third_party_hw_drivers_extension/releases)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+
 The Silicon Labs Bluetooth stack allows for a wide variety applications to be built on its foundation. This repo showcases some example applications using the Silicon Labs Bluetooth stack.
 
 This repository provides both SLCP projects (as External Repositories) and SLS projects as standalone projects, which are configured for development boards.
@@ -75,14 +80,15 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 52 | Bluetooth - HID Tripwire | [Click Here](./bluetooth_hid_tripwire) |
 | 53 | Bluetooth - Ir Generator | [Click Here](./bluetooth_ir_generator) |
 | 54 | Bluetooth - BTHome v2 - Server Example | [Click Here](./bluetooth_bthome_v2_server/) |
-
+| 55 | Bluetooth - HID Multiple Reports | [Click Here](./bluetooth_hid_multiple_reports/) |
+| 56 | Bluetooth - ESL Tag with E-Paper display 1,54inch 200x200 dots from Mikroe | [Click Here](./bluetooth_esl_tag_mikroe_eink154_e_paper_display) |
 
 ## Requirements ##
 
 1. Silicon Labs EFR32 Development Kit
 2. Simplicity Studio 5
-3. Gecko SDK Suite 4.2.1, available via Simplicity Studio or [here](https://github.com/SiliconLabs/gecko_sdk)
-4. Third-Party Hardware Drivers extension, available [here](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+3. Compatible GSDK version that specified in each project's readme file. You can install it via Simplicity Studio or download it from our GitHub [gecko_sdk](https://github.com/SiliconLabs/gecko_sdk)
+4. Compatible Third-Party Hardware Drivers extension that also specified in each project's readme file, available [here](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Working with Projects ##
 

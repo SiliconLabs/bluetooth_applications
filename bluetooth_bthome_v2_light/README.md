@@ -17,11 +17,12 @@ Devices can run over a year on a single battery. It allows data encryption and i
 
 For more information, please visit [BThome](https://bthome.io/).
 
-This project aims to implement a BTHome v2 compatible light. The application provides a CLI to configure switches to control the onboard LED0, it supports the press event only.
+This project aims to implement a BTHome v2-compatible light. The application provides a CLI to configure switches to control the onboard LED0, it supports the press event only.
 
-One or more Switches can control a Light. Each Switch acts as a BTHome client which advertises button press event to control Light. This device should use the *BTHome v2 - Switch* example for testing in this project.
+One or more Switches can control a Light. Each Switch acts as a BTHome client which advertises a button press event to control Light. This device should use the *BTHome v2 - Switch* example for testing in this project.
 
 The Light device acts as a BTHome v2 Client and Server (be implemented in this project with name: *BTHome v2 - Light*):
+
 - As a server, it gathers the Button events from the registered devices to control Light.
 - As a client, it reports the status of the Light to Home Assistant.
 
@@ -29,8 +30,9 @@ The Light device acts as a BTHome v2 Client and Server (be implemented in this p
 
 ## Gecko SDK version
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.8.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required
 
@@ -86,21 +88,21 @@ To test this application, you can either create a project based on an example pr
 
 - Make sure that the SDK extension is already installed. If not please follow [this documentation](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 
-- Third-party Drivers Extension must be enabled for the project to install "BTHome v2" and "BTHome v2 - Server" component.
+- Third-party Drivers Extension must be enabled for the project to install "BTHome v2" and "BTHome v2 - Server" components.
 
 ## How It Works
 
-You have one or more switches controlling one light. You would use in a hallway, where you have a switch at both ends of the hallway that controls the hallway light. You are able to switch the light on and off from either end of the hallway.
+You have one or more switches controlling one light. You would use them in a hallway, where you have a switch at both ends of the hallway that controls the hallway light. You can switch the light on and off from either end of the hallway.
 
-**Application Initialization**
+### Application Initialization
 
 ![application_initialization](images/application_init.png)
 
-**BTHome v2 Events**
+### BTHome v2 Events
 
 ![bthome_v2_events](images/bthome_v2_events.png)
 
-The example implements a CLI Interface that provide some features:
+The example implements a CLI Interface that provides some features:
 
 - Scan BLE network and list BTHome devices. List them with the following parameters:
   - MAC - Encryption (Yes/No) - Encryption Key Available (Yes/No)
@@ -113,7 +115,7 @@ The example implements a CLI Interface that provide some features:
 
 ## Testing
 
-For testing, there should be at least 2 Silabs boards. One acts as a Switch device which use the "BTHome v2 - Switch" example. One acts as a Light device.
+For testing, there should be at least 2 Silabs boards. One acts as a Switch device which uses the "BTHome v2 - Switch" example. One acts as a Light device.
 
 ### Silicon Labs Devices
 

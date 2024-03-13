@@ -106,7 +106,7 @@ extern uint8_t row_height;
 
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
-
+static uint8_t conn_handle = 0xff;
 // Button state.
 static bool app_btn0_pressed = false;
 static bool app_btn1_pressed = false;
@@ -227,7 +227,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // This event indicates that a new connection was opened.
     case sl_bt_evt_connection_opened_id:
       app_log_info("Connection opened\n");
-
+      conn_handle = evt->data.evt_connection_opened.connection;
       LOG("Turning screen off and clearing notification\n");
       sl_smartwatch_ui_clear_screen();
       sl_smartwatch_ui_update();
@@ -445,7 +445,9 @@ void dataFilter(uint8_t len, uint8_t data[])
                                               &char_handle);
         app_assert_status(sc);
 
-        sc = sl_bt_gatt_server_send_notification(0x01, char_handle, 8,
+        sc = sl_bt_gatt_server_send_notification(conn_handle,
+                                                 char_handle,
+                                                 8,
                                                  batteryLevel);
         app_assert_status(sc);
         LOG("BATTERY LEVEL SENT\n");
@@ -507,7 +509,7 @@ void dataFilter(uint8_t len, uint8_t data[])
         break;
 
       default:
-        app_log_info("Unserved app command type = %d\n", pData[4]);
+        app_log_info("Unserved app command type = 0x%x\n", pData[4]);
         break;
     }
   }

@@ -27,8 +27,8 @@ If the BTN0 is released during the initialization phase, the application starts 
 
 ## Gecko SDK Suite version
 
-- GSDK v4.2.1
-- [Third Party Hardware Drivers v1.2.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required
 
@@ -125,15 +125,15 @@ To test this application, you can either create a project based on an example pr
     - Open the .slcp file in the project again.
     - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
     - Find the Import button and import the  gatt_configuration.btconf file.
-        - Sensor: [gatt_configuration.btconf](bt_co_sensor/config/gatt_configuration.btconf)
-        - Client: [gatt_configuration.btconf](bt_co_client/config/gatt_configuration.btconf)
+        - Sensor: `bt_co_sensor/config/btconf/gatt_configuration.btconf`
+        - Client: `bt_co_client/config/btconf/gatt_configuration.btconf`
     - Save the GATT configuration (ctrl-s).
 
 5. Build and flash this example to the board.
 
 **Note:**
 
-- Make sure the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install some components for co monitor sensor and client projects.
 
@@ -303,6 +303,6 @@ You can use a smartphone application such as the EFR Connect application, to see
 
     ![Client log](image/co_log_client.png)
 
-- **Note:** Button PB0 should be pressed during startup (power-on or reset) to run the client in Configuration Mode. The terminal will display the information as below
+**Note:** Button PB0 should be pressed during startup (power-on or reset) to run the client in Configuration Mode. The terminal will display the information as below
 
-    ![Consumer configuration](image/co_log_configuration.png)
+![Consumer configuration](image/co_log_configuration.png)

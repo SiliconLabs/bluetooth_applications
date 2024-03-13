@@ -386,7 +386,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_gatt_characteristic_value_id:
       app_log("\r\nANCS notification received \r\n");
       if (evt->data.evt_gatt_characteristic_value.att_opcode
-          == gatt_handle_value_notification) {
+          == sl_bt_gatt_handle_value_notification) {
         /* Check if Apple notification length is correct. */
         if (evt->data.evt_gatt_characteristic_value.value.len
             == ANC_NOTIF_SOURCE_LENGTH) {

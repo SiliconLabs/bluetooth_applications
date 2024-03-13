@@ -20,9 +20,7 @@ include:
     file_list:
       - path: app.h
       - path: user_config_nvm3.h
-      - path: ssd1306_config.h
       - path: ssd1306_app.h
-      - path: ak9753_config.h
       - path: ak9753_app.h
       - path: people_counting_app.h
 source:
@@ -69,12 +67,6 @@ config_file:
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
   - override:
-      component: i2cspm
-      file_id: i2cspm_config
-      instance: qwiic
-      condition: [brd2601b]
-    path: ../config/brd2601b/sl_i2cspm_qwiic_config.h
-  - override:
       component: simple_button
       file_id: simple_button_config
       instance: btn0
@@ -82,7 +74,7 @@ config_file:
     path: "../config/sl_simple_button_btn0_config.h" 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.2.0
+    version: 2.0.0
 other_file:
   - path: ../images/create_project.png
     directory: images
@@ -127,7 +119,7 @@ configuration:
 tag: hardware:rf:band:2400
 ui_hints:
   highlight:
-  - path: ../README.md
-    focus: true
-  - path: ../config/btconf/gatt_configuration.btconf
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true
   

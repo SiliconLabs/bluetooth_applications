@@ -36,7 +36,7 @@ component:
   - id: device_init
   - instance: [btn0]
     id: simple_button
-  - id: simple_timer
+  - id: app_timer
   - id: app_log
   - id: iostream_usart
     instance: [vcom]
@@ -87,7 +87,7 @@ toolchain_settings:
 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.2.0
+    version: 2.0.0
 
 other_file:
   - path: ../../images/configuration.png
@@ -151,7 +151,6 @@ configuration:
 
 ui_hints:
   highlight:
-  - path: README.md
-    focus: true
-  - path: config/btconf/gatt_configuration.btconf
-
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

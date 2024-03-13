@@ -19,19 +19,19 @@ The article referred in the [Background](#background) section discusses two meth
 
 2. Using user application
 
-This code example demonstrates the second method. See  the article [Uploading Firmware Images Using OTA DFU](https://docs.silabs.com/bluetooth/latest/general/firmware-upgrade/uploading-firmware-images-using-ota-dfu) for conceptual details.
+This code example demonstrates the second method. See the article [Uploading Firmware Images Using OTA DFU](https://docs.silabs.com/bluetooth/latest/general/firmware-upgrade/uploading-firmware-images-using-ota-dfu) for conceptual details.
 
 The code sample provided in [AN1086: Using the Gecko Bootloader with the Silicon Labs Bluetooth® Applications](https://www.silabs.com/documents/public/application-notes/an1086-gecko-bootloader-bluetooth.pdf) is simplified to fit in one page. The full example provided here includes some additional debug prints and features, such as printing the estimated data transfer rate.
 
-The main functional difference is related to erasing the download area. In the simplified code, the download area is erased when the remote OTA client starts the OTA process (writing value 0 to *ota_control*). In this example, the download area is erased at startup. The code also reads the content of the download area and does an erase only if needed (i.e., if the download area is not already blank) to avoid dropping connection because of the supervision timeout. Erasing the whole download area (256k or more) will take several seconds (it is a blocking function call) and this can lead to supervision timeout unless the connection parameters are specifically adjusted to prevent it.
+The main functional difference is related to erasing the download area. In the simplified code, the download area is erased when the remote OTA client starts the OTA process (writing value 0 to *ota_control*). In this example, the download area is erased at startup. The code also reads the content of the download area and does an erase only if needed (i.e., if the download area is not already blank) to avoid dropping the connection because of the supervision timeout. Erasing the whole download area (256k or more) will take several seconds (it is a blocking function call) and this can lead to supervision timeout unless the connection parameters are specifically adjusted to prevent it.
 
 ## Overview ##
 
-This project aims to implement firmware upgrade method used in SoC-mode Bluetooth applications. A Gecko Bootloader(GBL) image containing the new firmware is sent to target device via a Bluetooth connection.
+This project aims to implement the firmware upgrade method used in SoC-mode Bluetooth applications. A Gecko Bootloader(GBL) image containing the new firmware is sent to the target device via a Bluetooth connection.
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -48,23 +48,28 @@ Tested boards for working with this example:
 | BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)    |
 | BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)    |
 
+## Connections Required ##
+
+- Connect the Bluetooth Development Kits to the PC through a compatible-cable. For example, a micro USB cable for the BGM220 Bluetooth Module Explorer Kit.
+
 ## Setup ##
 
-To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware. 
-### Create a project based on a example project ###
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "ota".
+### Create a project based on an example project ###
+
+1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "ota".
 
 2. Click **Create** button on the **Bluetooth - OTA Firmware Update in User Application** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![create_project](images/create_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with an "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Since in this project we do not use Apploader for firmware upgrade, remove Apploader from your application
+2. Since in this project, we do not use Apploader for firmware upgrade, remove Apploader from your application
 
    - Open the Project Configurator (that is, open the .slcp file in your project and select the Software Components tab)
 
@@ -86,16 +91,17 @@ To test this application, you can either create a project based on a example pro
    - [Application] → [Utility] → [Log]
       - If using WSTK, navigate to the  **Platform** > **Board** > **Board Control**  software component, open its configurator and **Enable Virtual COM UART**
 
-5. Copy all attached files in inc and src folders into the project root folder (overwriting existing file).
+5. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing files).
 6. Build the project and flash it to your target.
 
 **NOTE:**
+
 - Make sure that this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 ![external_repos](images/external_repos.png)
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information
 
-## Usage
+## How It Works ##
 
 You can generate OTA files by running the create_bl_files script in your project (Note: you may need to set up some environmental variables first as described in section 3.10 of [AN1086: Using the Gecko Bootloader with the Silicon Labs Bluetooth® Applications](https://www.silabs.com/documents/public/application-notes/an1086-gecko-bootloader-bluetooth.pdf)).
 

@@ -585,6 +585,10 @@ static uint16_t air_quality_moving_average(uint16_t *data)
   uint16_t min, max;
   uint8_t i;
 
+  if (!samples_counter) {
+    return 0;
+  }
+
   // Calculate average value
   min = max = data[0];
   for (i = 0; i < samples_counter && i < DATA_BUFFER_SIZE; i++) {

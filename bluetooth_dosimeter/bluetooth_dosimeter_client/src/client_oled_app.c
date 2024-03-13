@@ -70,7 +70,7 @@ static glib_context_t glib_context;
 static disconnected_display_data_t display;
 
 // periodic timer callback
-void disconnected_simple_timer_display_cb(sl_simple_timer_t *handle,
+void disconnected_simple_timer_display_cb(app_timer_t *handle,
                                           void *data);
 
 /***************************************************************************//**
@@ -113,7 +113,7 @@ void client_oled_app_radiation_display(float radiation_value)
   int32_t data_x_start;
 
   glib_clear(&glib_context);
-  sl_simple_timer_stop(&display.timer_handle);
+  app_timer_stop(&display.timer_handle);
 
   /* Use Narrow font */
   glib_set_font(&glib_context, NULL);
@@ -156,11 +156,11 @@ void client_oled_app_disconnected_display(void)
   display.text_length = strlen((char *) display.param_text);
   glib_update_display();
 
-  sl_status_t sc = sl_simple_timer_start(&display.timer_handle,
-                                         300,
-                                         disconnected_simple_timer_display_cb,
-                                         (void *)NULL,
-                                         true);
+  sl_status_t sc = app_timer_start(&display.timer_handle,
+                                   300,
+                                   disconnected_simple_timer_display_cb,
+                                   (void *)NULL,
+                                   true);
   app_assert_status_f(sc, "Failed to start timer\r\n");
 }
 
@@ -214,7 +214,7 @@ static void display_set_paramline_next_text(uint8_t *text_buffer)
 /***************************************************************************//**
  * Disconnected timer callbacks
  ******************************************************************************/
-void disconnected_simple_timer_display_cb(sl_simple_timer_t *handle,
+void disconnected_simple_timer_display_cb(app_timer_t *handle,
                                           void *data)
 {
   (void)data;

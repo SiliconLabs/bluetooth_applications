@@ -42,7 +42,7 @@ component:
 - id: bt_post_build
 - id: bootloader_interface
 - id: component_catalog
-- id: simple_timer
+- id: app_timer
 config_file:    
   - override:
       component: gatt_configuration

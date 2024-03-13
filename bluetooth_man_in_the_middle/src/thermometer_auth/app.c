@@ -30,7 +30,7 @@
 #include <stdbool.h>
 #include "em_common.h"
 #include "sl_status.h"
-#include "sl_simple_timer.h"
+#include "sl_sleeptimer.h"
 #include "app_log.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
@@ -38,9 +38,10 @@
 #include "sl_health_thermometer.h"
 #include "app.h"
 
-#define MITM_PROTECTION (0x01) // 0=JustWorks,
-                               // 1=PasskeyEntry or NumericComparison
-
+#define TEMP_INDICATE_SIGNAL  1 << 0
+#define MITM_PROTECTION       (0x01) // 0=JustWorks,
+                                     // 1=PasskeyEntry or NumericComparison
+static bool timer_running = false;
 // Connection handle.
 static uint8_t app_connection = 0;
 
@@ -48,10 +49,12 @@ static uint8_t app_connection = 0;
 static uint8_t advertising_set_handle = 0xff;
 
 // Periodic timer handle.
-static sl_simple_timer_t app_periodic_timer;
+static sl_sleeptimer_timer_handle_t app_periodic_timer;
 
 // Periodic timer callback.
-static void app_periodic_timer_cb(sl_simple_timer_t *timer, void *data);
+static void app_periodic_timer_cb(sl_sleeptimer_timer_handle_t *handle,
+                                  void *data);
+static void app_indicate_temperature(void);
 
 /**************************************************************************//**
  * Application Init.
@@ -138,9 +141,15 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_connection_closed_id:
       app_log_info("Connection closed\n");
 
-      // stop timer
-      sc = sl_simple_timer_stop(&app_periodic_timer);
+      sc = sl_sleeptimer_is_timer_running(&app_periodic_timer, &timer_running);
       app_assert_status(sc);
+
+      if (timer_running) {
+        // stop timer
+        sc = sl_sleeptimer_stop_timer(&app_periodic_timer);
+        app_assert_status(sc);
+      }
+
       // Generate data for advertising
       sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
                                                  sl_bt_advertiser_general_discoverable);
@@ -157,21 +166,18 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
     case sl_bt_evt_sm_passkey_display_id:
-    {
       app_log("Passkey: %d\n", (int)evt->data.evt_sm_passkey_display.passkey);
       break;
-    }
+
     case sl_bt_evt_sm_confirm_bonding_id:
       sl_bt_sm_bonding_confirm(evt->data.evt_sm_confirm_bonding.connection, 1);
       app_log("confirm bonding");
       break;
 
     case sl_bt_evt_sm_confirm_passkey_id:
-    {
       app_log("Confirm: %d\n", (int)evt->data.evt_sm_confirm_passkey.passkey);
       sl_bt_sm_passkey_confirm(evt->data.evt_sm_confirm_passkey.connection, 1);
       break;
-    }
 
     case sl_bt_evt_sm_bonding_failed_id:
       app_log("rip\r\n");
@@ -180,6 +186,13 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
                                          sl_bt_advertiser_connectable_scannable);
       app_assert_status(sc);
+      break;
+
+    case sl_bt_evt_system_external_signal_id:
+      if (evt->data.evt_system_external_signal.extsignals
+          & TEMP_INDICATE_SIGNAL) {
+        app_indicate_temperature();
+      }
       break;
     // -------------------------------
     // Default event handler.
@@ -203,11 +216,12 @@ void sl_bt_ht_temperature_measurement_indication_changed_cb(uint8_t connection,
   // Indication or notification enabled.
   if (sl_bt_gatt_disable != client_config) {
     // Start timer used for periodic indications.
-    sc = sl_simple_timer_start(&app_periodic_timer,
-                               SL_BT_HT_MEASUREMENT_INTERVAL_SEC * 1000,
-                               app_periodic_timer_cb,
-                               NULL,
-                               true);
+    sc = sl_sleeptimer_start_periodic_timer_ms(&app_periodic_timer,
+                                               SL_BT_HT_MEASUREMENT_INTERVAL_SEC * 1000,
+                                               app_periodic_timer_cb,
+                                               NULL,
+                                               0,
+                                               0);
     app_assert_status(sc);
     // Send first indication.
     app_periodic_timer_cb(&app_periodic_timer, NULL);
@@ -215,7 +229,7 @@ void sl_bt_ht_temperature_measurement_indication_changed_cb(uint8_t connection,
   // Indications disabled.
   else {
     // Stop timer used for periodic indications.
-    (void)sl_simple_timer_stop(&app_periodic_timer);
+    (void)sl_sleeptimer_stop_timer(&app_periodic_timer);
   }
 }
 
@@ -224,10 +238,17 @@ void sl_bt_ht_temperature_measurement_indication_changed_cb(uint8_t connection,
  * Called periodically to time periodic temperature measurements and
  *   indications.
  *****************************************************************************/
-static void app_periodic_timer_cb(sl_simple_timer_t *timer, void *data)
+static void app_periodic_timer_cb(sl_sleeptimer_timer_handle_t *timer,
+                                  void *data)
 {
   (void)data;
   (void)timer;
+
+  sl_bt_external_signal(TEMP_INDICATE_SIGNAL);
+}
+
+static void app_indicate_temperature(void)
+{
   sl_status_t sc;
   int32_t temperature = 0;
   uint32_t humidity = 0;
@@ -249,6 +270,7 @@ static void app_periodic_timer_cb(sl_simple_timer_t *timer, void *data)
   sc = sl_bt_ht_temperature_measurement_indicate(app_connection,
                                                  temperature,
                                                  false);
+
   // Conversion to Fahrenheit: F = C * 1.8 + 32
   // tmp_f = (float)(temperature*18+320000)/10000;
   // app_log_info("Temperature: %5.2f F\n", tmp_f);

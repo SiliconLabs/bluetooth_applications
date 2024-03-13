@@ -23,8 +23,8 @@ This code example referred to the following code examples. More detailed informa
 
 ## Gecko SDK version ##
 
-- GSDK v4.2.1
-- [Third Party Hardware Drivers v1.3.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -62,11 +62,11 @@ Gateways do not require a display.
 
 ## Setup ##
 
-To test this application, you can either create a project based on an example project or start with an "Bluetooth - SoC Empty" project based on your hardware.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "positioning".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "positioning".
 
 2. Click **Create** button on the **Bluetooth - RSSI Positioning Asset** or **Bluetooth - RSSI Positioning Gateway** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![create_project](images/create_project.png)
@@ -77,9 +77,9 @@ To test this application, you can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your device using Simplicity Studio 5.
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing app.c).
+2. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting existing app.c).
 
-3. Copy the oled folder and its contents to the asset's project root folder - this contains the oled driver and the glib library.
+3. Copy the *oled* folder and its contents to the asset's project root folder - this contains the OLED driver and the GLIB library.
 
 4. Import the GATT configuration:
 
@@ -137,7 +137,7 @@ Normal Mode is different for the two applications:
 - Application is looking for gateways for a defined time limit (GATEWAY_FINDER_TIMEOUT_MS). Default value is 5 seconds.
 - Once Gateway finding finished application checks if at least one gateway is found or not.
   - In case no gateways were found it displays "Waiting For Gateways" message on the OLED displays, resets the state of the room finder application and waits for the next trigger.
-  - In case at least one gateway was found, it start collecting RSSI samples from all found gateways.
+  - In case at least one gateway was found, it starts collecting RSSI samples from all found gateways.
 - Once enough samples were gathered, calculation starts and the application finds the closest gateway based on its RSSI.
 - The closest gateways data(Room name, Room Id) is used to create an advertisement package and starts advertising this data for 5 seconds.
 - At the same time, the closest room's name is displayed on the OLED.
@@ -158,25 +158,21 @@ Follow the below steps to configure the devices for the example with the EFR Con
 2. Hold down Button 0 while pressing the Reset button once and enter configuration mode.
 
 3. Find your device in the Bluetooth Browser, advertising as either IPAS_#### or IPGW_####, and tap Connect. Then you need accept the pairing request when connected for the first time.
-
 | ![browser_asset](images/browser_asset.png) | ![browser_gw](images/browser_gw.png) |
 | --- | --- |
 
 4. Find the Indoor Positioning service above the OTA service.
-
 ![indoorpos_service](images/indoor_pos_service.png)
 
 5. Read the descriptions to identify configuration options.
-
 ![configuration options_asset](images/config_options_asset.png)         ![configuration options_gw](images/config_options_gw.png)
 
-6. For both the **Asset** and the **Gateways** the Network Unique Identifiers shall match, so enter the same custom value on all assets and gateways (unsigned 4bytes (0 ... 4294967295)
+6. For both the **Asset** and the **Gateways** the Network Unique Identifiers shall match, so enter the same custom value on all assets and gateways (unsigned 4bytes (0 ... 4294967295))
 
 7. For the **Asset** the _Reporting Interval_ configuration value is the amount of time in seconds the asset recalculates its own position and finds the closest room
 
 8. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
-
-    ![logs_asset](images/logs_asset.PNG)        ![logs_config_asset](images/logs_config_asset.PNG)
+![logs_asset](images/logs_asset.PNG)        ![logs_config_asset](images/logs_config_asset.PNG)
 
 ### GATT Configurator ###
 

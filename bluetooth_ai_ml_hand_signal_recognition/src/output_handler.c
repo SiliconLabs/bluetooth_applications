@@ -90,7 +90,7 @@ void hand_signal_characteristic_status(sl_bt_msg_t *evt)
 {
   // Notification or Indication status changed for Hand signal
   if (evt->data.evt_gatt_server_characteristic_status.status_flags
-      == gatt_server_client_config) {
+      == sl_bt_gatt_server_client_config) {
     notifications_enabled
       = evt->data.evt_gatt_server_characteristic_status.client_config_flags;
   }

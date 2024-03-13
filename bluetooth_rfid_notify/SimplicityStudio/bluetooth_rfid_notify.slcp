@@ -91,10 +91,10 @@ other_file:
 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.5.0
+    version: 2.0.0
 
 ui_hints:
   highlight:
-    - path: ../config/btconf/gatt_configuration.btconf
-    - path: ../README.md
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
       focus: true

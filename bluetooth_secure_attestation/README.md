@@ -20,7 +20,7 @@ This is a demonstration of a method for establishing secure identity over BLE by
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -50,22 +50,22 @@ The hardware connection is shown in the image below:
 
 ## Setup ##
 
-To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware. 
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-### Create a project based on a example project ###
+### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "secure".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "secure".
 
 2. Click **Create** button on the **Bluetooth - Secure Attestation - Server** and **Bluetooth - Secure Attestation - Client** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![create_project](images/create_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with an "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy all attached files in inc and src folders into the project root folder (overwriting existing file).
+2. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting existing file).
     - With **Server** device: [bt_secure_attestation_server](bt_secure_attestation_server)
 
     - With **client** device: [bt_secure_attestation_client](bt_secure_attestation_client)
@@ -75,7 +75,10 @@ To test this application, you can either create a project based on a example pro
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
 
-    - Find the Import button and import the attached [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) file.
+    - Find the Import button and import the attached file.
+
+         - With **Server** device: `bt_secure_attestation_server/config/btconf/gatt_configuration.btconf`
+         - With **client** device: `bt_secure_attestation_client/config/btconf/gatt_configuration.btconf`
 
     - Save the GATT configuration (ctrl-s).
 4. Install the software components:
@@ -121,12 +124,11 @@ To test this application, you can either create a project based on a example pro
 
 ## How it Works ##
 
-1. Flash one radio board with the client code and another one with the server code. 
+1. Flash one radio board with the client code and another one with the server code.
 2. Open two instances of your favorite terminal program, and connect to both kits via the virtual COM port (find the JLink CDC UART ports). Use the following UART settings: **baud rate 115200, 8N1, no flow control**.
 3. Press reset button on both kits.
 4. The two kits will automatically find each other and set up a connection. You should see the logs on the terminal programs.
 5. Once the connection is set up, the server and client will display the following on a serial console.
-
 ![](images/server_console.png)
 ![](images/client_console.png)
 
@@ -136,16 +138,12 @@ To test this application, you can either create a project based on a example pro
 
 Now that you've seen a simple demo using the default identity attestation certificate chain, you can create your own certificate chain that will be unique to your devices.
 
-1.  Create a new chain of certificates by running create_cert_chain/build-id-cert-chain.bat
+1. Create a new chain of certificates by running create_cert_chain/build-id-cert-chain.bat
 
-2. The certificates and public keys are placed in folder create_cert_chain. Copy the contents of each file to src/certificates.c, you'll find an array for each certificate, replacing the previous values. 
+2. The certificates and public keys are placed in folder create_cert_chain. Copy the contents of each file to src/certificates.c, you'll find an array for each certificate, replacing the previous values.
 
 3. Provision the device private signing key by copying the contents of the file to ../server/src/app.c, replacing the previous value.
- 
+
 4. Provision the root public signing key by copying the contents of the file to ../client/src/app.c, replacing the previous value.
 
 5. Rebuild and flash both the server and client applications. Testing instructions are provided in the previous section.
-
-
-
-

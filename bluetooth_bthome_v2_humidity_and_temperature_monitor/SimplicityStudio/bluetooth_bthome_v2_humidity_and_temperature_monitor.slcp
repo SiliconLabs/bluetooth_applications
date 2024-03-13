@@ -40,7 +40,6 @@ component:
   - id: bluetooth_feature_gatt_server
   - id: bluetooth_feature_system
   - id: bluetooth_feature_sm
-  - id: rail_util_pti
   - id: mpu
   - id: bt_post_build
   - id: sl_system
@@ -56,7 +55,7 @@ component:
   - id: mikroe_temphum9
     from: third_party_hw_drivers
   - id: i2cspm
-    instance: [mikroe]
+    instance: [qwiic]
 
 config_file:
   - override:
@@ -64,18 +63,6 @@ config_file:
       file_id: gatt_configuration_file_id
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
-  - override:
-      component: i2cspm
-      instance: mikroe
-      file_id: i2cspm_config
-    path: "../config/brd2601b/sl_i2cspm_mikroe_config.h"
-    condition: [brd2601b]
-  - override:
-      component: i2cspm
-      instance: mikroe
-      file_id: i2cspm_config
-    path: "../config/brd2704a/sl_i2cspm_mikroe_config.h"
-    condition: [brd2704a]
 
 other_file:
   - path: ../image/add_device.png
@@ -100,10 +87,6 @@ other_file:
     directory: "image"
   - path: ../image/create_project.png
     directory: "image"
-  - path: ../image/i2cspm_brd2601b.png
-    directory: "image"
-  - path: ../image/i2cspm_brd2704a.png
-    directory: "image"
 
 toolchain_settings:
   - option: gcc_linker_option
@@ -126,7 +109,7 @@ tag:
 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.8.0
+    version: 2.0.0
 
 ui_hints:
   highlight:

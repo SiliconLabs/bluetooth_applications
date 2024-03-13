@@ -78,7 +78,7 @@ configuration:
 
 sdk_extension:
 - id: third_party_hw_drivers
-  version: 1.7.0
+  version: 2.0.0
 
 other_file:
   - path: ../images/switch_device_init.png
@@ -120,6 +120,6 @@ other_file:
 
 ui_hints:
   highlight:
-  - path: README.md
-    focus: true
-  - path: config/display_device/btconf/gatt_configuration.btconf
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

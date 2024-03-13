@@ -25,14 +25,14 @@ The counter (timestamp) value provides a trigger for the client to notify the us
 
 **Client:**
 
-The client device scans periodically the BLE network. Once it found the sensor device, it tries to connect to it and read the radiation characteristic and show the radiation level on the connected OLED display. Optionally it can produce a "click" noise by activating the buzzer, to notify the user about the radiation event. The client device subscribes to the radiation characteristic to get notifications about changes in the measured radiation level.
+The client device scans periodically the BLE network. Once the sensor device is found, the client device tries to connect to it and read the radiation characteristic and show the radiation level on the connected OLED display. Optionally it can produce a "click" noise by activating the buzzer, to notify the user about the radiation event. The client device subscribes to the radiation characteristic to get notifications about changes in the measured radiation level.
 
 Note: Any other BLE capable device can be a client device, (e.g.: a simple mobile phone).
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
-- [Third Party Hardware Drivers v1.2.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -50,7 +50,7 @@ Note: Any other BLE capable device can be a client device, (e.g.: a simple mobil
 
 - [Buzzer 2 Click Board](https://www.mikroe.com/buzz-2-click)
 
-**NOTE:** The sensor device is able to run on all Silicon Labs boards while the client device should be used with the listed boards below:
+**NOTE:** The sensor device can run on all Silicon Labs boards while the client device should be used with the listed boards below:
 
 | Board ID | Description  |
 | -------- | ------------ |
@@ -62,20 +62,20 @@ Note: Any other BLE capable device can be a client device, (e.g.: a simple mobil
 
 The hardware connection is shown in the image below:
 
-**Sensor** | **Client**
-:-------------------------:|:-------------------------:
-![sensor](images/sensor.png)                | ![client](images/client.png)
+|**Sensor** | **Client**|
+|:-------------------------:|:-------------------------:|
+|![sensor](images/sensor.png) | ![client](images/client.png)|
 
 The Sparkfun OLED Display board can be easily connected to these boards above by using a Qwiic cable while the Buzzer 2 Click connects to them using SPI protocol via a Mikroe connection.
 
-**NOTE:** Please configure the sensor pin assignment as follow.
+**NOTE:** Please configure the sensor pin assignment as follows.
 
 | Sparkfun Thing Plus Matter  | xG24 Explorer Kit  |BGM220P/BG22  Explorer Kit    |  Pocket Geiger Radiation Sensor markings |
 |------------------------------|----------|---------------------------|----------------------------------------|
 |5V                            |5V        |   5V                      |        +V                                |
 |GND                           |GND       |   GND                     |        GND                               |
-|PD03                    |PB01 - INT|   PB03 - INT              |        SIG                               |
-|PD02                     |PD05 - RX |   PD05 - RX               |        SN                                |
+|PB01                    |PB01 - INT|   PB03 - INT              |        SIG                               |
+|PB00                     |PD05 - RX |   PB02 - RX               |        SN                                |
 
 ## Setup ##
 
@@ -91,7 +91,7 @@ To test this application, you can either create a project based on an example pr
 
 1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with the filter "dosimeter".
 
-2. Click Create button on both **Bluetooth - Dosimeter (Sparkfun Type 5) - Sensor** and **Bluetooth - Dosimeter (Sparkfun Type 5) - Client** examples. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
+2. Click **Create** button on both **Bluetooth - Dosimeter (Sparkfun Type 5) - Sensor** and **Bluetooth - Dosimeter (Sparkfun Type 5) - Client** examples. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
 
     ![create example](images/create_example.png)
 

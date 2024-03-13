@@ -76,12 +76,13 @@ mbedtls_pk_context root_pub_pk;
 
 #ifdef USE_CUSTOM_CERTIFICATES
 static const uint8_t server_root_pub_key[] =
- "-----BEGIN PUBLIC KEY-----\n"
- "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEW/ZeSeQROd7bmPFpDR8rb49rpym/\n"
- "C+4XRCd1soIo4jfpXAnD20eKKaUJ5KSnA7w3qFJQgeU1lp0JPYrlN2bS9Q==\n"
- "-----END PUBLIC KEY-----\n";
+  "-----BEGIN PUBLIC KEY-----\n"
+  "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEW/ZeSeQROd7bmPFpDR8rb49rpym/\n"
+  "C+4XRCd1soIo4jfpXAnD20eKKaUJ5KSnA7w3qFJQgeU1lp0JPYrlN2bS9Q==\n"
+  "-----END PUBLIC KEY-----\n";
 
 #endif
+
 /**************************************************************************//**
  * Private functions declaration
  *****************************************************************************/
@@ -111,6 +112,7 @@ static int verify_callback(void *data,
                            mbedtls_x509_crt *crt,
                            int depth,
                            uint32_t *flags);
+
 /**************************************************************************//**
  * GATT characteristic callback
  *****************************************************************************/
@@ -222,7 +224,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_log("\r\n----- Silicon Labs Application Layer Security Demo -----\r\n");
 
       // configure security
-      sc = sl_bt_sm_configure(0, sm_io_capability_noinputnooutput);
+      sc = sl_bt_sm_configure(0, sl_bt_sm_io_capability_noinputnooutput);
       app_assert_status(sc);
       sc = sl_bt_sm_set_bondable_mode(1);
       app_assert_status(sc);

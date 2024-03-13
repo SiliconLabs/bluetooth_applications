@@ -9,9 +9,9 @@
 
 ## Overview
 
-This project aims to implement a simple Bluetooth-Ethernet Thin Gateway, the sensor measures and collects data from the device's environment and the gateway request the results via BLE.
+This project aims to implement a simple Bluetooth-Ethernet Thin Gateway, the sensor measures and collects data from the device's environment and the gateway requests the results via BLE.
 
-When the device in connected to a sensor peripheral the gateway reads the BLE characteristics to retrieve the measured temperature and humidity. The measurements results are uploaded to dweet.io via the Ethernet Click board.
+When the device is connected to a sensor peripheral the gateway reads the BLE characteristics to retrieve the measured temperature and humidity. The measurement results are uploaded to dweet.io via the Ethernet Click board.
 
 The block diagram of this application is shown in the image below:
 
@@ -25,8 +25,8 @@ This code example referred to the following code example. More detailed informat
 
 ## Gecko SDK version
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required
 
@@ -61,7 +61,7 @@ To test this application, you can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing).
+2. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting existing).
 
 3. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
    - [Third Party Hardware Drivers] → [Interface] → [W5500 - ETH WIZ Click (Mikroe)]
@@ -81,7 +81,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 ![external_repo](images/external_repo.png)
 
 - SDK Extension must be enabled for the project to install some components.
@@ -89,14 +89,14 @@ To test this application, you can either create a project based on an example pr
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 - Enable floating-point support for printf
-    - Right clicking on your project in the **[Project Explorer]** window and select properties and then select **[C/C++ Build] > [Settings]**, then under **[GNU ARM C Linker] > [General]**, check the **[Printf float]** checkbox
+  - Right clicking on your project in the **[Project Explorer]** window and select properties and then select **[C/C++ Build] > [Settings]**, then under **[GNU ARM C Linker] > [General]**, check the **[Printf float]** checkbox
 
-    | ![Project properties](images/project_properties.png) | ![Enable printf floating point](images/enable_printf_floating_point.png) |
-    | --- | --- |
+  | ![Project properties](images/project_properties.png) | ![Enable printf floating point](images/enable_printf_floating_point.png) |
+  | --- | --- |
 
 ## How It Works
 
-### Application overview  
+### Application Overview  
   
 ![Application overview](images/application_overview.png)
 
@@ -112,44 +112,44 @@ To test this application, you can either create a project based on an example pr
 
 #### Application Workflows
 
-1. Initialize the peripherals, the Bluetooth stack.
+1. Initialize the peripherals and the Bluetooth stack.
 
 2. Initialize the ethernet module.
 
-3. Initialize DHCP client on the ethernet module.
+3. Initialize the DHCP client on the ethernet module.
 
-4. Get gateway IP, subnet mask, local IP from the DHCP server.
+4. Get the gateway IP, subnet mask, and local IP from the DHCP server.
 
 5. Setting DNS server.
 
 6. Get the IP of the remote server: `dweet.io`.
 
-7. Start scaning for thunderboard sense device filter the result by name: `Thunderboard`.
+7. Start scanning for thunderboard sense device filter the result by name: `Thunderboard`.
 
-8. Connect to the device with highest RSSI
-    - If BLE connection is established:
+8. Connect to the device with the highest RSSI
+    - If the BLE connection is established:
 
       - Discover **environment sensing** service and **temperature & humidity** characteristic.
       - Start a timer with period 3s to check the connection is timed out.
-    - If failed to connect to the device then restart scaning process.
+    - If failed to connect to the device then restart the scanning process.
 
 9. When discovering service and characteristic is finished
     - If the temperature & humidity characteristic are found then start a periodic timer to collect sensor data
-    - If no service and characteristic is found within 3s then restart scaning process.
+    - If no service and characteristic are found within 3s then restart the scanning process.
 
 10. In periodic timer handler, collect sensor data and send them to the remote server by using HTTP GET request.
 
 ### LED
 
-- Indicate the thunderboard sense device is connected
+- Indicate the Thunderboard Sense device is connected
 
 ### Dweet cloud monitoring interfaces
 
-- These interfaces can be opened from a simple browser (except real-time stream) or most of them can be integrated into dashboards, other services.
+- These interfaces can be opened from a simple browser (except real-time stream) or most of them can be integrated into dashboards and other services.
 - Follow URL: [https://dweet.io/follow/<device_name>](https://dweet.io/follow/<device_name>)
 - Example:
   - Visual dashboard: <https://dweet.io/follow/thunderboard-be-gateway>
     - To provide visual interfaces to monitor sensor data
     ![dweet](images/dweet_follow.png)
-  - Read all message: <https://dweet.io/get/dweets/for/thunderboard-be-gateway>
+  - Read all messages: <https://dweet.io/get/dweets/for/thunderboard-be-gateway>
   - Real-time stream: <https://dweet.io/listen/for/dweets/from/thunderboard-be-gateway>

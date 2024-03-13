@@ -26,15 +26,18 @@
 /* System */
 #define SYSTEM_BOOT_EVT                     SURROUNDING("Boot")
 #define EXSYSTEM_TERNAL_SIGNAL_EVT          SURROUNDING("External signal")
+
 /* Bluetooth LE Connection */
 #define LE_CONNECTION_OPEN_EVT              SURROUNDING("Opened")
 #define LE_CONNECTION_CLOSED_EVT            SURROUNDING("Closed")
 #define LE_CONNECTION_UPDATE_EVT            SURROUNDING("Parameters Updated")
 #define LE_CONNECTION_RSSI                  SURROUNDING("RSSI")
+
 /* Gatt Server */
 #define GATT_SERVER_CHARACTERISTIC_STATUS   SURROUNDING("Characteristic Status")
 #define GATT_SERVER_ATT_VALUE               SURROUNDING("Attribute Value")
 #define GATT_SERVER_READ_REQUEST            SURROUNDING("Read Request")
+
 /* DTM */
 #define TEST_DTM_COMPLETED                  SURROUNDING("DTM Completed")
 
@@ -95,7 +98,6 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       LOGV("This is a VERBOSE message\r\n");
       LOGI("This is an INFORMATION message\r\n\r\n");
 
-
       // Create an advertising set.
       sc = sl_bt_advertiser_create_set(&advertising_set_handle);
       app_assert_status(sc);
@@ -131,15 +133,15 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_connection_closed_id:
       LOGD("Connection closed, reason: 0x%2.2x\r\n",
            evt->data.evt_connection_closed.reason);
-        // Generate data for advertising
-        sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
-                                                   sl_bt_advertiser_general_discoverable);
-        app_assert_status(sc);
+      // Generate data for advertising
+      sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
+                                                 sl_bt_advertiser_general_discoverable);
+      app_assert_status(sc);
 
-        // Restart advertising after client has disconnected.
-        sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
+      // Restart advertising after client has disconnected.
+      sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
                                          sl_bt_advertiser_connectable_scannable);
-        app_assert_status(sc);
+      app_assert_status(sc);
       break;
 
     ///////////////////////////////////////////////////////////////////////////
@@ -192,7 +194,8 @@ void log_events(sl_bt_msg_t *evt)
       EVT_LOG_I(FOLLOWINGS, "Peer address = ");
       UINT8_ARRAY_DUMP(evt->data.evt_connection_opened.address.addr, 6);
       LOGN();
-      EVT_LOG_V(FOLLOWINGS, "Role = %s, Bonding handle = %d, advertiser = %d",
+      EVT_LOG_V(FOLLOWINGS,
+                "Role = %s, Bonding handle = %d, advertiser = %d",
                 evt->data.evt_connection_opened.master == 1 ? "Master" : "Slave",
                 evt->data.evt_connection_opened.bonding,
                 evt->data.evt_connection_opened.advertiser);
@@ -212,6 +215,7 @@ void log_events(sl_bt_msg_t *evt)
                 evt->data.evt_connection_parameters.interval,
                 evt->data.evt_connection_parameters.latency,
                 evt->data.evt_connection_parameters.timeout * 10);
+
       /* TODO: There are still 2 parameters may need to be handled */
       LOGN();
       break;
@@ -289,7 +293,7 @@ void log_events(sl_bt_msg_t *evt)
       error_checking(evt->data.evt_test_dtm_completed.result, 1);
       LOGN();
       EVT_LOG_I(FOLLOWINGS,
-            "Number of Packets = %d",
+                "Number of Packets = %d",
                 evt->data.evt_test_dtm_completed.number_of_packets);
       LOGN();
       break;
@@ -297,8 +301,8 @@ void log_events(sl_bt_msg_t *evt)
 
     default:
       EVT_LOG_V(COMMANDS_NOT_ADDED,
-            "Header = 0x%08lx",
-          SL_BT_MSG_ID(evt->header));
+                "Header = 0x%08lx",
+                SL_BT_MSG_ID(evt->header));
       LOGN();
       break;
   }
@@ -327,7 +331,7 @@ sl_status_t error_checking(sl_status_t sc, uint8_t directly)
     case SL_STATUS_BT_PS_STORE_FULL:
       log_out(directly, "Flash reserved for PS store is full", sc);
       break;
-    case SL_STATUS_BT_PS_KEY_NOT_FOUND :
+    case SL_STATUS_BT_PS_KEY_NOT_FOUND:
       log_out(directly, "PS key not found", sc);
       break;
     case SL_STATUS_INVALID_HANDLE:
@@ -347,18 +351,20 @@ sl_status_t error_checking(sl_status_t sc, uint8_t directly)
       break;
     case SL_STATUS_BT_CTRL_REMOTE_USER_TERMINATED:
       log_out(directly,
-          "User on the remote device terminated the connection",
-        sc);
+              "User on the remote device terminated the connection",
+              sc);
       break;
-    case SL_STATUS_BT_CTRL_REMOTE_DEVICE_TERMINATED_CONNECTION_DUE_TO_LOW_RESOURCES:
+    case
+      SL_STATUS_BT_CTRL_REMOTE_DEVICE_TERMINATED_CONNECTION_DUE_TO_LOW_RESOURCES
+      :
       log_out(directly,
-          "The remote device terminated the connection because of low resources",
-        sc);
+              "The remote device terminated the connection because of low resources",
+              sc);
       break;
     case SL_STATUS_BT_CTRL_REMOTE_POWERING_OFF:
       log_out(directly,
-          "Remote Device Terminated Connection due to Power Off",
-        sc);
+              "Remote Device Terminated Connection due to Power Off",
+              sc);
       break;
     case SL_STATUS_BT_CTRL_CONNECTION_TERMINATED_BY_LOCAL_HOST:
       log_out(directly, "Local device terminated the connection", sc);
@@ -368,13 +374,13 @@ sl_status_t error_checking(sl_status_t sc, uint8_t directly)
       break;
     case SL_STATUS_BT_CTRL_LL_RESPONSE_TIMEOUT:
       log_out(directly,
-          "Connection terminated due to link-layer procedure timeout",
-        sc);
+              "Connection terminated due to link-layer procedure timeout",
+              sc);
       break;
     case SL_STATUS_BT_ATT_INVALID_HANDLE:
       log_out(directly,
-          "The attribute handle given was not valid on this server",
-        sc);
+              "The attribute handle given was not valid on this server",
+              sc);
       break;
     case SL_STATUS_BT_ATT_READ_NOT_PERMITTED:
       log_out(directly, "The attribute cannot be read", sc);
@@ -384,18 +390,18 @@ sl_status_t error_checking(sl_status_t sc, uint8_t directly)
       break;
     case SL_STATUS_BT_ATT_INSUFFICIENT_AUTHENTICATION:
       log_out(directly,
-          "The attribute requires authentication before it can be read or written",
-        sc);
+              "The attribute requires authentication before it can be read or written",
+              sc);
       break;
     case SL_STATUS_BT_ATT_INVALID_OFFSET:
       log_out(directly,
-          "Offset specified was past the end of the attribute",
-        sc);
+              "Offset specified was past the end of the attribute",
+              sc);
       break;
     case SL_STATUS_BT_ATT_ATT_NOT_FOUND:
       log_out(directly,
-          "No attribute found within the given attribute handle range",
-        sc);
+              "No attribute found within the given attribute handle range",
+              sc);
       break;
     default:
       log_out(directly, "Error needs to be added", sc);

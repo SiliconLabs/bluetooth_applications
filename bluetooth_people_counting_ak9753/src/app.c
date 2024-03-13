@@ -189,7 +189,7 @@ static void bt_system_boot(void)
   app_assert_status(sc);
 
   // Capabilities: No Input and No Output
-  sc = sl_bt_sm_configure(0x8, sm_io_capability_noinputnooutput);
+  sc = sl_bt_sm_configure(0x8, sl_bt_sm_io_capability_noinputnooutput);
   app_assert_status(sc);
 
   // Allow bondings
@@ -237,7 +237,7 @@ static void connection_closed_handler(sl_bt_msg_t *evt)
   // Restart advertising after client has disconnected.
   sc = sl_bt_legacy_advertiser_start(
     advertising_set_handle,
-    advertiser_connectable_scannable);
+    sl_bt_legacy_advertiser_connectable);
   app_assert_status(sc);
 }
 

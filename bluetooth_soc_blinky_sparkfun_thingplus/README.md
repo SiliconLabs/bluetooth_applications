@@ -13,7 +13,7 @@ This example application is the "Hello World" of Bluetooth Low Energy (BLE). It 
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -21,6 +21,7 @@ This example application is the "Hello World" of Bluetooth Low Energy (BLE). It 
 - An external button, because it has no integrated button.
 
 **Note:**
+
 - To connect the external button to the board and make the project more stable, you should use a ceramic capacitor (ex: Ceramic Capacitor 104) and a resistor to avoid the anti-vibration button used in the project as below.
 ![harware_connection](image/hardware_connection.png)
 
@@ -32,11 +33,12 @@ The following picture shows the system view of how it works.
 
 Listed below are the port and pin mappings for work with this example.
 
-* Board: **BRD2704A - SparkFun Thing Plus Matter - MGM240P Board**
-    | Button Pin | Connection | Pin function |
-    |:---:|:-------------:|:---------------|
-    | Pin 1 | PB04 | Button |
-    | Pin 2 | GND | GND |
+Board: **BRD2704A - SparkFun Thing Plus Matter - MGM240P Board**
+
+| Button Pin | Connection | Pin function |
+|:---:|:-------------:|:---------------|
+| Pin 1 | PB04 | Button |
+| Pin 2 | GND | GND |
 
 ## Setup ##
 
@@ -81,7 +83,8 @@ To test this application, you can either create a project based on an example pr
 5. Build and flash the project to your device.
 
 **Note:**
-- Make sure to add this repository to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- Make sure that to add this repository to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information
 

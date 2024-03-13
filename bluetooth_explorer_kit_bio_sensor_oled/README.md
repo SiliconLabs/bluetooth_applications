@@ -9,7 +9,6 @@
 ![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_bio_sensor_oled_common.json&label=Flash&query=flash&color=blue)
 ![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_bio_sensor_oled_common.json&label=RAM&query=ram&color=blue)
 
-
 ## Overview ##
 
 This example implements the **Heart Rate** service and **Pulse Oximeter** service. It enables a peer device to connect and receive Heart Rate and Pulse Oximeter values via Bluetooth. The HRM/SpO2 values are measured by using a bio-sensor located on the Heart Rate 2 Click board and displayed on the OLED screen located on the SparkFun Micro OLED Breakout (Qwiic) board.
@@ -22,11 +21,10 @@ This code example has related code examples, which may be worth reading before. 
 
 - [HRM/SpO2 Software Demo without OLED display.](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_explorer_kit_i2c_bio_sensor)
 
-##  Gecko SDK version ##
+## Gecko SDK version ##
 
- - GSDK v4.3.0
-
- - Third Party Hardware Drivers v1.5.0
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -77,7 +75,7 @@ To test this application, you can either create a project based on an example pr
     - Open the .slcp file in the project.
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
-    
+
     - Find the Import button and import the configuration `bluetooth_explorer_kit_bio_sensor_oled/config/btconfig/gatt_configuration.btconf` file.
 
     - Save the GATT configuration (ctrl-s).
@@ -100,7 +98,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
@@ -113,27 +111,16 @@ GATT Database
 - Device name: **Silabs HR Example**
 
 - **[Service]** Generic Access
-
 - **[Service]** Device Information
-
 - **[Service]** Heart Rate
-
-    - **[Char]** Heart Rate Measurement
-
-    - **[Char]** Body Sensor Location
-
-    - **[Char]** Heart Rate Control Point
-
+  - **[Char]** Heart Rate Measurement
+  - **[Char]** Body Sensor Location
+  - **[Char]** Heart Rate Control Point
 - **[Service]** Pulse Oximeter Service
-
-    - **[Char]** PLX Spot-Check Measurement
-
-    - **[Char]** PLX Continuous Measurement
-
-    - **[Char]** PLX Features
-
-    - **[Char]** Record Access Control Point
-
+  - **[Char]** PLX Spot-Check Measurement
+  - **[Char]** PLX Continuous Measurement
+  - **[Char]** PLX Features
+  - **[Char]** Record Access Control Point
 
 ### Testing ###
 
@@ -149,17 +136,17 @@ You can use a smartphone app, such as the **EFR Connect** application on your ph
 
 - Click on **Connect** button.
 
-![efr_connect](image/efr_connect.png)
+    ![efr_connect](image/efr_connect.png)
 
 You can use the BTN0 button to start or stop the measurement at any time. When starting the HRM/SpO2 measurement, you should put your finger on the sensor with appropriate pressure (solid contact between the finger and the sensor without optical leakage and don’t press with a too large force) and stay idle for at least 10 seconds. Then check the measured Heart Rate and Pulse Oximeter values on the OLED screen and the EFR Connect application on your smartphone.
 
-**Heart Rate Service**
+**Heart Rate Service:**
 
 You have to enable **Notify** for the **Heart Rate Measurement** characteristic. You can see the change of value, it represents your heart rate. After that, the notification will be sent every 500 milliseconds from the device. The normal heart rate of a healthy person is frequently in the range of 60-100 beats/minute at rest. The average person's SpO2 should be between 95 and 100%.
 
 ![heart_rate_service](image/heart_rate_service.png)
 
-**OLED display**
+**OLED display:**
 
 On the OLED screen, you can see the measured heart rate and Sp02 value. That value is allocated according to the icon and description on the left. Values also will be updated every 500 milliseconds.
 

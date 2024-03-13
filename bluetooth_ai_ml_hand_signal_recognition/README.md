@@ -20,8 +20,8 @@ The hand gestures:
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
-- [Third Party Hardware Drivers v1.2.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -72,7 +72,6 @@ Listed below are the port and pin mappings for working with this example.
 ## Setup ##
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
-
 
 **NOTE:**
 

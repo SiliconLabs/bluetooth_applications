@@ -64,10 +64,10 @@ tag:
   - hardware:rf:band:2400
 
 configuration:
+  - name: SL_BT_CONFIG_USER_ADVERTISERS
+    value: 4
   - name: SL_BOARD_ENABLE_VCOM
     value: "1"
-    condition:
-      - board_control
 
 other_file:
   - path: ../images/create_project.png
@@ -94,9 +94,11 @@ other_file:
     directory: images
   - path: ../images/passkey.png
     directory: images
+  - path: ../images/float.png
+    directory: images
 
 ui_hints:
   highlight:
-    - path: ../config/mitm_device/gatt_configuration.btconf
-    - path: ../README.md
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
       focus: true

@@ -122,19 +122,19 @@ static uint8_t scan_response(
 static void app_system_boot_handler(void);
 
 // user write request handler
-static sl_status_t app_user_write_request_handler(
+static void app_user_write_request_handler(
   sl_bt_evt_gatt_server_user_write_request_t *user_write_request);
 
 // user read request handler
-static sl_status_t app_user_read_request_handler(
+static void app_user_read_request_handler(
   sl_bt_evt_gatt_server_user_read_request_t *user_read_request);
 
 // user read request handler
-static sl_status_t app_gatt_procedure_completed_handler(
+static void app_gatt_procedure_completed_handler(
   sl_bt_evt_gatt_procedure_completed_t *procedure_completed);
 
 // user notification handler
-static sl_status_t app_gatt_characteristic_value_handler(
+static void app_gatt_characteristic_value_handler(
   sl_bt_evt_gatt_characteristic_value_t *characteristic_value);
 
 // display function
@@ -223,11 +223,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
     // -------------------------------
     case sl_bt_evt_gatt_procedure_completed_id:
-      sc = app_gatt_procedure_completed_handler(
+      app_gatt_procedure_completed_handler(
         &evt->data.evt_gatt_procedure_completed);
-      if (SL_STATUS_OK != sc) {
-        app_log("user procedure completed error: %ld\r\n", sc);
-      }
       break;
 
     // -------------------------------
@@ -244,11 +241,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
     // -------------------------------
     case sl_bt_evt_gatt_characteristic_value_id:
-      sc = app_gatt_characteristic_value_handler(
+      app_gatt_characteristic_value_handler(
         &evt->data.evt_gatt_characteristic_value);
-      if (SL_STATUS_OK != sc) {
-        app_log("user procedure completed error: %ld\r\n", sc);
-      }
       break;
 
     // -------------------------------
@@ -284,20 +278,14 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
     // -------------------------------
     case sl_bt_evt_gatt_server_user_read_request_id:
-      sc = app_user_read_request_handler(
+      app_user_read_request_handler(
         &evt->data.evt_gatt_server_user_read_request);
-      if (SL_STATUS_OK != sc) {
-        app_log("user read request error: %ld\r\n", sc);
-      }
       break;
 
     // -------------------------------
     case sl_bt_evt_gatt_server_user_write_request_id:
-      sc = app_user_write_request_handler(
+      app_user_write_request_handler(
         &evt->data.evt_gatt_server_user_write_request);
-      if (SL_STATUS_OK != sc) {
-        app_log("user write request error: %ld\r\n", sc);
-      }
       break;
 
     ///////////////////////////////////////////////////////////////////////////
@@ -455,7 +443,7 @@ static void app_system_boot_handler(void)
       cursor_x = rgb_context.width - 1;
       app_display_normal();
       // configure security before start advertise
-      sc = sl_bt_sm_configure(0, sm_io_capability_noinputnooutput);
+      sc = sl_bt_sm_configure(0, sl_bt_sm_io_capability_noinputnooutput);
       app_assert_status(sc);
       sc = sl_bt_sm_set_bondable_mode(1);
       app_assert_status(sc);
@@ -510,10 +498,10 @@ static void app_system_boot_handler(void)
 }
 
 // for config mode
-static sl_status_t app_user_write_request_handler(
+static void app_user_write_request_handler(
   sl_bt_evt_gatt_server_user_write_request_t *user_write_request)
 {
-  sl_status_t sc = SL_STATUS_OK;
+  sl_status_t sc;
 
   if (user_write_request->characteristic == gattdb_operation_time_threshold) {
     operation_time_threshold = (uint32_t)atoi(
@@ -526,11 +514,9 @@ static sl_status_t app_user_write_request_handler(
     user_write_request->characteristic,
     SL_STATUS_OK);
   app_assert_status(sc);
-
-  return sc;
 }
 
-static sl_status_t app_user_read_request_handler(
+static void app_user_read_request_handler(
   sl_bt_evt_gatt_server_user_read_request_t *user_read_request)
 {
   sl_status_t sc;
@@ -549,31 +535,25 @@ static sl_status_t app_user_read_request_handler(
       &sent_len);
     app_assert_status(sc);
   }
-
-  return sc;
 }
 
-static sl_status_t app_gatt_characteristic_value_handler(
+static void app_gatt_characteristic_value_handler(
   sl_bt_evt_gatt_characteristic_value_t *characteristic_value)
 {
-  sl_status_t sc = SL_STATUS_OK;
-
   operation_time = atoi((char *)characteristic_value->value.data);
   if (operation_time > operation_time_threshold) {
     app_log("WARNING! reach threshold value\r\n");
     snprintf(content, 25, "TIME:%ld(s)", operation_time);
     app_display_warning();
-    return sc;
   }
   snprintf(content, 25, "OPERATION TIME:%lu" "s", operation_time);
   app_log("get notification! operation time = %lu\r\n", operation_time);
-  return sc;
 }
 
-static sl_status_t app_gatt_procedure_completed_handler(
+static void app_gatt_procedure_completed_handler(
   sl_bt_evt_gatt_procedure_completed_t *procedure_completed)
 {
-  sl_status_t sc = SL_STATUS_OK;
+  sl_status_t sc;
 
   switch (conn_state)
   {
@@ -604,5 +584,4 @@ static sl_status_t app_gatt_procedure_completed_handler(
     default:
       break;
   }
-  return sc;
 }

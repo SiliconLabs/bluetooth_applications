@@ -1,6 +1,6 @@
 # Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
 project_name: bt_thermometer_auth
-label: Bluetooth - Health Thermometer Authenticated Server
+label: Bluetooth - SoC Thermometer Authenticated Server
 description: |
   This example project shows an example for Bluetooth Thermometer Server that is configured with authenticated notify to prevent MITM.
 
@@ -28,8 +28,6 @@ include:
 - path: ../inc
   file_list:
   - path: ../inc/app.h
-
-sdk: {id: gecko_sdk, version: 4.2.1}
 
 configuration:
   - name: SL_BOARD_ENABLE_VCOM
@@ -60,7 +58,7 @@ component:
 - instance: [sensor]
   id: i2cspm
 - id: sensor_rht
-- id: simple_timer
+- id: sleeptimer
 
 toolchain_settings:
   - option: gcc_linker_option
@@ -104,9 +102,11 @@ other_file:
     directory: images
   - path: ../images/passkey.png
     directory: images
+  - path: ../images/float.png
+    directory: images
 
 ui_hints:
   highlight:
-    - path: ../config/thermometer_auth/gatt_configuration.btconf
-    - path: ../README.md
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
       focus: true

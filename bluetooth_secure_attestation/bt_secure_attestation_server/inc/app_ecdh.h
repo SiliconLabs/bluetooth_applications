@@ -14,7 +14,7 @@
 #define TAG_SIZE                       (32)
 #define MAX_MESSAGE_SIZE_ENCRYPTION    (1024)
 #define MAX_MESSAGE_SIZE_DECRYPTION \
-        (2 * MAX_MESSAGE_SIZE_ENCRYPTION + 2 * IV_SIZE + 2 * TAG_SIZE + 1)
+  (2 * MAX_MESSAGE_SIZE_ENCRYPTION + 2 * IV_SIZE + 2 * TAG_SIZE + 1)
 
 #define STDIN_FILENO                   (0)
 #define STDOUT_FILENO                  (1)

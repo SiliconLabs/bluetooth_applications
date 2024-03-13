@@ -199,7 +199,6 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       break;
 
-      break;
     // -------------------------------
     // This event indicates that a new connection was opened.
     case sl_bt_evt_connection_opened_id:

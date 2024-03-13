@@ -121,7 +121,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
           // read only 1 button object
           bthome_v2_server_sensor_data_read(mac,
                                             &object, 1,
-                                            &object_count);
+                                            &object_count,
+                                            NULL);
 
           if (object.object_id != EVENT_BUTTON) {
             break;

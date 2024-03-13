@@ -36,33 +36,32 @@
  *
  ******************************************************************************/
 
-#ifndef MAXM86161_HRM_SPO2_H__
-
-#define MAXM86161_HRM_SPO2_H__
+#ifndef MAXM86161_HRM_SPO2_H_
+#define MAXM86161_HRM_SPO2_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <stdint.h>
-#include "hrm/drivers/maxm86161.h"
+#include <maxm86161.h>
 
 /***************************************************************************//**
  **************      HRM/SpO2 Algorithm Defines    *****************************
  ******************************************************************************/
-#define FS_25HZ                                             800
-#define MAXM86161_HRM_SUCCESS                               0
-#define MAXM86161_HRM_ERROR_RESERVED                        -1
-#define MAXM86161_HRM_ERROR_INVALID_MEASUREMENT_RATE        -2
-#define MAXM86161_HRM_ERROR_SAMPLE_QUEUE_EMPTY              -3
-#define MAXM86161_HRM_ERROR_INVALID_PART_ID                 -4
-#define MAXM86161_HRM_ERROR_FUNCTION_NOT_SUPPORTED          -5
-#define MAXM86161_HRM_ERROR_BAD_POINTER                     -6
-#define MAXM86161_HRM_ERROR_DEBUG_DISABLED                  -7
+#define FS_25HZ                                         800
+#define MAXM86161_HRM_SUCCESS                           0
+#define MAXM86161_HRM_ERROR_RESERVED                    -1
+#define MAXM86161_HRM_ERROR_INVALID_MEASUREMENT_RATE    -2
+#define MAXM86161_HRM_ERROR_SAMPLE_QUEUE_EMPTY          -3
+#define MAXM86161_HRM_ERROR_INVALID_PART_ID             -4
+#define MAXM86161_HRM_ERROR_FUNCTION_NOT_SUPPORTED      -5
+#define MAXM86161_HRM_ERROR_BAD_POINTER                 -6
+#define MAXM86161_HRM_ERROR_DEBUG_DISABLED              -7
 // The feature is not support by the part
-#define MAXM86161_HRM_ERROR_NON_SUPPORTED_PART_ID           -8
-#define MAXM86161_HRM_ERROR_INVALID_SAMPLE_DATA             -9
-#define MAXM86161_HRM_ERROR_PARAM1_OUT_OF_RANGE             -10
+#define MAXM86161_HRM_ERROR_NON_SUPPORTED_PART_ID       -8
+#define MAXM86161_HRM_ERROR_INVALID_SAMPLE_DATA         -9
+#define MAXM86161_HRM_ERROR_PARAM1_OUT_OF_RANGE         -10
 #define MAXM86161_HRM_ERROR_PARAM2_OUT_OF_RANGE \
   (MAXM86161_HRM_ERROR_PARAM0_OUT_OF_RANGE - 1)
 #define MAXM86161_HRM_ERROR_PARAM3_OUT_OF_RANGE \
@@ -82,8 +81,8 @@ extern "C" {
 #define MAXM86161_HRM_ERROR_PARAM10_OUT_OF_RANGE \
   (MAXM86161_HRM_ERROR_PARAM0_OUT_OF_RANGE - 9)
 
-// The HRM status values are a bit field. More than one status can be 'on' at
-//   any given time.
+// The HRM status values are a bit field.
+// More than one status can be 'on' at any given time.
 #define MAXM86161_HRM_STATUS_SUCCESS                        0
 #define MAXM86161_HRM_STATUS_FINGER_OFF                     (1 << 0)
 #define MAXM86161_HRM_STATUS_FINGER_ON                      (1 << 1)
@@ -107,45 +106,52 @@ extern "C" {
 #define MAXM86161_HRM_STATUS_SPO2_MASK                      0xff00
 
 #define SIHRM_USE_DYNAMIC_DATA_STRUCTURE                    0
+
 #define SIHRM_ALGORITHM_STATUS_CONTROL_FLAG_VALID_PART      0x1
 #define SIHRM_ALGORITHM_STATUS_CONTROL_FLAG_DEBUG_ENABLED   0x2
 #define SIHRM_ALGORITHM_STATUS_CONTROL_FLAG_FIFO_TEST_MODE  0x4
+
 // this should never be more than 32 characters per the API reference guide
 #define MAXM86161_HRM_VERSION                               "1.0.0"
+
 #define DC_SENSING_DECISION_CNT                             255
 #define DC_SENSING_AGC_START_CNT \
-  (DC_SENSING_DECISION_CNT + 10)
+  DC_SENSING_DECISION_CNT + 10
 
 #define MAXM86161_HRM_TRUE                                  1
 #define MAXM86161_HRM_FALSE                                 0
+
 // Q-format for Normalization_Scaler
 #define QF_SCALER                                           8
+// (sample)
+#define FS_ESTIMATE_DURATION                                60
+// (%)
+#define FS_UPDATE_RATE                                      30
 
-#define FS_ESTIMATE_DURATION                                60 // (sample)
-#define FS_UPDATE_RATE                                      30 // (%)
-// %butter BPF, BPF(PS) biases to positive side
-// #define ZR_BIAS_SCALE             (+1/4)
 // %cheby2 BPF, BPF(PS) biases to negative side
 #define ZR_BIAS_SCALE                                       (-1 / 4)
 #define ZC_HR_TOLERANCE                                     25
 // Used for the auto HRM PS AC scaler based on the 1s-averaged PS DC.
 #define HRM_PS_DC_REFERENCE                                 15000
-// if positive and negative AC amplitudes are same.
-#define HRM_PS_VPP_MAX_GREEN_FINGERTIP \
-  (HRM_PS_DC_REFERENCE * 30 / 300)                      // PI=20.0%
+// PI=20.0% if positive and negative AC amplitudes are same.
+#define HRM_PS_VPP_MAX_GREEN_FINGERTIP                      HRM_PS_DC_REFERENCE \
+  *30 / 300
+
 #define HRM_CREST_FACTOR_THRESH_FINGERTIP                   15
 
 /* if PS raw value is greater than this threshold the algorithm believes that
  * skin contact is detected */
 #define HRM_PS_RAW_SKIN_CONTACT_THRESHOLD                   300
 #define HRM_DC_SENSING_SKIN_CONTACT_THRESH \
-  (HRM_PS_RAW_SKIN_CONTACT_THRESHOLD * 10 / 10)
+  HRM_PS_RAW_SKIN_CONTACT_THRESHOLD * 10 / 10
 #define HRM_DC_SENSING_WORK_LEVEL                           25000
+
 // 20 means PI=0.2%. If PI is below the threshold,
 // the HRM AGC increases the LED current by 1 notch, up to 0x0f.
 #define HRM_PI_MIN_THRESHOLD                                20
 
 #define HRM_AMBIENT_BLOCKED_THRESHOLD                       500
+
 // DC sensing scheme is looking for the next DC sensing.
 #define HRM_DC_SENSING_START                                0x00
 // Restart DC sensing.
@@ -153,14 +159,13 @@ extern "C" {
 // Stop the PPG measurement and change the configuration.
 // Restart the PPG measurement.
 #define HRM_DC_SENSING_CHANGE_PARAMETERS                    0x02
-// Finish the DC measurement and select the proper current
-// for the HRM operation.
+// Finish the DC measurement and select the proper current for the
+// HRM operation.
 #define HRM_DC_SENSING_SENSE_FINISH                         0x04
 // Monitor to see if PS is below the finger-off threshold.
 // Restore Si117x current and set HRM_DC_Sensing_Flag=HRM_DC_SENSING_START
 // for the next DC sensing.
 #define HRM_DC_SENSING_SEEK_NO_CONTACT                      0x10
-
 #define HRM_DC_SENSING_IN_PROGRESS                          0x08
 
 #define INTERPOLATOR_L                                      4
@@ -171,7 +176,8 @@ extern "C" {
 // BPF_Active_Flag bit
 #define SpO2_IR_BPF_ACTIVE                                  0x04
 
-#define HRM_PS_AGC_DELAY_WINDOW                             50 // (samples)
+// (samples)
+#define HRM_PS_AGC_DELAY_WINDOW                             50
 
 #define SOS_SCALE_SHIFT                                     16
 #define SCALE_I_SHIFT                                       5
@@ -181,45 +187,29 @@ extern "C" {
 #define R_SCALER                                            128
 // 1--REFLECTIVE MODE, 0--TRANSMISSIVE MODE
 #define SPO2_REFLECTIVE_MODE                                1
+
 // Do not run PS AGC
-#define HRM_PS_AGC                                          1 // 1--Increase LED
-                                                              //   current
-                                                              //   during valid
-                                                              //   HR if PS is
-                                                              //   below the
-                                                              //   work level or
-                                                              //   PI is below
-                                                              //   0.2%(could
-                                                              //   occur on
-                                                              //   wrist).
-#define HRM_DATA_LOG                                        0 // Debugging:
-                                                              //   1--Dump out
-                                                              //   test data,
-                                                              //   such as PS,
-                                                              //   the
-                                                              //   normalized
-                                                              //   PS1 and
-                                                              //   BPF(PS1).
+// 1--Increase LED current during valid HR if PS is below the work level
+// or PI is below 0.2%(could occur on wrist).
+#define HRM_PS_AGC                                          1
+// Debugging: 1--Dump out test data, such as PS,
+// the normalized PS1 and BPF(PS1).
+#define HRM_DATA_LOG                                        0
 
 #define HRM_PS_AGC_DISABLED                                 0x00
 #define HRM_PS_AGC_ENABLED                                  0x01
 #define HRM_PS_AGC_GAIN_CHANGED                             0x02
 #define HRM_PS_AGC_NO_TOUCH                                 0x04
 
-#define HRM_DC_WORKING_LEVEL                                25000 // thanhnd21
-#define HRM_NUM_SAMPLES_IN_FRAME                            256 // 10 second
-                                                                //   frame -
-                                                                //   used by the
-                                                                //   AGC
+#define HRM_DC_WORKING_LEVEL                                25000
+// 10 second frame - used by the AGC
+#define HRM_NUM_SAMPLES_IN_FRAME                            256
 
 // BPF parameters
-#define BPF_BIQUAD_STAGE_MAX                                3 // Coefficients of
-                                                              //   all BPFs
-                                                              //   below have 3
-                                                              //   stages.
-
-#define MAX_FRAME_SAMPLES                                   7 * 95 // Max
-                                                                   //   Fs=95Hz
+// Coefficients of all BPFs below have 3 stages.
+#define BPF_BIQUAD_STAGE_MAX                                3
+// Max Fs=95Hz
+#define MAX_FRAME_SAMPLES                                   7 * 95
 #define MAXM86161_HRM_ENABLE_MEASUREMENT_RATE_25Hz          0
 #define MAXM86161_HRM_ENABLE_MEASUREMENT_RATE_60Hz          0
 #define MAXM86161_HRM_ENABLE_MEASUREMENT_RATE_95Hz          1
@@ -266,46 +256,46 @@ typedef struct mamx86161_hrm_agc
  */
 typedef struct maxm86161_spo2_handle
 {
-  maxm86161_bpf_t spo2_red_bpf, spo2_ir_bpf;  // SpO2_Red_BPF   SpO2_IR_BPF BPF
-                                              //   struct for SpO2_Red and
-                                              //   SpO2_IR
+  // SpO2_Red_BPF   SpO2_IR_BPF BPF struct for SpO2_Red and SpO2_IR
+  maxm86161_bpf_t spo2_red_bpf, spo2_ir_bpf;
 
-  int16_t spo2_red_ac_sample_buffer[MAX_FRAME_SAMPLES];// Data buffer for the
-                                                       //   framed samples that
-                                                       //   can be processed in
-                                                       //   a background job.
-  int16_t spo2_ir_ac_sample_buffer[MAX_FRAME_SAMPLES]; // Data buffer for the
-                                                       //   framed samples that
-                                                       //   can be processed in
-                                                       //   a background job.
-  uint16_t spo2_red_dc_sample_buffer[MAX_FRAME_SAMPLES]; // Data buffer for the
-                                                         //   framed samples
-                                                         //   that can be
-                                                         //   processed in a
-                                                         //   background job.
-  uint16_t spo2_ir_dc_sample_buffer[MAX_FRAME_SAMPLES]; // Data buffer for the
-                                                        //   framed samples that
-                                                        //   can be processed in
-                                                        //   a background job.
+  // Data buffer for the framed samples that can be processed in a background
+  //   job.
+  int16_t spo2_red_ac_sample_buffer[MAX_FRAME_SAMPLES];
+  // Data buffer for the framed samples that can be processed in a background
+  //   job.
+  int16_t spo2_ir_ac_sample_buffer[MAX_FRAME_SAMPLES];
+  // Data buffer for the framed samples that can be processed in a background
+  //   job.
+  uint16_t spo2_red_dc_sample_buffer[MAX_FRAME_SAMPLES];
+  // Data buffer for the framed samples that can be processed in a background
+  //   job.
+  uint16_t spo2_ir_dc_sample_buffer[MAX_FRAME_SAMPLES];
 
   /* Use each of 4 SpO2 frame sample buffers as a circular buffer,
    * so that SpO2 sample process adds samples to it and SpO2 frame
    * process outputs samples from it. */
-  int16_t spo2_buffer_in_index; // Input pointer to the frame sample circular
-                                //   buffer.
-  int16_t spo2_percent;// SpO2(%) and the debug message
-  int16_t spo2_raw_level_count;// Used for Finger On/Off validation
-  // SpO2_Red_interpolator_buf
-  // SpO2_IR_interpolator_buf
-  uint16_t spo2_red_interpolator_buf[INTERPOLATOR_L * 2],
+  // Input pointer to the frame sample circular buffer.
+  int16_t spo2_buffer_in_index;
+  // SpO2(%) and the debug message
+  int16_t spo2_percent;
+  // Used for Finger On/Off validation
+  int16_t spo2_raw_level_count;
+  // SpO2_Red_interpolator_buf SpO2_IR_interpolator_buf
+  uint16_t spo2_red_interpolator_buf[INTERPOLATOR_L * 2], \
            spo2_ir_interpolator_buf[INTERPOLATOR_L * 2];
 
   // These were local static vars in V0.6.2:
-  uint16_t spo2_red_bpf_ripple_count;// SpO2 BPF-ripple reduction variable
-  uint16_t spo2_red_ps_input_old;// SpO2 BPF-ripple reduction variable
-  uint16_t spo2_ir_bpf_ripple_count;// SpO2 BPF-ripple reduction variable
-  uint16_t spo2_ir_ps_input_old;// SpO2 BPF-ripple reduction variable
-  uint16_t time_since_finger_off;// (sample)
+  // SpO2 BPF-ripple reduction variable
+  uint16_t spo2_red_bpf_ripple_count;
+  // SpO2 BPF-ripple reduction variable
+  uint16_t spo2_red_ps_input_old;
+  // SpO2 BPF-ripple reduction variable
+  uint16_t spo2_ir_bpf_ripple_count;
+  // SpO2 BPF-ripple reduction variable
+  uint16_t spo2_ir_ps_input_old;
+  // (sample)
+  uint16_t time_since_finger_off;
 } maxm86161_spo2_handle_t;
 
 /**
@@ -316,66 +306,88 @@ typedef struct maxm_hrm_handle
   maxm86161_spo2_handle_t *spo2;
   maxm86161_device_config_t *device_config;
 
-  uint8_t hrm_interpolator_factor; // HRM_Interpolator_Factor
+  // HRM_Interpolator_Factor
+  uint8_t hrm_interpolator_factor;
   uint16_t hrm_interpolator_buf[INTERPOLATOR_L * 2];
   int16_t *phrm_interpolator_coefs;
   int32_t flag_samples;
 
-  int16_t hrm_sample_buffer[MAX_FRAME_SAMPLES];// Data buffer for the framed
-                                               //   samples that can be
-                                               //   processed in a background j
-  int16_t hrm_buffer_in_index;// Input index to the frame sample circular
-                              //   buffer.
-  int16_t fs;// (Hz)PS sampling rate
-  int16_t bpf_biquads, bpf_output_scaler;// BPF_biquads, BPF_output_scaler
+  // Data buffer for the framed samples that can be processed in a background.
+  int16_t hrm_sample_buffer[MAX_FRAME_SAMPLES];
+  // Input index to the frame sample circular buffer.
+  int16_t hrm_buffer_in_index;
+  // (Hz)PS sampling rate
+  int16_t fs;
+  // BPF_biquads, BPF_output_scaler
+  int16_t bpf_biquads, bpf_output_scaler;
   int32_t *pbpf_b_0;
-  maxm86161_bpf_t hrm_bpf;// BPF struct for HRM
-  int16_t hr_update_interval;// HRM_Inits set to 1(s)*Fs
-  int16_t t_low0, t_high0;// (sample), times for min and max heart rates.
-  int16_t hr_iframe;// (sample), Frame length.
-  int16_t num_of_lowest_hr_cycles;// # of lowest-HR cycle. The longer the frame
-                                  //   scale is, more accurate the heart rate
-                                  //   is.
+  // BPF struct for HRM
+  maxm86161_bpf_t hrm_bpf;
+  // HRM_Inits set to 1(s)*Fs
+  int16_t hr_update_interval;
+  // (sample), times for min and max heart rates.
+  int16_t t_low0, t_high0;
+  // (sample), Frame length.
+  int16_t hr_iframe;
+  // # of lowest-HR cycle. The longer the frame scale is,
+  // more accurate the heart rate is.
+  int16_t num_of_lowest_hr_cycles;
 
   int16_t measurement_rate;
-  uint16_t hrm_normalization_scaler;// Normalization scaler for HRM PS based on
-                                    //   ADC gain, LED current and etc.
-  uint16_t red_normalization_scaler;// Normalization scaler for SpO2 Red PS
-                                    //   based on ADC gain, LED current and etc.
-  uint16_t ir_normalization_scaler;// Normalization scaler for SpO2 IR PS based
-                                   //   on ADC gain, LED current and etc.
+  // Normalization scaler for HRM PS based on ADC gain, LED current and etc.
+  uint16_t hrm_normalization_scaler;
+  // Normalization scaler for SpO2 Red PS based on ADC gain, LED current and
+  //   etc.
+  uint16_t red_normalization_scaler;
+  // Normalization scaler for SpO2 IR PS based on ADC gain, LED current and etc.
+  uint16_t ir_normalization_scaler;
   int16_t sample_count;
   int16_t hrm_ps_raw_level_count;
   uint16_t hrm_raw_ps;
   uint16_t normalized_hrm_ps;
-  uint8_t hrm_ps_select;// 0=PPG1, 1=PPG2, 2=PPG3
-  uint8_t spo2_ir_ps_select;// 0=PPG1, 1=PPG2, 2=PPG3
-  uint8_t spo2_red_ps_select;// 0=PPG1, 1=PPG2, 2=PPG3
+  // 0=PPG1, 1=PPG2, 2=PPG3
+  uint8_t hrm_ps_select;
+  // 0=PPG1, 1=PPG2, 2=PPG3
+  uint8_t spo2_ir_ps_select;
+  // 0=PPG1, 1=PPG2, 2=PPG3
+  uint8_t spo2_red_ps_select;
   int16_t hrm_ps_vpp_max;
   int16_t hrm_ps_vpp_min;
   int16_t hrm_ps_crestfactor_thresh;
 
-  uint16_t hrm_dc_sensing_count;// Used in HRM DC sensing
+  // Used in HRM DC sensing
+  uint16_t hrm_dc_sensing_count;
   uint16_t hrm_raw_ps_old;
-  uint16_t hrm_dc_sensing_flag;// Used in HRM DC sensing
+  // Used in HRM DC sensing
+  uint16_t hrm_dc_sensing_flag;
   uint8_t hrm_dc_change_int_level;
-  uint16_t ppg_led_local;// Used in HRM DC sensing
+  // Used in HRM DC sensing
+  uint16_t ppg_led_local;
   uint8_t dc_sensing_finish[3];
-  // uint32_t dc_sensing_level[3][256];// DC-sensing levels for PS(n) for
-  //   n=1:2:63 LED currents with configured ADCgain(n), n=1,2,3,4.
-  uint16_t dc_sensing_led[3];// Used in HRM DC sensing
-  mamx86161_hrm_agc_t hrm_agc[3];// AGC struct for HRM
-  uint8_t hrm_interpolator_factor_saved;// Used for Fs=10 & 25Hz HRM & SpO2
-  uint8_t bpf_active_flag;// BPF-ripple-reduction flags
-  uint16_t hrm_bpf_ripple_count;// HRM BPF-ripple reduction variable
+  // uint32_t dc_sensing_level[3][256];
+  // DC-sensing levels for PS(n) for n=1:2:63 LED currents with
+  // configured ADCgain(n), n=1,2,3,4.
+  // Used in HRM DC sensing
+  uint16_t dc_sensing_led[3];
+  // AGC struct for HRM
+  mamx86161_hrm_agc_t hrm_agc[3];
+  // Used for Fs=10 & 25Hz HRM & SpO2
+  uint8_t hrm_interpolator_factor_saved;
+  // BPF-ripple-reduction flags
+  uint8_t bpf_active_flag;
+  // HRM BPF-ripple reduction variable
+  uint16_t hrm_bpf_ripple_count;
   int16_t heart_rate_invalidation_previous;
   uint32_t hrm_ps_dc;
-  uint16_t hrm_perfusion_index;// 20 means PI=20/10000=0.2%
-  uint16_t hrm_ps_input_old;// HRM BPF-ripple reduction variable
-  uint16_t algorithm_status_control_flags;// bit 0: 1=valid part found; 0=valid
-                                          //   part not found
+  // 20 means PI=20/10000=0.2%
+  uint16_t hrm_perfusion_index;
+  // HRM BPF-ripple reduction variable
+  uint16_t hrm_ps_input_old;
+  // bit 0: 1=valid part found; 0=valid part not found
+  uint16_t algorithm_status_control_flags;
   uint8_t hrm_active_dc;
-  uint16_t timestamp_clock_freq;// Actual Fs. (10000 or 8192)
+  // Actual Fs. (10000 or 8192)
+  uint16_t timestamp_clock_freq;
 } maxm_hrm_handle_t;
 
 /**
@@ -398,17 +410,16 @@ typedef struct mamx86161_hrm_data
   int16_t hrm_crest_factor;
   // HRM AGC: ADCgain<<12+current[2]<<8+current[1]<<4+current[0]
   uint16_t hrm_adc_gain_current;
-  // each Process() may result in more than one sample
-  // due to interpolation
+  // each Process() may result in more than one sample due to interpolation
   uint8_t hrm_num_samples;
   // samples after interpolation, filtering and normalization.
   // These are the sample used for HRM calculation
   int16_t hrm_samples[MAXM86161_HRM_MAX_INTERPOLATION_FACTOR];
-
   uint16_t hrm_perfusion_index;
   uint16_t spo2_red_dc_sample;
   uint16_t spo2_ir_dc_sample;
-  uint16_t spo2_dc_to_ac_ratio; // Peak To Peak Ratio
+  // Peak To Peak Ratio
+  uint16_t spo2_dc_to_ac_ratio;
   int16_t spo2_crest_factor;
   uint16_t spo2_ir_perfusion_index;
   uint16_t dc_sensing_led[3];
@@ -458,7 +469,7 @@ typedef struct mamx86161_hrm_data_storage
  */
 typedef struct maxm86161_spo2_data_storage
 {
-  /* < SPO2_DATA_SIZE bytes allocated */
+  /**< SPO2_DATA_SIZE bytes allocated */
   uint8_t data[MAXM86161_HRM_SPO2_DATA_SIZE];
 } maxm86161_spo2_data_storage_t;
 
@@ -467,8 +478,11 @@ typedef struct maxm86161_spo2_data_storage
  */
 typedef struct maxm86161_data_storage
 {
-  maxm86161_spo2_data_storage_t *spo2;  /**< Pointer to SpO2 RAM */
-  mamx86161_hrm_data_storage_t *hrm;    /**< Pointer to HRM RAM */
+  /**< Pointer to SpO2 RAM */
+  maxm86161_spo2_data_storage_t *spo2;
+
+  /**< Pointer to HRM RAM */
+  mamx86161_hrm_data_storage_t *hrm;
 } maxm86161_data_storage_t;
 
 /**************************************************************************//**
@@ -673,4 +687,4 @@ int32_t maxm86161_hrm_query_software_revision(int8_t *revision);
 }
 #endif
 
-#endif //MAXM86161_HRM_SPO2_H__
+#endif /* MAXM86161_HRM_SPO2_H_ */

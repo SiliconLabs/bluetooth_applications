@@ -31,8 +31,9 @@ include:
   - path: ../inc/app.h
 
 component:
-- id: app_log
-- id: app_assert
+- id: mpu
+- id: sl_system
+- id: device_init
 - id: bluetooth_stack
 - id: gatt_configuration
 - id: gatt_service_device_information
@@ -44,14 +45,13 @@ component:
 - id: bluetooth_feature_scanner
 - id: bluetooth_feature_system
 - id: bluetooth_feature_sm
-- id: rail_util_pti
-- id: mpu
 - id: bt_post_build
-- id: sl_system
-- id: device_init
+- id: rail_util_pti
+- id: bootloader_interface
+- id: app_log
+- id: app_assert
 - id: iostream_usart
   instance: [vcom]
-- id: bootloader_interface
 
 define:
 - name: DEBUG_EFM
@@ -62,9 +62,6 @@ config_file:
       file_id: gatt_configuration_file_id
     path: "../config/gatt_configuration.btconf"
     directory: "btconf"
-
-tag:
-  - hardware:rf:band:2400
 
 configuration:
   - name: SL_BOARD_ENABLE_VCOM
@@ -98,6 +95,6 @@ other_file:
 
 ui_hints:
   highlight:
-    - path: ../config/gatt_configuration.btconf
-    - path: ../README.md
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
       focus: true

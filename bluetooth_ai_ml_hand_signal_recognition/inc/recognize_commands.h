@@ -20,7 +20,7 @@
 #include <cstdint>
 
 #include "tensorflow/lite/c/common.h"
-#include "tensorflow/lite/micro/micro_error_reporter.h"
+#include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
 #include "hand_signal_app.h"
 
 #define MAX_RESULT_COUNT   32

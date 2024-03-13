@@ -15,7 +15,7 @@ Note that wake-up from EM4 is performed through a reset. Thus, no data is retain
 
 ## Gecko SDK version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -23,24 +23,28 @@ Note that wake-up from EM4 is performed through a reset. Thus, no data is retain
 
 **Note:**
 
-- Users can use Silicon Labs Explorer Kit or Development Kit instead of the WSTK. However, it requires a STK/WSTK Debug Adapter and there must be a mini Simplicity connector on this board.
-- This project is test only with the [EFR32xG24 Dev Kit](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)
+- Users can use the Silicon Labs Explorer Kit or Development Kit instead of the WSTK. However, it requires an STK/WSTK Debug Adapter and there must be a mini Simplicity connector on this board.
+- This project is tested only with the [EFR32xG24 Dev Kit](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)
+
+## Connections Required ##
+
+- Connect the EFR32xG24 Dev Kit to the PC through a micro USB cable.
 
 ## Setup ##
 
-To test this application, you can either create a project based on a example project or start with an "Bluetooth - SoC Empty" project based on your hardware.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-### Create a project based on a example project ###
+### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to "My Products", click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with filter "EM4".
+1. From the Launcher Home, add your hardware to "My Products", click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with filter "EM4".
 
-2. Click Create button on both **Bluetooth - Using EM4 Energy Mode in Bluetooth iBeacon App** example. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
+2. Click **Create** button on both **Bluetooth - Using EM4 Energy Mode in Bluetooth iBeacon App** example. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
 
     ![create example](images/create_example.png)
 
 3. Build and flash the examples to the board.
 
-### Start with an "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create **Bluetooth - SoC Empty** projects for your hardware using Simplicity Studio 5
 2. Copy the attached src/app.c file into your project (overwriting existing)(overwriting existing).
@@ -64,18 +68,18 @@ EMU_EM4Init_TypeDef em4Init = EMU_EM4INIT_DEFAULT;
 EMU_EM4Init(&em4Init);
 ```
 
-To wake-up from EM4 using a specific module, the EM4WUEN register of that module must be enabled. In this example code, this is done via the call to  `BURTC_Init()` and `GPIO_EM4EnablePinWakeup()` for the BURTC and GPIO wakeup pin, respectively.
+To wake-up from EM4 using a specific module, the EM4WUEN register of that module must be enabled. In this example code, this is done via the call to  `BURTC_Init()` and `GPIO_EM4EnablePinWakeup()` for the BURTC and GPIO wakeup pins, respectively.
 
 ### Testing ###
 
-In this example, we use the Energy Profier to see how the energy changes between the advertising time and when the board is in EM4 mode by monitoring the current.
+In this example, we use the Energy Profiler to see how the energy changes between the advertising time and when the board is in EM4 mode by monitoring the current.
 
 If users do not have the compatible WSTK, they need to use a Silicon Labs motherboard and a debug adapter to open the Energy Profier because the Energy Profier does not support the Explorer and the Development Kit. The connection should be the same as below.
 
 ![debug adapter](images/debug_adapter.png)
 
-After connecting all the required hardwares, users need to go back to the LAUNCHER HOME. In debug adapter window, right-click on your connected motherboard and choose **device configuration** then choose **Adapter configuration** tab. Select the **Debug Mode** as **OUT** mode.
+After connecting all the required hardwares, users need to go back to the LAUNCHER HOME. In the debug adapter window, right-click on your connected motherboard and choose **device configuration** then choose **Adapter configuration** tab. Select the **Debug Mode** as **OUT** mode.
 
-Finally, Select the debug interface as JTAG to detect the target part. Open the Energy Profier to view the result.
+Finally, Select the debug interface as JTAG to detect the target part. Open the Energy Profiler to view the result.
 
 ![result](images/result.png)

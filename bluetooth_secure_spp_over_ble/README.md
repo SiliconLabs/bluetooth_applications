@@ -22,11 +22,11 @@ When the connection is built and services and characteristics are discovered, th
 
 During the authentication phase, the devices have to confirm that they have successfully built a secure connection by showing passkeys on both devices. If the passkeys match and both devices confirm it, they are bonded (paired). If the devices were already bonded when they connected, the authentication is not needed again and the secure connection is automatically built using the long term key stored in the flash.
 
-Bonding information including the long term key and other information persists over reset. To test the authentication repeatedly, implement a call to **sm_delete_bondings** with a trigger of your choice. Another option is to use Simplicity Commander tool to erase the devices' flash.
+Bonding information including the long term key and other information persists over reset. To test the authentication repeatedly, implement a call to **sm_delete_bondings** with a trigger of your choice. Another option is to use the Simplicity Commander tool to erase the devices' flash.
 
 ## Gecko SDK version
 
-- GSDK v4.3.1
+- GSDK v4.4.0
 
 ## Hardware Required
 
@@ -36,18 +36,18 @@ Bonding information including the long term key and other information persists o
 
 ## Setup
 
-To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. 
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-### Create a project based on a example project
+### Create a project based on an example project
 
-1. From the Launcher Home, add the your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "secure".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "secure".
 
 2. Click **Create** button on the **Bluetooth - Secure SPP over BLE** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![create_project](images/create_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with an "Bluetooth - SoC Empty" project
+### Start with a "Bluetooth - SoC Empty" project
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
@@ -76,6 +76,7 @@ To test this application, you can either create a project based on an example pr
 5. Build and flash the project to each device.
 
 **NOTE:**
+
 - Make sure that this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 ![external_repos](images/external_repos.png)
 
@@ -92,7 +93,6 @@ To test this application, you can either create a project based on an example pr
 4. After the first boot, the authentication phase requires confirmation that the passkeys displayed on the two devices match. To confirm, send a 'y' or 'Y' character with the terminal. To decline send 'n' or 'N'.
 
 5. After the authentication phase, use the application to send characters from one device to the other just like with the [Bluetooth - Serial Port Profile (SPP)](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_serial_port_profile) example.
-
 ![terminal_output](images/terminal_output.png)
 
 6. Reboot the devices and check if the secure connection is built automatically.

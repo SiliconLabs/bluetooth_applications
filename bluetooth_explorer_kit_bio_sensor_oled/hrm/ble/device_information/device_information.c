@@ -148,8 +148,7 @@ void device_information_read_callback(sl_bt_msg_t *evt)
       characteristicPtr = service_data.firmware_revision_string;
     }
     break;
-      // Software Revision String value read
-      break;
+
     // Do nothing
     default:
       break;

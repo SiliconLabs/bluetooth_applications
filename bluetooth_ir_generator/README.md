@@ -19,8 +19,8 @@ The expectation is to ensure the IR signal generator works well in cases with he
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.8.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -53,7 +53,7 @@ To test this application, you can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy all attached files in inc and src folders into the project root folder (overwriting existing).
+2. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting existing).
 
 3. Import the GATT configuration:
 
@@ -73,7 +73,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 - SDK Extension must be enabled for the project to install the [IR Generator (Silabs)] component.
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 

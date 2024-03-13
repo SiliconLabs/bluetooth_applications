@@ -69,7 +69,7 @@ The software flow is as follows:
 
 5. If the notification source characteristic is found in the remote GATT, the device tries to subscribe to characteristic notification with the *sl_bt_gatt_set_characteristic_notification* API. If the iOS device and the EFR module are not bonded, subscribing is not possible. After the bonding is completed, enable the characteristic notification again and subscribing should work.
 
-6. Receiving a *sl_bt_evt_gatt_characteristic_value_id* event with the *att_opcode* == *gatt_handle_value_notification* means the a GATT notification is received from the remote device. In this case, the notification type is determined based on the notification UID and printed out with the **ancCharValueReceivedCallback** function.
+6. Receiving a *sl_bt_evt_gatt_characteristic_value_id* event with the *att_opcode* == *gatt_handle_value_notification* means a GATT notification is received from the remote device. In this case, the notification type is determined based on the notification UID and printed out with the **ancCharValueReceivedCallback** function.
 
 The activity diagram below shows the described flow.
 
@@ -77,7 +77,7 @@ The activity diagram below shows the described flow.
 
 ## Gecko SDK version ##
 
-GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -107,7 +107,8 @@ To test this application, you can either create a project based on an example pr
 1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "ancs".
 
 2. Click **Create** button on the **Bluetooth - Apple Notification Center Service** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![board](images/create_project.png)
+
+   ![board](images/create_project.png)
 
 3. Build and flash this example to the board.
 

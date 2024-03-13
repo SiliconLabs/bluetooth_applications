@@ -22,8 +22,9 @@ Raspberry Pi 4 runs a Home Assistant OS that scans for and detects BTHome v2 sen
 
 ## Gecko SDK Version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.8.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -73,7 +74,7 @@ To test this application, you can either create a project based on an example pr
     - Select the SOFTWARE COMPONENTS tab
 
     - Install the following components:
-    
+
       - [Platform] → [Driver] → [TEMPDRV]
       - [Third-Party Hardware Drivers] → [Services] → [BTHome v2]
 
@@ -81,7 +82,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 
   ![add Third Party Hardware Drivers extension](images/sdk_extension.png)
 
@@ -106,9 +107,10 @@ To test this application, you can either create a project based on an example pr
 ## Testing ##
 
 To test this application and monitor the temperature, you need the following materials:
-  - Raspberry Pi 4 runs Home Assistant OS.
-  - Home Assistant application on a smartphone.
-  - BTHOME sensor device, which is BGM220 Explorer Kit runs the **Bluetooth - BTHome v2 - Internal Temperature Monitor** example.
+
+- Raspberry Pi 4 runs Home Assistant OS.
+- Home Assistant application on a smartphone.
+- BTHOME sensor device, which is BGM220 Explorer Kit runs the **Bluetooth - BTHome v2 - Internal Temperature Monitor** example.
 
 *Note*: To utilize the BTHOME sensor device, you have two options. You can use Silabs development kits and run either the "BTHome v2 - Internal Temperature Monitor" example or create your own project by following the instructions provided in the "Setup" section above.
 

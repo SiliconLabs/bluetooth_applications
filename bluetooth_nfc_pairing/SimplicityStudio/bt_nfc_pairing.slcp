@@ -60,7 +60,7 @@ config_file:
     directory: btconf
 sdk_extension:
 - id: third_party_hw_drivers
-  version: 1.6.0
+  version: 2.0.0
 other_file:
   - path: ../images/hardware_connection.png
     directory: images
@@ -83,6 +83,6 @@ configuration:
   condition: [psa_crypto]
 ui_hints:
   highlight:
-  - path: README.md
-    focus: true
-  - path: config/btconf/gatt_configuration.btconf
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

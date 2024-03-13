@@ -127,14 +127,13 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       // Automation IO digital control
       if (evt->data.evt_gatt_server_user_write_request.characteristic
           == gattdb_led_control) {
+        uint8_t data = evt->data.evt_gatt_server_attribute_value.value.data[0];
         // Write user supplied value to LEDs.
         // Both HEX and ASCII formats are supported to control the LED.
-        if ((evt->data.evt_gatt_server_attribute_value.value.data[0] == 1)
-            || (evt->data.evt_gatt_server_attribute_value.value.data[0] == 0x31)) {
+        if ((data == 1) || (data == 0x31)) {
           app_log("Turn on led\n");
           sl_led_turn_on(&sl_led_led0);
-        } else if ((evt->data.evt_gatt_server_attribute_value.value.data[0] == 0)
-            || (evt->data.evt_gatt_server_attribute_value.value.data[0] == 0x30)){
+        } else if ((data == 0) || (data == 0x30)) {
           app_log("Turn off led\n");
           sl_led_turn_off(&sl_led_led0);
         } else {

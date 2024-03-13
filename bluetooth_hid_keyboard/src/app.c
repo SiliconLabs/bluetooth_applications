@@ -138,7 +138,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       app_log("boot event - starting advertising\r\n");
 
-      sc = sl_bt_sm_configure(0, sm_io_capability_noinputnooutput);
+      sc = sl_bt_sm_configure(0, sl_bt_sm_io_capability_noinputnooutput);
       app_assert_status(sc);
       sc = sl_bt_sm_set_bondable_mode(1);
       app_assert_status(sc);
@@ -196,9 +196,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
           == gattdb_report) {
         // client characteristic configuration changed by remote GATT client
         if (evt->data.evt_gatt_server_characteristic_status.status_flags
-            == gatt_server_client_config) {
+            == sl_bt_gatt_server_client_config) {
           if (evt->data.evt_gatt_server_characteristic_status.
-              client_config_flags == gatt_notification) {
+              client_config_flags == sl_bt_gatt_server_notification) {
             notification_enabled = 1;
           } else {
             notification_enabled = 0;

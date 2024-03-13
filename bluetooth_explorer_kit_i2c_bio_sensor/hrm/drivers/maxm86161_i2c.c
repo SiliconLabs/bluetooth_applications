@@ -112,7 +112,7 @@ sl_status_t maxm86161_i2c_block_write(uint8_t address,
 {
   I2C_TransferSeq_TypeDef seq;
   I2C_TransferReturn_TypeDef ret;
-  uint8_t i2c_write_data[2];
+  uint8_t i2c_write_data[length + 1];
   uint8_t i2c_read_data[1];
 
   seq.addr = MAXM86161_SLAVE_ADDRESS;

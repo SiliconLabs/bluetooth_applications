@@ -17,7 +17,7 @@ This example implements a simple HID keyboard but can be used as a starting poin
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 

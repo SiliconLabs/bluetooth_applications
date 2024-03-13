@@ -34,6 +34,7 @@ source:
   - path: ../src/sl_bt_bgm_racp_handler.c
 
 component:
+- id: app_timer
 - id: simple_button
   instance: [btn0]
 - id: iostream_usart 
@@ -119,11 +120,9 @@ configuration:
   value: '0'
   condition: psa_crypto
 
-tag: hardware:rf:band:2400
-
 ui_hints:
   highlight:
-  - path: README.md
-    focus: true
-  - path: config/btconf/gatt_configuration.btconf
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true
 

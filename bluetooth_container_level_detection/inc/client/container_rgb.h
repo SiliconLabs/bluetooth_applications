@@ -45,8 +45,8 @@
 /***************************************************************************//**
  * @brief
  *    Initialize the led matrix module.
- * 
- * @param i2cspm  I2C instance 
+ *
+ * @param i2cspm  I2C instance
  * @return sl_status_t  status of function
  *
  ******************************************************************************/
@@ -55,7 +55,7 @@ sl_status_t container_rgb_init(sl_i2cspm_t *i2cspm);
 /***************************************************************************//**
  * @brief
  *    update container's level on display.
- * 
+ *
  * @param slot slot need to update
  * @param level_value level value
  * @return sl_status_t  status of function
@@ -66,7 +66,7 @@ sl_status_t container_rgb_update_level(uint8_t slot, int level_value);
 /***************************************************************************//**
  * @brief
  *    init glib object.
- * 
+ *
  * @param g_context glib context object
  *
  ******************************************************************************/
@@ -75,7 +75,7 @@ void container_rgb_context_init(glib_context_t *g_context);
 /***************************************************************************//**
  * @brief
  *    show glib content on display.
- * 
+ *
  * @param g_context glib context object
  * @param content content need to display
  *
@@ -85,7 +85,7 @@ void container_rgb_display(glib_context_t *g_context, uint8_t *content);
 /***************************************************************************//**
  * @brief
  *    clear buffer glib object.
- * 
+ *
  * @param g_context glib context object
  *
  ******************************************************************************/

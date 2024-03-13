@@ -34,6 +34,7 @@
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include "sl_simple_button_instances.h"
+#include "app_timer.h"
 #include "sl_bt_bgm.h"
 
 // Glucose measurement characteristic notification enable
@@ -46,7 +47,8 @@ uint8_t sl_glucose_records[MAX_RECORD_NUM][17] = { 0 };
 uint8_t sl_glucose_records[MAX_RECORD_NUM][15] = { 0 };
 #endif
 
-static sl_sleeptimer_timer_handle_t  bgm_report_all_timer;
+static app_timer_t bgm_report_all_timer;
+void sl_bt_bgm_report_all_timer_cb(app_timer_t *timer, void *data);
 
 /**************************************************************************//**
  * BGM - BGM Measurement
@@ -282,8 +284,7 @@ void sl_bt_bgm_measurement_notificate(uint16_t index)
   }
 }
 
-void sl_bt_bgm_report_all_timer_cb(sl_sleeptimer_timer_handle_t  *timer,
-                                   void *data)
+void sl_bt_bgm_report_all_timer_cb(app_timer_t *timer, void *data)
 {
   (void)data;
   (void)timer;
@@ -292,7 +293,6 @@ void sl_bt_bgm_report_all_timer_cb(sl_sleeptimer_timer_handle_t  *timer,
 
 void sl_bt_signal_report_all_cb(void)
 {
-  sl_status_t sc = SL_STATUS_FAIL;
   static uint16_t num = 0;
 
   bgm_abort_operation_flag = false;
@@ -301,7 +301,7 @@ void sl_bt_signal_report_all_cb(void)
     bgm_abort_operation_flag = false;
     app_log("set bgm_abort_operation_flag back to false\n");
     bgm_in_process = false;
-    sc = sl_sleeptimer_stop_timer(&bgm_report_all_timer);
+    (void)app_timer_stop(&bgm_report_all_timer);
     return;
   }
 
@@ -313,10 +313,7 @@ void sl_bt_signal_report_all_cb(void)
     app_log("finished send all records\n");
     num = 0;
     bgm_in_process = false;
-    sc = sl_sleeptimer_stop_timer(&bgm_report_all_timer);
-    if (sc != SL_STATUS_OK) {
-      app_log("sl_sleeptimer_stop_timer failed 0x%04lX\n", sc);
-    }
+    (void)app_timer_stop(&bgm_report_all_timer);
     sl_bt_bgm_send_racp_indication(connection,
                                    REPORT_STORED_RECORDS, RSP_CODE_SUCCEED);
   }
@@ -337,12 +334,11 @@ void sl_bt_bgm_report_all_records(uint8_t connection)
     app_log("no records\n");
     return;
   }
-  sc = sl_sleeptimer_start_timer(&bgm_report_all_timer,
-                                 REQUESTED_NOTIFICATION_INTERVAL,
-                                 sl_bt_bgm_report_all_timer_cb,
-                                 NULL,
-                                 0,
-                                 0);
+  sc = app_timer_start(&bgm_report_all_timer,
+                       REQUESTED_NOTIFICATION_INTERVAL,
+                       sl_bt_bgm_report_all_timer_cb,
+                       NULL,
+                       true);
   if (sc != SL_STATUS_OK) {
     app_log("bgm_report_timer failed 0x%04lX\n", sc);
   }

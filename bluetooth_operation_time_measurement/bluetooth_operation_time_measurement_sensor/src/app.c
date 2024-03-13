@@ -45,6 +45,7 @@
 /* Macro to determine count of activity change for each axis */
 #define OPERATION_TIMEOUT_MS               (1000)
 
+#define SENSOR_TIMER_EXT_SIG               0x01
 // 2 main state
 #define STATE_IDLE                         0
 #define STATE_OPERATION                    1
@@ -158,6 +159,7 @@ static void sensor_timer_callback(sl_sleeptimer_timer_handle_t *handle,
                                   void *data);
 
 static sl_status_t sensor_bma400_init(void);
+static void sensor_timer_external_signal_handler(void);
 
 static void update_adv_data(void);
 
@@ -285,7 +287,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       // configure security before start advertise
-      sc = sl_bt_sm_configure(0, sm_io_capability_noinputnooutput);
+      sc = sl_bt_sm_configure(0, sl_bt_sm_io_capability_noinputnooutput);
       app_assert_status(sc);
       sc = sl_bt_sm_set_bondable_mode(1);
       app_assert_status(sc);
@@ -395,6 +397,10 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
     // -------------------------------
     case sl_bt_evt_system_external_signal_id:
+      if (evt->data.evt_system_external_signal.extsignals
+          == SENSOR_TIMER_EXT_SIG) {
+        sensor_timer_external_signal_handler();
+      }
       break;
     // -------------------------------
     // Default event handler.
@@ -456,6 +462,29 @@ static void sensor_timer_callback(sl_sleeptimer_timer_handle_t *handle,
 {
   (void) handle;
   (void) data;
+
+  sl_bt_external_signal(SENSOR_TIMER_EXT_SIG);
+}
+
+static void update_adv_data(void)
+{
+  sl_status_t sc;
+
+  // Update the two variable fields in the custom advertising packet
+  advertising_data.operation_time = operation_time;
+  advertising_data.data_counter++;
+  // Set custom advertising payload
+  sc = sl_bt_legacy_advertiser_set_data(advertising_set_handle,
+                                        sl_bt_advertiser_advertising_data_packet,
+                                        advertising_data.data_size,
+                                        (uint8_t *)&advertising_data);
+
+  app_assert_status(sc);
+  app_log("The custom advertising set is updated\r\n");
+}
+
+static void sensor_timer_external_signal_handler(void)
+{
   sl_status_t sc;
   char data_send[10];
 
@@ -504,21 +533,4 @@ static void sensor_timer_callback(sl_sleeptimer_timer_handle_t *handle,
     }
     update_adv_data();
   }
-}
-
-static void update_adv_data(void)
-{
-  sl_status_t sc;
-
-  // Update the two variable fields in the custom advertising packet
-  advertising_data.operation_time = operation_time;
-  advertising_data.data_counter++;
-  // Set custom advertising payload
-  sc = sl_bt_legacy_advertiser_set_data(advertising_set_handle,
-                                        sl_bt_advertiser_advertising_data_packet,
-                                        advertising_data.data_size,
-                                        (uint8_t *)&advertising_data);
-
-  app_assert_status(sc);
-  app_log("The custom advertising set is updated\r\n");
 }

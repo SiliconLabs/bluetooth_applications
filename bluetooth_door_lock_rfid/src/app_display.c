@@ -68,6 +68,8 @@ static glib_context_t glib_context;
  ******************************************************************************/
 void app_display_update(const char *string_midle, const char *string_lower)
 {
+  uint8_t x_offset;
+
   glib_clear(&glib_context);
   glib_status_t status;
   glib_set_font(&glib_context, NULL);
@@ -76,7 +78,8 @@ void app_display_update(const char *string_midle, const char *string_lower)
   glib_draw_line(&glib_context, 0, 35, 63, 35, GLIB_WHITE);
   glib_draw_string(&glib_context, string_midle, 8, 20);
   glib_set_font(&glib_context, (glib_gfx_font_t *) &glib_font_picopixel);
-  glib_draw_string(&glib_context, string_lower, 8, 44);
+  x_offset = (64 - strlen(string_lower) * 4) / 2;
+  glib_draw_string(&glib_context, string_lower, x_offset, 44);
   status = glib_update_display();
 
   if (GLIB_OK != status) {
@@ -89,11 +92,12 @@ void app_display_update(const char *string_midle, const char *string_lower)
  ******************************************************************************/
 void app_display_show_card(uint8_t location, uint8_t *id_tag)
 {
-  static char temp[11];
-  static char temp_2[11];
+  static char temp[13];
+  static char temp_2[13];
 
-  snprintf(temp, sizeof(temp), "%02X%02X%02X%02X%02X",
-           id_tag[2],
+  snprintf(temp, sizeof(temp), "%02X%02X%02X%02X%02X%02X",
+           id_tag[0],
+           id_tag[1],
            id_tag[2],
            id_tag[3],
            id_tag[4],

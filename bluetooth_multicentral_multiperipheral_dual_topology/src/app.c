@@ -326,7 +326,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       // Start scanning
-      sc = sl_bt_scanner_start(gap_1m_phy, scanner_discover_generic);
+      sc = sl_bt_scanner_start(sl_bt_gap_1m_phy,
+                               sl_bt_scanner_discover_generic);
       app_assert_status_f(sc, "Failed to start discovery #1\n");
 
       // Create an advertising set.
@@ -573,7 +574,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         sc = sl_bt_gatt_set_characteristic_notification(
           evt->data.evt_gatt_procedure_completed.connection,
           characteristicHandle,
-          gatt_indication);
+          sl_bt_gatt_indication);
         app_assert_status(sc);
         enabling_indications = true;
       } else if (enabling_indications) {
@@ -584,7 +585,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_gatt_characteristic_value_id:
       /* if a temperature value was received from a slave... */
       if (evt->data.evt_gatt_characteristic_value.att_opcode
-          == gatt_handle_value_indication) {
+          == sl_bt_gatt_handle_value_indication) {
         uint16_t temp_measurement_char;
 
         switch ((evt->data.evt_gatt_characteristic_value.connection - 1) % 8) {
@@ -661,7 +662,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       /* If we have one less available connection than the maximum allowed...*/
       if (numOfActiveConn == MAX_CONNECTIONS - 1) {
         // start scanning,
-        sc = sl_bt_scanner_start(gap_1m_phy, scanner_discover_generic);
+        sc = sl_bt_scanner_start(sl_bt_gap_1m_phy,
+                                 sl_bt_scanner_discover_generic);
         app_assert_status_f(sc, "Failed to start discovery #1\n");
         app_log("Scanning restarted.\r\n");
 

@@ -104,7 +104,7 @@ other_file:
 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 1.7.0
+    version: 2.0.0
 
 configuration:
 - name: SL_STACK_SIZE
@@ -120,8 +120,6 @@ configuration:
 
 ui_hints:
   highlight:
-  - path: README.md
-    focus: true
-  - path: config/btconf/gatt_configuration.btconf
-
-
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

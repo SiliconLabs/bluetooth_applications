@@ -73,7 +73,7 @@ static glib_context_t glib_context;
  * App Display Update Function.
  ******************************************************************************/
 void fingerprint_oled_update(const char *string_midle,
-                                      const char *string_lower)
+                             const char *string_lower)
 {
   uint8_t string_lower_len = 0;
   uint8_t data_x_start = 0;

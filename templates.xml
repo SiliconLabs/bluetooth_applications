@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="ASCII"?><model:MDescriptors xmlns:model="http://www.silabs.com/ss/Studio.ecore">
-  <descriptors name="bt_ai_ml_hand_signal_recognition" label="Bluetooth - AI/ML Hand Signal Recognition (MLX90640)" description="This application uses TensorFlow Lite for Microcontrollers to run image classification machine learning models to detect the hand gestures from image data recorded from a Far Infrared Sensor. The detection is visualized using the OLED and the classification results are written to the VCOM serial port. Additionally, the classification results are transmitted to a connected Bluetooth Low Energy (BLE) Client.">
+  <descriptors name="bt_ai_ml_hand_signal_recognition" label="Bluetooth - AI/ML Hand Signal Recognition (MLX90640)"
+               description="This application uses TensorFlow Lite for Microcontrollers to run image classification machine learning models to detect the hand gestures from image data recorded from a Far Infrared Sensor. The detection is visualized using the OLED and the classification results are written to the VCOM serial port. Additionally, the classification results are transmitted to a connected Bluetooth Low Energy (BLE) Client.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_ai_ml_hand_signal_recognition.SimplicityStudio.bt_hand_signal_recognition.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_ai_ml_hand_signal_recognition/SimplicityStudio/bt_hand_signal_recognition.slcp"/>
     <properties key="readmeFiles" value="bluetooth_ai_ml_hand_signal_recognition/README.md"/>
-    <properties key="boardCompatibility" value="brd2601b brd2703a brd2704a"/>
+    <properties key="boardCompatibility" value="brd2601b brd2703a brd2704a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*mgm24.* .*efr32[bm]g24.* .*efr32[x]g24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -15,13 +16,14 @@
     <properties key="filters" value="Capability|Machine\ Learning Device\ Type|SoC MCU|32-bit\ MCU Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_people_counting_ak9753" label="Bluetooth - People Counting (AK9753)" description="This project aims to implement a people counting application using Silabs development kits and external sensors integrated with the BLE wireless stack.">
+  <descriptors name="bluetooth_people_counting_ak9753" label="Bluetooth - People Counting (AK9753)"
+               description="This project aims to implement a people counting application using Silabs development kits and external sensors integrated with the BLE wireless stack.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_people_counting_ak9753.SimplicityStudio.bluetooth_people_counting_ak9753.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_people_counting_ak9753/SimplicityStudio/bluetooth_people_counting_ak9753.slcp"/>
     <properties key="readmeFiles" value="bluetooth_people_counting_ak9753/README.md"/>
-    <properties key="boardCompatibility" value="brd2704a brd2601b brd2703a brd4108a brd4314a"/>
+    <properties key="boardCompatibility" value="brd2704a brd2601b brd2703a brd4108a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.*  .*bg22.* .*mgm24.* .*efr32[bm]g24.* .*efr32[x]g24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -31,12 +33,13 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_door_lock_rfid" label="Bluetooth - Door Lock RFID (ID-12LA)" description="This project aims to implement a door lock application using Silabs development kits and external sensors integrated with the BLE wireless stack.">
+  <descriptors name="bt_door_lock_rfid" label="Bluetooth - Door Lock RFID (ID-12LA)"
+               description="This project aims to implement a door lock application using Silabs development kits and external sensors integrated with the BLE wireless stack.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_door_lock_rfid/SimplicityStudio/bluetooth_door_lock_rfid.slcp"/>
-    <properties key="readmeFiles" value="../README.md"/>
-    <properties key="boardCompatibility" value="brd2704a brd2601b brd2703a brd4108a brd4314a  com.silabs.board.none"/>
+    <properties key="readmeFiles" value="bluetooth_door_lock_rfid/README.md"/>
+    <properties key="boardCompatibility" value="brd2704a brd2601b brd2703a brd4108a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.*  .*bg22.* .*mgm24.* .*efr32[bm]g24.* .*efr32[x]g24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -45,12 +48,13 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_soc_blinky_sparkfun_thingplus" label="Bluetooth - SoC Blinky - SparkFun Thing Plus Matter - MGM240P" description="This example application is the Hello World of Bluetooth Low Energy (BLE). It allows a BLE central device to control the LED on the mainboard and receive button press notifications.">
+  <descriptors name="bt_soc_blinky_sparkfun_thingplus" label="Bluetooth - SoC Blinky - SparkFun Thing Plus Matter - MGM240P"
+               description="This example application is the Hello World of Bluetooth Low Energy (BLE). It allows a BLE central device to control the LED on the mainboard and receive button press notifications.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_soc_blinky_sparkfun_thingplus/SimplicityStudio/bt_soc_blinky_brd2704a.slcp"/>
     <properties key="readmeFiles" value="bluetooth_soc_blinky_sparkfun_thingplus/README.md"/>
-    <properties key="boardCompatibility" value="brd2704a"/>
+    <properties key="boardCompatibility" value="brd2704a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*mgm24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -59,16 +63,15 @@
     <properties key="filters" value="Device\ Type|SoC MCU|32-bit\ MCU Project\ Difficulty|Beginner Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-   <descriptors name="bt_dosimeter_sensor" label="Bluetooth - Dosimeter (Sparkfun Type 5) - Sensor" description="This application uses the dosimeter (Sparkfun Type 5) to measure
-    the radiation level of the ambient space and the report this information to another device that
-    place outside of the radioactive zone.">
+   <descriptors name="bt_dosimeter_sensor" label="Bluetooth - Dosimeter (Sparkfun Type 5) - Sensor"
+                description="This application uses the dosimeter (Sparkfun Type 5) to measure the radiation level of the ambient space and the report this information to another device that place outside of the radioactive zone.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_dosimeter.bluetooth_dosimeter_sensor.SimplicityStudio.bluetooth_dosimeter_sensor.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_dosimeter/bluetooth_dosimeter_sensor/SimplicityStudio/bluetooth_dosimeter_sensor.slcp"/>
     <properties key="readmeFiles" value="bluetooth_dosimeter/README.md"/>
-    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4191a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b com.silabs.board.none"/>
-    <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
+    <properties key="boardCompatibility" value="brd2601b brd2703a brd2704a brd4108a brd4314a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm22.*  .*bg22.* .*mgm24.* .*efr32[bm]g24.* .*efr32[x]g24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -77,15 +80,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_dosimeter_client" label="Bluetooth - Dosimeter (Sparkfun Type 5) - Client" description="This application gets the information about the radiation
-    level from the sender via BLE (Bluetooth Low Energy) and then display it on the OLED for visualization. A buzzer is also used to notify users when the radiation level
-	crosses the threshold.">
+  <descriptors name="bt_dosimeter_client" label="Bluetooth - Dosimeter (Sparkfun Type 5) - Client"
+               description="This application gets the information about the radiation level from the sender via BLE (Bluetooth Low Energy) and then display it on the OLED for visualization. A buzzer is also used to notify users when the radiation level crosses the threshold.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_dosimeter.bluetooth_dosimeter_client.SimplicityStudio.bluetooth_dosimeter_client.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_dosimeter/bluetooth_dosimeter_client/SimplicityStudio/bluetooth_dosimeter_client.slcp"/>
     <properties key="readmeFiles" value="bluetooth_dosimeter/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32[bm]g24.* .*efr32[x]g24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -95,7 +97,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_ancs" label="Bluetooth - Apple Notification Center Service" description="This example demonstrates how to receive Apple Notification Center Service (ANCS) Notifications, such as phone calls, calendar events, and so on and print them out to the VCOM.">
+  <descriptors name="bt_ancs" label="Bluetooth - Apple Notification Center Service"
+               description="This example demonstrates how to receive Apple Notification Center Service (ANCS) Notifications, such as phone calls, calendar events, and so on and print them out to the VCOM.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_apple_notification_center_service.SimplicityStudio.bt_ancs.slcp"/>
@@ -110,12 +113,13 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_co_client" label="Bluetooth - CO Monitor (MQ7) - Client" description="This project aims to implement a CO application using Silabs development kits and external sensors integrated with the BLE wireless stack. The wireless CO system composed of a sensor and a (at least one) client device. The sensor  periodically measures the CO level and advertises the processed CO level value to the Client Devices.">
+  <descriptors name="bt_co_client" label="Bluetooth - CO Monitor (MQ7) - Client"
+               description="This project aims to implement a CO application using Silabs development kits and external sensors integrated with the BLE wireless stack. The wireless CO system composed of a sensor and a (at least one) client device. The sensor  periodically measures the CO level and advertises the processed CO level value to the Client Devices.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_co_monitor/bt_co_client/SimplicityStudio/bt_co_client.slcp"/>
     <properties key="readmeFiles" value="bluetooth_co_monitor/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -124,12 +128,13 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_co_sensor" label="Bluetooth - CO Monitor (MQ7) - Sensor" description="This project aims to implement a CO application using Silabs development kits and external sensors integrated with the BLE wireless stack. The wireless CO system composed of a sensor and a (at least one) client device. The sensor  periodically measures the CO level and advertises the processed CO level value to the Client Devices.">
+  <descriptors name="bt_co_sensor" label="Bluetooth - CO Monitor (MQ7) - Sensor"
+               description="This project aims to implement a CO application using Silabs development kits and external sensors integrated with the BLE wireless stack. The wireless CO system composed of a sensor and a (at least one) client device. The sensor  periodically measures the CO level and advertises the processed CO level value to the Client Devices.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_co_monitor/bt_co_sensor/SimplicityStudio/bt_co_sensor.slcp"/>
     <properties key="readmeFiles" value="bluetooth_co_monitor/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -138,12 +143,13 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_operation_time_measurement_client" label="Bluetooth - Operation Time Measurement (BMA400) - Client" description="This project proposes the development of an application that uses the Silabs BG22 Bluetooth SoC Explorer Kits and Mikroe ACCEL 5 CLICK board and Adafruit IS31FL3741 components to monitor the operation time of machineries and display the information graphically. The application will use BLE for wireless communication between the devices.">
+  <descriptors name="bluetooth_operation_time_measurement_client" label="Bluetooth - Operation Time Measurement (BMA400) - Client"
+               description="This project proposes the development of an application that uses the Silabs BG22 Bluetooth SoC Explorer Kits and Mikroe ACCEL 5 CLICK board and Adafruit IS31FL3741 components to monitor the operation time of machineries and display the information graphically. The application will use BLE for wireless communication between the devices.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_operation_time_measurement/bluetooth_operation_time_measurement_client/SimplicityStudio/bluetooth_operation_time_measurement_client.slcp"/>
     <properties key="readmeFiles" value="bluetooth_operation_time_measurement/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -152,7 +158,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_controlling_led_from_smartphone" label="Bluetooth - Controlling LED from Smartphone" description="This example shows how to develop a simple software to control the Wireless Development Kit's LEDs with a mobile phone application.">
+  <descriptors name="bluetooth_controlling_led_from_smartphone" label="Bluetooth - Controlling LED from Smartphone"
+               description="This example shows how to develop a simple software to control the Wireless Development Kit's LEDs with a mobile phone application.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_controlling_led_from_smartphone.SimplicityStudio.bluetooth_controlling_led_from_smartphone.slcp"/>
@@ -167,13 +174,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_serial_port_profile_server" label="Bluetooth - Serial Port Profile (SPP) - Server" description="This example provides a simple template for SPP-like communication (also know as wire replacement), where Bluetooth serves as a transport channel for serial communication between server and client.">
+  <descriptors name="bluetooth_serial_port_profile_server" label="Bluetooth - Serial Port Profile (SPP) - Server"
+               description="This example provides a simple template for SPP-like communication (also know as wire replacement), where Bluetooth serves as a transport channel for serial communication between server and client.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_serial_port_profile.bt_spp_server.SimplicityStudio.bt_serial_port_profile_server.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_serial_port_profile/bt_spp_server/SimplicityStudio/bt_serial_port_profile_server.slcp"/>
     <properties key="readmeFiles" value="bluetooth_serial_port_profile/README.md"/>
-    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4191a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b"/>
+    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4191a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -182,12 +190,13 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_operation_time_measurement_sensor" label="Bluetooth - Operation Time Measurement (BMA400) - Sensor" description="This project proposes the development of an application that uses the Silabs BG22 Bluetooth SoC Explorer Kits and Mikroe ACCEL 5 CLICK board and Adafruit IS31FL3741 components to monitor the operation time of machineries and display the information graphically. The application will use BLE for wireless communication between the devices.">
+  <descriptors name="bluetooth_operation_time_measurement_sensor" label="Bluetooth - Operation Time Measurement (BMA400) - Sensor"
+               description="This project proposes the development of an application that uses the Silabs BG22 Bluetooth SoC Explorer Kits and Mikroe ACCEL 5 CLICK board and Adafruit IS31FL3741 components to monitor the operation time of machineries and display the information graphically. The application will use BLE for wireless communication between the devices.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_operation_time_measurement/bluetooth_operation_time_measurement_sensor/SimplicityStudio/bluetooth_operation_time_measurement_sensor.slcp"/>
     <properties key="readmeFiles" value="bluetooth_operation_time_measurement/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -196,13 +205,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_serial_port_profile_client" label="Bluetooth - Serial Port Profile (SPP) - Client" description="This example provides a simple template for SPP-like communication (also know as wire replacement), where Bluetooth serves as a transport channel for serial communication between server and client.">
+  <descriptors name="bluetooth_serial_port_profile_client" label="Bluetooth - Serial Port Profile (SPP) - Client"
+               description="This example provides a simple template for SPP-like communication (also know as wire replacement), where Bluetooth serves as a transport channel for serial communication between server and client.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_serial_port_profile.bt_spp_client.SimplicityStudio.bt_serial_port_profile_client.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_serial_port_profile/bt_spp_client/SimplicityStudio/bt_serial_port_profile_client.slcp"/>
     <properties key="readmeFiles" value="bluetooth_serial_port_profile/README.md"/>
-    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4191a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b"/>
+    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4191a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -211,7 +221,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors> 
-  <descriptors name="bt_reporting_battery_voltage" label="Bluetooth - Reporting Battery Voltage" description="This example shows how to create an application to monitor the battery voltage and report it as a percentage of full charge. The Bluetooth SIG defines a battery service exactly for this purpose. The definition can be found in Bluetooth SIG Specifications List. The example will use this adopted service to report battery level.">
+  <descriptors name="bt_reporting_battery_voltage" label="Bluetooth - Reporting Battery Voltage"
+               description="This example shows how to create an application to monitor the battery voltage and report it as a percentage of full charge. The Bluetooth SIG defines a battery service exactly for this purpose. The definition can be found in Bluetooth SIG Specifications List. The example will use this adopted service to report battery level.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_reporting_battery_voltage.SimplicityStudio.bluetooth_reporting_battery_voltage.slcp"/>
@@ -227,13 +238,14 @@
     <properties key="filters" value="Device\ Type|SoC MCU|32-bit\ MCU Project\ Difficulty|Beginner Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_doorlock_fingerprint" label="Bluetooth - Door Lock Fingerprint (A-172-MRQ)" description="This example is used for a BLE-based device lock system using one Silabs EFR32xG24 Explorer kit and various hardware components such as MikroE Fingerprint Click 2 (A-172-MRQ) and SparkFun Micro OLED Breakout (Qwiic). The system is using BLE for wireless communication. This example also is the foundation to develop a secure and convenient device system using biometric authentication (fingerprint) and LED display indication. The system will use BLE for wireless communication between the Silabs board and the EFR connect mobile application.">
+  <descriptors name="bt_doorlock_fingerprint" label="Bluetooth - Door Lock Fingerprint (A-172-MRQ)"
+               description="This example is used for a BLE-based device lock system using one Silabs EFR32xG24 Explorer kit and various hardware components such as MikroE Fingerprint Click 2 (A-172-MRQ) and SparkFun Micro OLED Breakout (Qwiic). The system is using BLE for wireless communication. This example also is the foundation to develop a secure and convenient device system using biometric authentication (fingerprint) and LED display indication. The system will use BLE for wireless communication between the Silabs board and the EFR connect mobile application.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_door_lock_fingerprint.SimplicityStudio.bt_doorlock_fingerprint.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_door_lock_fingerprint/SimplicityStudio/bt_doorlock_fingerprint.slcp"/>
     <properties key="readmeFiles" value="bluetooth_door_lock_fingerprint/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4314a brd4108a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4314a brd4108a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32mg24.* .*bgm22.* .*efr32bg22.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -243,7 +255,8 @@
     <properties key="filters" value="Device\ Type|SoC MCU|32-bit\ MCU Project\ Difficulty|Beginner Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_hid_keyboard" label="Bluetooth - HID Keyboard" description="This is an example for Bluetooth LE HID device development, which can connect wirelessly to HID hosts including Windows, Mac, Android and iOS systems.">
+  <descriptors name="bluetooth_hid_keyboard" label="Bluetooth - HID Keyboard"
+               description="This is an example for Bluetooth LE HID device development, which can connect wirelessly to HID hosts including Windows, Mac, Android and iOS systems.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_hid_keyboard.SimplicityStudio.bluetooth_hid_keyboard.slcp"/>
@@ -258,7 +271,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_log_system_vcom" label="Bluetooth - Log System via VCOM (UART)" description="This example introduces a simple implementation of logging on EFR32 based devices.">
+  <descriptors name="bt_log_system_vcom" label="Bluetooth - Log System via VCOM (UART)"
+               description="This example introduces a simple implementation of logging on EFR32 based devices.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_log_system.SimplicityStudio.bt_log_system_vcom.slcp"/>
@@ -273,7 +287,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_log_system_rtt" label="Bluetooth - Log System via RTT" description="This example introduces a simple implementation of logging on EFR32 based devices.">
+  <descriptors name="bt_log_system_rtt" label="Bluetooth - Log System via RTT"
+               description="This example introduces a simple implementation of logging on EFR32 based devices.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_log_system.SimplicityStudio.bt_log_system_rtt.slcp"/>
@@ -288,7 +303,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_multicentral_multiperipheral_dual_topology" label="Bluetooth - Multi-Central Multi-Peripheral Dual Topology" description="This code example demonstrates how to handle multiple (simultaneous) connections, when the device has to act as central on some of the connections, and peripheral on the rest of the connections.">
+  <descriptors name="bt_multicentral_multiperipheral_dual_topology" label="Bluetooth - Multi-Central Multi-Peripheral Dual Topology"
+               description="This code example demonstrates how to handle multiple (simultaneous) connections, when the device has to act as central on some of the connections, and peripheral on the rest of the connections.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_multicentral_multiperipheral_dual_topology.SimplicityStudio.bluetooth_multicentral_multiperipheral_dual_topology.slcp"/>
@@ -304,7 +320,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_man_in_the_middle" label="Bluetooth - Man-In-The-Middle" description="This project shows the implementation of Man In The Middle with BLE.">
+  <descriptors name="bt_man_in_the_middle" label="Bluetooth - Man-In-The-Middle"
+               description="This project shows the implementation of Man In The Middle (MITM) with BLE.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_man_in_the_middle/SimplicityStudio/bt_man_in_the_middle.slcp"/>
@@ -318,7 +335,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_thermometer_auth" label="Bluetooth - Health Thermometer Authenticated Server" description="This example project shows an example for thermometer server authenticator's role in MITM scenario.">
+  <descriptors name="bt_thermometer_auth" label="Bluetooth - SoC Thermometer Authenticated Server"
+               description="This example project shows an example for thermometer server authenticator's role in MITM scenario.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_man_in_the_middle/SimplicityStudio/bt_thermometer_auth.slcp"/>
@@ -332,7 +350,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_uploading_images_to_multislots" label="Bluetooth - Uploading images to multi-slots" description=" This project shows how to implement image uploading to the bootloader storage slots using the standard OTA process. It is also extended by allowing the users to select a slot to upload to and a slot to boot from.">
+  <descriptors name="bluetooth_uploading_images_to_multislots" label="Bluetooth - Uploading images to multi-slots"
+               description=" This project shows how to implement image uploading to the bootloader storage slots using the standard OTA process. It is also extended by allowing the users to select a slot to upload to and a slot to boot from.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_uploading_images_to_multislots/SimplicityStudio/bt_uploading_images_to_multislots.slcp"/>
@@ -346,13 +365,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_ota_firmware_update_in_user_application" label="Bluetooth - OTA Firmware Update in User Application" description="This project aims to implement firmware upgrade method used in SoC-mode Bluetooth applications. A Gecko Bootloader (GBL) image containing the new firmware is sent to target device via a Bluetooth connection.">
+  <descriptors name="bt_ota_firmware_update_in_user_application" label="Bluetooth - OTA Firmware Update in User Application"
+               description="This project aims to implement firmware upgrade method used in SoC-mode Bluetooth applications. A Gecko Bootloader (GBL) image containing the new firmware is sent to target device via a Bluetooth connection.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_ota_firmware_update_in_user_application.SimplicityStudio.bt_ota_firmware_update_in_user_application.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_ota_firmware_update_in_user_application/SimplicityStudio/bt_ota_firmware_update_in_user_application.slcp"/>
     <properties key="readmeFiles" value="bluetooth_ota_firmware_update_in_user_application/README.md"/>
-    <properties key="boardCompatibility" value="brd4314a brd2601b brd2703a brd4108a brd2704a brd4109a brd4110a brd4111a brd4113a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4194a brd4195a brd4196a brd4198a brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b"/>
+    <properties key="boardCompatibility" value="brd4314a brd2601b brd2703a brd4108a brd2704a brd4109a brd4110a brd4111a brd4113a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4194a brd4195a brd4196a brd4198a brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -362,14 +382,15 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_container_level_detection_sensor" label="Bluetooth - Container Level Detection (VL53L1X) - Sensor" description="  The sensor device measures the distance between the distance sensor and the content of the container. The sensor device calculates the average distance and advertises it via BLE.">
+  <descriptors name="bluetooth_container_level_detection_sensor" label="Bluetooth - Container Level Detection (VL53L1X) - Sensor"
+               description="  The sensor device measures the distance between the distance sensor and the content of the container. The sensor device calculates the average distance and advertises it via BLE.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_container_level_detection_sensor.bluetooth_container_level_detection_sensor.SimplicityStudio.bluetooth_container_level_detection_sensor.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_container_level_detection/SimplicityStudio/bluetooth_container_level_detection_sensor.slcp"/>
     <properties key="readmeFiles" value="bluetooth_container_level_detection/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd2601b brd2704a"/>
-    <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32[bm]g24.* .*efr32[x]g24.* .*mgm24.*"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd2601b com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32[bm]g24.* .*efr32[x]g24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -378,13 +399,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_container_level_detection_client" label="Bluetooth - Container Level Detection (VL53L1X) - Client" description="  The sensor device measures the distance between the distance sensor and the content of the container. The sensor device calculates the average distance and advertises it via BLE.">
+  <descriptors name="bluetooth_container_level_detection_client" label="Bluetooth - Container Level Detection (VL53L1X) - Client"
+               description="  The sensor device measures the distance between the distance sensor and the content of the container. The sensor device calculates the average distance and advertises it via BLE.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_container_level_detection_client.bluetooth_container_level_detection_client.SimplicityStudio.bluetooth_container_level_detection_client.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_container_level_detection/SimplicityStudio/bluetooth_container_level_detection_client.slcp"/>
     <properties key="readmeFiles" value="bluetooth_container_level_detection/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd2601b brd2704a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd2601b brd2704a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32[bm]g24.* .*efr32[x]g24.* .*mgm24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -394,13 +416,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_em4_energy_mode_ibeacon" label="Bluetooth - EM4 Energy Mode in iBeacon Application" description="This code example shows the use of sleep mode EM4 in a Bluetooth iBeacon Application. The device will operate in deep sleep mode EM4 after advertising iBeacon packet in 5s. It will stay in EM4 for 15s but users can force the device to wake up from EM4 immediately by pushing Button.">
+  <descriptors name="bt_em4_energy_mode_ibeacon" label="Bluetooth - EM4 Energy Mode in iBeacon Application"
+               description="This code example shows the use of sleep mode EM4 in a Bluetooth iBeacon Application. The device will operate in deep sleep mode EM4 after advertising iBeacon packet in 5s. It will stay in EM4 for 15s but users can force the device to wake up from EM4 immediately by pushing Button.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_em4_energy_mode_ibeacon.SimplicityStudio.bluetooth_em4_energy_mode_ibeacon.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_em4_energy_mode_ibeacon/SimplicityStudio/bluetooth_em4_energy_mode_ibeacon.slcp"/>
     <properties key="readmeFiles" value="bluetooth_em4_energy_mode_ibeacon/README.md"/>
-    <properties key="boardCompatibility" value="brd4108a brd4314a brd2601b brd2703a"/>
+    <properties key="boardCompatibility" value="brd4108a brd4314a brd2601b brd2703a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32[bm]g24.* .*bgm22.* .*bg22.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -410,7 +433,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_thermometer_with_efr32_internal_temp_sensor" label="Bluetooth - Thermometer with EFR32 Internal Temperature Sensor" description="This example uses the EFR32's own internal temperature sensor. This sensor is measured during the production test. The temperature readout from the ADC at production temperature as well as the Celsius value are given in the device information page.">
+  <descriptors name="bt_thermometer_with_efr32_internal_temp_sensor" label="Bluetooth - Thermometer with EFR32 Internal Temperature Sensor"
+               description="This example uses the EFR32's own internal temperature sensor. This sensor is measured during the production test. The temperature readout from the ADC at production temperature as well as the Celsius value are given in the device information page.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_thermometer_with_efr32_internal_temperature_sensor.SimplicityStudio.bt_thermometer_with_efr32_internal_temp_sensor.slcp"/>    
@@ -425,7 +449,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_accelerometer_bma400_i2c" label="Bluetooth - Accelerometer (BMA400) - I2C" description="This project aims to implement an accelerometer application using Silicon Labs development kits and external sensors integrated with the BLE wireless stack.">
+  <descriptors name="bluetooth_accelerometer_bma400_i2c" label="Bluetooth - Accelerometer (BMA400) - I2C"
+               description="This project aims to implement an accelerometer application using Silicon Labs development kits and external sensors integrated with the BLE wireless stack.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_accelerometer_bma400/SimplicityStudio/bluetooth_accelerometer_bma400_i2c.slcp"/>
@@ -439,7 +464,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_accelerometer_bma400_spi" label="Bluetooth - Accelerometer (BMA400) - SPI" description="This project aims to implement an accelerometer application using Silicon Labs development kits and external sensors integrated with the BLE wireless stack.">
+  <descriptors name="bluetooth_accelerometer_bma400_spi" label="Bluetooth - Accelerometer (BMA400) - SPI"
+               description="This project aims to implement an accelerometer application using Silicon Labs development kits and external sensors integrated with the BLE wireless stack.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_accelerometer_bma400/SimplicityStudio/bluetooth_accelerometer_bma400_spi.slcp"/>
@@ -453,13 +479,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_smart_band" label="Bluetooth - Smart Band Application" description="  This project shows a demonstration of Bluetooth smart band application using Silabs development kits.It enables an Android smartphone to connect, send and receive text notifications and sensor data via BLE.">
+  <descriptors name="bluetooth_smart_band" label="Bluetooth - Smart Band Application"
+               description="  This project shows a demonstration of Bluetooth smart band application using Silabs development kits.It enables an Android smartphone to connect, send and receive text notifications and sensor data via BLE.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_smart_band.SimplicityStudio.bluetooth_smart_band.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_smart_band/SimplicityStudio/bluetooth_smart_band.slcp"/>
     <properties key="readmeFiles" value="bluetooth_smart_band/README.md"/>
-    <properties key="boardCompatibility" value="brd4180a brd4180b"/>
+    <properties key="boardCompatibility" value="brd4180a brd4180b com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32[bm]g21.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -468,13 +495,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_secure_attestation_server" label="Bluetooth - Secure Attestation - Server" description="This project aims to implement a secure attestation over Bluetooth Low Energy for server device. The server acts in the BLE peripheral role and allows a central/client to connect to it.">
+  <descriptors name="bt_secure_attestation_server" label="Bluetooth - Secure Attestation - Server"
+               description="This project aims to implement a secure attestation over Bluetooth Low Energy for server device. The server acts in the BLE peripheral role and allows a central/client to connect to it.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_secure_attestation.bt_secure_attestation_server.SimplicityStudio.bt_secure_attestation_server.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_secure_attestation/bt_secure_attestation_server/SimplicityStudio/bt_secure_attestation_server.slcp"/>
     <properties key="readmeFiles" value="bluetooth_secure_attestation/README.md"/>
-    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4191a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b"/>
+    <properties key="boardCompatibility" value="brd4108a brd4109a brd4110a brd4111a brd4113a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4187a brd4191a brd4194a brd4308a brd4308b brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4330a brd4331a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -484,14 +512,15 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bt_secure_attestation_client" label="Bluetooth - Secure Attestation - Client" description="This project aims to implement a secure attestation over Bluetooth Low Energy for client device. The client acts as a central device for the accompanying server.">
+  <descriptors name="bt_secure_attestation_client" label="Bluetooth - Secure Attestation - Client"
+               description="This project aims to implement a secure attestation over Bluetooth Low Energy for client device. The client acts as a central device for the accompanying server.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="solutionReferenceId" value="bluetooth_secure_attestation.bt_secure_attestation_client.SimplicityStudio.bt_secure_attestation_client.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_secure_attestation/bt_secure_attestation_client/SimplicityStudio/bt_secure_attestation_client.slcp"/>
     <properties key="readmeFiles" value="bluetooth_secure_attestation/README.md"/>
-    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4191a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b"/>
-    <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
+        <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd2704a brd4181c brd4186b brd4186c brd4187b brd4187c brd4188a brd4188b brd4195a brd4196a brd4198a brd4308c brd4308d brd4316a brd4317a brd4318a brd4319a brd4335a brd4400a brd4400b brd4401a brd4401b com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -500,7 +529,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_indoor_positioning_gateway" label="Bluetooth - RSSI Positioning - Gateway" description="A gateway device application intended to showcase a room finder or asset locator service using the BLE stack on Silicon Laboratories development kits.">
+  <descriptors name="bluetooth_indoor_positioning_gateway" label="Bluetooth - RSSI Positioning - Gateway"
+               description="A gateway device application intended to showcase a room finder or asset locator service using the BLE stack on Silicon Laboratories development kits.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_rssi_positioning/Gateway/SimplicityStudio/bluetooth_indoor_positioning_gateway.slcp"/>
@@ -514,13 +544,14 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_indoor_positioning_asset" label="Bluetooth - RSSI Positioning - Asset" description="An asset device application intended to showcase a room finder or asset locator service using the BLE stack on Silicon Laboratories development kits.">
+  <descriptors name="bluetooth_indoor_positioning_asset" label="Bluetooth - RSSI Positioning - Asset"
+               description="An asset device application intended to showcase a room finder or asset locator service using the BLE stack on Silicon Laboratories development kits.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_rssi_positioning/Asset/SimplicityStudio/bluetooth_indoor_positioning_asset.slcp"/>
     <properties key="readmeFiles" value="bluetooth_rssi_positioning/README.md"/>
     <properties key="boardCompatibility" value="brd4314a brd2601b brd2703a brd4108a brd2704a com.silabs.board.none"/>
-    <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
+    <properties key="partCompatibility" value=".*bgm22.*  .*bg22.* .*mgm24.* .*efr32[bm]g24.* .*efr32[x]g24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
     <properties key="category" value="Bluetooth Examples"/>
@@ -528,7 +559,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_rfid_notify" label="Bluetooth - RFID Notify" description="This example is intended to demonstrate the capability to scan an RFID card and send a notification to a client device using the BLE stack on Silicon Laboratories development kits.">
+  <descriptors name="bluetooth_rfid_notify" label="Bluetooth - RFID Notify"
+               description="This example is intended to demonstrate the capability to scan an RFID card and send a notification to a client device using the BLE stack on Silicon Laboratories development kits.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_rfid_notify/SimplicityStudio/bluetooth_rfid_notify.slcp"/>
@@ -542,7 +574,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_optimized_energy_consuming_sensor" label="Bluetooth - Optimized Energy Consuming Sensor" description="This project aims to implement an optimized energy consuming temperature sensor.">
+  <descriptors name="bluetooth_optimized_energy_consuming_sensor" label="Bluetooth - Optimized Energy Consuming Sensor"
+               description="This project aims to implement an optimized energy consuming temperature sensor.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_optimized_energy_consuming_sensor/bluetooth_optimized_energy_consuming_sensor/SimplicityStudio/bluetooth_optimized_energy_consuming_sensor.slcp"/>
@@ -556,7 +589,8 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
-  <descriptors name="bluetooth_optimized_energy_consuming_client" label="Bluetooth - Optimized Energy Consuming Sensor - Status Display" description="This project aims to implement a status display application for the optimized energy consuming sensor.">
+  <descriptors name="bluetooth_optimized_energy_consuming_client" label="Bluetooth - Optimized Energy Consuming Sensor - Status Display"
+               description="This project aims to implement a status display application for the optimized energy consuming sensor.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_optimized_energy_consuming_sensor/bluetooth_optimized_energy_consuming_client/SimplicityStudio/bluetooth_optimized_energy_consuming_client.slcp"/>
@@ -622,7 +656,7 @@
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_pawr_thermometer/bluetooth_pawr_thermometer_broadcaster/SimplicityStudio/bluetooth_pawr_thermometer_broadcaster.slcp"/>
     <properties key="readmeFiles" value="bluetooth_pawr_thermometer/README.md"/>
-    <properties key="boardCompatibility" value="brd4162a brd4180a brd4180b brd4186c"/>
+    <properties key="boardCompatibility" value="brd4162a brd4180a brd4180b brd4186c com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32mg12.* .*efr32mg21.* .*efr32mg24.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -637,7 +671,7 @@
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_pawr_thermometer/bluetooth_pawr_thermometer_observer/SimplicityStudio/bluetooth_pawr_thermometer_observer.slcp"/>
     <properties key="readmeFiles" value="bluetooth_pawr_thermometer/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd4182a brd4162a brd4180a brd4180b brd4183a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a brd4182a brd4162a brd4180a brd4180b brd4183a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.* .*efr32mg22.* .*efr32mg12.* .*efr32mg21.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -647,8 +681,7 @@
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
   <descriptors name="bluetooth_explorer_kit_barometer_i2c" label="Bluetooth - Barometer I2C" 
-     description="This example is intended to make a pressure and temperature measurement every second using the Mikore Pressure 3 Click board when the Bluetooth connection is open. 
-     The measurement can be seen via Bluetooth Pressure and Temperature characteristics under the Environmental Sensing service by reading it manually, or it can also be automatically updated using notifications.">
+               description="This example is intended to make a pressure and temperature measurement every second using the Mikore Pressure 3 Click board when the Bluetooth connection is open. The measurement can be seen via Bluetooth Pressure and Temperature characteristics under the Environmental Sensing service by reading it manually, or it can also be automatically updated using notifications.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_explorer_kit_i2c_barometer/SimplicityStudio/bluetooth_explorer_kit_i2c_barometer.slcp"/>
@@ -678,8 +711,7 @@
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>  
  <descriptors name="bluetooth_explorer_kit_bio_sensor_oled" label="Bluetooth - HRM/Sp02 Measurement (MAXM86161)"
-    description="  This example implements the Heart Rate service and Pulse Oximeter service service. It enables a peer device to connect and receive Heart Rate and Pulse Oximeter values via Bluetooth.
-    The HRM/SpO2 values are measured by using a bio-sensor located on the Heart Rate 2 Click board and displayed on the OLED screen located on the SparkFun Micro OLED Breakout (Qwiic) board.">
+              description="This example implements the Heart Rate service and Pulse Oximeter service service. It enables a peer device to connect and receive Heart Rate and Pulse Oximeter values via Bluetooth. The HRM/SpO2 values are measured by using a bio-sensor located on the Heart Rate 2 Click board and displayed on the OLED screen located on the SparkFun Micro OLED Breakout (Qwiic) board.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_explorer_kit_bio_sensor_oled/SimplicityStudio/bluetooth_explorer_kit_bio_sensor_oled.slcp"/>
@@ -740,7 +772,7 @@
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
   <descriptors name="bluetooth_bthome_v2_internal_temperature_monitor" label="Bluetooth - BTHome v2 - Internal Temperature Monitor"
-                 description="This project illustrates how BTHome can be effectively utilized with Silabs devkits to communicate internal temperature sensor values to a HomeAssistant system.">
+               description="This project illustrates how BTHome can be effectively utilized with Silabs devkits to communicate internal temperature sensor values to a HomeAssistant system.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_bthome_v2_internal_temperature_monitor/SimplicityStudio/bluetooth_bthome_v2_internal_temperature_monitor.slcp"/>
@@ -755,7 +787,7 @@
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
    <descriptors name="bluetooth_air_quality_monitor" label="Bluetooth - Air Quality Monitor" 
-               description="This project shows a demonstration of Bluetooth Air Quality Monitor application using Silabs Thunderboard Sense 2, SparkFun Micro OLED Breakout (Qwiic) board, BUZZ 2 click Mikroe board and Silabs Click Shield.">
+                description="This project shows a demonstration of Bluetooth Air Quality Monitor application using Silabs Thunderboard Sense 2, SparkFun Micro OLED Breakout (Qwiic) board, BUZZ 2 click Mikroe board and Silabs Click Shield.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_air_quality_monitor/SimplicityStudio/bluetooth_air_quality_monitor.slcp"/>
@@ -785,7 +817,7 @@
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
   <descriptors name="bluetooth_people_counting" label="Bluetooth - People Counting (VL53L1X)" 
-     description="This project aims to implement a people counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensors.">
+               description="This project aims to implement a people counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensors.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_people_counting/SimplicityStudio/bluetooth_people_counting.slcp"/>
@@ -830,7 +862,7 @@
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
   <descriptors name="bluetooth_bthome_v2_switch" label="Bluetooth - BTHome v2 - Switch"
-                 description="This project aims to implement a BTHome v2 compatible switch. The device is in sleep mode, and it wakes up once the button 0 on the board is pressed. The application supports press, double press, triple press, and long press events.">
+               description="This project aims to implement a BTHome v2 compatible switch. The device is in sleep mode, and it wakes up once the button 0 on the board is pressed. The application supports press, double press, triple press, and long press events.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_bthome_v2_switch/SimplicityStudio/bluetooth_bthome_v2_switch.slcp"/>
@@ -850,7 +882,7 @@
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_ethernet_gateway/SimplicityStudio/bluetooth_ethernet_gateway.slcp"/>
     <properties key="readmeFiles" value="bluetooth_ethernet_gateway/README.md"/>
-    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a"/>
+    <properties key="boardCompatibility" value="brd2703a brd4108a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*bgm22.* .*bg22.* .*efr32mg24.* .*efr32mg22.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -860,7 +892,7 @@
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
   <descriptors name="bluetooth_continuous_glucose_monitoring" label="Bluetooth - Continuous Glucose Monitoring" 
-                 description="This project aims to implement an example of Continuous Glucose Monitoring using the Thunderboard EFR32BG22.">
+               description="This project aims to implement an example of Continuous Glucose Monitoring using the Thunderboard EFR32BG22.">
     <properties key="namespace" value="template.uc"/>
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_continuous_glucose_monitoring/SimplicityStudio/bluetooth_continuous_glucose_monitoring.slcp"/>
@@ -895,7 +927,7 @@
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_data_logger_sd_card/SimplicityStudio/bluetooth_data_logger_sd_card.slcp"/>
     <properties key="readmeFiles" value="bluetooth_data_logger_sd_card/README.md"/>
-    <properties key="boardCompatibility" value="brd4166a  com.silabs.board.none"/>
+    <properties key="boardCompatibility" value="brd4166a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32mg12p.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -926,7 +958,7 @@
     <properties key="solutionReferenceId" value="bluetooth_secure_spp_over_ble.SimplicityStudio.bluetooth_secure_spp_over_ble.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_secure_spp_over_ble/SimplicityStudio/bluetooth_secure_spp_over_ble.slcp"/>
     <properties key="readmeFiles" value="bluetooth_secure_spp_over_ble/README.md"/>
-    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b"/>
+    <properties key="boardCompatibility" value="brd2601a brd2601b brd2703a brd4100a brd4101a brd4101b brd4103a brd4104a brd4108a brd4109a brd4110a brd4111a brd4113a brd4150a brd4150b brd4150c brd4151a brd4152a brd4153a brd4154a brd4155a brd4158a brd4159a brd4161a brd4162a brd4163a brd4164a brd4165b brd4166a brd4167a brd4168a brd4169a brd4169b brd4170a brd4172a brd4172b brd4173a brd4174a brd4174b brd4175a brd4176a brd4179b brd4180a brd4180b brd4181a brd4181b brd4181c brd4182a brd4183a brd4183b brd4183c brd4184a brd4184b brd4185a brd4186a brd4186b brd4186c brd4187a brd4187b brd4187c brd4188a brd4188b brd4190a brd4194a brd4195a brd4196a brd4198a brd4300a brd4300b brd4301a brd4302a brd4303a brd4304a brd4305a brd4305c brd4305d brd4305e brd4306a brd4306b brd4306c brd4306d brd4308a brd4308b brd4308c brd4308d brd4309a brd4309b brd4310a brd4311a brd4311b brd4312a brd4314a brd4316a brd4317a brd4318a brd4319a brd4330a brd4331a brd4335a brd4400a brd4400b brd4401a brd4401b com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32[bm]g12p.* .*efr32[bm]g13p.* .*efr32[bm]g1p.* .*efr32[bm]g21.* .*efr32[bm]g22.* .*efr32[bm]g24.* .*efr32[bm]g27.* .*[bm]gm1.* .*[bm]gm13.* .*[bm]gm21.* .*[bm]gm22.* .*[bm]gm24.* .*[bm]gm27.* .*efr32[fz]g28.* .*efr32bg1b.* .*efr32mg14p.* .*mgm12.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
@@ -957,7 +989,7 @@
     <properties key="keywords" value="universal\ configurator"/>
     <properties key="projectFilePaths" value="bluetooth_blood_glucose_meters/SimplicityStudio/bluetooth_blood_glucose_meters.slcp"/>
     <properties key="readmeFiles" value="bluetooth_blood_glucose_meters/README.md"/>
-    <properties key="boardCompatibility" value="brd4184a brd4166a com.silabs.board.none"/>
+    <properties key="boardCompatibility" value="brd4184a brd4166a brd4314a com.silabs.board.none"/>
     <properties key="partCompatibility" value=".*efr32[bm]g22.* .*[bm]gm22.* .*efr32mg12.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
@@ -1011,5 +1043,38 @@
     <properties key="quality" value="EXPERIMENTAL"/>
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>    
+  </descriptors>
+  <descriptors name="bluetooth_hid_multiple_reports" label="Bluetooth - HID Multiple Reports" 
+               description="This project demonstrates having multiple HID reports (Mouse and Keyboard) on a single device.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="solutionReferenceId" value="bluetooth_hid_multiple_reports.SimplicityStudio.bluetooth_hid_multiple_reports.slcp"/>
+    <properties key="projectFilePaths" value="bluetooth_hid_multiple_reports/SimplicityStudio/bluetooth_hid_multiple_reports.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_hid_multiple_reports/README.md"/>
+    <properties key="boardCompatibility" value="brd4181a brd4181b com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*mg21.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
+  <descriptors name="bluetooth_esl_tag_mikroe_eink154_e_paper_display" label="Bluetooth - ESL Tag with E-Paper display 1,54inch 200x200 dots from Mikroe" 
+               description="This example is an evaluation showcase for a Bluetooth Electronic Shelf Label (ESL) Tag application. This demo includes image and display capabilities of an ESL Tag, utilizing an E-Paper display 1,54inch 200x200 dots from Mikroe. Images are stored in the NVM by defalt.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="solutionReferenceId" value="bluetooth_esl_tag_mikroe_eink154_e_paper_display.SimplicityStudio.bluetooth_esl_tag_mikroe_eink154_e_paper_display.slcp"/>
+    <properties key="projectFilePaths" value="bluetooth_esl_tag_mikroe_eink154_e_paper_display/SimplicityStudio/bluetooth_esl_tag_mikroe_eink154_e_paper_display.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_esl_tag_mikroe_eink154_e_paper_display/README.md"/>
+    <properties key="boardCompatibility" value="brd4182a  com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*mg22.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
 </model:MDescriptors>  

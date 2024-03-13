@@ -378,14 +378,14 @@ static enum ZONE_EVENT update_path_track_state
   enum ZONE zone
 )
 {
-  bool current_zone_status_is_changed;
+  bool current_zone_status_is_changed = false;
   uint8_t pattern = 0;
   enum ZONE_EVENT zone_event = NO_EVENT;
 
   if (zone == LEFT) {
     if (current_zone_status != pt_state->last_zone_status_left) {
       // left zone status is changed
-      current_zone_status_is_changed = 1;
+      current_zone_status_is_changed = true;
 
       if (current_zone_status == SOMEONE) {
         pattern |= PATTERN_ZONE_LEFT;
@@ -401,7 +401,7 @@ static enum ZONE_EVENT update_path_track_state
   } else {
     if (current_zone_status != pt_state->last_zone_status_right) {
       // right zone status is changed
-      current_zone_status_is_changed = 1;
+      current_zone_status_is_changed = true;
       if (current_zone_status == SOMEONE) {
         pattern |= PATTERN_ZONE_RIGHT;
       }

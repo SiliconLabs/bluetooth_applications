@@ -216,7 +216,7 @@ void heart_rate_characteristic_status(sl_bt_msg_t *evt)
   if ((evt->data.evt_gatt_server_characteristic_status.characteristic
        == gattdb_heart_rate_measurement)
       && (evt->data.evt_gatt_server_characteristic_status.status_flags
-          == gatt_server_client_config)) {
+          == sl_bt_gatt_server_client_config)) {
     // Notification or Indication - enabled
     if (evt->data.evt_gatt_server_characteristic_status.client_config_flags) {
       // Start a sleeptimer timer 500ms interval

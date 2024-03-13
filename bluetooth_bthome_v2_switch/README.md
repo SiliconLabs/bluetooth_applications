@@ -18,9 +18,9 @@ Raspberry Pi 4 runs a Home Assistant OS that scans for and detects BTHome v2 dev
 
 ## Gecko SDK Suite Version ##
 
-- GSDK v4.3.1
+- GSDK v4.4.0
 
-- [Third Party Hardware Drivers v1.8.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -84,11 +84,11 @@ To test this application, you can either create a project based on an example pr
   
       - [Third-Party Hardware Drivers] → [Services] → [BTHome v2]
   
-5. Build and flash the project to your device.
+4. Build and flash the project to your device.
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 
 - SDK Extension must be enabled for the project to install **BTHOME v2** component.
 
@@ -108,11 +108,11 @@ To test this application, you can either create a project based on an example pr
 
 To test this application and monitor the switch changes, you need the following materials:
 
-  - Raspberry Pi 4 runs Home Assistant OS.
+- Raspberry Pi 4 runs Home Assistant OS.
 
-  - Home Assistant application on your smartphone.
-  
-  - [BGM220 Bluetooth Module Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit) runs the **Bluetooth - BTHome v2 - Switch** example.
+- Home Assistant application on your smartphone.
+
+- [BGM220 Bluetooth Module Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit) runs the **Bluetooth - BTHome v2 - Switch** example.
 
 To test this example, you should follow some steps below:
 
@@ -125,16 +125,16 @@ To test this example, you should follow some steps below:
 2. Open the Home Assistant application on your smartphone, select [Settings] → [Devices and Services] → [Add Integration]
 ![add_device](image/add_device.png)
 
-1. **Add Integration** with the name **'BTHome'**. You can see the list of devices, which are advertising in BTHome format. Choose your device with the correct name, e.g. **BTSwitch 79B4** for this example, and submit the bindkey, which is defined in the firmware of the BTHome switch device. 
- 
-- The device's name is `BTSwitch`. 
+3. **Add Integration** with the name **'BTHome'**. You can see the list of devices, which are advertising in BTHome format. Choose your device with the correct name, e.g. **BTSwitch 79B4** for this example, and submit the bindkey, which is defined in the firmware of the BTHome switch device.
 
-- The bindkey is  `11112222333344445555666677778888`.
+    - The device's name is `BTSwitch`.
+
+    - The bindkey is  `11112222333344445555666677778888`.
 
     **Note:** To be able to find your switch device with the Home Assistant application, you need to use the same network on both Raspberry Pi 4 and your smartphone.
-![configure_device](image/configure_device.png)
+    ![configure_device](image/configure_device.png)
 
 4. After adding your switch device successfully with the Bindkey, select a suitable area where your device is located.
 ![device_information](image/device_information.png)
 
-5. Now you can see your switch device is already added to the Home Assistant system. You can track the button events on the **Logbook** section.
+5. Now you can see your switch device is already added to the Home Assistant system. You can track the button events in the **Logbook** section.

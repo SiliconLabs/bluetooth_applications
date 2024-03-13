@@ -119,13 +119,12 @@ configuration:
   name: SL_PSA_KEY_USER_SLOT_COUNT
   value: '0'
 
-ui_hints:
-  highlight:
-  - path: ../README.md
-    focus: true
-  - path: ../config/btconf/gatt_configuration.btconf
-
 sdk_extension:
 - id: third_party_hw_drivers
-  version: 1.6.0
+  version: 2.0.0
 
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

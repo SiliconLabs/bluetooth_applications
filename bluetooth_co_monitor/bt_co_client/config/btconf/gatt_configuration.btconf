@@ -8,7 +8,7 @@
 
     <!--Device Name-->
     <characteristic const="false" id="device_name" name="Device Name" sourceId="org.bluetooth.characteristic.gap.device_name" uuid="2A00">
-      <value length="13" type="utf-8" variable_length="false">Empty Example</value>
+      <value length="9" type="utf-8" variable_length="false">CO_Client</value>
       <properties>
         <read authenticated="false" bonded="false" encrypted="false"/>
         <write authenticated="false" bonded="false" encrypted="false"/>

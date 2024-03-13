@@ -17,27 +17,25 @@ The overview of this application is shown in the image below:
 
 ![overview](images/overview.png)
 
-**Switch Device**
+**Switch Device:**
 
 ![switch](images/switch.png)
 
 This application is meant to mimic how a battery-less kinetic energy switch would operate.
 These designs will require super-capacitor storage and power management circuits.
 
-
-The switch device is an EFR32xG22 Wireless Gecko Starter Kit, which has a button on the motherboard. 
+The switch device is an EFR32xG22 Wireless Gecko Starter Kit, which has a button on the motherboard.
 
 In normal operation, this device is in sleep mode *(EM2) for decreasing energy consumption. When the button0 on-board is released, the device wakes up and advertises its name and state of the switch 3 times. After finishing the advertisement, it back to sleep mode.
 
 > **_NOTE_** \
 In this example, we use the Wireless Gecko Starter Kit’s built-in button PB – which will only wake up from EM2. A real application button connected to a GPIO can leverage GPIO interrupt wake-up from EM4.
 
-
-**Switch Status Display Device**
+**Switch Status Display Device:**
 
 The status display device represents a gateway.
 
-The switch status display device is the BG22 Explorer Kit connected to the SparkFun Micro OLED Breakout or to EFR Connect Mobile Application. 
+The switch status display device is the BG22 Explorer Kit connected to the SparkFun Micro OLED Breakout or to EFR Connect Mobile Application.
 
 This device scans and analyzes the advertisement packet of the switch device to get the status of the switch. It controls the LED0 on-board depending on the gathered switch's status. For example, if the switch's status value is 1, LED0 is turned on and the switch's status value is 0, LED0 is turned off.
 
@@ -45,16 +43,16 @@ The gathered switch's status is shown on the SparkFun Micro OLED Breakout.
 
 ## Gecko SDK Version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
-**Switch Device**
+**Switch Device:**
 
 - [EFR32xG22 Wireless Gecko Starter Kit](https://www.silabs.com/development-tools/wireless/efr32xg22-wireless-starter-kit?tab=overview)
 
-**Switch Status Display Device**
+**Switch Status Display Device:**
 
 - [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)
 
@@ -90,11 +88,11 @@ To test this application, you can either create a project based on an example pr
 
 2. Click **Create** button on **Bluetooth - Optimized Energy Consuming Switch** for switch device and **Bluetooth - Optimized Energy Consuming Switch - Status Display** for switch status display. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 
-**Switch device**
+**Switch device:**
 
 ![create switch project from example](images/create_switch_project_from_example.png)
 
-**Switch Status Display Device**
+**Switch Status Display Device:**
 
 ![create display project from example](images/create_display_project_from_example.png)
 
@@ -109,7 +107,7 @@ To test this application, you can either create a project based on an example pr
     - With **switch** device:
       - [Header files](inc/switch_device/)
       - [Source files](src/switch_device/)
-    - With **switch status display** device: 
+    - With **switch status display** device:
       - [Header files](inc/display_device/)
       - [Source files](src/display_device/)
 
@@ -144,7 +142,7 @@ The switch application uses the bare minimum of services to avoid wasting any en
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 
 ![sdk_extension](images/sdk_extension.png)
 
@@ -168,7 +166,6 @@ The device goes into EM2 sleep mode right after transmitting the third message a
 
 The microcontroller saves the actual state of the switch (ON/OFF) into the Non-Volatile Memory (NVM) and begins to transmit the switch status messages in accordance with the figure above.
 
-
 The payload size, TX power and the advertisement time significantly influence the required energy to transmit the switch status successfully.
 
 > **_NOTE_** \
@@ -180,11 +177,11 @@ More information about Bluetooth energy optimization is available [here](https:/
 
 ### Switch Device Implementation ###
 
-**Application initialization**
+**Application initialization:**
 
 ![switch device init](images/switch_device_init.png)
 
-**Bluetooth Stack Initialization**
+**Bluetooth Stack Initialization:**
 
 The device is configured as:
 
@@ -194,11 +191,11 @@ The device is configured as:
 
 A configuration switch is added to reduce the number of primary channels.
 
-**Application runtime**
+**Application runtime:**
 
 ![switch device runtime](images/switch_device_runtime.png)
 
-**Advertisement Packet**
+**Advertisement Packet:**
 
 The AdvData field in the advertisement packet is as table below:
 
@@ -210,7 +207,7 @@ The AdvData field in the advertisement packet is as table below:
 
 The device is not connectable. It sends manufacturer-specific advertisement packets.
 
-**Performance Measurements**
+**Performance Measurements:**
 
 > **The results of the performance measurements below are not officially specified values!**
 
@@ -297,15 +294,15 @@ The device is not connectable. It sends manufacturer-specific advertisement pack
 
 ### Switch Status Display ###
 
-**Display Implementation**
+**Display Implementation:**
 
 ![switch status display runtime](images/switch_status_runtime.png)
 
 ## Testing ##
 
-**Switch device**
+**Switch device:**
 
-- After booting the switch device, it advertises 3 times and goes to sleep mode (EM2). 
+- After booting the switch device, it advertises 3 times and goes to sleep mode (EM2).
 
   ![switch device start ](images/switch_device_start.png)
 
@@ -317,13 +314,13 @@ The device is not connectable. It sends manufacturer-specific advertisement pack
 
     ![energy profiler capture](images/energy_profiler.png)
 
-**Switch status display device**
+**Switch status display device:**
 
 - After the display device is turned on, the device starts in normal mode. In this state, it starts scanning the advertisement packet to find the switch device with name "BG22_SW".
 
     ![display device start](images/display_device_start.png)
 
-- When found the switch device, it gets the switch's state and controls the LED 0 on-board. If the switch's state is 1, the LED is turned on, and the switch's state is 0, the LED is turned off.
+- When the switch device is found, it gets the switch's state and controls the LED 0 on-board. If the switch's state is 1, the LED is turned on, and the switch's state is 0, the LED is turned off.
 
     ![display update status](images/switch_display_update_status.png)
 

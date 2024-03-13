@@ -38,7 +38,6 @@
 #include "glib.h"
 #include "glib_font.h"
 #include "micro_oled_ssd1306.h"
-#include "sl_simple_timer.h"
 #include <stdio.h>
 #include <string.h>
 #include "app_log.h"

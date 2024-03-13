@@ -7,7 +7,6 @@
 ![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_serial_port_profile_common.json&label=Flash&query=flash&color=blue)
 ![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_serial_port_profile_common.json&label=RAM&query=ram&color=blue)
 
-
 ## Overview ##
 
 This example provides a simple template for SPP-like communication (also know as wire replacement), where Bluetooth serves as a transport channel for serial communication between two devices.  To keep the code as short and simple as possible, the features are minimal. Users are expected to customize the code as needed to match their project requirements.
@@ -17,8 +16,10 @@ Although the serial communication is symmetric between the two devices, still th
 ## Description ##
 
 ### SPP Server ###
+
 Because Bluetooth Low Energy does not have a standard SPP service, it needs to be implemented as a custom service. The custom service is as minimal as possible. Only one characteristic is used for both incoming and outgoing data. The service is defined in the *gatt_configuration.btconf* file associated with this document and shown below.
-``` xml
+
+```xml
  <!--SPP Service-->
   <service advertise="true" name="SPP Service" requirement="mandatory" sourceId="" type="primary" uuid="4880c12c-fdcb-4077-8920-a450d7f9b907">
     <informativeText/>
@@ -33,6 +34,7 @@ Because Bluetooth Low Energy does not have a standard SPP service, it needs to b
     </characteristic>
   </service>
 ```
+
 At the boot event, the server is put into advertisement mode. This example uses advertising packets that are automatically filled by the stack. In the custom SPP service definition (see above), *advertise* is set to *true*, meaning that the stack will automatically add the 128-bit UUID in advertisement packets. The SPP client will use this information to recognize the SPP server among other BLE peripherals.
 
 For incoming data (data sent by the SPP client and written to UART in the SPP server), unacknowledged write transfers (*write_no_response*) are used, which provides better performance than normal acknowledged writes because several write operations can fit into one connection interval.
@@ -63,9 +65,9 @@ After finding a match in the advertising data, the client opens a connection by 
 
 The service discovery is implemented as a simple state machine and the sequence of operations after connection is opened and summarized below:
 
-1) Call `sl_bt_gatt_discover_primary_services_by_uuid ` to start service discovery
+1) Call `sl_bt_gatt_discover_primary_services_by_uuid` to start service discovery
 
-2) Call `sl_bt_gatt_discover_characteristics ` to find the characteristics in the SPP service (in FIND_SERVICE state)
+2) Call `sl_bt_gatt_discover_characteristics` to find the characteristics in the SPP service (in FIND_SERVICE state)
 
 3) Call `sl_bt_gatt_set_characteristic_notification` to enable notifications for spp_data characteristic (in FIND_CHAR state)
 
@@ -77,23 +79,23 @@ When notifications are enabled, the application is in transparent SPP mode, whic
 
 Note that on the server application the "SPP Mode ON" string is printed to the console. On the server side, this is done when the remote client has enabled notifications for the spp_data characteristic.
 
-Data is handled transparently, meaning that the transmitted values can be either ASCII strings or binary data, or a mixture of these. 
+Data is handled transparently, meaning that the transmitted values can be either ASCII strings or binary data, or a mixture of these.
 
 ### Power management ###
+
 USART peripheral is not accessible in EM2 sleep mode. For this reason, both the client and the server applications disable sleeping (EM2 mode) temporarily when the SPP mode is active. **SPP mode** in this context means that the client and server are connected and that the client has enabled notifications for the SPP_data characteristics.
 
 When SPP mode is entered, the code calls `sl_power_manager_add_em_requirement(SL_POWER_MANAGER_EM1)` to temporarily disable sleeping. When connection is closed (or client disables notifications), `sl_power_manager_remove_em_requirement(SL_POWER_MANAGER_EM1)` is called to re-enable sleeping.
 
-
 ### Known issues ###
+
 This example implementation does not guarantee 100% reliable transfer. For incoming data, the driver uses a FIFO buffer whose size is defined using symbol `SL_IOSTREAM_USART_VCOM_RX_BUFFER_SIZE` (default value is 32).
 
 To get a more reliable operation, increase the `SL_IOSTREAM_USART_VCOM_RX_BUFFER_SIZE` value. However, even with a large FIFO buffer, some data may get lost if the data rate is very high. If the FIFO buffer in RAM becomes full, the driver will simply drop the bytes that do not fit.
 
-
-
 ## Gecko SDK version ##
-GSDK v4.2.1
+
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -110,9 +112,15 @@ Tested boards for working with this example:
 | BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)  |
 | BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)  |
 | BRD4161A | [EFR32MG12 2.4 GHz +19 dBm Radio Board - SLWRB4161A](https://www.silabs.com/development-tools/wireless/zigbee/slwrb4161a-efr32mg12-radio-board)  |
+
+## Connections Required ##
+
+- Connect the Bluetooth Development Kits to the PC through a compatible-cable. For example, a micro USB cable for the BGM220 Bluetooth Module Explorer Kit.
+
 ## Setup ##
 
-To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. 
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
+
 ### Create a project based on an example project ###
 
 1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "spp".
@@ -126,7 +134,7 @@ To test this application, you can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing file).
+2. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting existing file).
     - With **Server** device: [bt_spp_server](bt_spp_server)
 
     - With **client** device: [bt_spp_client](bt_spp_client)
@@ -136,7 +144,9 @@ To test this application, you can either create a project based on an example pr
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
 
-    - Find the Import button and import the attached [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) file.
+    - Find the Import button and import the attached files:
+      - With **Server** device: `bt_spp_server/config/btconf/gatt_configuration.btconf`.
+      - With **Client** device: `bt_spp_client/config/btconf/gatt_configuration.btconf`.
 
     - Save the GATT configuration (ctrl-s).
 4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
@@ -150,23 +160,21 @@ To test this application, you can either create a project based on an example pr
 5. Build and flash the project to your device.
 
 **NOTE:**
+
 - Make sure that this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-![external_repos](images/external_repos.png)
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
-## Usage ##
+## How It Works ##
 
-1. Flash one radio board with the client code, and another one with the server code. 
+1. Flash one radio board with the client code, and another one with the server code.
 2. Open two instances of your favorite terminal program, and connect to both kits via the virtual COM port (find the JLink CDC UART ports). Use the following UART settings: **baud rate 115200, 8N1, no flow control**.
 3. Press reset button on both kits.
 4. The two kits will automatically find each other and set up a connection. You should see the logs on the terminal programs
 5. Once the connection is set up and SPP mode is on, type anything to either of the terminal programs and see it appearing on the other terminal.
-
 ![](images/spp_terminal.gif)
 
 **NOTE**: Make sure that you are using the same baud rate and flow control settings in your starter kit and radio board or module firmware as well as your terminal program. For WSTK, this can be checked in Debug Adapters->Launch Console->Admin view, by typing "serial vcom".
-
 
 ![](images/v3_launch_console.png)
 

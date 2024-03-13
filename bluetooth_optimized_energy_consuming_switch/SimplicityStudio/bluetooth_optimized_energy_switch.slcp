@@ -120,7 +120,6 @@ other_file:
 
 ui_hints:
   highlight:
-  - path: README.md
-    focus: true
-  - path: config/switch_device/btconf/gatt_configuration.btconf
-
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

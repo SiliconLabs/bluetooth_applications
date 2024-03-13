@@ -38,9 +38,9 @@
 
 #include "app_assert.h"
 #include "user_config_nvm3.h"
-
+#include "sl_i2cspm_instances.h"
+#include "sparkfun_ak9753_config.h"
 #include "sparkfun_ak9753.h"
-#include "ak9753_config.h"
 #include "ak9753_app.h"
 
 // Entering pattern
@@ -149,15 +149,15 @@ void ak9753_app_init(void)
            \r\nLower threshold: %d\
            \r\nUpper threshold: %d\
            \r\nHysteresis: %d\
-           \r\nIR threshold: %d",
+           \r\nIR threshold: %d\n",
           lower_threshold,
           upper_threshold,
           hysteresis,
           ir_threshold);
 
   sparkfun_ak9753_config_t ak9753_cfg = {
-    .I2C_address = AK9753_ADDR,
-    .sparkfun_ak9753_i2cspm_instance = AK9753_CONFIG_I2C_INSTANCE,
+    .I2C_address = SPARKFUN_AK9753_ADDR,
+    .sparkfun_ak9753_i2cspm_instance = sl_i2cspm_qwiic,
     .cut_off_freq = SPARKFUN_AK975X_FREQ_8_8HZ,
     .mode = SPARKFUN_AK975X_MODE_0,
     .upper_threshold13 = 0,

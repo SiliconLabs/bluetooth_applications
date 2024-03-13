@@ -15,7 +15,7 @@ filter:
 
 package: Bluetooth
 
-quality: production
+quality: experimental
 
 readme:
 - path: ../README.md
@@ -26,8 +26,6 @@ source:
 - path: ../src/client/container_nvm.c
 - path: ../src/client/container_rgb.c
 
-tag: ['hardware:rf:band:2400']
-
 include:
 - path: ../inc
   file_list:
@@ -35,31 +33,32 @@ include:
   - path: ../inc/client/container_nvm.h
   - path: ../inc/client/container_rgb.h
 
-toolchain_settings: []
 component:
-- instance: [btn0]
-  id: simple_button
+- id: mpu
 - id: bluetooth_feature_gatt_server
 - id: bluetooth_feature_sm
-- from: third_party_hw_drivers
-  id: adafruit_rgb_led_is31fl3741
-- id: mpu
 - id: bluetooth_feature_legacy_advertiser
 - id: gatt_configuration
 - id: gatt_service_device_information
 - id: bluetooth_stack
 - id: bluetooth_feature_gatt
-- from: third_party_hw_drivers
-  id: services_oled_glib
-- id: bluetooth_feature_legacy_scanner
-- id: app_log
+- id: bluetooth_feature_system
 - id: bt_post_build
 - id: bluetooth_feature_connection
+- id: bluetooth_feature_legacy_scanner
+- id: component_catalog
+- id: app_log
+- id: app_assert
 - instance: [vcom]
   id: iostream_usart
-- id: bluetooth_feature_system
-- id: component_catalog
-- id: app_assert
+- instance: [btn0]
+  id: simple_button
+- id: adafruit_rgb_led_is31fl3741
+  from: third_party_hw_drivers
+- id: services_oled_glib
+  from: third_party_hw_drivers
+- id: i2cspm
+  instance: [qwiic]
 
 config_file:
   - override:
@@ -103,6 +102,12 @@ other_file:
     directory: images
   - path: ../images/create_project.png
     directory: images
+  - path: ../images/con_hardware1.png
+    directory: images
+  - path: ../images/con_hardware2.png
+    directory: images
+  - path: ../images/con_hardware3.png
+    directory: images
 
 configuration:
 - name: SL_STACK_SIZE
@@ -113,13 +118,12 @@ configuration:
   name: SL_PSA_KEY_USER_SLOT_COUNT
   value: '0'
 
-ui_hints:
-  highlight:
-  - path: ../README.md
-    focus: true
-  - path: ../config/btconf/client/gatt_configuration.btconf
-
 sdk_extension:
 - id: third_party_hw_drivers
-  version: 1.2.0
+  version: 2.0.0
 
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

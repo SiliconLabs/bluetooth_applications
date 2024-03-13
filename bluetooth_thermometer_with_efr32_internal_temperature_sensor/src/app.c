@@ -36,12 +36,12 @@
                                         *(p)++ = (uint8_t)((n) >> 24); }
 
 /* Factory calibration temperature from device information page. */
-#define CAL_TEMP0  ((DEVINFO->CAL &_DEVINFO_CAL_TEMP_MASK) >> \
+#define CAL_TEMP0  ((DEVINFO->CAL & _DEVINFO_CAL_TEMP_MASK) >> \
                     _DEVINFO_CAL_TEMP_SHIFT)
 
 /* _DEVINFO_ADC0CAL3_TEMPREAD1V25_MASK is not correct in
  *    current CMSIS. This is a 12-bit value, not 16-bit. */
-#define CAL_VALUE0 ((DEVINFO->ADC0CAL3 &_DEVINFO_ADC0CAL3_TEMPREAD1V25_MASK) >> \
+#define CAL_VALUE0 ((DEVINFO->ADC0CAL3 & _DEVINFO_ADC0CAL3_TEMPREAD1V25_MASK) >> \
                     _DEVINFO_ADC0CAL3_TEMPREAD1V25_SHIFT)
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
@@ -190,7 +190,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
        * client configuration was changed (notifications or indications
        * enabled or disabled). */
       if (evt->data.evt_gatt_server_characteristic_status.status_flags
-          != gatt_server_client_config) {
+          != sl_bt_gatt_server_client_config) {
         break;
       }
       if (evt->data.evt_gatt_server_characteristic_status.characteristic
@@ -199,7 +199,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       }
 
       if (evt->data.evt_gatt_server_characteristic_status.client_config_flags
-          == gatt_indication) {
+          == sl_bt_gatt_indication) {
         /* Indications have been turned ON - start the repeating timer.
          * The 1st parameter '32768' tells the timer to run for
          * 1 second (32.768 kHz oscillator), the 2nd parameter is
@@ -211,7 +211,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
                    (int)sc);
       } else if (evt->data.evt_gatt_server_characteristic_status.
                  client_config_flags
-                 == gatt_disable) {
+                 == sl_bt_gatt_disable) {
         /* Indications have been turned OFF - stop the timer. */
         sc = sl_bt_system_set_lazy_soft_timer(0, 0, 0, 0);
         app_assert(sc == SL_STATUS_OK,

@@ -23,8 +23,8 @@ In the configure mode, the device starts advertising itself. Users can connect t
 
 ## Gecko SDK Version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.7.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK v4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -49,7 +49,6 @@ To test this application, you can either create a project based on an example pr
 1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "movement".
 
 2. Click **Create** button on **Bluetooth - Movement Detection** project. Example project creation dialog pops up -> click Create and Finish and source code should be generated.
-
 ![create example project](images/create_example_project.png)
 
 3. Build and flash this example to your board.
@@ -58,7 +57,7 @@ To test this application, you can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy all attached files in [*inc*](inc/) and [*src*](src/) folders into the project root folder (overwriting the existing files).
+2. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting the existing files).
 
 3. Import the GATT configuration:
 
@@ -87,7 +86,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
 
 ![add Third Party Hardware Drivers extension](images/sdk_extension.png)
 
@@ -155,7 +154,7 @@ In general, the device and the sensor are in sleep mode, when the accelerometer 
 
 Upon reset, the device starts in **Normal Mode**. In this state, the device runs the movement detection algorithm without Bluetooth. Try to move the device in some direction and check the logs on the terminal.
 
-  ![logs](images/logs_1.png)
+![logs](images/logs_1.png)
 
 To switch to **Configuration Mode**, button PB0 should be pressed during startup (power-on or reset).
 
@@ -170,5 +169,4 @@ Follow the below steps to test the example with the EFR Connect app when the dev
 3. Find the unknown service at the below of the Device Information service.
 
 4. Tap on the main service to see the available characteristics. Try to read, write, re-read the characteristics, and check the value. Values for the characteristics are handled by the application as ASCII strings. You should expect a similar output to the one below.
-
-    ![logs](images/logs_2.png)
+![logs](images/logs_2.png)

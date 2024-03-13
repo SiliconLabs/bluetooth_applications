@@ -62,7 +62,7 @@ void app_init(void)
   app_log("BTHome v2 - Humidity and Temperature Monitor\n");
   app_log("======== Application initialization =========\n");
 
-  if (!(mikroe_shtc3_init(sl_i2cspm_mikroe))) {
+  if (!(mikroe_shtc3_init(sl_i2cspm_qwiic))) {
     app_log("[SHTC3]: SparkFun Humidity Sensor initializes successfully.\n");
 
     mikroe_shtc3_send_command(MIKROE_SHTC3_CMD_SLEEP);

@@ -13,7 +13,9 @@ This example is used for a BLE-based device lock system using one Silicon Labs E
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
+
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -40,17 +42,17 @@ The following picture shows the system view of how it works.
 
 The SparkFun OLED Display board can be easily connected to the EFR32 xG24 Explorer Kit by using a Qwiic cable. The Fingerprint 2 Click connects to the EFR32xG24 Explorer Kit using USART via MikroE connection.
 
-## Set up ##
+## Setup ##
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add the your hardware to **My Products**, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "door lock fingerprint".
+1. From the Launcher Home, add your hardware to **My Products**, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "door lock fingerprint".
 
 2. Click **Create** button on the **Bluetooth - Door Lock Fingerprint (A-172-MRQ)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 
-![create_project](images/create_project.png)
+    ![create_project](images/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -65,7 +67,7 @@ To test this application, you can either create a project based on an example pr
     - Open the .slcp file in the project.
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
-    
+
     - Find the Import button and import the attached [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) file.
 
     - Save the GATT configuration (ctrl-s).
@@ -88,13 +90,11 @@ To test this application, you can either create a project based on an example pr
 
     - [Third Party Hardware Drivers] → [Services] → [GLIB Graphics Library]
 
-    
-
 5. Build and flash the project to your device.
 
 **Note:**
 
-- Make sure the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information
 
@@ -112,30 +112,21 @@ To test this application, you can either create a project based on an example pr
 
 Advertisement Packet Device name: **FINGERPRINT DOORLOCK**
 
-GATT Database
+**GATT Database:**
 
 - Device name: **FINGERPRINT DOORLOCK**
 
-- **[Service] Fingerprint Door Lock**
-
-    - **[Char] Mode**
-
-        - [R] Get mode value.
-        - [W] Set operation mode (0 - normal, 1 - register, remove, 2 - show).
-    
-    - **[Char] Remove Authorized Fingerprint**
-
-        - [W] Provide authorized fingerprint id to remove it from the authorized fingerprints.
-
-    - **[Char] Get Fingerprint ID**
-
-        - [W] Select the index.
-
-        - [R] Provide the status of the index (**EMPTY** or **EXISTS**).
-    
-    - **[Char] Open Lock**
-    
-        - [W] Write 1 to open lock.
+- [Service]: **Fingerprint Door Lock**
+  - [Char] **Mode**
+    - [R] Get mode value.
+    - [W] Set operation mode (0 - normal, 1 - register, remove, 2 - show).
+  - [Char] **Remove Authorized Fingerprint**
+    - [W] Provide authorized fingerprint ID to remove it from the authorized fingerprints.
+  - [Char] **Get Fingerprint ID**
+    - [W] Select the index.
+    - [R] Provide the status of the index (**EMPTY** or **EXISTS**).
+  - [Char] **Open Lock**
+    - [W] Write 1 to open lock.
 
 ### Application initialization ###
 
@@ -165,7 +156,7 @@ In configuration mode 1, the OLED will show "CONFIG" on the screen and the numbe
 
 - Otherwise, when the fingerprint is removed by the user, the OLDE will show the "REMOVED" label and the index of the removed fingerprint, which was stored on the Fingerprint 2 Click board and NVM memory.
 
-![config_mode_display](images/config_mode_display.png)
+    ![config_mode_display](images/config_mode_display.png)
 
 In configuration mode 2, if the fingerprints were stored in NVM memory and on the Fingerprint 2 Click board, the OLED would show the index of each fingerprint in 4 seconds. If do not have any authorized fingerprints, the OLED will show "-" and "NO FPs".
 
@@ -173,7 +164,7 @@ In configuration mode 2, if the fingerprints were stored in NVM memory and on th
 
 ### Testing ###
 
-You can use a smartphone app, such as the EFR Connect application on your phone, to connect to the board. Please, following some steps as below:
+You can use a smartphone application, such as the EFR Connect application on your phone, to connect to the board. Following some steps as below:
 
 - Open the EFR Connect app.
 
@@ -183,18 +174,20 @@ You can use a smartphone app, such as the EFR Connect application on your phone,
 
 - Click on **Connect** button.
 
-![efr_connect_app](images/efr_connect_app.png)
+    ![efr_connect_app](images/efr_connect_app.png)
 
 Upon reset, the application will display the Silicon Labs logo on the OLED screen for a few seconds. After the firmware is configured, the device starts in normal mode. In this state, it starts advertising devices. Open your terminal emulator and connect to your client device over its serial port. Set baudrate to 115200. A similar output as below:
 
 ![termial_start](images/terminal_start.png)
 
 #### Normal Mode ####
-When you place your finger on the sensor in normal mode, the system compares your fingerprint and returns the result. Please see the terminal output as follows: 
+
+When you place your finger on the sensor in normal mode, the system compares your fingerprint and returns the result. Please see the terminal output as follows:
 
 ![terminal_normal](images/terminal_normal.png)
 
 #### Configuration Mode 1 ####
+
 In configuration mode 1, you can get the index of authorized fingerprints by reading **Get Fingerprint ID** characteristic. After that, you can delete the fingerprint that you no longer use. The terminal output is as follows:
 
 ![terminal_remove](images/terminal_remove.png)
@@ -206,5 +199,3 @@ Moreover, in this mode, when you place the new finger, that is not authorized. T
 #### Configuration Mode 2 ####
 
 The OLED screen will show the index of the authorized fingerprints. Please take a look at the picture in the paragraph marked **Display**.
-
-

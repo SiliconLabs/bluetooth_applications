@@ -17,7 +17,7 @@ The following picture shows the system view of how it works.
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
@@ -39,37 +39,38 @@ To test this application, you can either create a project based on an example pr
 
 ### Create a project based on an example project ###
 
-To implement the bluetooth - uploading images to multiple slots application, we need to have a bootloader which supports multiple images.
+To implement the Bluetooth - Uploading Images to Multiple Slots application, we need to have a bootloader that supports multiple images.
 
 #### Create bootloader project ###
-1. From the Launcher Home, add the your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "bootloader".
 
-2. Create an **Bootloader - SoC Internal Storage (multiple images on 1MB device)** project in Simplicity Studio.
+1. From the Launcher Home, add your product name to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "bootloader".
 
-![create_bootloader](images/create_bootloader.png)
+2. Create a **Bootloader - SoC Internal Storage (multiple images on 1MB device)** project in Simplicity Studio.
+
+    ![create_bootloader](images/create_bootloader.png)
 
 3. Build the project and flash the bootloader to your device.
 
 #### Create application project ###
 
-4. Back to the Launcher Home, Find the example project with filter "multi-slots".
+1. Back to the Launcher Home, Find the example project with filter "multi-slots".
 
-5. Create **TWO** projects with the **Bluetooth - Uploading images to multiple slots** example. These example projects creation dialog pops up -> click Create and Finish and Projects should be generated.
+2. Create **TWO** projects with **Bluetooth - Uploading images to multiple slots** example. These example projects creation dialog pops up -> click Create and Finish and Projects should be generated.
 
-![create_project](images/create_project.png)
+    ![create_project](images/create_project.png)
 
-6. At the first **Bluetooth - Uploading images to multiple slots** project:
+3. At the first **Bluetooth - Uploading images to multiple slots** project:
     - Open the .slcp file in the project.
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
 
     - Change the Device Name to “silabs origin”.
 
-    - Save GATT database.
+    - Save the GATT database.
 
-7. Build and flash this first project to your boards.
+4. Build and flash this first project to your boards.
 
-8. At the second **Bluetooth - Uploading images to multiple slots** project:
+5. At the second **Bluetooth - Uploading images to multiple slots** project:
 
     - Open the .slcp file in the project.
 
@@ -77,23 +78,23 @@ To implement the bluetooth - uploading images to multiple slots application, we 
 
     - Change the Device Name to “silabs version 1”.
 
-    - Save GATT database.
+    - Save the GATT database.
 
-9. Build this second project.
+6. Build this second project.
 
-### Create a project from empty ###
+### Create a project from an empty project ###
 
-1. From the Launcher Home, add the your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "bootloader".
+1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "bootloader".
 
-2. Create an **Bootloader - SoC Internal Storage (multiple images on 1MB device)** project in Simplicity Studio.
+2. Create a **Bootloader - SoC Internal Storage (multiple images on 1MB device)** project in Simplicity Studio.
 
-![create_bootloader](images/create_bootloader.png)
+    ![create_bootloader](images/create_bootloader.png)
 
 3. Build the project and flash the bootloader to your device.
 
 4. Create a **Bluetooth – SoC Empty** project.
 
-5. Copy all attached files in *inc* and *src* folders into the project root folder (overwriting existing).
+5. Copy all attached files in the *inc* and *src* folders into the project root folder (overwriting existing).
 
 6. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install these software components:
 
@@ -101,17 +102,17 @@ To implement the bluetooth - uploading images to multiple slots application, we 
     - [Application] → [Utility] → [Log]
     - [Application] → [Utility] → [Assert]
     - [Platform] → [Board] → [Board Control] → enable *Virtual COM UART*
-   - [Bluetooth] → [OTA] → [In-Place OTA DFU]: **uninstall**.
+    - [Bluetooth] → [OTA] → [In-Place OTA DFU]: **uninstall**.
 
-   *(This will uninstall Apploader, remove OTA DFU service and the OTA control characteristics handler code.)*
+   *(This will uninstall Apploader and remove OTA DFU service and the OTA control characteristics handler code.)*
 
 7. Import the GATT configuration:
 
     - Open the .slcp file in the project.
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
-    
-    - Find the Import button and import the attached [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) file.
+
+    - Find the Import button and import the attached `config/gatt_configuration.btconf` file.
 
     - Save the GATT configuration (ctrl-s).
 
@@ -119,37 +120,37 @@ To implement the bluetooth - uploading images to multiple slots application, we 
 
 9. Make a copy of this project to have the second project.
 
-10. In the second project, change the Device Name to “silabs version 1” in the GATT Configurator, and save the GATT database
+10. Similar to the second project, change the Device Name to “silabs version 1” in the GATT Configurator, and save the GATT database
 
-11. Build this second project.
+11. Build these projects.
 
-## How it work
+## How It Works ##
 
 1. In the second project, run create_bl_files.bat. You may need to set up some environmental variables first, as described in section 3.10 of [AN1086: Using the Gecko Bootloader with the Silicon Labs Bluetooth® Applications](https://www.silabs.com/documents/public/application-notes/an1086-gecko-bootloader-bluetooth.pdf)
 
-![run_bat](images/run_bat.png)
+    ![run_bat](images/run_bat.png)
 
-2. Find the full.gbl file in output_gbl folder.
+2. Find the full.gbl file in the 'output_gbl' folder.
 
-![gbl_file](images/gbl_file.png)
+    ![gbl_file](images/gbl_file.png)
 
 3. Copy full.gbl to your smartphone.
 4. Open EFR Connect app on your smartphone.
 5. Find your device with Bluetooth browser (advertising as **silabs origin**) and connect to it.
 6. Find the unknown service and open it (this is your custom service including Upload slot and Bootload slot characteristics).
 
-7. Open the first characteristic (this is the upload characteristic) and write the slot number, that you want to upload to, in it, for example 0x00.
+7. Open the first characteristic (this is the upload characteristic) and write the slot number, that you want to upload to, in it, for example: 0x00.
 
-![efr_update](images/efr_update.png)
+    ![efr_update](images/efr_update.png)
 
 8. In the local menu select OTA Firmare.
 9. Select the partial type.
 10. Select the full.gbl file you want to upload.
 11. Click Upload. The file will be uploaded to the selected slot.
 
-![efr_ota](images/efr_ota.png)
+    ![efr_ota](images/efr_ota.png)
 
 12. Open the second characteristic in the unknown service (Bootload slot) and write the slot number (e.g. 0x00), that you want to load the application from, in it. The device will trigger a reset and the new application will be loaded.
 13. Reload and find your device advertising itself as “silabs version 1”.
 
-![efr_boot](images/efr_boot.png)
+    ![efr_boot](images/efr_boot.png)

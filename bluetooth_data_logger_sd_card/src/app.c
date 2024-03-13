@@ -664,9 +664,9 @@ static void app_bt_gatt_server_characteristic_status
 )
 {
   if (evt_data->characteristic == gattdb_spp_data) {
-    if (evt_data->status_flags == gatt_server_client_config) {
+    if (evt_data->status_flags == sl_bt_gatt_server_client_config) {
       // Characteristic client configuration (CCC) for spp_data has been changed
-      if (evt_data->client_config_flags == gatt_notification) {
+      if (evt_data->client_config_flags == sl_bt_gatt_notification) {
         app_properties.main_state = STATE_SPP_MODE;
         sl_power_manager_add_em_requirement(SL_POWER_MANAGER_EM1);
         app_log("SPP Mode ON\r\n");

@@ -8,7 +8,7 @@
 
     <!--Device Name-->
     <characteristic const="false" id="device_name" name="Device Name" sourceId="org.bluetooth.characteristic.gap.device_name" uuid="2A00">
-      <value length="16" type="utf-8" variable_length="false">Attacker device</value>
+      <value length="16" type="utf-8" variable_length="false">Thermometer Example</value>
       <properties>
         <read authenticated="false" bonded="false" encrypted="false"/>
         <write authenticated="false" bonded="false" encrypted="false"/>

@@ -8,6 +8,7 @@
 ![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_distance_monitor_common.json&label=RAM&query=ram&color=blue)
 
 ## Overview ##
+
 This project shows the demonstration of a Bluetooth distance monitor application using SparkFun Distance Sensor Breakout - VL53L1X and BGM220 Explorer Kit Board BRD4314A with the BLE wireless stack.
 
 The block diagram of this application is shown in the image below:
@@ -20,8 +21,8 @@ This device can be connected to EFR connect app that allows users configuration 
 
 ## Gecko SDK Version ##
 
-- GSDK v4.3.1
-- [Third Party Hardware Drivers v1.6.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- GSDK 4.4.0
+- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -98,7 +99,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third-Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > SDKs](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [Third-Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > SDKs](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install some components.
 
@@ -120,26 +121,27 @@ Application logic initialization function is invoked from the _app_init()_ funct
 
 Where R = Readable, W = Writeable with response.
 
-**BLE GATT Database**
- - [Service] Distance Monitor - `84b256e1-8292-4a07-b3d8-77d1f4bdb80e`
-    - [Char] Lower Threshold Value (50-4000) - `bf393a58-b4c7-11ec-b909-0242ac120002`
-      - [R] Get the lower threshold value
-      - [W] Set the lower threshold value
-    - [Char] Upper Threshold Value (50-4000) - `bf393cd8-b4c7-11ec-b909-0242ac120002`
-      - [R]  Get the upper threshold value
-      - [W] Set the lower threshold value
-    - [Char] Threshold Mode (0-3) - `bf393e2c-b4c7-11ec-b909-0242ac120002`
-      - [R]  Get the threshold mode
-      - [W] Set the threshold mode
-    - [Char] Buzzer volume (0-10) - `bf393f6c-b4c7-11ec-b909-0242ac120002`
-      - [R] Get configured buzzer volume
-      - [W] Set buzzer volume
-    - [Char] Range Mode (1,2) - `bf3940ac-b4c7-11ec-b909-0242ac120002`
-      - [R] Get configured range mode
-      - [W] Set range mode
-    - [Char] Notification Status (0,1) - `bf3941d8-b4c7-11ec-b909-0242ac120002`
-      - [R] Get configured notification status
-      - [W] Set notification status
+**BLE GATT Database:**
+
+- [Service] Distance Monitor: `84b256e1-8292-4a07-b3d8-77d1f4bdb80e`
+  - [Char] Lower Threshold Value (50-4000): `bf393a58-b4c7-11ec-b909-0242ac120002`
+    - [R] Get the lower threshold value
+    - [W] Set the lower threshold value
+  - [Char] Upper Threshold Value (50-4000): `bf393cd8-b4c7-11ec-b909-0242ac120002`
+    - [R]  Get the upper threshold value
+    - [W] Set the lower threshold value
+  - [Char] Threshold Mode (0-3): `bf393e2c-b4c7-11ec-b909-0242ac120002`
+    - [R]  Get the threshold mode
+    - [W] Set the threshold mode
+  - [Char] Buzzer volume (0-10): `bf393f6c-b4c7-11ec-b909-0242ac120002`
+    - [R] Get configured buzzer volume
+    - [W] Set buzzer volume
+  - [Char] Range Mode (1,2): `bf3940ac-b4c7-11ec-b909-0242ac120002`
+    - [R] Get configured range mode
+    - [W] Set range mode
+  - [Char] Notification Status (0,1): `bf3941d8-b4c7-11ec-b909-0242ac120002`
+    - [R] Get configured notification status
+    - [W] Set notification status
 
 BLE Characteristic user read/write requests are processed as the following flowchart.
 
@@ -147,9 +149,9 @@ BLE Characteristic user read/write requests are processed as the following flowc
 
 ### External Runtime Events ###
 
- - Application Logic main timer expires => 100 ms
- - Screen update timer expires => 200 ms
- - User press button (BTN0)
+- Application Logic main timer expires => 100 ms
+- Screen update timer expires => 200 ms
+- User press button (BTN0)
 
 ![runtime_events](images/runtime_events.png)
 
@@ -171,20 +173,20 @@ The screen update function is invoked periodically. It updates the information d
 
 ### Application main source files ###
 
- - [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf): BLE GATT Database
+- [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf): BLE GATT Database
 
- - [app_config.h](inc/app_config.h): Application configuration parameters (e.g.: BLE Passkey) and BLE GATT Characteristic <-> Application feature binding.
+- [app_config.h](inc/app_config.h): Application configuration parameters (e.g.: BLE Passkey) and BLE GATT Characteristic <-> Application feature binding.
 
- - [app_logic.c](src/app_logic.c): Implements the applications's main logical blocks.
+- [app_logic.c](src/app_logic.c): Implements the applications's main logical blocks.
 
- - [app_callbacks.c](src/app_callbacks.c): Implements callback functions for platform drivers. (Timers, Buttons)
+- [app_callbacks.c](src/app_callbacks.c): Implements callback functions for platform drivers. (Timers, Buttons)
 
- - [app_ble_events.c](src/app_ble_events.c): Configures BLE stack and handles BLE events.
+- [app_ble_events.c](src/app_ble_events.c): Configures BLE stack and handles BLE events.
 
- - [app_events.c](src/app_events.c): Application specific event handlers. (BLE User requests, timer events, and button events come from the BLE stack.)
-
+- [app_events.c](src/app_events.c): Application specific event handlers. (BLE User requests, timer events, and button events come from the BLE stack.)
 
 ## Testing ##
+
 Upon reset, the application will display the Silicon Labs logo on the OLED screen for a few seconds. \
 After the distance sensor is booted up and its configuration is done, the application starts the periodic distance measurement and gathers the configured samples. \
 While the samples are gathered the display shows the **SENSOR INIT.** text. Once the application is gathered enough measurement data to calculate the average distance then the application will update the screen with the latest available average distance.
@@ -195,14 +197,13 @@ While the samples are gathered the display shows the **SENSOR INIT.** text. Once
 
 ![application testing](images/testing.png)
 
-
 ### Configuration with the EFR Connect Mobile Application ###
 
-  - Open EFR Connect Mobile Application
-  - Scan devices
-  - Select the 'Distance Monitor' device
+- Open EFR Connect Mobile Application
+- Scan devices
+- Select the 'Distance Monitor' device
 
-**Connect to the device**
+**Connect to the device:**
 
 The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with the EFR Connect app installed is required.
 
@@ -210,12 +211,11 @@ Open the EFR Connect application on your smartphone and **allow the permission r
 
 _Note_: The pairing process on Android and iOS devices is different. For more information, refer to [bluetooth security](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/security).
 
-
-**Read/Write characteristics**
+**Read/Write characteristics:**
 
 The parameters of this example application can be easily configured via BLE characteristics.
 Values for the characteristics are handled by the application as ASCII strings.
-Tap on the main service to see the available characteristics. 
+Tap on the main service to see the available characteristics.
 
 ***Read***
 
@@ -227,7 +227,7 @@ For setting a parameter select a characteristic and tap on its write button. Typ
 
 ![efr connect application](images/efr_app.png)
 
-By default, the application is configured to notify the user if the measured distance is below the configured lower threshold (default: 250 mm). The notification is muted by default, it can be enabled via either pushing the BTN0 button on the development kit or through a write request to the corresponding BLE characteristic. 
+By default, the application is configured to notify the user if the measured distance is below the configured lower threshold (default: 250 mm). The notification is muted by default, it can be enabled via either pushing the BTN0 button on the development kit or through a write request to the corresponding BLE characteristic.
 Buzzer volume, threshold modes (below the lower threshold, above the upper threshold, inside, outside of the threshold limits), and threshold limits [50-4000 mm] can be configured too. If the measured average value is outside of the sensor's valid range [40-1300/4000 mm] the notification system is inactive and the "OUT OF RANGE" label is displayed on the screen.
 
 This application only aims to demonstrate the basic capabilities of this distance sensor with the Silicon Labs BLE wireless stack. This means that the notification status in the application logic is not debounce filtered and the configured threshold parameters are not checked against the sensor's range mode configuration (upper distance limit: short range mode = 1300 mm, long range mode = 4000 mm).

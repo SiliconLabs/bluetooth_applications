@@ -311,7 +311,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
 
       // Capabilities: No Input and No Output
-      sc = sl_bt_sm_configure(0b00000010, sm_io_capability_noinputnooutput);
+      sc =
+        sl_bt_sm_configure(0b00000010, sl_bt_sm_io_capability_noinputnooutput);
       app_assert_status(sc);
 
       // Allow bondings
@@ -417,16 +418,18 @@ static void app_bt_evt_system_external_signal(uint32_t extsignals)
           case NORMAL_MODE:
             if (rfid_card_find(rfid_reader_buffer.id12la_data[i].id_tag)
                 && app_door_is_locked) {
-              static char temp[11];
+              static char temp[13];
 
               app_door_is_locked = false;
-              snprintf(temp, sizeof(temp), "%02X%02X%02X%02X%02X",
-                       rfid_reader_buffer.id12la_data[i].id_tag[2],
+              snprintf(temp, sizeof(temp), "%02X%02X%02X%02X%02X%02X",
+                       rfid_reader_buffer.id12la_data[i].id_tag[0],
+                       rfid_reader_buffer.id12la_data[i].id_tag[1],
                        rfid_reader_buffer.id12la_data[i].id_tag[2],
                        rfid_reader_buffer.id12la_data[i].id_tag[3],
-                       rfid_reader_buffer.id12la_data[i].id_tag[4],
+                       rfid_reader_buffer.id12la_data[i].id_tag[3],
                        rfid_reader_buffer.id12la_data[i].id_tag[5]);
               app_display_update("UNLOCKED", temp);
+              app_log("Card ID: %s\n", temp);
               app_log("Card Authorized\r\n");
               sl_sleeptimer_start_timer_ms(&unlock_timer,
                                            10000,
@@ -440,16 +443,17 @@ static void app_bt_evt_system_external_signal(uint32_t extsignals)
           case MODE_1:
             if (SL_STATUS_OK
                 == rfid_card_add(rfid_reader_buffer.id12la_data[i].id_tag)) {
-              static char temp[11];
+              static char temp[13];
 
               snprintf(temp,
-                       11,
-                       "%02X%02X%02X%02X%02X",
+                       sizeof(temp),
+                       "%02X%02X%02X%02X%02X%02X",
                        rfid_reader_buffer.id12la_data[i].id_tag[0],
                        rfid_reader_buffer.id12la_data[i].id_tag[1],
                        rfid_reader_buffer.id12la_data[i].id_tag[2],
                        rfid_reader_buffer.id12la_data[i].id_tag[3],
-                       rfid_reader_buffer.id12la_data[i].id_tag[4]);
+                       rfid_reader_buffer.id12la_data[i].id_tag[4],
+                       rfid_reader_buffer.id12la_data[i].id_tag[5]);
               app_display_update("  ADDED", temp);
               app_log("This is a new card\r\n");
             }

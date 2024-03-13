@@ -17,8 +17,8 @@ The following picture shows the system view of how it works.
 
 ## Gecko SDK Suite version ##
 
-- GSDK v4.2.3
-- Third party hardware drivers extension v1.3.0
+- GSDK v4.4.0
+- [Third-Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Hardware Required ##
 
@@ -80,7 +80,7 @@ To test this application, you can either create a project based on an example pr
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
     
-    - Find the Import button and import the attached [gatt_configuration.btconf](config/btconf/gatt_configuration.btconf) file.
+    - Find the Import button and import the attached `config/gatt_configuration.btconf` file.
 
     - Save the GATT configuration (ctrl-s).
 
@@ -126,10 +126,10 @@ Follow the below steps to test the example:
 
 4. Enable notify on the unknown characteristic. Try to move your kit in some direction and check the value.
 
-![](image/unknown_service.png)
+    ![](image/unknown_service.png)
 
-You can launch the Console that is integrated in Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the logs from the virtual COM port.
+5. You can launch the Console that is integrated in Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the logs from the virtual COM port.
 
-![](image/console.png)
+    ![](image/console.png)
 
 *Note*: The LED blinks once if the accelerometer initialization is successful. If the LED stays on, the initialization has been failed. The reason is typically wrong sensor I2C address (see "I2C ADD" resistors) or wrongly configured Click board mode (SPI-mode instead I2C) or if using some own ways to connect the sensor.

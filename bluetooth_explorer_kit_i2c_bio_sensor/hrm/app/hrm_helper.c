@@ -35,9 +35,9 @@
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 
-#include "hrm/app/hrm_helper.h"
-#include "hrm/drivers/maxm86161.h"
-#include "hrm/config/maxm86161_hrm_config.h"
+#include "hrm_helper.h"
+#include "maxm86161.h"
+#include "maxm86161_hrm_config.h"
 #include "app_log.h"
 
 maxm86161_fifo_queue_t ppg_queue;
@@ -153,7 +153,7 @@ bool maxm86161_get_prox_mode(void)
  *****************************************************************************/
 void hrm_helper_output_debug_message(int16_t heart_rate, int16_t spo2)
 {
-  app_log("Heart rate = %hdbpm, SpO2 = %hd%%\n", heart_rate, spo2);
+  app_log("\nHeart rate = %hd bpm, SpO2 = %hd %%\n", heart_rate, spo2);
 }
 
 /**************************************************************************//**

@@ -224,7 +224,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_system_boot_id:
       reset_variables();
       // Security configurations
-      sc = sl_bt_sm_configure(0x0F, sm_io_capability_displayyesno);
+      sc = sl_bt_sm_configure(0x0F, sl_bt_sm_io_capability_displayyesno);
       app_assert_status(sc);
 
       sc = sl_bt_sm_set_bondable_mode(1);
@@ -404,7 +404,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
                                                             sl_bt_gatt_notification);
             app_assert_status(sc);
 
-            app_log("Characteristic notification enabled\r\n");
+            app_log("Characteristic notification enabling\r\n");
 
             _main_state = STATE_ENABLE_NOTIF;
           } else {
@@ -424,7 +424,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
                     evt->data.evt_gatt_procedure_completed.result);
 
             if (evt->data.evt_gatt_procedure_completed.result
-                == SL_STATUS_BT_ATT_INSUFFICIENT_ENCRYPTION) {
+                == SL_STATUS_BT_ATT_INSUFFICIENT_AUTHENTICATION) {
               app_log(
                 "Insufficient encryption, need to increase security level\r\n\n");
               increase_security = true;
@@ -502,10 +502,10 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       pStatus = evt->data.evt_gatt_server_characteristic_status;
 
       if (pStatus.characteristic == gattdb_gatt_spp_data) {
-        if (pStatus.status_flags == gatt_server_client_config) {
+        if (pStatus.status_flags == sl_bt_gatt_server_client_config) {
           // Characteristic client configuration (CCC)
           // for spp_data has been changed
-          if (pStatus.client_config_flags == gatt_notification) {
+          if (pStatus.client_config_flags == sl_bt_gatt_server_notification) {
             _main_state = STATE_SPP_MODE;
             // Disable sleeping when SPP mode active
             sl_power_manager_add_em_requirement(SL_POWER_MANAGER_EM2);

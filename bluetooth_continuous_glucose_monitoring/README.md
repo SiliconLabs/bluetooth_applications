@@ -18,11 +18,11 @@ This project focuses on managing and interacting with the Continuous Glucose Mon
 
 ## Gecko SDK Version ##
 
-- GSDK v4.3.1
+- GSDK v4.4.0
 
 ## Hardware Required ##
 
-[EFR32BG22 Thunderboard Kit - SLTB010A Board](https://www.silabs.com/development-tools/thunderboard/thunderboard-bg22-kit)
+- [EFR32BG22 Thunderboard Kit - SLTB010A Board](https://www.silabs.com/development-tools/thunderboard/thunderboard-bg22-kit)
 
 **NOTE:**
 Tested boards for working with this example:
@@ -30,7 +30,7 @@ Tested boards for working with this example:
 | Board ID | Description  |
 | -------- | ------ |
 | SLTB010A | [EFR32BG22 Thunderboard Kit – SLTB010A](https://www.silabs.com/development-tools/thunderboard/thunderboard-bg22-kit)   |
-| BRD4166A | [Thunderboard Sense 2 - EFR32MG12 - EK4166A](https://www.silabs.com/documents/public/user-guides/ug309-sltb004a-user-guide.pdf)   |
+| BRD4166A | Thunderboard Sense 2 - EFR32MG12 - EK4166A  |
 
 ## Connections Required ##
 
@@ -173,7 +173,6 @@ There are two ways that a client can receive the CGM Measurement Characteristic 
 
    ![start measure session success](images/succeed.png)
 
-
 5. The sensor (Thunderboard) will continuously send the notifications to 0x2AA7 characteristic until writing 0x1B to 0x2AAC (stop session).
 
    ![continuous notification on CGM measurement characteristic](images/notifications.png)
@@ -189,6 +188,6 @@ There are two ways that a client can receive the CGM Measurement Characteristic 
 
 ## PTS test ##
 
-You can download the CGM specification from https://www.bluetooth.com/specifications/specs/, which is already in the doc folder of this repository.
+You can download the CGM specification from <https://www.bluetooth.com/specifications/specs/>, which is already in the doc folder of this repository.
 
-Here you can watch a tutorial video about the Bluetooth PTS Test in Chinese: https://www.bilibili.com/video/BV1w44y1a7Hj?spm_id_from=333.999.0.0
+Here you can watch a tutorial video about the Bluetooth PTS Test in Chinese: <https://www.bilibili.com/video/BV1w44y1a7Hj?spm_id_from=333.999.0.0>

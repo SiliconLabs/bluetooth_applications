@@ -108,6 +108,6 @@ tag:
 
 ui_hints:
   highlight:
-    - path: ../config/btconf/gatt_configuration.btconf
-    - path: ../README.md
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
       focus: true
