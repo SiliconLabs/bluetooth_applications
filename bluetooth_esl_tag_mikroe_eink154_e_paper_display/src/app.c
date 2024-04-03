@@ -117,7 +117,7 @@ static sl_sleeptimer_timer_handle_t sw_pwm_timer;
 // simple SW PWM control instance for led1 (simple led!)
 static led_sw_pwm_t led1_sw_pwm = {
   &sw_pwm_timer,
-  &sl_led_led1,
+  &sl_led_led0,
   0,
   0,
   false,

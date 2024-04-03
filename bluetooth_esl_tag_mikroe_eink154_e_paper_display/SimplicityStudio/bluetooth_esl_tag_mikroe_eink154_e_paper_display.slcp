@@ -24,7 +24,7 @@ component:
   - id: sl_memory
   - id: simple_led
     instance:
-      - led1
+      - led0
   - id: esl_tag_core
   - id: esl_tag_led
   - id: esl_tag_display
@@ -62,8 +62,26 @@ config_file:
       component: spidrv
       file_id: spidrv_config
       instance: mikroe
-    path: ../config/sl_spidrv_mikroe_config.h
-
+    path: ../config/brd4182a/sl_spidrv_mikroe_config.h
+    condition: [brd4182a]
+  - override:
+      component: spidrv
+      file_id: spidrv_config
+      instance: mikroe
+    path: ../config/brd2703a/sl_spidrv_mikroe_config.h
+    condition: [brd2703a]
+  - override:
+      component: spidrv
+      file_id: spidrv_config
+      instance: mikroe
+    path: ../config/brd4108a/sl_spidrv_mikroe_config.h
+    condition: [brd4108a]
+  - override:
+      component: spidrv
+      file_id: spidrv_config
+      instance: mikroe
+    path: ../config/brd4314a/sl_spidrv_mikroe_config.h
+    condition: [brd4314a]
 readme:
   - path: ../README.md
 
@@ -77,6 +95,8 @@ other_file:
   - path: ../image/driver.png
     directory: image
   - path: ../image/hardware_connection.png
+    directory: image
+  - path: ../image/hardware_connection_2.png
     directory: image
   - path: ../image/nvm_image.png
     directory: image

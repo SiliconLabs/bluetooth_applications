@@ -1067,8 +1067,8 @@
     <properties key="solutionReferenceId" value="bluetooth_esl_tag_mikroe_eink154_e_paper_display.SimplicityStudio.bluetooth_esl_tag_mikroe_eink154_e_paper_display.slcp"/>
     <properties key="projectFilePaths" value="bluetooth_esl_tag_mikroe_eink154_e_paper_display/SimplicityStudio/bluetooth_esl_tag_mikroe_eink154_e_paper_display.slcp"/>
     <properties key="readmeFiles" value="bluetooth_esl_tag_mikroe_eink154_e_paper_display/README.md"/>
-    <properties key="boardCompatibility" value="brd4182a  com.silabs.board.none"/>
-    <properties key="partCompatibility" value=".*mg22.*"/>
+    <properties key="boardCompatibility" value="brd4182a brd2703a brd4314a brd4108a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg24.* .*bgm22.* .*efr32bg22.* .*mg22.*"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
     <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
     <properties key="toolchainCompatibility" value="gcc iar segger"/>
