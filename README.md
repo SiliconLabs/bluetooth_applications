@@ -13,7 +13,7 @@
 
 # Silicon Labs Bluetooth Applications #
 
-[![Version Badge](https://img.shields.io/badge/-v2.0.1-green)](https://github.com/SiliconLabs/bluetooth_applications/releases)
+[![Version Badge](https://img.shields.io/badge/-v2.0.2-green)](https://github.com/SiliconLabs/bluetooth_applications/releases)
 [![GSDK Badge](https://img.shields.io/badge/GSDK-v4.4.0-green)](https://github.com/SiliconLabs/gecko_sdk/releases)
 [![TPHD Version Badge](https://img.shields.io/badge/TPHD-v2.0.0+-green)](https://github.com/SiliconLabs/third_party_hw_drivers_extension/releases)
 ![License badge](https://img.shields.io/badge/License-Zlib-green)
