@@ -1077,4 +1077,21 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
+  <descriptors name="bt_rssi_positioning_for_peps" label="Bluetooth - RSSI-based position estimation for PEPS" 
+               description="The project implements a rough RSSI-based position estimation for a Passive Entry Passive Start (PEPS) system.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="solutionReferenceId" value="bluetooth_rssi_positioning_for_peps.SimplicityStudio.bt_rssi_positioning_for_peps.slcp"/>
+    <properties key="projectFilePaths" value="bluetooth_rssi_positioning_for_peps/SimplicityStudio/bt_rssi_positioning_for_peps.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_rssi_positioning_for_peps/README.md"/>
+    <properties key="boardCompatibility" value="brd4186c com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg24.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
 </model:MDescriptors>  

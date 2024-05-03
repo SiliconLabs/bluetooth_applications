@@ -82,6 +82,7 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 54 | Bluetooth - BTHome v2 - Server Example | [Click Here](./bluetooth_bthome_v2_server/) |
 | 55 | Bluetooth - HID Multiple Reports | [Click Here](./bluetooth_hid_multiple_reports/) |
 | 56 | Bluetooth - ESL Tag with E-Paper display 1,54inch 200x200 dots from Mikroe | [Click Here](./bluetooth_esl_tag_mikroe_eink154_e_paper_display) |
+| 56 | Bluetooth - RSSI - based position estimation for PEPS | [Click Here](./bluetooth_rssi_positioning_for_peps) |
 
 ## Requirements ##
 
