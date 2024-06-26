@@ -1,0 +1,337 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bluetooth_uwb_dw3000_slotted_twr
+label: Bluetooth - UWB Slotted Two Way Ranging Demo
+description: |
+    This project aims to implement operation of Ultra-wideband Two Way Ranging method on DW3000.
+category: Bluetooth Examples
+
+quality: experimental
+
+filter:
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "MCU"
+    value: ["32-bit MCU"]
+  - name: "Project Difficulty"
+    value: ["Advanced"]
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+
+package: Bluetooth
+
+readme:
+- path: ../README.md
+source:
+- path: ../src/apps/listener/listener/listener.c
+  directory: src/apps/listener/listener
+- path: ../src/apps/listener/task_listener/task_listener.c
+  directory: src/apps/listener/task_listener
+- path: ../src/apps/node/node/node.c
+  directory: src/apps/node/node
+- path: ../src/apps/node/task_node/task_node.c
+  directory: src/apps/node/task_node
+- path: ../src/apps/tag/tag/tag.c
+  directory: src/apps/tag/tag
+- path: ../src/apps/tag/task_tag/task_tag.c
+  directory: src/apps/tag/task_tag
+- path: ../src/apps/tcfm/task_tcfm/task_tcfm.c
+  directory: src/apps/tcfm/task_tcfm
+- path: ../src/apps/tcfm/tcfm/tcfm.c
+  directory: src/apps/tcfm/tcfm
+- path: ../src/apps/tcwm/task_tcwm/task_tcwm.c
+  directory: src/apps/tcwm/task_tcwm
+- path: ../src/apps/tcwm/tcwm/tcwm.c
+  directory: src/apps/tcwm/tcwm
+- path: ../src/apps/trilat/dwm_le/dwm-math.c
+  directory: src/apps/trilat/dwm_le
+- path: ../src/apps/trilat/dwm_le/le-trilat.c
+  directory: src/apps/trilat/dwm_le
+- path: ../src/apps/trilat/task_trilat
+  directory: src/apps/trilat
+- path: ../src/apps/trilat/task_trilat/task_trilat.c
+  directory: src/apps/trilat/task_trilat
+- path: ../src/apps/usb2spi/task_usb2spi/task_usb2spi.c
+  directory: src/apps/usb2spi/task_usb2spi
+- path: ../src/apps/usb2spi/usb2spi/usb2spi.c
+  directory: src/apps/usb2spi/usb2spi
+- path: ../src/config/config/config.c
+  directory: src/config/config
+- path: ../src/config/default_config/default_config.c
+  directory: src/config/default_config
+- path: ../src/core/command/cmd/cmd.c
+  directory: src/core/command/cmd
+- path: ../src/core/command/cmd_fn/cmd_fn.c
+  directory: src/core/command/cmd_fn
+- path: ../src/core/task_ctrl/task_ctrl.c
+  directory: src/core/task_ctrl
+- path: ../src/core/task_flush/task_flush.c
+  directory: src/core/task_flush
+- path: ../src/core/usb_uart_rx/usb_uart_rx.c
+  directory: src/core/usb_uart_rx
+- path: ../src/core/usb_uart_tx/usb_uart_tx.c
+  directory: src/core/usb_uart_tx
+- path: ../src/main.c
+- path: ../src/platform/port/deca_uart.c
+  directory: src/platform/port
+- path: ../src/platform/port/deca_usb.c
+  directory: src/platform/port
+- path: ../src/platform/port/port_error.c
+  directory: src/platform/port
+- path: ../src/platform/port/port_memory.c
+  directory: src/platform/port
+- path: ../src/platform/port/port_rtc.c
+  directory: src/platform/port
+- path: ../src/platform/port/port_timer.c
+  directory: src/platform/port
+- path: ../src/platform/port/port_wdt.c
+  directory: src/platform/port
+- path: ../src/srv/common_n/common_n.c
+  directory: src/srv/common_n
+- path: ../src/srv/crc16/crc16.c
+  directory: src/srv/crc16
+- path: ../src/srv/json/cJSON.c
+  directory: src/srv/json
+- path: ../src/srv/json/json_2pc.c
+  directory: src/srv/json
+- path: ../src/srv/msg_time/msg_time.c
+  directory: src/srv/msg_time
+- path: ../src/srv/tag_list/tag_list.c
+  directory: src/srv/tag_list
+- path: ../src/srv/translate/translate.c
+  directory: src/srv/translate
+- path: ../src/srv/util/util.c
+  directory: src/srv/util
+
+include:
+- path: ../src/inc
+  file_list:
+    - path: app.h
+    - path: common.h
+    - path: deca_dbg.h
+    - path: error.h
+    - path: rtls_interface.h
+    - path: uwb_frames.h
+    - path: version.h
+  directory: src/inc
+
+- path: ../src/apps/listener/listener
+  file_list:
+    - path: listener.h
+  directory: src/apps/listener/listener
+  
+- path: ../src/apps/listener/task_listener
+  file_list:
+    - path: task_listener.h
+  directory: src/apps/listener/task_listener
+- path: ../src/apps/node/node
+  file_list:
+    - path: node.h
+  directory: src/apps/node/node
+- path: ../src/apps/node/task_node
+  file_list:
+    - path: task_node.h
+  directory: src/apps/node/task_node
+- path: ../src/apps/tag/tag
+  file_list:
+    - path: tag.h
+  directory: src/apps/tag/tag
+- path: ../src/apps/tag/task_tag
+  file_list:
+    - path: task_tag.h
+  directory: src/apps/tag/task_tag
+- path: ../src/apps/tcfm/task_tcfm
+  file_list:
+    - path: task_tcfm.h
+  directory: src/apps/tcfm/task_tcfm
+- path: ../src/apps/tcfm/tcfm
+  file_list:
+    - path: tcfm.h
+  directory: src/apps/tcfm/tcfm
+- path: ../src/apps/tcwm/task_tcwm
+  file_list:
+    - path: task_tcwm.h
+  directory: src/apps/tcwm/task_tcwm
+- path: ../src/apps/tcwm/tcwm
+  file_list:
+    - path: tcwm.h
+  directory: src/apps/tcwm/tcwm
+- path: ../src/apps/trilat/dwm_le
+  file_list:
+    - path: dwm-math.h
+    - path: le-trilat.h
+  directory: src/apps/trilat/dwm_le
+- path: ../src/apps/usb2spi/task_usb2spi
+  file_list:
+    - path: task_usb2spi.h
+  directory: src/apps/usb2spi/task_usb2spi
+- path: ../src/apps/usb2spi/usb2spi
+  file_list:
+    - path: usb2spi.h
+  directory: src/apps/usb2spi/usb2spi
+- path: ../src/config/config
+  file_list:
+    - path: config.h
+  directory: src/config/config
+- path: ../src/config/default_config
+  file_list:
+    - path: default_config.h
+  directory: src/config/default_config
+- path: ../src/core/command/cmd
+  file_list:
+    - path: cmd.h
+  directory: src/core/command/cmd
+- path: ../src/core/command/cmd_fn
+  file_list:
+    - path: cmd_fn.h
+  directory: src/core/command/cmd_fn
+- path: ../src/core/task_ctrl
+  file_list:
+    - path: task_ctrl.h
+  directory: src/core/task_ctrl
+- path: ../src/core/task_flush
+  file_list:
+    - path: task_flush.h
+  directory: src/core/task_flush
+- path: ../src/core/usb_uart_rx
+  file_list:
+    - path: usb_uart_rx.h
+  directory: src/core/usb_uart_rx
+- path: ../src/core/usb_uart_tx
+  file_list:
+    - path: usb_uart_tx.h
+  directory: src/core/usb_uart_tx
+- path: ../src/platform/port
+  file_list:
+    - path: port_common.h
+    - path: port_uart.h
+  directory: src/platform/port
+- path: ../src/srv/common_n
+  file_list:
+    - path: common_n.h
+  directory: src/srv/common_n
+- path: ../src/srv/crc16
+  file_list:
+    - path: crc16.h
+  directory: src/srv/crc16
+- path: ../src/srv/json
+  file_list:
+    - path: cJSON.h
+    - path: json_interface.h
+  directory: src/srv/json
+- path: ../src/srv/msg_time
+  file_list:
+    - path: msg_time.h
+  directory: src/srv/msg_time
+- path: ../src/srv/tag_list
+  file_list:
+    - path: tag_list.h
+  directory: src/srv/tag_list
+- path: ../src/srv/translate
+  file_list:
+    - path: translate.h
+  directory: src/srv/translate
+- path: ../src/srv/util
+  file_list:
+    - path: util.h
+  directory: src/srv/util
+
+component:
+- id: bluetooth_feature_gatt_server
+- id: bluetooth_feature_sm
+- id: mpu
+- id: bluetooth_feature_legacy_advertiser
+- id: gatt_configuration
+- id: freertos
+- id: bluetooth_stack
+- id: bluetooth_feature_gatt
+- id: uartdrv_core
+- id: udelay
+- id: bluetooth_feature_legacy_scanner
+- id: bt_post_build
+- id: bluetooth_feature_connection
+- id: spidrv_core
+- id: bluetooth_feature_system
+- id: mikroe_uwb2_dwm3000
+  from: third_party_hw_drivers
+- id: component_catalog
+- id: app_assert
+
+define:
+  - name: ACCUM_READ_SUPPORT
+    value: 1
+  - name: DIAG_READ_SUPPORT
+    value: 0
+  - name: PDOA_NODE
+    value: 1
+  - name: PDOA_TAG
+    value: 1
+  - name: CFG_LE_TRILAT
+    value: 1
+  - name: CFG_LE_TRILAT_UTILS
+    value: 1
+  - name: DEBUG_NO_GUI
+    value: 0
+
+sdk_extension:
+- id: third_party_hw_drivers
+  version: 2.0.2
+
+other_file:
+- path: ../config/brd2703a/linkerfile.ld
+  condition: [brd2703a]
+- path: ../images/DecaPDOARTLS.png
+  directory: images
+- path: ../images/change_target.png
+  directory: images
+- path: ../images/create_example.png
+  directory: images
+- path: ../images/DecaPDOARTLS.png
+  directory: images
+- path: ../images/DecaPDOARTLS_ranging.png
+  directory: images
+- path: ../images/discovery_and_ranging_phases.png
+  directory: images
+- path: ../images/edit_component2.png
+  directory: images
+- path: ../images/edit_component.png
+  directory: images
+- path: ../images/hardware_connection.png
+  directory: images
+- path: ../images/ranging.png
+  directory: images
+- path: ../images/select_target.png
+  directory: images
+- path: ../images/setup.png
+  directory: images
+
+tag:
+  - hardware:rf:band:2400
+  
+toolchain_settings:
+  - option: linkerfile
+    value: linkerfile.ld
+
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_HEAP_SIZE
+    value: "9200"
+  - name: configTOTAL_HEAP_SIZE
+    value: 50176
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+  - name: TDOA_ANCHOR
+    value: 1
+  - name: UWB_BH_ENABLE
+    value: 1
+  - name: UWB_BH_ENABLE
+    value: 1
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

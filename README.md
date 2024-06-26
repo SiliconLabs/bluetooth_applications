@@ -13,7 +13,7 @@
 
 # Silicon Labs Bluetooth Applications #
 
-[![Version Badge](https://img.shields.io/badge/-v2.0.3-green)](https://github.com/SiliconLabs/bluetooth_applications/releases)
+[![Version Badge](https://img.shields.io/badge/-v2.1.0-green)](https://github.com/SiliconLabs/bluetooth_applications/releases)
 [![GSDK Badge](https://img.shields.io/badge/GSDK-v4.4.0-green)](https://github.com/SiliconLabs/gecko_sdk/releases)
 [![TPHD Version Badge](https://img.shields.io/badge/TPHD-v2.0.0+-green)](https://github.com/SiliconLabs/third_party_hw_drivers_extension/releases)
 ![License badge](https://img.shields.io/badge/License-Zlib-green)
@@ -84,6 +84,7 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 56 | Bluetooth - ESL Tag with E-Paper display 1,54inch 200x200 dots from Mikroe | [Click Here](./bluetooth_esl_tag_mikroe_eink154_e_paper_display) |
 | 56 | Bluetooth - RSSI - based position estimation for PEPS | [Click Here](./bluetooth_rssi_positioning_for_peps) |
 | 57 | Bluetooth - BTHome v2 - PIR Alarm | [Click Here](./bluetooth_bthome_v2_pir_alarm/) |
+| 57 | Bluetooth - DW3000 TWR demo | [Click Here](./bluetooth_uwb_dw3000_slotted_twr/) |
 
 ## Requirements ##
 

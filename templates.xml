@@ -1109,4 +1109,21 @@
     <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Beginer Wireless\ Technology|Bluetooth"/>
     <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
   </descriptors>
+  <descriptors name="bluetooth_uwb_dw3000_slotted_twr" label="Bluetooth - UWB Slotted TWR Demo" 
+               description="This project aims to implement operation of Ultra-wideband Two Way Ranging method on DW3000.">
+    <properties key="namespace" value="template.uc"/>
+    <properties key="keywords" value="universal\ configurator"/>
+    <properties key="solutionReferenceId" value="bluetooth_uwb_dw3000_slotted_twr.SimplicityStudio.bluetooth_uwb_dw3000_slotted_twr.slcp"/>
+    <properties key="projectFilePaths" value="bluetooth_uwb_dw3000_slotted_twr/SimplicityStudio/bluetooth_uwb_dw3000_slotted_twr.slcp"/>
+    <properties key="readmeFiles" value="bluetooth_uwb_dw3000_slotted_twr/README.md"/>
+    <properties key="boardCompatibility" value="brd2703a com.silabs.board.none"/>
+    <properties key="partCompatibility" value=".*efr32mg24.* .*efr32bg24.* .*bgm22.* .*efr32bg22.* .*mg22.*"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide simplicity-ide visual-studio-code"/>
+    <properties key="ideCompatibility" value="iar-embedded-workbench makefile-ide segger-embedded-studio simplicity-ide"/>
+    <properties key="toolchainCompatibility" value="gcc iar segger"/>
+    <properties key="category" value="Bluetooth Examples"/>
+    <properties key="quality" value="EXPERIMENTAL"/>
+    <properties key="filters" value="Device\ Type|SoC Project\ Difficulty|Advanced Wireless\ Technology|Bluetooth"/>
+    <properties key="stockConfigCompatibility" value="com.silabs.ss.framework.project.toolchain.core.default"/>
+  </descriptors>
 </model:MDescriptors>  
