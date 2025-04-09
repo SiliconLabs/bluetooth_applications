@@ -1,10 +1,12 @@
 project_name: bt_soc_blinky_sparkfun_thingplus
+package: Bluetooth
 label: Bluetooth - SoC Blinky - SparkFun Thing Plus Matter - MGM240P
 description: >
-  The classic blinky example using Bluetooth communication with SparkFun Thing Plus Matter - MGM240P board. Demonstrates a
-  simple two-way data exchange over GATT. This can be tested with the EFR Connect mobile app.
-
+  The classic blinky example using Bluetooth communication with SparkFun Thing Plus Matter - MGM240P board.
+  Demonstrates a simple two-way data exchange over GATT. This can be tested with the Simplicity Connect mobile app.
 category: Bluetooth Examples
+quality: experimental
+
 filter:
   - name: "Wireless Technology"
     value: ["Bluetooth"]
@@ -14,12 +16,6 @@ filter:
     value: ["32-bit MCU"]
   - name: "Project Difficulty"
     value: ["Beginner"]
-
-package: Bluetooth
-quality: experimental
-
-readme:
-- path: ../README.md
 
 include:
   - path: ../inc
@@ -38,16 +34,17 @@ component:
   - id: bluetooth_feature_connection
   - id: bluetooth_feature_gatt
   - id: bluetooth_feature_gatt_server
-  - id: bluetooth_feature_system
+  - id: bluetooth_feature_legacy_scanner
   - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
   - id: rail_util_pti
-  - id: mpu
-  - id: bt_post_build
-  - id: sl_system
-  - id: device_init
   - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
   - id: app_log
-  - id: component_catalog
   - id: sleeptimer
   - id: simple_led
     instance: [led0]
@@ -55,9 +52,6 @@ component:
     instance: [btn0]
   - id: iostream_usart
     instance: [vcom]
-
-define:
-  - name: DEBUG_EFM
 
 config_file:
   - override:
@@ -69,7 +63,18 @@ config_file:
       component: simple_button
       instance: btn0
       file_id: simple_button_config
-    path: "../config/sl_simple_button_btn0_config.h"
+    path: "../config/brd2704a/sl_simple_button_btn0_config.h"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+readme:
+  - path: ../README.md
 
 other_file:
   - path: ../image/demo_app_list.jpg
@@ -92,16 +97,6 @@ other_file:
     directory: "image"
   - path: ../image/create_project.png
     directory: "image"
-
-configuration:
-  - name: SL_STACK_SIZE
-    value: "2752"
-  - name: SL_HEAP_SIZE
-    value: "9200"
-  - name: SL_PSA_KEY_USER_SLOT_COUNT
-    value: "0"
-    condition:
-      - psa_crypto
 
 tag:
   - hardware:rf:band:2400

@@ -3,7 +3,7 @@
  * @brief People counting module with AK9753 sensor.
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -157,7 +157,7 @@ void ak9753_app_init(void)
 
   sparkfun_ak9753_config_t ak9753_cfg = {
     .I2C_address = SPARKFUN_AK9753_ADDR,
-    .sparkfun_ak9753_i2cspm_instance = sl_i2cspm_qwiic,
+    .i2cspm_instance = sl_i2cspm_qwiic,
     .cut_off_freq = SPARKFUN_AK975X_FREQ_8_8HZ,
     .mode = SPARKFUN_AK975X_MODE_0,
     .upper_threshold13 = 0,

@@ -1,25 +1,29 @@
 # Bluetooth - EM4 Energy Mode in iBeacon Application #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_em4_energy_mode_ibeacon_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-168.66%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-9.14%20KB-blue)
 ## Overview ##
 
 This code example shows the use of sleep mode EM4 in a Bluetooth iBeacon Application. This example uses a Bluetooth iBeacon device, which operates in deep sleep mode EM4. When either the user interrupts the operation via a button, or the BURTC counter reaches the top value (15000 = 15 sec), the device exits from EM4 and advertises for 5 seconds before going back to EM4 again. BURTC counter resets every time the device exits from EM4.
 
 Note that wake-up from EM4 is performed through a reset. Thus, no data is retained from the previous state, and the stack is reinitialized.
 
-## Gecko SDK version ##
+## SDK version ##
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
 
 ## Hardware Required ##
 
-- A Silicon Labs compatible Kit.
+- 1x [Bluetooth Low Energy Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For example, [EFR32xG24 Dev Kit](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)
 
 **Note:**
 
@@ -32,32 +36,35 @@ Note that wake-up from EM4 is performed through a reset. Thus, no data is retain
 
 ## Setup ##
 
-To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC iBeacon" project based on your hardware.
+
+**NOTE**:
+
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to "My Products", click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with filter "EM4".
+1. From the Launcher Home, add your hardware to "My Products", click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project filtering by "EM4".
 
 2. Click **Create** button on both **Bluetooth - Using EM4 Energy Mode in Bluetooth iBeacon App** example. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
 
-    ![create example](images/create_example.png)
+    ![create example](image/create_example.png)
 
 3. Build and flash the examples to the board.
 
-### Start with a "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC iBeacon" project ###
 
-1. Create **Bluetooth - SoC Empty** projects for your hardware using Simplicity Studio 5
-2. Copy the attached src/app.c file into your project (overwriting existing)(overwriting existing).
+1. Create **Bluetooth - SoC iBeacon** projects for your hardware using Simplicity Studio 5
+2. Copy the attached src/app.c file into your project (overwriting existing).
 3. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
-    - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn1
+
+    - [Platform] → [Driver] → [Button] → [Simple Button] → instance name: **em4wu** → Configure pin as below:
+
+       | Board | BRD2703A | BRD4314A | BRD4108A | BRD2601B |
+       |:---:|:----:|:----:|:----:|:----:|
+       | EM4WU GPIO | PB3 | PC7 | PC7 | PB3 |
 
 4. Build and flash the project to your device.
-
-**Note:**
-
-- Make sure to add this repository to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information
 
 ## How it Works ##
 
@@ -76,10 +83,10 @@ In this example, we use the Energy Profiler to see how the energy changes betwee
 
 If users do not have the compatible WSTK, they need to use a Silicon Labs motherboard and a debug adapter to open the Energy Profier because the Energy Profier does not support the Explorer and the Development Kit. The connection should be the same as below.
 
-![debug adapter](images/debug_adapter.png)
+![debug adapter](image/debug_adapter.png)
 
 After connecting all the required hardwares, users need to go back to the LAUNCHER HOME. In the debug adapter window, right-click on your connected motherboard and choose **device configuration** then choose **Adapter configuration** tab. Select the **Debug Mode** as **OUT** mode.
 
 Finally, Select the debug interface as JTAG to detect the target part. Open the Energy Profiler to view the result.
 
-![result](images/result.png)
+![result](image/result.png)

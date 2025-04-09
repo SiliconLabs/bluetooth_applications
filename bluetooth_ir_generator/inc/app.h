@@ -3,7 +3,7 @@
  * @brief Application interface provided to main().
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -36,7 +36,7 @@
  *****************************************************************************/
 #include "key_scan.h"
 #include "ir_generate.h"
-#include "em_common.h"
+#include "sl_common.h"
 #include "em_emu.h"
 #include "app_assert.h"
 #include "sl_sleeptimer.h"

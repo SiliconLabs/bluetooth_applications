@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,8 +26,14 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
@@ -38,15 +44,9 @@
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 static uint8_t connecting_handle = 0x00;
-static bd_addr new_device_id = { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } };
 
-static const uint8_t serviceUUID[2] = { 0x09, 0x18 }; // HTM service UUID :
-                                                      // 0x1809
-static const uint8_t characteristicUUID[2] = { 0x1c, 0x2A }; // Temperature
-                                                             // Measurement
-                                                             //
-                                                             // characteristics
-                                                             // : 0x2A1C
+static const uint8_t serviceUUID[2] = { 0x09, 0x18 }; // HTM service UUID: 0x1809
+static const uint8_t characteristicUUID[2] = { 0x1c, 0x2A }; // Temperature Measurement characteristics: 0x2A1C
 
 static uint32_t serviceHandle = 0xFFFFFFFF;
 static uint16_t characteristicHandle = 0xFFFF;
@@ -55,13 +55,12 @@ static bool enabling_indications = false;
 static bool discovering_service = false;
 static bool discovering_characteristic = false;
 
-// number of active connections <= MAX_CONNECTIONS
+// number of active connections <= SL_BT_CONFIG_MAX_CONNECTIONS
 static uint8_t numOfActiveConn = 0;
 static uint8_t CONNECT_TIMEOUT_SEC = 10;
 static const char string_central[] = "CENTRAL";
 static const char string_peripheral[] = "PERIPHERAL";
 
-#define MAX_CONNECTIONS    8
 #define CONNECTION_TIMEOUT 1
 
 sl_sleeptimer_timer_handle_t connection_timeout_timer;
@@ -134,7 +133,7 @@ const char * get_conn_state(uint8_t state)
   }
 }
 
-static device_info_t device_list[MAX_CONNECTIONS];
+static device_info_t device_list[SL_BT_CONFIG_MAX_CONNECTIONS];
 
 /* returns true if the remote device address is found in the list of connected
  *   device list */
@@ -164,7 +163,7 @@ static bool htm_service_found(
     adv_type = pResp->data.data[i + 1];
 
     /* type 0x02 = Incomplete List of 16-bit Service Class UUIDs
-    * type 0x03 = Complete List of 16-bit Service Class UUIDs */
+     * type 0x03 = Complete List of 16-bit Service Class UUIDs */
     if ((adv_type == 0x02) || (adv_type == 0x03)) {
       // Look through all the UUIDs looking for HTM service
       j = i + 2; // j holds the index of the first data
@@ -279,7 +278,7 @@ static void get_system_id(void)
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
@@ -290,7 +289,7 @@ SL_WEAK void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
@@ -359,7 +358,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // is received from a peripheral device
     case sl_bt_evt_scanner_legacy_advertisement_report_id:
       /* Exit event if max connection is reached */
-      if (numOfActiveConn == MAX_CONNECTIONS) {
+      if (numOfActiveConn == SL_BT_CONFIG_MAX_CONNECTIONS) {
         break;
       }
 
@@ -392,19 +391,20 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       /* Initiate connection */
       connecting = true;
-      sc = sl_bt_connection_open(evt->data.evt_scanner_scan_report.address,
-                                 evt->data.evt_scanner_scan_report.address_type,
-                                 connection_phy,
-                                 &connecting_handle);
+      sc = sl_bt_connection_open(
+        evt->data.evt_scanner_legacy_advertisement_report.address,
+        evt->data.evt_scanner_legacy_advertisement_report.address_type,
+        connection_phy,
+        &connecting_handle);
       app_assert_status(sc);
 
       /* Update device list. If connection doesn't succeed (due to timeout) the
        * device will be removed from the list in connection closed event
        * handler*/
       device_list[numOfActiveConn].address =
-        evt->data.evt_scanner_scan_report.address;
+        evt->data.evt_scanner_legacy_advertisement_report.address;
       device_list[numOfActiveConn].address_type =
-        evt->data.evt_scanner_scan_report.address_type;
+        evt->data.evt_scanner_legacy_advertisement_report.address_type;
       device_list[numOfActiveConn].conn_handle = connecting_handle;
       device_list[numOfActiveConn].conn_role = CR_PERIPHERAL; // connection role
                                                               // of the remote
@@ -451,7 +451,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_log("Connecting ...\r\n");
 
       /* If connection role is CENTRAL ...*/
-      if (evt->data.evt_connection_opened.master == CR_CENTRAL) {
+      if (evt->data.evt_connection_opened.role == CR_CENTRAL) {
         /* Cancel fail safe connection timer */
         sc = sl_sleeptimer_stop_timer(&connection_timeout_timer);
         app_assert_status(sc);
@@ -471,7 +471,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       }
 
       /* else if connection role is PERIPHERAL ...*/
-      else if (evt->data.evt_connection_opened.master == CR_PERIPHERAL) {
+      else if (evt->data.evt_connection_opened.role == CR_PERIPHERAL) {
         /* update device list */
         device_list[numOfActiveConn].address =
           evt->data.evt_connection_opened.address;
@@ -479,11 +479,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
           evt->data.evt_connection_opened.address_type;
         device_list[numOfActiveConn].conn_handle =
           evt->data.evt_connection_opened.connection;
-        device_list[numOfActiveConn].conn_role = CR_CENTRAL;      // connection
-                                                                  //   role of
-                                                                  //   the
-                                                                  //   remote
-                                                                  //   device
+        device_list[numOfActiveConn].conn_role = CR_CENTRAL; // connection role of the remote device
 
         /* Increment numOfActiveConn. */
         numOfActiveConn++;
@@ -493,7 +489,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       device_list[numOfActiveConn - 1].conn_state = CS_CONNECTING;
 
       /* Advertising stops when connection is opened. Re-start advertising */
-      if (numOfActiveConn == MAX_CONNECTIONS) {
+      if (numOfActiveConn == SL_BT_CONFIG_MAX_CONNECTIONS) {
         app_log("Maximum number of allowed connections reached.\r\n");
         app_log(
           "Stop scanning but continue advertising in non-connectable mode.\r\n");
@@ -516,27 +512,21 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       dev_index = get_dev_index(evt->data.evt_connection_parameters.connection);
       device_list[dev_index].conn_state = CS_CONNECTED;
 
-      /* If new connection is not reported ... */
-      if (memcmp(&new_device_id, &device_list[dev_index].address,
-                 sizeof(bd_addr)) != 0) {
-        memcpy(&new_device_id, &device_list[dev_index].address,
-               sizeof(bd_addr));
-        app_log("\r\nNEW CONNECTION ESTABLISHED \r\n");
-        app_log("Device ID .................: ");
-        print_bd_addr(device_list[numOfActiveConn - 1].address);
-        app_log("\r\n");
-        app_log("Role ......................: %s\r\n",
-                (device_list[dev_index].conn_role
-                 == CR_PERIPHERAL) ? string_peripheral : string_central);
-        app_log("Handle ....................: %d\r\n",
-                device_list[dev_index].conn_handle);
-        app_log("Number of connected devices: %d\r\n", numOfActiveConn);
-        app_log("Available connections .....: %d\r\n",
-                MAX_CONNECTIONS - numOfActiveConn);
+      app_log("\r\nNEW CONNECTION ESTABLISHED \r\n");
+      app_log("Device ID .................: ");
+      print_bd_addr(device_list[numOfActiveConn - 1].address);
+      app_log("\r\n");
+      app_log("Role ......................: %s\r\n",
+              (device_list[dev_index].conn_role
+               == CR_PERIPHERAL) ? string_peripheral : string_central);
+      app_log("Handle ....................: %d\r\n",
+              device_list[dev_index].conn_handle);
+      app_log("Number of connected devices: %d\r\n", numOfActiveConn);
+      app_log("Available connections .....: %d\r\n",
+              SL_BT_CONFIG_MAX_CONNECTIONS - numOfActiveConn);
 
-        /* Print connection summary*/
-        sl_app_log_stats();
-      }
+      /* Print connection summary*/
+      sl_app_log_stats();
       break;
 
     case sl_bt_evt_gatt_service_id:
@@ -657,10 +647,10 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       app_log("Number of active connections ...: %d\r\n", numOfActiveConn);
       app_log("Available connections ..........: %d\r\n",
-              MAX_CONNECTIONS - numOfActiveConn);
+              SL_BT_CONFIG_MAX_CONNECTIONS - numOfActiveConn);
 
       /* If we have one less available connection than the maximum allowed...*/
-      if (numOfActiveConn == MAX_CONNECTIONS - 1) {
+      if (numOfActiveConn == SL_BT_CONFIG_MAX_CONNECTIONS - 1) {
         // start scanning,
         sc = sl_bt_scanner_start(sl_bt_gap_1m_phy,
                                  sl_bt_scanner_discover_generic);

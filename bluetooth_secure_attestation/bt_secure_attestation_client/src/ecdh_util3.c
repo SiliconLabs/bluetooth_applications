@@ -183,7 +183,7 @@ sl_status_t signPublicKey(psa_key_id_t *local, struct signed_key_t *key)
   uint8_t hash[32];
   psa_algorithm_t algo = PSA_ALG_ECDH;
   psa_algorithm_t sign_algo = PSA_ALG_ECDSA(PSA_ALG_SHA_256);
-  psa_key_attributes_t ecdh_key_attr;
+  psa_key_attributes_t ecdh_key_attr = { 0 };
   psa_key_type_t type = PSA_KEY_TYPE_ECC_KEY_PAIR(PSA_ECC_FAMILY_SECP_R1);
   psa_key_lifetime_t lifetime = PSA_KEY_LIFETIME_VOLATILE;
   size_t keybits = 256;

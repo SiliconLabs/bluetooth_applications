@@ -1,0 +1,100 @@
+project_name: bt_ethernet_gateway
+package: Bluetooth
+label: Bluetooth - Ethernet Gateway
+description: >
+  This project aims to implement a simple Bluetooth-Ethernet Thin Gateway, the sensor measures and collects data from the device's environment and the gateway request the results via BLE.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Beginner]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: bluetooth_feature_gap
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_power_control
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: spidrv
+    instance: [mikroe]
+  - id: simple_led
+    instance: [led0]
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: printf
+  - id: mikroe_eth_wiz
+    from: third_party_hw_drivers
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: dweet_http_client.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/dweet_http_client.c
+
+configuration:
+  - name: SL_SPIDRV_MIKROE_CS_CONTROL
+    value: spidrvCsControlApplication
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition:
+      - psa_crypto
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/app_init.png
+    directory: image
+  - path: ../image/application_overview.png
+    directory: image
+  - path: ../image/create_project.png
+    directory: image
+  - path: ../image/dweet_follow.png
+    directory: image
+  - path: ../image/enable_printf_floating_point.png
+    directory: image
+  - path: ../image/hardware_connection.png
+    directory: image
+  - path: ../image/overview.png
+    directory: image
+  - path: ../image/project_properties.png
+    directory: image
+  - path: ../image/sensor_connect_and_upload_data_to_cloud_service.png
+    directory: image
+  - path: ../image/overview.png
+    directory: image
+  - path: ../image/thunderboard_example.png
+    directory: image
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+tag: hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: README.md
+      focus: true

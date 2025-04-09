@@ -154,6 +154,8 @@ extern "C" {
 /* NVM PAGE for store configuration */
 #define FCONFIG_SIZE                        0x400   /**< can be up to 0x800 */
 
+#define DEFAULT_CONFIG_SIGNATURE            0x0a1b2c3d
+
 /* Default configuration initialization */
 #define DEFAULT_CONFIG                                                        \
         {                                                                     \
@@ -234,7 +236,8 @@ extern "C" {
           .s.stsIv.iv2 = 0xC44FA8FBUL,                                        \
           .s.stsIv.iv3 = 0x362EEB34UL,                                        \
           .s.stsStatic = DEFAULT_STS_STATIC,                                  \
-          .s.xtalTrim = (DEFAULT_XTAL_TRIM)                                   \
+          .s.xtalTrim = (DEFAULT_XTAL_TRIM),                                  \
+          .signature = DEFAULT_CONFIG_SIGNATURE                               \
         }
 
 struct sfConfig_s
@@ -351,11 +354,13 @@ struct param_block_s
   ver_num_t       v;                /**< App version */
   static_ip_t     static_config;    /**< Static IP config */
   run_t           s;                /**< Run-time parameters */
+  uint32_t        signature;
   uint8_t         free[FCONFIG_SIZE
                        - sizeof(dwt_config_t)
                        - (sizeof(tag_addr_slot_t) * MAX_KNOWN_TAG_LIST_SIZE)
                        - sizeof(ver_num_t) - sizeof(static_ip_t)
-                       - sizeof(run_t)];
+                       - sizeof(run_t)
+                       - sizeof(uint32_t)];
 } __attribute__((__packed__));
 
 typedef struct param_block_s param_block_t;

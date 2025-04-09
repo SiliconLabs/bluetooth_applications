@@ -1,0 +1,109 @@
+project_name: bt_container_level_detection_sensor
+package: Bluetooth
+label: Bluetooth - Container Level Detection (VL53L1X) - Sensor
+description: >
+  This project proposes the development of an application that uses the Silabs xG24 Explorer kits
+  and Sparkfun Distance sensor breakout and Adafruit IS31FL3741 components to monitor the levels
+  of two containers and display the information graphically.
+  The application will use BLE for wireless communication between the devices.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Beginner]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: i2cspm
+    instance: [qwiic]
+  - id: sparkfun_distance_vl53l1x
+    from: third_party_hw_drivers
+
+include:
+  - path: ../inc
+    file_list:
+      - path: sensor/app.h
+
+source:
+  - path: ../src/sensor/main.c
+  - path: ../src/sensor/app.c
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition:
+      - psa_crypto
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/con_app_phone.png
+    directory: image
+  - path: ../image/con_client_config.png
+    directory: image
+  - path: ../image/con_client_event_handler.png
+    directory: image
+  - path: ../image/con_client_init.png
+    directory: image
+  - path: ../image/con_client_overview.png
+    directory: image
+  - path: ../image/con_display.png
+    directory: image
+  - path: ../image/con_event_callback.png
+    directory: image
+  - path: ../image/con_level_check_event_handler.png
+    directory: image
+  - path: ../image/con_overview.png
+    directory: image
+  - path: ../image/con_log_client.png
+    directory: image
+  - path: ../image/con_log_configuration.png
+    directory: image
+  - path: ../image/con_log_sensor.png
+    directory: image
+  - path: ../image/con_main_callback.png
+    directory: image
+  - path: ../image/con_sensor_overview.png
+    directory: image
+  - path: ../image/con_sensor_init.png
+    directory: image
+  - path: ../image/con_timer_callback.png
+    directory: image
+  - path: ../image/create_project.png
+    directory: image
+  - path: ../image/con_hardware1.png
+    directory: image
+  - path: ../image/con_hardware2.png
+    directory: image
+  - path: ../image/con_hardware3.png
+    directory: image
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+ui_hints:
+  highlight:
+    - path: README.md
+      focus: true

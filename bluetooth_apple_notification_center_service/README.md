@@ -1,11 +1,11 @@
 # Bluetooth - Apple Notification Center Service #
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_apple_notification_center_service_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_apple_notification_center_service_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_apple_notification_center_service_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_apple_notification_center_service_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_apple_notification_center_service_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_apple_notification_center_service_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_apple_notification_center_service_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-197.25%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.49%20KB-blue)
 
 ## Description ##
 
@@ -73,26 +73,21 @@ The software flow is as follows:
 
 The activity diagram below shows the described flow.
 
-![Flow diagram](images/flow_diagram.png)
+![Flow diagram](image/flow_diagram.png)
 
-## Gecko SDK version ##
+## SDK version ##
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A ](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
-| BRD2704A | [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270) |
-| BRD2601B | [EFR32xG24 Dev Kit - xG24-DK2601B](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)   |
-| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)  |
-| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)  |
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
@@ -102,13 +97,17 @@ Connect the Bluetooth Development Kits to the PC through a compatible-cable. For
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "ancs".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "ancs".
 
 2. Click **Create** button on the **Bluetooth - Apple Notification Center Service** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 
-   ![board](images/create_project.png)
+   ![board](image/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -118,7 +117,11 @@ To test this application, you can either create a project based on an example pr
 
 2. Copy the attached src/app.c file into your project (overwriting existing app.c).
 
-3. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
+3. Change your device name to **ANCS** by openning gatt configuration and editing value of Device Name characteristic as below
+
+   ![Change Device Name](image/change_device_name.png)
+
+4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
 
    - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
 
@@ -126,11 +129,9 @@ To test this application, you can either create a project based on an example pr
 
    - [Application] → [Utility] → [Log]
 
-4. Build and flash the project to your device.
+5. Build and flash the project to your device.
 
 **Note:**
-
-- Make sure that this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
@@ -140,12 +141,12 @@ Follow the below steps to test the example:
 
 1. On your PC open a terminal program, such as the Console that is integrated into Simplicity Studio or a third-party tool terminal like TeraTerm to receive the logs from the virtual COM port.
 
-2. Open the EFR Connect app on your iOS device.
+2. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-3. Find your device in the Bluetooth Browser, advertising as "Empty Example", and tap Connect. Then you need accept the pairing request and allow application to display your iOS device notifications when connected for the first time.
+3. Find your device in the Bluetooth Browser, advertising as "ANCS", and tap Connect. Then you need accept the pairing request and allow application to display your iOS device notifications when connected for the first time.
 
-   ![paring](images/pairing_request.png)
+   ![paring](image/pairing_request.png)
 
 4. Now you should get ANCS notifications, as shown below when you get an email, a text message, an incoming call, and so on.
 
-   ![ancs](images/ANCS.png)
+   ![ancs](image/ANCS.png)

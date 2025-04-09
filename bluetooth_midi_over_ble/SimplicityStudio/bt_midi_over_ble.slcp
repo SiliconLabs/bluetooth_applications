@@ -1,0 +1,73 @@
+project_name: bt_midi_over_ble
+package: Bluetooth
+label: Bluetooth - MIDI over BLE
+description: >
+  This is an example of a method for encoding and decoding Musical Instrument Digital Interface (MIDI) data for transmission over Bluetooth Low Energy (BLE) connections.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "Project Difficulty"
+    value: ["Advanced"]
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: app_assert
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: simple_button
+    instance: [btn0, btn1]
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: ../config/btconf/gatt_configuration.btconf
+    directory: btconf
+  - path: "../config/btconf/midi.xml"
+    directory: "btconf"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/create_project.png
+    directory: image
+  - path: ../image/din_midi_cable.png
+    directory: image
+  - path: ../image/controller_module.png
+    directory: image
+  - path: ../image/midi_msg.png
+    directory: image
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

@@ -1,37 +1,39 @@
 # Bluetooth - BTHome v2 - Humidity and Temperature Monitor (SHTC3) #
 
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Sparkfun-Humidity%20Sensor%20Breakout-green)](https://www.sparkfun.com/products/16467)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-198.31%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.88%20KB-blue)
 ## Overview ##
 
-The example showcases the implementation of BTHome support for Silabs development kits.
+The example showcases the implementation of BTHome support for Silicon Labs development kits.
 
-The example application illustrates how BTHome can be effectively utilized with Silabs development kits to communicate measured humidity and temperature values using SparkFun Humidity Sensor Breakout (SHTC3) to a HomeAssistant system, which is running on a Raspberry Pi 4. This demonstration will provide developers with insights into integrating BTHome with Silabs hardware for IoT applications.
+The example application illustrates how BTHome can be effectively utilized with Silicon Labs development kits to communicate measured humidity and temperature values using SparkFun Humidity Sensor Breakout (SHTC3) to a Home Assistant system, which is running on a Raspberry Pi 4. This demonstration will provide developers with insights into integrating BTHome with Silicon Labs hardware for IoT applications.
 
 The BTHome v2 sensor device is a BGM220 Explorer Kit that reads humidity and temperature values using SparkFun Humidity Sensor Breakout (SHTC3) via I2C communication and sends Bluetooth Low Energy advertisement packets in the BTHome v2 format.
 
 Raspberry Pi 4 runs a Home Assistant OS that scans for and detects BTHome v2 devices. You can use the Home Assistant application on your smartphone to communicate with Raspberry Pi 4 to get advertisement packets of the BTHome v2 sensor device, parse those packets and display sensor values.
 
-## Gecko SDK Suite Version ##
+## SDK version ##
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Home Assistant OS](https://www.home-assistant.io/)
 
 ## Hardware Required ##
 
-- [**BGM220-EK4314A** BGM220 Bluetooth Module Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
-
-- [SparkFun Humidity Sensor Breakout - SHTC3 (Qwiic)](https://www.sparkfun.com/products/16467)
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| -------- | ------ |
-| BRD2601B | [EFR32xG24 Dev Kit - xG24 - DK2601B](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)  |
-| BRD2703A | [EFR32xG24 Explorer Kit - xG24-EK2703A ](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
-| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)  |
-| BRD4108A | [EFR32BG22 Explorer Kit Board - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)  |
-| BRD2704A | [SparkFun Thing Plus Matter - MGM240P](https://www.sparkfun.com/products/20270)  |
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [SparkFun Humidity Sensor Breakout - SHTC3 (Qwiic)](https://www.sparkfun.com/products/16467)
+- 1x Raspberry Pi 4 running Home Assistant OS
+- 1x smartphone running Home Assistant application
 
 ## Connections Required ##
 
@@ -41,20 +43,26 @@ The following picture shows the connection for this application:
 
 ## Setup ##
 
-To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC iBeacon" project based on your hardware.
+
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter **"bthome"** and **"shtc3"**.
+1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by **"bthome"** and **"shtc3"**.
 
 2. Click the **Create** button on **Bluetooth - BTHome v2 - Humidity and Temperature Monitor (SHTC3)** example. Example project creation dialog pops up -> click Create and Finish and the project should be generated.
 ![create_project](image/create_project.png)
 
 3. Build and flash this example to the board.
 
-### Start with a "Bluetooth - SoC Empty" project ###
+### Start with a "Bluetooth - SoC iBeacon" project ###
 
-1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
+1. Create a **Bluetooth - SoC iBeacon** project for your hardware using Simplicity Studio 5.
 
 2. Copy the `src/app.c` file into the project root folder (overwriting the existing file).
 
@@ -66,15 +74,15 @@ To test this application, you can either create a project based on an example pr
 
     - Install the following components:
 
-      - [Services] → [IO Stream] → [Driver] → [IO Stream: USART] → default instance name: vcom.
+      - [Services] → [IO Stream] → [Driver] → [IO Stream: USART] → default instance name: **vcom**
 
       - [Application] → [Utility] → [Log]
+
+      - [Driver] → [I2C] → [I2CSPM] → using instance name: **qwiic**
   
       - [Third-Party Hardware Drivers] → [Services] → [BTHome v2]
 
       - [Third-Party Hardware Drivers] → [Sensors] → [SHTC3 - Temp&Hum 9 Click (Mikroe)]
-  
-      - [Driver] → [I2C] → [I2CSPM] → using instance name: **qwiic**.
 
 4. Install **printf float**
 
@@ -84,14 +92,6 @@ To test this application, you can either create a project based on an example pr
     ![install_float](image/install_float.png)
 
 5. Build and flash the project to your board.
-
-**Note:**
-
-- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
-
-- SDK Extension must be enabled for the project to install **BTHOME v2** components.
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
@@ -108,16 +108,6 @@ To test this application, you can either create a project based on an example pr
 ![timer_tick](image/timer_tick.png)
 
 ## Testing ##
-
-To test this application and monitor the humidity and temperature, you need the following materials:
-
-- Raspberry Pi 4 runs Home Assistant OS.
-
-- Home Assistant application on a smartphone.
-  
-- [BGM220 Bluetooth Module Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit) runs the **BTHome v2 - Humidity and Temperature Monitor (SHTC3)** example.
-
-- [SparkFun Humidity Sensor Breakout - SHTC3 (Qwiic)](https://www.sparkfun.com/products/16467)
 
 To test this example, you should follow some steps below:
 

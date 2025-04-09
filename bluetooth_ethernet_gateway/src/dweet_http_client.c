@@ -3,7 +3,7 @@
  * @brief Update environment temperature and humidity to dweet cloud
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  ********************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -64,7 +64,7 @@ sl_status_t dweet_http_client_init(void)
   w5x00_ip4_addr_t local_ip, gateway_ip, subnet_mask;
   w5x00_dns_t dns;
 
-  w5x00_init(sl_spidrv_w5500_handle);
+  w5x00_init((mikroe_spi_handle_t)sl_spidrv_mikroe_handle);
   status = w5x00_ethernet_dhcp_init(&eth, mac, 30000, 10000);
   app_log("DHCP configuration: %s\r\n",
           SL_STATUS_OK == status ? "success":"failed");

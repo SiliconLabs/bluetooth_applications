@@ -1,12 +1,13 @@
 # Bluetooth - Optimized Energy Consuming Sensor #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_sensor_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_sensor_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_sensor_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_sensor_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_sensor_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_sensor_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_sensor_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout%20(Qwiic)-green)](https://www.sparkfun.com/products/14532)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-188.91%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.54%20KB-blue)
 ## Overview ##
 
 > **! THIS IS NOT A REFERENCE DESIGN !**
@@ -23,7 +24,7 @@ For a reference design example visit here
 
 **Compatible energy harvest devices:**
 
-![pv](images/pv.png)
+![pv](image/pv.png)
 
 This application is meant to be powered by PV solar, vibration or thermal power sources.
 These designs will require super-capacitor storage and power management circuits.
@@ -31,9 +32,9 @@ These designs will require super-capacitor storage and power management circuits
 This project demonstrates the most energy-efficient way to take a sensor reading and transmit it.
 This is achieved by putting the sensor and radio device to frequent sleep and making energy-based decisions before transmitting.
 
-![overview](images/overview.png)
+![overview](image/overview.png)
 
-The system is composed of a sensor and a (at least one) client device. The sensor device will measure the internal temperature and then broadcast it within 1 second and then go to sleep mode. The client device will scan for the sensor device and get the temperature value from the sensor device's advertisement data then display it on the OLED screen or EFR Connect Application.
+The system is composed of a sensor and a (at least one) client device. The sensor device will measure the internal temperature and then broadcast it within 1 second and then go to sleep mode. The client device will scan for the sensor device and get the temperature value from the sensor device's advertisement data then display it on the OLED screen or Simplicity Connect Application.
 
 **Sensor:**
 
@@ -43,24 +44,27 @@ This device will broadcast the internal temperature in the advertisement package
 
 The client device will scan periodically the BLE network. Once it found the sensor device, it tries to get internal temperature value from the advertisement package to update the OLED display.
 
-## Gecko SDK version ##
+## SDK version ##
 
-- GSDK v4.4.0
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
 **Sensor:**
 
-- [EFR32xG22 2.4 GHz 6 dBm Radio Board](https://www.silabs.com/development-tools/wireless/slwrb4183a-efr32xg22-wireless-gecko-radio-board)
-
-- [Wireless Starter Kit Mainboard](https://www.silabs.com/development-tools/wireless/bluetooth)
+- 1x [SLWSTK6021A](https://www.silabs.com/development-tools/wireless/efr32xg22-wireless-starter-kit?tab=overview) EFR32xG22 Wireless Gecko Starter Kit
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 **Sensor Status Display:**
 
-- [BG22 Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)
-
-- [OLED Display - SSD1306](https://www.sparkfun.com/products/14532)
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [SparkFun Micro OLED Breakout (Qwiic)](https://www.sparkfun.com/products/14532)
 
 ## Connections Required ##
 
@@ -68,32 +72,31 @@ The hardware connection is shown in the image below:
 
 |**Sensor** | **Sensor Status Display**|
 |:-------------------------:|:-------------------------:|
-|![sensor](images/sensor.png) | ![client](images/client.png)|
+|![sensor](image/sensor.png) | ![client](image/client.png)|
 
 ## Setup ##
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-**NOTE:**
+**NOTE**:
 
-- Make sure that the [Third Party Hardware Drivers](https://github.com/SiliconLabs/third_party_hw_drivers_extension) extension is added to the required SDK. You can go to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs) to add this extension.
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with the filter "optimized energy".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project filtering by "optimized energy".
 
 2. Click **Create** button on both **Bluetooth - Optimized Energy Consuming Sensor** and **Bluetooth - Optimized Energy Consuming Sensor - Status Display** examples. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
 
-**Ssensor Device:**
+   **Ssensor Device:**
 
-![create example sensor](images/create_example_sensor.png)
+   ![create example sensor](image/create_example_sensor.png)
 
-**Sensor Status Display Device:**
+   **Sensor Status Display Device:**
 
-![create example](images/create_example.png)
-
+   ![create example](image/create_example.png)
 
 3. Build and flash the examples to the board.
 
@@ -106,8 +109,8 @@ To test this application, you can either create a project based on an example pr
     - With **sensor** device: [bluetooth_optimized_energy_consuming_sensor](bluetooth_optimized_energy_consuming_sensor)
     - With **client** device: [bluetooth_optimized_energy_consuming_client](bluetooth_optimized_energy_consuming_client)
 
-> **_NOTE_** \
-The switch application uses the bare minimum of services to avoid wasting any energy. The following software components should be installed to make the example work.
+   > **_NOTE_** \
+   The switch application uses the bare minimum of services to avoid wasting any energy. The following software components should be installed to make the example work.
 
 3. Open the .slcp file. Select the **SOFTWARE COMPONENTS** tab and install the software components:
 
@@ -126,19 +129,13 @@ The switch application uses the bare minimum of services to avoid wasting any en
 
 **Note:**
 
-- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
-
-![sdk_extension](images/sdk_extension.png)
-
-- SDK Extension must be enabled for the project to install components.
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
 ### Sensor ###
 
-![Application overview](images/sensor_overview.png)
+![Application overview](image/sensor_overview.png)
 
 The energy-harvesting, battery-less applications have very finite amounts of energy available (~200..300uJ), therefore the application shall be optimized to transmit only the minimal required information within the shortest feasible time slot.
 
@@ -171,7 +168,7 @@ A configuration switch is added to reduce the number of primary channels.
 
 **Application runtime:**
 
-![sensor device runtime](images/runtime.png)
+![sensor device runtime](image/runtime.png)
 
 **Advertisement Packet:**
 
@@ -188,7 +185,7 @@ The AdvData field in the advertisement packet is as table below:
 
 > **The results of the performance measurements below are not officially specified values!**
 
-![performance measurement](images/energy_harvesting_app_performance.png)
+![performance measurement](image/energy_harvesting_app_performance.png)
 
 <table>
     <thead>
@@ -271,34 +268,32 @@ The AdvData field in the advertisement packet is as table below:
 
 ### Sensor status display ###
 
-![Application overview](images/client_overview.png)
+![Application overview](image/client_overview.png)
 
 **Display:**
 
 The client device will display no data if there is no result after scanning for a period of time. Otherwise, it will display the internal temperature that is broadcasted by the sensor device.
 
-![Display](images/display.png)
+![Display](image/display.png)
 
 ### Testing ###
 
 **Sensor:**
 
-You can use a smartphone application such as the EFR Connect application, to see the advertising packet from the Sensor.
+Follow the below steps to test the Sensor with the Simplicity Connect application:
 
-- Open the EFR Connect application.
+- Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-- Open the Bluetooth Browser.
+- Find your device in the Bluetooth Browser, advertising as *BG22_SE*.
 
-- Find the device advertising as **BG22_SE**.
+   ![sensor Simplicity connect](image/efr_connect.png)
 
-    ![sensor efr connect](images/efr_connect.png)
+- To see how the sensor device optimizes energy consumption, you can open the Energy Profier tool on SimplictyStudio to monitor the consumed current and power. You can easily see that the device consumes less current when it is in EM2 and EM4 mode.
 
-To see how the sensor device optimizes energy consumption, you can open the Energy Profier tool on SimplictyStudio to monitor the consumed current and power. You can easily see that the device consumes less current when it is in EM2 and EM4 mode.
-
-![energy monitor](images/energy_monitor.png)
+   ![energy monitor](image/energy_monitor.png)
 
 **Sensor Status Display:**
 
 The client device will display the temperature value that is broadcasted by the sensor device. If there is no device named **BG22_SE** found within 5 seconds client device will display "no data".
 
-![client configuration efr](images/client_result.GIF)
+![client configuration efr](image/client_result.GIF)

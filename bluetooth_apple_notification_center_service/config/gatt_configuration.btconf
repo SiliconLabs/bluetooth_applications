@@ -5,7 +5,7 @@
       <informativeText>Abstract: The generic_access service contains generic information about the device. All available Characteristics are readonly. </informativeText>
       <characteristic id="device_name" name="Device Name" sourceId="org.bluetooth.characteristic.gap.device_name" uuid="2A00">
         <informativeText/>
-        <value length="13" type="utf-8" variable_length="false">Empty Example</value>
+        <value length="4" type="utf-8" variable_length="false">ANCS</value>
         <properties read="true" read_requirement="optional" write="true" write_requirement="optional"/>
       </characteristic>
       <characteristic name="Appearance" sourceId="org.bluetooth.characteristic.gap.appearance" uuid="2A01">

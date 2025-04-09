@@ -3,7 +3,7 @@
  * @brief Main application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  ********************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -33,7 +33,7 @@
  * at the sole discretion of Silicon Labs.
  ******************************************************************************/
 #include <stdio.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
@@ -215,7 +215,7 @@ static void connection_opened_handler(sl_bt_msg_t *evt)
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   app_door_lock_init();
   app_display_init();
@@ -224,13 +224,12 @@ SL_WEAK void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
   // This is called infinitely.                                              //
   // Do not call blocking functions from here!                               //
-//  app_door_lock_handle_normal_mode();
   /////////////////////////////////////////////////////////////////////////////
 }
 

@@ -3,7 +3,7 @@
  * @brief Air Quality demo using CCS811 sensor
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -36,7 +36,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "sl_ccs811.h"
 #include "sl_simple_button_instances.h"
 #include "sl_i2cspm_instances.h"
 #include "sl_pwm_instances.h"
@@ -52,6 +51,7 @@
 #include "glib.h"
 #include "nvm3_user.h"
 #include "air_quality_app.h"
+#include "sparkfun_ccs811.h"
 
 #define DATA_BUFFER_SIZE  5
 
@@ -151,13 +151,8 @@ sl_status_t air_quality_app_init(void)
   app_log(">> Buzzer set volume = %d\r\n", air_quality_data.buzzer_data);
 
   // Initialize sensor and set measure mode
-  status = sl_ccs811_init(sl_i2cspm_sensor_gas);
+  status = sparkfun_ccs811_init(sl_i2cspm_qwiic);
 
-  if (status != SL_STATUS_OK) {
-    return status;
-  }
-  status = sl_ccs811_set_measure_mode(sl_i2cspm_sensor_gas,
-                                      CCS811_MEASURE_MODE_DRIVE_MODE_1SEC);
   if (status != SL_STATUS_OK) {
     return status;
   }
@@ -252,10 +247,10 @@ static void air_quality_monitor_event_handler(void)
   uint16_t _eco2;
   uint16_t _tvoc;
 
-  if (sl_ccs811_is_data_available(sl_i2cspm_sensor_gas)) {
+  if (sparkfun_ccs811_is_data_available()) {
     uint8_t index = samples_counter % DATA_BUFFER_SIZE;
     // Get measurement data from the CCS811
-    sl_ccs811_get_measurement(sl_i2cspm_sensor_gas, &_eco2, &_tvoc);
+    sparkfun_ccs811_get_measurement(&_eco2, &_tvoc);
 
     // Store measurement data.
     // appends a new value to the measurement data, removes the oldest one.

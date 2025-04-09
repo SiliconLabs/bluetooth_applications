@@ -1,12 +1,12 @@
 # Bluetooth - Secure SPP (Serial Port Profile) over BLE
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_secure_spp_over_ble_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-206.33%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.83%20KB-blue)
 
 ## Background
 
@@ -24,26 +24,36 @@ During the authentication phase, the devices have to confirm that they have succ
 
 Bonding information including the long term key and other information persists over reset. To test the authentication repeatedly, implement a call to **sm_delete_bondings** with a trigger of your choice. Another option is to use the Simplicity Commander tool to erase the devices' flash.
 
-## Gecko SDK version
+## SDK version
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
 
 ## Hardware Required
 
-- Two [EFR32xG24 Dev Kit - xG24-DK2601B](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit)
+- 2x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
 
 ## Connections Required
+
+- Connect the Bluetooth Development Kits to the PC through a compatible-cable. For example, a micro USB cable for the BGM220 Bluetooth Module Explorer Kit.
 
 ## Setup
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
 ### Create a project based on an example project
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "secure".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "secure".
 
 2. Click **Create** button on the **Bluetooth - Secure SPP over BLE** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![create_project](images/create_project.png)
+![create_project](image/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -59,28 +69,25 @@ To test this application, you can either create a project based on an example pr
    - Select the SOFTWARE COMPONENTS tab.
 
    - Install **IO Stream: USART** component with the default instance name: **vcom**  
-    ![install_usart](images/install_usart.png)
+    ![install_usart](image/install_usart.png)
 
    - Install the **Log** component (found under Bluetooth > Utility group)
-   ![log](images/log.png)
+   ![log](image/log.png)
 
    - Create the first button by installing the **Simple Button** component with the default instance name: **btn0**
-   ![btn0](images/btn0.png)
+   ![btn0](image/btn0.png)
 
 4. Import the GATT configuration:
     - Open the **Bluetooth GATT Configurator** under the **CONFIGURATION TOOLS** tab.
     - Find the Import button and import the attached **gatt_configuration.btconf** file.
-    ![btconf](images/btconf.png)
+    ![btconf](image/btconf.png)
     - Save the GATT configuration (Ctrl+S).
 
 5. Build and flash the project to each device.
 
 **NOTE:**
 
-- Make sure that this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-![external_repos](images/external_repos.png)
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works
 
@@ -93,7 +100,7 @@ To test this application, you can either create a project based on an example pr
 4. After the first boot, the authentication phase requires confirmation that the passkeys displayed on the two devices match. To confirm, send a 'y' or 'Y' character with the terminal. To decline send 'n' or 'N'.
 
 5. After the authentication phase, use the application to send characters from one device to the other just like with the [Bluetooth - Serial Port Profile (SPP)](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_serial_port_profile) example.
-![terminal_output](images/terminal_output.png)
+![terminal_output](image/terminal_output.png)
 
 6. Reboot the devices and check if the secure connection is built automatically.
 
@@ -101,4 +108,4 @@ To test this application, you can either create a project based on an example pr
 
 Note: to get a proper log, Network Analyzer needs to observe the connection from the very beginning. Hence, after connecting to your device, reset it, and let the Network Analyzer observe the connection establishment process.
 
-![network_analyzer](images/network_analyzer.png)
+![network_analyzer](image/network_analyzer.png)

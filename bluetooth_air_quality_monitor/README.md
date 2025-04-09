@@ -1,20 +1,20 @@
 # Bluetooth - Air Quality Monitor #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_air_quality_monitor_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Mikroe-BUZZ%202%20click-green)](https://www.mikroe.com/buzz-2-click)
+[![Required board](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout%20(Qwiic)%20board-green)](https://www.sparkfun.com/products/14532)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-221.62%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-11.2%20KB-blue)
 
 ## Overview ##
 
-This project aims to implement an air quality monitor and notification system using Silicon Laboratories development kits and external sensors integrated with the BLE wireless stack.
+This project aims to implement an air quality monitor and notification system using Silicon Labs development kits and external sensors integrated with the BLE wireless stack. The block diagram of this application is shown in the image below:
 
-The block diagram of this application is shown in the image below:
-
-![system overview](images/system_overview.png)
+![system overview](image/system_overview.png)
 
 More detailed information can be found in the section [How it works](#how-it-works).
 
@@ -22,51 +22,48 @@ This code example referred to the following code examples. More detailed informa
 
 - [OLED SSD1306 driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/driver/public/silabs/micro_oled_ssd1306)
 - [Buzzer driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/driver/public/mikroe/buzz2_cmt_8540s_smt)
+- [CCS811 - Air Quality Sensor (Sparkfun)](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/driver/public/silabs/environmental_bme280_ccs811)
 - [Bluetooth security feature](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/security)
 
-## Gecko SDK version ##
+## SDK version ##
 
-- GSDK v4.4.0
-- [Third-Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- [Thunderboard Sense 2 Sensor-to-Cloud Advanced IoT Kit](https://www.silabs.com/development-tools/thunderboard/thunderboard-sense-two-kit)
-
-- [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
-
-- [BUZZ 2 click](https://www.mikroe.com/buzz-2-click)
-
-- [Silabs Click Shield](https://www.mikroe.com/silabs-click-shield)
+- 1x [Bluetooth Low Energy Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For example, [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
+- 1x [BUZZ 2 click](https://www.mikroe.com/buzz-2-click)
+- 1x SparkFun CCS811/BME280 Combo Board
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
 The hardware connection is shown in the image below:
 
-![hardware connection](images/hardware_connection.png)
-
-The Thunderboard Sense 2 and the MikroE Buzzer 2 Click can be plugged into the Silabs Click Shield directly via the Thunderboard socket and the mikroBus socket respectively. To connect the Thunderboard with the SparkFun Micro OLED Breakout (Qwiic) board we can use some [Flexible Qwiic Cable - Female Jumper](https://www.sparkfun.com/products/17261) as shown in the table below:
-
-| EFR32BG22 Thunderboard Kit markings |  Qwiic cables color scheme  |
-|-------------------------------------|:---------------------------:|
-| GND - EXP1                          |  Red - 3.3V                 |
-| 3V3 - EXP2                          |  Black - GND                |
-| PC6 - EXP7                          |  Yellow - SCL               |
-| PC7 - EXP9                          |  Blue - SDA                 |
-
- Silabs Click Shield schematic is shown below.
-
-![hardware connection](images/thunderboard_qwiic_shield.png)
+![hardware connection](image/hardware_connection.png)
 
 ## Setup ##
 
-To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. You should connect the Thunderboard Sense 2 Sensor-to-Cloud Advanced IoT Kit to the PC using a MicroUSB cable.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. You should connect your board to the PC using a MicroUSB cable.
+
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add the BRD4166A  to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter 'air quality'.
+1. From the Launcher Home, add your board to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by 'air quality'.
 
-   ![create_demo](images/creat_demo.png "Create a project based on an example project")
+   ![create_demo](image/creat_demo.png "Create a project based on an example project")
 
 2. Click **Create** button on the **Bluetooth - Air Quality Monitor** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 
@@ -76,7 +73,7 @@ To test this application, you can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy the .c files 'src/app.c' to the following directory of the project root folder (overwriting the existing files).
+2. Copy all the header files and source files in the 'inc' and 'src' folders to the root folder of the project (overwriting the existing files).
 
 3. Install the software components:
 
@@ -86,18 +83,16 @@ To test this application, you can either create a project based on an example pr
 
     - Install the following components:
 
-        - [Services] →  [Timers] →  [Sleep Timer]
-        - [Services] →  [NVM3]
-        - [Services] →  [IO Stream] → [IO Stream: USART] → vcom
-        - [Application] →  [Utility] → [Log]
-        - [Platform] →  [Driver] → [I2C] →  [I2CSPM] → qwiic
-        - [Platform] →  [Driver] → [I2C] →  [I2CSPM] → sensor_gas
-        - [Platform] →  [Driver] → [PWM] →  [PWM] → mikroe
-        - [Platform] →  [Driver] → [Button] →  [Simple Button] → btn0
-        - [Platform] →  [Board Driver] → [CCS811 - Gas/Air Quality Sensor]
-        - [Platform] →  [Board] → [Board Control] →  Enable Air Quality sensor
-        - [Third Party Hardware Drivers] → [Audio & Voice] → CMT_8540S_SMT - Buzz 2 Click (Mikroe)
-        - [Third Party Hardware Drivers] → [Display & LED] → SSD1306 - Micro OLED Breakout (Sparkfun) - I2C
+        - [Services] → [Timers] → [Sleep Timer]
+        - [Services] → [IO Stream] → [IO Stream: USART] → vcom
+        - [Application] → [Utility] → [Log]
+        - [Platform] → [Driver] → [I2C] → [I2CSPM] → qwiic
+        - [Platform] → [Driver] → [PWM] → [PWM] → mikroe
+        - [Platform] → [Driver] → [Button] → [Simple Button] → btn0
+        - [Third Party Hardware Drivers] → [Sensors] → CCS811 - [Air Quality Sensor (Sparkfun)]
+        - [Third Party Hardware Drivers] → [Audio & Voice] → [CMT_8540S_SMT - Buzz 2 Click (Mikroe)]
+        - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C]
+        - [Third Party Hardware Drivers] → [Services] → [GLIB - OLED Graphics Library]
         - [Bluetooth] → [OTA] → [In-Place OTA DFU] → uninstall
         - [Platform] → [Bootloader Application Interface] → uninstall.
 
@@ -114,7 +109,7 @@ To test this application, you can either create a project based on an example pr
 
 ### Application Overview ###
 
-![app overview](images/overview.png)
+![app overview](image/overview.png)
 
 ### GATT Configurator ###
 
@@ -156,7 +151,7 @@ The GATT changes were adding a new custom service (Air Quality Monitor) using UU
 
 The Initialization software flow is as follows:
 
-![Flow diagram](images/work_flow.png)
+![Flow diagram](image/work_flow.png)
 
 1. First, the software initializes the peripherals, the Bluetooth stack, and logging to the virtual COM port.
 
@@ -164,11 +159,11 @@ The Initialization software flow is as follows:
 
 3. Every time the timer expires, an Air quality monitor event handler retrieves and processes the measured air quality data as described below:
 
-    ![Flow diagram](images/timer_event.png)
+    ![Flow diagram](image/timer_event.png)
 
 4. When the BTN0 button is pressed, the software checks the notification feature status, and buzzer state by the flowchart below:
 
-    ![Flow diagram](images/btn0.png)
+    ![Flow diagram](image/btn0.png)
 
 ### OLED Display ###
 
@@ -186,22 +181,22 @@ More detailed information can be found in the section [Testing](#testing).
 
 Upon reset, the application will display the Silicon Labs logo on the OLED screen for a few seconds. Then you can check the measured CO2 and tVOC values on the OLED screen. You should expect a similar output to the one below.
 
-![OLED display](images/display.png)
+![OLED display](image/display.png)
 
 **Note:** The measured CO2 and tVOC values will be more accurate after the sensor is warmed up.
 
-Follow the below steps to test the example with the EFR Connect app:
+Follow the below steps to test the example with the Simplicity Connect app:
 
-1. Open the EFR Connect app on your iOS/Android device.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-2. Find your device in the Bluetooth Browser, advertising as Air Quality, and tap Connect. Then you need to accept the pairing request when connected for the first time.
+2. Find your device in the Bluetooth Browser, advertising as *Air Quality*, and tap Connect. Then you need to accept the pairing request when connected for the first time.
 
-    ![pair request](images/pairing_request.png)
+    ![pair request](image/pairing_request.png)
 
-3. Find the unknown service at the above OTA service.
+3. Find the unknown service.
 
 4. Try to read, write, re-read the characteristics, and check the value.
 
 5. You can launch the Console that is integrated into Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
 
-    ![logs](images/logs.png)
+    ![logs](image/logs.png)

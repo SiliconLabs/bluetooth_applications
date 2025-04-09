@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -35,7 +35,7 @@
  ******************************************************************************/
 #include <stdio.h>
 #include <string.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
@@ -148,7 +148,7 @@ static void client_external_event_handle();
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   app_log("BLE - Dosimeter (Sparkfun Type 5) - Client\r\n");
   client_app_init();
@@ -164,7 +164,7 @@ SL_WEAK void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
@@ -645,7 +645,7 @@ void timer_callback(sl_sleeptimer_timer_handle_t *handle, void *data)
   (void)&data;
 
   // Restart device
-  sl_bt_system_reset(0);
+  sl_bt_system_reboot();
 }
 
 void sl_button_on_change(const sl_button_t *handle)

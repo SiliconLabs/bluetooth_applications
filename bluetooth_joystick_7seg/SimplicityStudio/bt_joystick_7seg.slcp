@@ -2,7 +2,7 @@ project_name: bt_joystick_7seg
 package: Bluetooth
 label: Bluetooth - Joystick 7seg
 description: >
-  This project shows a demonstration of Bluetooth Joystick 7seg using Silabs development kits.
+  This project demonstrates a Bluetooth Joystick 7seg application using Silicon Labs development kits.
 category: Bluetooth Examples
 quality: experimental
 
@@ -16,8 +16,39 @@ filter:
   - name: "Wireless Technology"
     value: ["Bluetooth"]
 
-readme:
-- path: ../README.md
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: iostream_eusart
+    instance: [vcom]
+  - id: app_log
+  - id: simple_button
+    instance: [btn0]
+  - id: i2cspm
+    instance: [qwiic]
+  - id: pwm
+    instance: [mikroe]
+  - id: spidrv
+    instance: [mikroe]
+  - id: mikroe_utm7segr
+    from: third_party_hw_drivers
+  - id: sparkfun_qwiic_joystick
+    from: third_party_hw_drivers
 
 include:
   - path: ../inc
@@ -28,38 +59,6 @@ source:
   - path: ../src/main.c
   - path: ../src/app.c
 
-component:
-- id: bluetooth_stack
-- id: gatt_configuration
-- id: gatt_service_device_information
-- id: bluetooth_feature_legacy_advertiser
-- id: bluetooth_feature_connection
-- id: bluetooth_feature_gatt
-- id: bluetooth_feature_gatt_server
-- id: bluetooth_feature_legacy_scanner
-- id: bluetooth_feature_sm
-- id: bluetooth_feature_system
-- id: bt_post_build
-- id: mpu
-- id: rail_util_pti
-- id: component_catalog
-- id: iostream_eusart
-  instance: [vcom]
-- id: app_assert
-- id: app_log
-- id: simple_button
-  instance: [btn0]
-- id: i2cspm
-  instance: [qwiic]
-- id: pwm
-  instance: [mikroe]
-- id: spidrv
-  instance: [mikroe]
-- id: mikroe_utm7segr
-  from: third_party_hw_drivers
-- id: sparkfun_qwiic_joystick
-  from: third_party_hw_drivers
-
 config_file:
   - override:
       component: gatt_configuration
@@ -67,30 +66,31 @@ config_file:
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
 
-sdk_extension:
-  - id: third_party_hw_drivers
-    version: 2.0.0
+configuration:
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition: [psa_crypto]
+
+readme:
+  - path: ../README.md
 
 other_file:
-  - path: ../images/connection.png
-    directory: "images"
-  - path: ../images/console.png
-    directory: "images"
-  - path: ../images/efr_connect.png
-    directory: "images"
-  - path: ../images/import_gatt_configuaration.png
-    directory: "images"
-  - path: ../images/create_project.png
-    directory: "images"
+  - path: ../image/connection.png
+    directory: "image"
+  - path: ../image/console.png
+    directory: "image"
+  - path: ../image/efr_connect.png
+    directory: "image"
+  - path: ../image/import_gatt_configuaration.png
+    directory: "image"
+  - path: ../image/create_project.png
+    directory: "image"
 
-configuration:
-- name: SL_STACK_SIZE 
-  value: '2752'
-- name: SL_HEAP_SIZE
-  value: '9200'
-- condition: [psa_crypto]
-  name: SL_PSA_KEY_USER_SLOT_COUNT
-  value: '0'
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
 
 ui_hints:
   highlight:

@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -34,12 +34,11 @@
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include <stdio.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_sleeptimer.h"
 #include "sl_bluetooth.h"
 #include "app.h"
-#include "gatt_db.h"
 #include "mikroe_mq7.h"
 #include "math.h"
 

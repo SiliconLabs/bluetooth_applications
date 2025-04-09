@@ -1,73 +1,70 @@
 
 project_name: bt_door_lock
-label: Bluetooth - Door Lock
-
 package: Bluetooth
+label: Bluetooth - Door Lock
+description: >
+  This project demonstrates a Bluetooth door lock application using Silicon Labs platform,
+  SparkFun Micro OLED Breakout (Qwiic) board, Cap Touch 2 Click MikroE board, and BUZZ 2 click Mikroe board.
 category: Bluetooth Examples
 quality: experimental
-description: |
-  This project shows a demonstration of Bluetooth door lock application using Silabs BGM220 Explorer Kit Board BRD4314A, SparkFun Micro OLED Breakout (Qwiic) board, Cap Touch 2 Click MikroE board, and BUZZ 2 click Mikroe board.
-filter:
-- name: Device Type
-  value: [SoC]
-- name: Project Difficulty
-  value: [Beginner]
-- name: Wireless Technology
-  value: [Bluetooth]
 
-readme:
-- path: ../README.md
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Beginner]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_nvm
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: sleeptimer
+  - id: iostream_eusart
+    instance: [vcom]
+  - id: app_log
+  - id: pwm
+    instance: [mikroe]
+  - id: spidrv
+    instance: [mikroe]
+  - id: i2cspm
+    instance: [qwiic]
+  - id: simple_led
+    instance: [led0]
+  - id: gpiointerrupt
+  - id: mikroe_buzz2
+    from: third_party_hw_drivers
+  - id: mikroe_captouch2
+    from: third_party_hw_drivers
+  - id: sparkfun_micro_oled_ssd1306
+    from: third_party_hw_drivers
+  - id: services_oled_glib
+    from: third_party_hw_drivers
 
 include:
   - path: ../inc
     file_list:
       - path: app.h
-      
+
 source:
   - path: ../src/main.c
   - path: ../src/app.c
-
-component:
-- id: bluetooth_feature_nvm
-- id: bluetooth_stack
-- id: gatt_configuration
-- id: gatt_service_device_information
-- id: bluetooth_feature_legacy_advertiser
-- id: bluetooth_feature_connection
-- id: bluetooth_feature_gatt
-- id: bluetooth_feature_gatt_server
-- id: bluetooth_feature_system
-- id: bluetooth_feature_sm
-- id: rail_util_pti
-- id: mpu
-- id: bt_post_build
-- id: sl_system
-- id: device_init
-- id: app_assert
-- id: app_log
-- id: sleeptimer
-- id: component_catalog
-- id: iostream_eusart
-  instance: [vcom]
-- id: mikroe_buzz2
-  from: third_party_hw_drivers
-- id: pwm
-  instance: [mikroe]
-- id: mikroe_captouch2
-  from: third_party_hw_drivers
-- id: spidrv
-  instance: [mikroe]
-- id: sparkfun_micro_oled_ssd1306
-  from: third_party_hw_drivers
-- id: services_oled_glib
-  from: third_party_hw_drivers
-- id: i2cspm
-  instance: [qwiic]
-- id: simple_led
-  instance: [led0]
-- id: gpiointerrupt  
-define:
-  - name: DEBUG_EFM
 
 config_file:
   - override:
@@ -75,40 +72,42 @@ config_file:
       file_id: gatt_configuration_file_id
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
-tag:
-  - hardware:rf:band:2400
 
 configuration:
   - name: SL_STACK_SIZE
     value: "2752"
-  - name: SL_HEAP_SIZE
-    value: "9200"
   - name: SL_PSA_KEY_USER_SLOT_COUNT
     value: "0"
     condition:
       - psa_crypto
 
+readme:
+  - path: ../README.md
+
 other_file:
-  - path: ../images/block_diagram.png
-    directory: "images"
-  - path: ../images/creat_demo.png
-    directory: "images"
-  - path: ../images/create_bootloader.png
-    directory: "images"
-  - path: ../images/efr_connect_app.png
-    directory: "images"
-  - path: ../images/hardware_connection.png
-    directory: "images"
-  - path: ../images/password_service.png
-    directory: "images"
-  - path: ../images/pinout_connection.png
-    directory: "images"
-  - path: ../images/work_flow.png
-    directory: "images"
+  - path: ../image/block_diagram.png
+    directory: "image"
+  - path: ../image/creat_demo.png
+    directory: "image"
+  - path: ../image/create_bootloader.png
+    directory: "image"
+  - path: ../image/efr_connect_app.png
+    directory: "image"
+  - path: ../image/hardware_connection.png
+    directory: "image"
+  - path: ../image/password_service.png
+    directory: "image"
+  - path: ../image/pinout_connection.png
+    directory: "image"
+  - path: ../image/work_flow.png
+    directory: "image"
 
 sdk_extension:
   - id: third_party_hw_drivers
-    version: 2.0.0
+    version: 4.1.0
+
+tag:
+  - hardware:rf:band:2400
 
 ui_hints:
   highlight:

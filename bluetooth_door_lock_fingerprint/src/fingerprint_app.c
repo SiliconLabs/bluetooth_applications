@@ -3,7 +3,7 @@
  * @brief fingerprint doorlock app source file.
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -51,7 +51,6 @@ static uint8_t fp_count = 0;
 static uint8_t fp_authorized_index = 0;
 static volatile bool register_completed = false;
 static bool send_cmd = false;
-static sl_sleeptimer_timer_handle_t fingerprint_process_timer;
 
 /***************************************************************************//**
  * Enum for describe the status of new fingerprint .
@@ -64,8 +63,7 @@ typedef enum fingerprint_status {
 
 static volatile fingerprint_status_t fingerprint_status = FINGERPRINT_UNKNOW;
 
-static void fingerprint_process_callback(sl_sleeptimer_timer_handle_t *timer,
-                                         void *data);
+static void fingerprint_process_callback();
 
 /***************************************************************************//**
  * Init Fingerprint Function.
@@ -90,12 +88,7 @@ void fingerprint_init(void)
   mikroe_a172mrq_reset();
   sl_sleeptimer_delay_millisecond(1000);
   app_log("Fingerprint 2 Click is initialized!\r\n");
-  sl_sleeptimer_start_periodic_timer_ms(&fingerprint_process_timer,
-                                        500,
-                                        fingerprint_process_callback,
-                                        NULL,
-                                        0,
-                                        0);
+  fingerprint_process_callback();
 }
 
 /***************************************************************************//**
@@ -110,6 +103,8 @@ sl_status_t fingerprint_add(uint8_t index)
   mikroe_a172mrq_reg_one_fp(index);
   while ((register_completed == false) && (count_timeout < REGISTER_TIMEOUT)) {
     count_timeout++;
+    fingerprint_process_callback();
+    sl_sleeptimer_delay_millisecond(100);
   }
   if (register_completed) {
     fp_count++;
@@ -118,7 +113,6 @@ sl_status_t fingerprint_add(uint8_t index)
   } else {
     sc = SL_STATUS_FAIL;
   }
-
   return sc;
 }
 
@@ -168,18 +162,15 @@ sl_status_t fingerprint_compare(void)
     }
     fingerprint_status = FINGERPRINT_UNKNOW;
   }
-
+  fingerprint_process_callback();
   return sc;
 }
 
 /***************************************************************************//**
  * Fingerprint process callback function.
  ******************************************************************************/
-static void fingerprint_process_callback(sl_sleeptimer_timer_handle_t *timer,
-                                         void *data)
+static void fingerprint_process_callback()
 {
-  (void) data;
-  (void) timer;
   int32_t rsp_size;
   sl_status_t sc;
   int32_t check_buf_cnt;
@@ -197,6 +188,7 @@ static void fingerprint_process_callback(sl_sleeptimer_timer_handle_t *timer,
       }
     }
     app_log("%s", uart_rx_buffer);
+
     if (strstr(uart_rx_buffer, "</R>")) {
       if (strstr(uart_rx_buffer, "PASS_")) {
         fingerprint_status = FINGERPRINT_AUTHORIZED;
@@ -214,7 +206,6 @@ static void fingerprint_process_callback(sl_sleeptimer_timer_handle_t *timer,
     }
     // Clear RX buffer
     memset(uart_rx_buffer, 0, MIKROE_FP2_RX_BUFFER_SIZE);
-  } else {
   }
 }
 

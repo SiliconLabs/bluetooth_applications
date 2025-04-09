@@ -74,17 +74,4 @@
       </properties>
     </characteristic>
   </service>
-
-  <!--Health Thermometer-->
-  <service advertise="true" name="Health Thermometer" requirement="mandatory" sourceId="org.bluetooth.service.health_thermometer" type="primary" uuid="1809">
-    <informativeText>Abstract: The Health Thermometer service exposes temperature and other data from a thermometer intended for healthcare and fitness applications. Summary: The Health Thermometer service is instantiated as a Primary Service. There are one or more instantiations of the Health Thermometer service per device claiming conformance with this specification. </informativeText>
-
-    <!--Temperature Measurement-->
-    <characteristic const="false" id="temperature_measurement" name="Temperature Measurement" sourceId="org.bluetooth.characteristic.temperature_measurement" uuid="2A1C">
-      <value length="5" type="utf-8" variable_length="false">00</value>
-      <properties>
-        <indicate authenticated="false" bonded="false" encrypted="false"/>
-      </properties>
-    </characteristic>
-  </service>
 </gatt>

@@ -4,7 +4,7 @@
  * @version 1.0.0
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -37,7 +37,7 @@
  *
  ******************************************************************************/
 
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
@@ -288,7 +288,6 @@ static void ble_connection_parameters_handler(sl_bt_msg_t *evt)
   uint8_t connection_handle = evt->data.evt_connection_parameters.connection;
   uint8_t security_level = evt->data.evt_connection_parameters.security_mode
                            + 1;
-  uint16_t tx_size = evt->data.evt_connection_parameters.txsize;
   uint16_t timeout = evt->data.evt_connection_parameters.timeout;
 
   app_log("BLE Stack Event : CONNECTION Parameters ID\r\n");
@@ -296,9 +295,8 @@ static void ble_connection_parameters_handler(sl_bt_msg_t *evt)
   // If security is less than 2 increase so devices can bond
   if (security_level <= 2) {
     app_log(
-      "BLE Stack Event : CONNECTION PARAMETERS : MTU = %d, \
+      "BLE Stack Event : CONNECTION PARAMETERS : \
 	              SecLvl : %d, timeout : %d\r\n",
-      tx_size,
       security_level,
       timeout);
     app_log("+ Bonding Handle is: 0x%04X\r\n", ble_bonding_handle);
@@ -324,8 +322,7 @@ static void ble_connection_parameters_handler(sl_bt_msg_t *evt)
   } else {
     app_log(
       "[OK]      BLE Stack Event : CONNECTION PARAMETERS : \
-	              MTU = %d, SecLvl : %d, Timeout : %d\r\n",
-      tx_size,
+	              SecLvl : %d, Timeout : %d\r\n",
       security_level,
       timeout);
   }

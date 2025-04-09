@@ -19,7 +19,7 @@ extern "C" {
 #endif
 
 #include "uwb_frames.h"
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 
 // -----------------------------------------------------------------------------

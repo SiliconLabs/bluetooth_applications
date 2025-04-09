@@ -1,0 +1,94 @@
+project_name: bt_optimized_energy_consuming_sensor
+package: Bluetooth
+label: Bluetooth - Optimized Energy Consuming Sensor
+description: >
+  This project aims to implement an Optimized Energy Consuming temperature sensor.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Advanced]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: sensor_app.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/sensor_app.c
+
+toolchain_settings:
+  - option: gcc_linker_option
+    value: "-u _printf_float"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition: [iostream_usart]
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition: [psa_crypto]
+
+readme:
+  - path: ../../README.md
+
+other_file:
+  - path: ../../image/client_overview.png
+    directory: image
+  - path: ../../image/client_result.GIF
+    directory: image
+  - path: ../../image/client.png
+    directory: image
+  - path: ../../image/create_example_sensor.png
+    directory: image
+  - path: ../../image/create_example.png
+    directory: image
+  - path: ../../image/display.png
+    directory: image
+  - path: ../../image/efr_connect.png
+    directory: image
+  - path: ../../image/energy_harvesting_app_performance.png
+    directory: image
+  - path: ../../image/energy_monitor.png
+    directory: image
+  - path: ../../image/overview.png
+    directory: image
+  - path: ../../image/pv.png
+    directory: image
+  - path: ../../image/runtime.png
+    directory: image
+  - path: ../../image/sensor_overview.png
+    directory: image
+  - path: ../../image/sensor.png
+    directory: image
+
+ui_hints:
+  highlight:
+    - path: README.md
+      focus: true

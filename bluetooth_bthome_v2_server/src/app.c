@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,8 +26,14 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "app.h"
@@ -41,7 +47,7 @@
 #include "nvm3_generic.h"
 #include "lv_port_indev.h"
 #if defined(SL_CATALOG_ADAFRUIT_TFT_LCD_HXD8357D_DMA_PRESENT)
-#include "sl_spidrv_instances.h"
+#include "adafruit_hxd8357d_spi_config.h"
 #endif
 #include "app_ui/ui.h"
 
@@ -58,6 +64,23 @@
 #define APP_DEVICE_KEY_SIZE            16
 #define APP_NVM3_DEVICE_NAME_OFF_SET   (MAX_DEVICE + 2)
 #define APP_UPDATE_DATA_TIMEOUT_SECOND 10
+
+MIPI_DBI_SPI_INTERFACE_DEFINE(hx8357d_config,
+                              ADAFRUIT_HXD8357D_PERIPHERAL,
+                              ADAFRUIT_HXD8357D_PERIPHERAL_NO,
+                              ADAFRUIT_HXD8357D_BITRATE,
+                              ADAFRUIT_HXD8357D_CLOCK_MODE,
+                              ADAFRUIT_HXD8357D_CS_CONTROL,
+                              ADAFRUIT_HXD8357D_CLK_PORT,
+                              ADAFRUIT_HXD8357D_CLK_PIN,
+                              ADAFRUIT_HXD8357D_TX_PORT,
+                              ADAFRUIT_HXD8357D_TX_PIN,
+                              ADAFRUIT_HXD8357D_RX_PORT,
+                              ADAFRUIT_HXD8357D_RX_PIN,
+                              ADAFRUIT_HXD8357D_CS_PORT,
+                              ADAFRUIT_HXD8357D_CS_PIN,
+                              ADAFRUIT_HXD8357D_DC_PORT,
+                              ADAFRUIT_HXD8357D_DC_PIN);
 
 typedef struct scanned_device {
   uint8_t device_mac[6];
@@ -170,7 +193,7 @@ void app_init(void)
 #if defined(SL_CATALOG_ADAFRUIT_TFT_LCD_HXD8357D_PRESENT)
   adafruit_hxd8357d_init();
 #elif defined(SL_CATALOG_ADAFRUIT_TFT_LCD_HXD8357D_DMA_PRESENT)
-  adafruit_hxd8357d_init(sl_spidrv_hxd8357d_handle);
+  adafruit_hxd8357d_init(&hx8357d_config);
 #endif
   lv_init();
   lv_port_disp_init();

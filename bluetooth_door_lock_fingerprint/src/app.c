@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,9 +26,15 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ ******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include <stdio.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "app.h"
@@ -60,8 +66,7 @@
 #define ADVERTISE_MANDATORY_DATA_LENGTH                    5
 #define ADVERTISE_MANDATORY_DATA_TYPE_MANUFACTURER         0xFF
 
-#define ADVERTISE_COMPANY_ID                               0x0047 /* Silicon
-                                                                   *   Labs */
+#define ADVERTISE_COMPANY_ID                               0x0047 // Silicon Labs
 #define ADVERTISE_FIRMWARE_ID                              0x0000
 
 /** Complete local name. */
@@ -122,6 +127,10 @@ bool volatile app_door_is_connected = false;
 static uint8_t show_fp_slot = 0;
 static uint8_t fp_selected_slot = 0;
 
+static bool fingerprint_show = false;
+static bool fingerprint_scan = false;
+static bool lock = false;
+
 static sl_sleeptimer_timer_handle_t unlock_door_timer;
 static sl_sleeptimer_timer_handle_t show_fingerprint_timer;
 static sl_sleeptimer_timer_handle_t scan_fingerprint_timer;
@@ -140,7 +149,7 @@ static void scan_fingerprint_sleeptimer_callback(
   sl_sleeptimer_timer_handle_t *timer,
   void *data);
 static void connection_opened_handler(sl_bt_msg_t *evt);
-static void app_bt_evt_system_external_signal(uint32_t extsignals);
+
 static void app_door_lock_process_evt_gatt_server_user_read_request(
   sl_bt_evt_gatt_server_user_read_request_t *data);
 
@@ -176,6 +185,92 @@ void app_init(void)
  *****************************************************************************/
 void app_process_action(void)
 {
+  sl_status_t sc;
+  if (fingerprint_scan) {
+    if (app_door_mode == MODE_2) {
+      bool is_running = false;
+      if (SL_STATUS_OK
+          != sl_sleeptimer_is_timer_running(&show_fingerprint_timer,
+                                            &is_running)) {
+        is_running = false;
+      }
+
+      if (!is_running) {
+        sl_sleeptimer_start_periodic_timer_ms(&show_fingerprint_timer,
+                                              SHOW_FINGERPRINT_PERIOD_MS,
+                                              show_fingerprint_sleeptimer_callback,
+                                              NULL,
+                                              0,
+                                              0);
+        show_fp_slot = 0;
+        app_show_next_fingerprint();
+      }
+      return;
+    }
+    sl_sleeptimer_stop_timer(&show_fingerprint_timer);
+    switch (app_door_mode) {
+      case NORMAL_MODE: {
+        if (app_door_is_locked
+            && (SL_STATUS_ALREADY_EXISTS == fingerprint_compare())) {
+          app_door_is_locked = false;
+          uint8_t fp_authorized_index = 0;
+          static char temp[11];
+          fp_authorized_index = fingerprint_get_authorized_index();
+          app_log("Fingerprint is authorized.\n");
+          snprintf(temp, sizeof(temp), "%d", fp_authorized_index);
+          fingerprint_oled_update("UNLOCKED", temp);
+          sl_led_turn_on(SL_SIMPLE_LED_INSTANCE(0));
+          sl_sleeptimer_start_timer_ms(&unlock_door_timer,
+                                       UNLOCK_PERIOD_MS,
+                                       unlock_sleeptimer_callback,
+                                       NULL,
+                                       0,
+                                       0);
+        }
+        break;
+      }
+
+      case MODE_1: {
+        if (fingerprint_compare() == SL_STATUS_INVALID_HANDLE) {
+          uint8_t free_slot = 0;
+          sc = fingerprint_get_free_slot(&free_slot);
+          if (sc == SL_STATUS_OK) {
+            if (SL_STATUS_OK == fingerprint_add(free_slot)) {
+              static char temp[11];
+              snprintf(temp, sizeof(temp), "%d", free_slot);
+              app_log("Fingerprint is added to index: %d\n", free_slot);
+              fingerprint_oled_update("  ADDED", temp);
+              sl_sleeptimer_delay_millisecond(3000);
+            } else {
+              app_log("Registration is failed!\n");
+            }
+          } else {
+            app_log("Storage space is full!\n");
+          }
+        }
+        break;
+      }
+      default:
+        break;
+    }
+    fingerprint_scan = false;
+  }
+
+  if (fingerprint_show) {
+    if (app_door_mode == MODE_2) {
+      app_show_next_fingerprint();
+    } else {
+      sl_sleeptimer_stop_timer(&show_fingerprint_timer);
+    }
+    fingerprint_show = false;
+  }
+
+  if (lock) {
+    app_door_is_locked = true;
+    app_display_update_status();
+    sl_led_turn_off(SL_SIMPLE_LED_INSTANCE(0));
+    lock = false;
+  }
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
   // This is called infinitely.                                              //
@@ -252,8 +347,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_log("Start advertising ...\n");
 
       // Maximum allowed bonding count: 8
-      // New bonding will overwrite the bonding that was used the longest time
-      //   ago
+      // New bonding will overwrite the bonding that was used the longest time ago
       sc = sl_bt_sm_store_bonding_configuration(8, 0x2);
       app_assert_status(sc);
 
@@ -301,16 +395,6 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
         &(evt->data.evt_gatt_server_user_read_request));
       break;
 
-    case sl_bt_evt_system_external_signal_id:
-      app_bt_evt_system_external_signal(
-        evt->data.evt_system_external_signal.extsignals);
-      break;
-    ///////////////////////////////////////////////////////////////////////////
-    // Add additional event handlers here as your application requires!      //
-    ///////////////////////////////////////////////////////////////////////////
-
-    // -------------------------------
-    // Default event handler.
     default:
       break;
   }
@@ -459,91 +543,6 @@ static void app_door_lock_process_evt_gatt_server_user_write_request(
 }
 
 /***************************************************************************//**
- * Door Lock Application external signal handle.
- ******************************************************************************/
-static void app_bt_evt_system_external_signal(uint32_t extsignals)
-{
-  sl_status_t sc;
-  if (extsignals & APP_EVT_LOCKED) {
-    app_door_is_locked = true;
-    app_display_update_status();
-  } else if (extsignals & APP_EVT_SCAN_FP) {
-    if (app_door_mode == MODE_2) {
-      bool is_running = false;
-      if (SL_STATUS_OK
-          != sl_sleeptimer_is_timer_running(&show_fingerprint_timer,
-                                            &is_running)) {
-        is_running = false;
-      }
-
-      if (!is_running) {
-        sl_sleeptimer_start_periodic_timer_ms(&show_fingerprint_timer,
-                                              SHOW_FINGERPRINT_PERIOD_MS,
-                                              show_fingerprint_sleeptimer_callback,
-                                              NULL,
-                                              0,
-                                              0);
-        show_fp_slot = 0;
-        app_show_next_fingerprint();
-      }
-      return;
-    }
-    sl_sleeptimer_stop_timer(&show_fingerprint_timer);
-    switch (app_door_mode) {
-      case NORMAL_MODE: {
-        if (app_door_is_locked
-            && (SL_STATUS_ALREADY_EXISTS == fingerprint_compare())) {
-          app_door_is_locked = false;
-          uint8_t fp_authorized_index = 0;
-          static char temp[11];
-          fp_authorized_index = fingerprint_get_authorized_index();
-          app_log("Fingerprint is authorized.\n");
-          snprintf(temp, sizeof(temp), "%d", fp_authorized_index);
-          fingerprint_oled_update("UNLOCKED", temp);
-          sl_led_turn_on(SL_SIMPLE_LED_INSTANCE(0));
-          sl_sleeptimer_start_timer_ms(&unlock_door_timer,
-                                       UNLOCK_PERIOD_MS,
-                                       unlock_sleeptimer_callback,
-                                       NULL,
-                                       0,
-                                       0);
-        }
-        break;
-      }
-
-      case MODE_1: {
-        if (fingerprint_compare() == SL_STATUS_INVALID_HANDLE) {
-          uint8_t free_slot = 0;
-          sc = fingerprint_get_free_slot(&free_slot);
-          if (sc == SL_STATUS_OK) {
-            if (SL_STATUS_OK == fingerprint_add(free_slot)) {
-              static char temp[11];
-              snprintf(temp, sizeof(temp), "%d", free_slot);
-              app_log("Fingerprint is added to index: %d\n", free_slot);
-              fingerprint_oled_update("  ADDED", temp);
-              sl_sleeptimer_delay_millisecond(3000);
-            } else {
-              app_log("Registration is failed!\n");
-            }
-          } else {
-            app_log("Storage space is full!\n");
-          }
-        }
-        break;
-      }
-      default:
-        break;
-    }
-  } else if (extsignals & APP_EVT_SHOW_FP) {
-    if (app_door_mode == MODE_2) {
-      app_show_next_fingerprint();
-    } else {
-      sl_sleeptimer_stop_timer(&show_fingerprint_timer);
-    }
-  }
-}
-
-/***************************************************************************//**
  * Door Lock Application user read request handle.
  ******************************************************************************/
 static void app_door_lock_process_evt_gatt_server_user_read_request(
@@ -633,8 +632,8 @@ void unlock_sleeptimer_callback(sl_sleeptimer_timer_handle_t *timer, void *data)
 {
   (void) timer;
   (void) data;
-  sl_bt_external_signal(APP_EVT_LOCKED);
-  sl_led_turn_off(SL_SIMPLE_LED_INSTANCE(0));
+
+  lock = true;
 }
 
 /***************************************************************************//**
@@ -646,7 +645,7 @@ static void show_fingerprint_sleeptimer_callback(
 {
   (void) timer;
   (void) data;
-  sl_bt_external_signal(APP_EVT_SHOW_FP);
+  fingerprint_show = true;
 }
 
 /***************************************************************************//**
@@ -658,5 +657,5 @@ static void scan_fingerprint_sleeptimer_callback(
 {
   (void) timer;
   (void) data;
-  sl_bt_external_signal(APP_EVT_SCAN_FP);
+  fingerprint_scan = true;
 }

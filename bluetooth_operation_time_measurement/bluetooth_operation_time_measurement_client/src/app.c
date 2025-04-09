@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,10 +26,16 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include <client_nvm.h>
 #include <client_rgb.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "sl_simple_button_instances.h"
@@ -250,7 +256,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_connection_closed_id:
       app_log("connection closed\r\n");
       if (operation_mode == CONFIG_MODE) {
-        sl_bt_system_reset(0);
+        sl_bt_system_reboot(0);
       }
       break;
 
@@ -269,8 +275,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
         // and connect to that device
         sc = sl_bt_connection_open(
-          evt->data.evt_scanner_scan_report.address,
-          evt->data.evt_scanner_scan_report.address_type,
+          evt->data.evt_scanner_legacy_advertisement_report.address,
+          evt->data.evt_scanner_legacy_advertisement_report.address_type,
           sl_bt_gap_1m_phy,
           NULL);
       }
@@ -308,7 +314,7 @@ static void client_time_out_callback(sl_sleeptimer_timer_handle_t *handle,
 {
   (void) handle;
   (void) data;
-  sl_bt_system_reset(0);
+  sl_bt_system_reboot(0);
 }
 
 static void client_time_display_config_callback(

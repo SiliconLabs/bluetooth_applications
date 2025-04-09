@@ -12,7 +12,7 @@ This document provides an overview of the following aspects of CGM:
 
 1. A continuous glucose monitor (CGM) is a device used for monitoring blood glucose on a continual basis by insulin-requiring people with diabetes, e.g. people with type I, type II diabetes or other types of diabetes (e.g. gestational diabetes).
 
-   ![](../images/cgm.png)
+   ![](../image/cgm.png)
 
    ***This document focus on Bluetooth part, not the biological sensors and AFE. Generally, there are no common biological sensors and AFE solutions for the BGM/CGM product in marketing, some of the manufacturers have their own proprietary solutions.***
 
@@ -39,13 +39,13 @@ The profile defines two roles: CGM Sensor and Collector. The CGM Sensor is the d
 • The Collector shall be a GATT Client.
 At any given time, a CGM Sensor shall be connected to **only** one Collector.
 
-![role](../images/role.jpg)
+![role](../image/role.jpg)
 
 In the real situation, the collector maybe an APP runs on a smartphone. 
 
 Below is a SIG CGM service, it includes many characteristics.
 
-![cgmservice](../images/cgmservice.jpg)
+![cgmservice](../image/cgmservice.jpg)
 
 The Collector shall write to **CGM Specific Ops Control Point/Record Access Control Point** using one of the supported Op Codes to request a CGM Sensor to perform a procedure. 
 
@@ -93,7 +93,7 @@ The hardware is PTS dongle, you can purchase it in [SIG store](https://store.blu
 
 This document use the new LE only dongle(up to core v5.2 supported).
 
-![dongle](../images/dongle.jpg)
+![dongle](../image/dongle.jpg)
 
 
 
@@ -105,33 +105,33 @@ Firstly, plug in the dongle to the PC, open PTS software,
 
 then click "connect" to the dongle.
 
-![connectdongle](../images/connectdongle.jpg)
+![connectdongle](../image/connectdongle.jpg)
 
 create a new workspace for testing.
 
-![newworkspace](../images/newworkspace.jpg)
+![newworkspace](../image/newworkspace.jpg)
 
 make sure the Thunderboard is working now, then choose the CGM sensor, in this case, the CGM sensor's name is "silabs-CGM", click next, 
 
-![devicesearch](../images/devicesearch.jpg)
+![devicesearch](../image/devicesearch.jpg)
 
 in this test, we select CGMP and CGMS to the test Suite, click finish.
 
-![selectprofile](../images/selectprofile.jpg)
+![selectprofile](../image/selectprofile.jpg)
 
 remember select TSPC_ALL to unlock all the test cases.
 
-![unlockcase](../images/unlockcase.jpg)
+![unlockcase](../image/unlockcase.jpg)
 
 expand all the test cases in this panel, you should pass all the CGM service and the sensor part of the CGM profile,
 
-![servicecase](../images/servicecase.jpg)
+![servicecase](../image/servicecase.jpg)
 
-![profilecase](../images/profilecase.jpg)
+![profilecase](../image/profilecase.jpg)
 
 the whole picture is below,
 
-![wholepiacture](../images/wholepiacture.jpg)
+![wholepiacture](../image/wholepiacture.jpg)
 
 # 3. start to test
 
@@ -139,15 +139,15 @@ The test case is associated with the SIG test suite, let's take CGMS/SEN/RAR/BV-
 
 After test, the test item will have a PASS flag shown below,
 
-![passflag](../images/passflag.jpg)
+![passflag](../image/passflag.jpg)
 
 if something got wrong, the test item will have a failed flag as below,
 
-![failflag](../images/failflag.jpg)
+![failflag](../image/failflag.jpg)
 
 and it is time to check the log, 
 
-![faillog](../images/faillog.jpg)
+![faillog](../image/faillog.jpg)
 
 from the log, we can find that the CGM sensor has paired with the collector before, while the collector did not remember this or the key is removed by accident, after erase the sensor's flash, the sensor and collector return to initial mode, the test case can be passed.
 
@@ -155,7 +155,7 @@ from the log, we can find that the CGM sensor has paired with the collector befo
 
 All of the specifications of CGM can be found at the Bluetooth SIG website https://www.bluetooth.com/specifications/specs/, search CGM, 
 
-![specification](../images/specification.jpg)
+![specification](../image/specification.jpg)
 
 click CGMP and CGMS to download the specification, click TS to download the test case specification.
 

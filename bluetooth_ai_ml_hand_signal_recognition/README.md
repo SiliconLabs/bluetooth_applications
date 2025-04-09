@@ -1,12 +1,14 @@
 # Bluetooth - AI/ML Hand Signal Recognition #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ai_ml_hand_signal_recognition_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ai_ml_hand_signal_recognition_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ai_ml_hand_signal_recognition_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ai_ml_hand_signal_recognition_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ai_ml_hand_signal_recognition_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ai_ml_hand_signal_recognition_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_ai_ml_hand_signal_recognition_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/SparkFun-Micro%20OLED%20Breakout-green)](https://www.sparkfun.com/products/14532)
+[![Required board](https://img.shields.io/badge/SparkFun-MLX90640%20IR%20Array-green)](https://www.sparkfun.com/products/14844)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-36.29%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-308.61%20KB-blue)
 ## Overview ##
 
 This application uses TensorFlow Lite for Microcontrollers to run image classification machine learning models to detect the hand gestures from image data recorded from a Far Infrared Sensor. The detection is visualized using the OLED and the classification results are written to the VCOM serial port.
@@ -18,33 +20,29 @@ The hand gestures:
 - Thumbs Up
 - Thumbs Down
 
-## Gecko SDK Suite version ##
+## SDK version ##
 
-- GSDK v4.4.0
-- [Third Party Hardware Drivers v2.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [AI/ML - Alpha - 2.0.0](https://github.com/SiliconLabsSoftware/aiml-extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270)
-
-- [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
-
-- [Sparkfun MLX90640 IR Array (MLX90640 FIR sensor)](https://www.sparkfun.com/products/14844)
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
-| BRD2704A | [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270) |
-| BRD2601B | [EFR32xG24 Dev Kit - xG24-DK2601B](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)   |
+- 1x [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270)
+- 1x [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
+- 1x [Sparkfun MLX90640 IR Array (MLX90640 FIR sensor)](https://www.sparkfun.com/products/14844)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
 The following picture shows how the system works.
 
-![board](images/connection.png)
+![board](image/connection.png)
 
 Listed below are the port and pin mappings for working with this example.
 
@@ -73,18 +71,18 @@ Listed below are the port and pin mappings for working with this example.
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-**NOTE:**
+**NOTE**:
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) and [AI/ML Extension](https://github.com/SiliconLabsSoftware/aiml-extension) are installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "hand signal".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "hand signal".
 
 2. Click **Create** button on the **Bluetooth - AI/ML Hand Signal Recognition (MLX90640)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![board](images/create_project.png)
+![board](image/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -96,7 +94,7 @@ To test this application, you can either create a project based on an example pr
 
 3. Load the model file into the project:
 
-    Create a tflite directory inside the config directory of the project and then copy the **config/tflite/thumbs_up_and_down.tflite** model file into it. The project configurator provides a tool that will automatically convert .tflite files into sl_tflite_micro_model source and header files.
+    Create a **tflite** directory inside the config directory of the project and then copy the **config/tflite/thumbs_up_and_down.tflite** model file into it. The project configurator provides a tool that will automatically convert .tflite files into sl_tflite_micro_model source and header files.
 
 4. Import the GATT configuration:
 
@@ -116,17 +114,19 @@ To test this application, you can either create a project based on an example pr
     - [Platform] → [Driver] → [LED] → [Simple LED] → default instance name: **led0**.
     - [Platform] → [Driver] → [I2C] → [I2CSPM] → instance name: **qwiic**. Configure this instance to suit your hardware.
 
-    - [Machine Learning] → [Kernels] → [TensorFlow Lite Micro] → Configure this component to use 9000 Tensor Arena Size.
+    - [Services] → [Memory Manager] → [Memory Manager region] → Set this component to use 10240 Stack size.
 
-        ![tflite_configure](images/tflite_configure.png)
+        ![mem_config](image/mem_config.png)
 
-    - [Platform] → [Toolchain] → [Memory configuration] → Set this component to use 10240 Stack size and 12288 Heap size.
+    - [AI/ML] → [Machine Learning] → [TensorFlow] → [Debug] → [Debug Logging using IO Stream]
+    - [AI/ML] → [Machine Learning] → [TensorFlow] → [Kernels] → [Reference Kernels]
+    - [AI/ML] → [Machine Learning] → [TensorFlow] → [Kernels] → [TensorFlow Lite Micro] → Configure this component to use 9000 Tensor Arena Size.
 
-        ![mem_config](images/mem_config.png)
+        ![tflite_configure](image/tflite_configure.png)
 
     - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C] → use default configuration
 
-        ![ssd1306_config](images/ssd1306_config.png)
+        ![ssd1306_config](image/ssd1306_config.png)
 
     - [Third Party Hardware Drivers] → [Service] → [GLIB - OLED Graphics Library]
 
@@ -136,7 +136,7 @@ To test this application, you can either create a project based on an example pr
 
 **NOTE:**
 
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## Hand Signal Model ##
 
@@ -155,7 +155,7 @@ In this project, we have a dataset with three different image types:
 We assign an ID, a.k.a. **label**, 0-2, to each of these classes.  
 We then "train" a machine learning model so that when we input an image from one of the classes is given to the model, the model's output is the corresponding class ID. In this way, at runtime on the embedded device when the camera captures an image of a person's hand, the ML model predicts its corresponding class ID which the firmware application uses accordingly. i.e.
 
-![model overview](images/model_overview.png)
+![model overview](image/model_overview.png)
 
 ### Dataset Model ###
 
@@ -163,15 +163,15 @@ The most important part of a machine learning model is the dataset that was used
 
 Class: [Thumbs up](dataset/thumbs_up.zip)
 
-![thumbs up](images/dataset_up.png)
+![thumbs up](image/dataset_up.png)
 
 Class: [Thumbs down](dataset/thumbs_down.zip)
 
-![thumbs up](images/dataset_down.png)
+![thumbs up](image/dataset_down.png)
 
 Class: [Nothing](dataset/nothing.zip)
 
-![thumbs up](images/dataset_nothing.png)
+![thumbs up](image/dataset_nothing.png)
 
 ### Model Input ###
 
@@ -234,31 +234,31 @@ Class ROC AUC:
 - thumbs_down = 99.174%
 ```
 
-![Model Evaluation](images/thumbs_up_and_down-roc.png)
-![Model Evaluation](images/thumbs_up_and_down-precision_vs_recall.png)
-![Model Evaluation](images/thumbs_up_and_down-tpr.png)
-![Model Evaluation](images/thumbs_up_and_down-fpr.png)
-![Model Evaluation](images/thumbs_up_and_down-tfp_fpr.png)
+![Model Evaluation](image/thumbs_up_and_down-roc.png)
+![Model Evaluation](image/thumbs_up_and_down-precision_vs_recall.png)
+![Model Evaluation](image/thumbs_up_and_down-tpr.png)
+![Model Evaluation](image/thumbs_up_and_down-fpr.png)
+![Model Evaluation](image/thumbs_up_and_down-tfp_fpr.png)
 
 ## How It Works ##
 
 ### Video ###
 
-[![Watch the video](images/video_demo.png)](https://youtu.be/xF_SeU2ZNU4)
+[![Watch the video](image/video_demo.png)](https://youtu.be/xF_SeU2ZNU4)
 
 ### System Overview Diagram ###
 
-![system overview](images/system_overview.png)
+![system overview](image/system_overview.png)
 
 ### Application Workflows ##
 
 #### Startup and initialization ####
 
-![initialization](images/initialization.png)
+![initialization](image/initialization.png)
 
 #### Application event loop ####
 
-![loop](images/app_loop.png)
+![loop](image/app_loop.png)
 
 #### User Configuration ####
 
@@ -290,7 +290,7 @@ typedef struct AppSettings
 
 #### Display ####
 
-![display](images/display.png)
+![display](image/display.png)
 
 **Note:** score is the probability score of the detected gesture as a uint8 (i.e. 255 = highest confidence that the correct gesture was detected)
 
@@ -317,18 +317,18 @@ Where:
 
 Upon reset, the application will display the Silicon Labs's logo on the OLED screen for a few seconds. Then you can bring your hand close to the camera and make thumbs up or down. The classification results will be displayed on the OLED screen.
 
-Follow the below steps to test the example with the EFR Connect application:
+Follow the below steps to test the example with the Simplicity Connect application:
 
-1. Open the EFR Connect application on your iOS/Android device.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-2. Find your device in the Bluetooth Browser, advertising as Air Quality, and tap Connect. Then you need accept the pairing request when connected for the first time.
+2. Find your device in the Bluetooth Browser, advertising as *Hand Signal Regconition* and tap Connect. Then you need accept the pairing request when connected for the first time.
 
-3. Find the unknown service at the above of OTA service.
+3. Find the unknown service.
 
 4. Try to read, subscribe to the characteristic, and check the value.
 
-    ![efr app](images/efr_app.png)
+    ![efr app](image/efr_app.png)
 
 5. You can launch the Console that is integrated into Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the virtual COM port. Use the following UART settings: baud rate 115200, 8N1, no flow control. You should expect a similar output to the one below.
 
-    ![logs](images/logs.png)
+    ![logs](image/logs.png)

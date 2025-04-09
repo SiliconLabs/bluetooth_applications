@@ -1,11 +1,12 @@
 # Bluetooth - Movement Detection (BMA400) #
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_movement_detection_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Mikroe-Accel%205%20click-green)](https://www.mikroe.com/accel-5-click)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-208.88%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.85%20KB-blue)
 
 ## Overview ##
 
@@ -13,24 +14,29 @@ This project aims to implement a motion detection example application, the motio
 
 The block diagram of this application is shown in the image below:
 
-![system overview](images/system_overview.png)
+![system overview](image/system_overview.png)
 
 Overall, this application detects movement by calculating the accelerometer value from Accel 5 Click sensor. This application has two modes:
 
 In normal mode, when the sensor value changes, an interrupt signal is generated in the GPIO interrupt pin that wakes the BGM220 board up and checks the movement. If the motion is detected, LED 0 on the board is blinked until the notification break time is over.
 
-In the configure mode, the device starts advertising itself. Users can connect to the device via EFR Connect app and configure threshold value, wakeup time period, notification time, and notification break time.
+In the configure mode, the device starts advertising itself. Users can connect to the device via Simplicity Connect app and configure threshold value, wakeup time period, notification time, and notification break time.
 
-## Gecko SDK Version ##
+## SDK version ##
 
-- GSDK v4.4.0
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- [BGM220 Explorer Kit board](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
-
-- [**MikroE Accel 5 click** ultra-low power triaxial accelerometer sensor](https://www.mikroe.com/accel-5-click)
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [MikroE Accel 5 click](https://www.mikroe.com/accel-5-click)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
@@ -38,18 +44,24 @@ The Accel 5 Click board supports MikroBus, so it can connect easily to BGM220 Ex
 
 The board also has 4.7k I2C-bus pull-ups. Just be sure that the click board is configured into I2C mode by the resistors and not into SPI mode. Also, the application uses by default **I2C address 0x15** as it is the Accel 5 click default (the resistor labeled "I2C ADD" is on the "1". If setting "I2C ADD" resistor "0", the address will be 0x14).
 
-![hardware connection](images/hardware_connection.png)
+![hardware connection](image/hardware_connection.png)
 
 ## Setup ##
 
-To test this application, you can either create a project based on an example project or start with an empty example project.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
+
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "movement".
+1. From the Launcher Home, add your product name to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "movement".
 
 2. Click **Create** button on **Bluetooth - Movement Detection** project. Example project creation dialog pops up -> click Create and Finish and source code should be generated.
-![create example project](images/create_example_project.png)
+![create example project](image/create_example_project.png)
 
 3. Build and flash this example to your board.
 
@@ -71,12 +83,10 @@ To test this application, you can either create a project based on an example pr
 
 4. Open the .slcp file again. Install and configure the following components:
 
-    - [Services] →  [Sleep Timer]
-    - [Bluetooth] → [NVM] → NVM Support
-    - [Services] → [NVM3] → NVM3 Core
-    - [Services] → [NVM3] → NVM3 Default Instance
+    - [Bluetooth] → [Bluetooth Host (Stack)] → [Additional Features] → [NVM Support]
+    - [Services] → [Timers] → [Sleep Timer]
     - [Services] → [IO Stream] → [IO Stream: USART] → Default instance name: **vcom**
-    - [Application] → [Utility] → Log
+    - [Application] → [Utility] → [Log]
     - [Platform] → [Driver] → [I2C] → [I2CSPM] → Default instance name: **mikroe**
     - [Platform] → [Driver] → [Button] → [Simple Button] → Default instance name: **btn0**
     - [Platform] → [Driver] → [LED] → [Simple LED] → Default instance name: **led0**
@@ -86,19 +96,13 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
-
-![add Third Party Hardware Drivers extension](images/sdk_extension.png)
-
-- SDK Extension must be enabled for the project to install components.
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
 ### Application Overview ###
 
-![app overview](images/overview.png)
+![app overview](image/overview.png)
 
 ### GATT Configurator ###
 
@@ -130,43 +134,43 @@ The application initialization function is invoked from the *app_init()* functio
 
 - Initialization Phase 1 - General
 
-  ![General Mode](images/general_mode.png)
+  ![General Mode](image/general_mode.png)
 
 - Initialization Phase 2/A - Normal Mode
 
-  ![Normal Mode](images/normal_mode.png)
+  ![Normal Mode](image/normal_mode.png)
 
 - Initialization Phase 2/B - Configuration Mode
 
-  ![Configuration Mode](images/configuration_mode.png)
+  ![Configuration Mode](image/configuration_mode.png)
 
 #### Application Logic ####
 
-![Application Logic](images/application_logic.png)
+![Application Logic](image/application_logic.png)
 
 #### Movement Detection algorithm ####
 
 In general, the device and the sensor are in sleep mode, when the accelerometer detects that the device is moving, it wakes up the host MCU triggering an external interrupt via a GPIO pin. Once awakened, the device activates its movement detection algorithm to monitor any further motion. If the detected movement surpasses a predefined threshold value, then the host MCU starts blinking the LED on the development board.
 
-![Movement Detection](images/movement_detection.png)
+![Movement Detection](image/movement_detection.png)
 
 ## Testing ##
 
 Upon reset, the device starts in **Normal Mode**. In this state, the device runs the movement detection algorithm without Bluetooth. Try to move the device in some direction and check the logs on the terminal.
 
-![logs](images/logs_1.png)
+![logs](image/logs_1.png)
 
 To switch to **Configuration Mode**, button PB0 should be pressed during startup (power-on or reset).
 
-Follow the below steps to test the example with the EFR Connect app when the device is in **Configuration Mode**:
+Follow the below steps to test the example with the Simplicity Connect app when the device is in **Configuration Mode**:
 
-1. Open the EFR Connect app on your iOS/Android device.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-2. Find your device in the Bluetooth Browser by scanning for it under the name **Movement Detection**, and tap on Connect button. After the connection is opened, enter the passkey (passkey default as **123456**) to confirm authentication for the pairing process for the first time. After that, wait for the connection to be established and the GATT database to be loaded.
+2. Find your device in the Bluetooth Browser, advertising as *Movement Detection*, and tap Connect. Enter the passkey (passkey default as **123456**) to confirm authentication for the pairing process for the first time. After that, wait for the connection to be established and the GATT database to be loaded.
 
    **Note**: The pairing process on Android and iOS devices is different. For more information, refer to [bluetooth security](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/security).
 
 3. Find the unknown service at the below of the Device Information service.
 
 4. Tap on the main service to see the available characteristics. Try to read, write, re-read the characteristics, and check the value. Values for the characteristics are handled by the application as ASCII strings. You should expect a similar output to the one below.
-![logs](images/logs_2.png)
+![logs](image/logs_2.png)

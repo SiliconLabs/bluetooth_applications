@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,11 +26,18 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
-#include "em_common.h"
+#include "sl_common.h"
 #include "em_gpio.h"
 #include "sl_bluetooth.h"
 #include "sl_simple_led_led0_config.h"
+#include "sl_simple_button_instances.h"
 
 #include "bthome_v2_server.h"
 #include "bthome_v2.h"
@@ -192,4 +199,17 @@ void bthome_v2_server_found_device_callback(uint8_t *mac,
           (encrypted) ? "Yes\r\n" : "No\r\n");
   app_log("  Encryption Key Available: %s",
           (key_available) ? "Yes\r\n" : "No\r\n");
+}
+
+/**************************************************************************//**
+ * Button change callback function.
+ *****************************************************************************/
+void sl_button_on_change(const sl_button_t *handle)
+{
+  (void)handle;
+
+  if (sl_button_get_state(&sl_button_btn0)
+      == SL_SIMPLE_BUTTON_PRESSED) {
+    sl_bt_external_signal(SIMPLE_BUTTON_PRESSED);
+  }
 }

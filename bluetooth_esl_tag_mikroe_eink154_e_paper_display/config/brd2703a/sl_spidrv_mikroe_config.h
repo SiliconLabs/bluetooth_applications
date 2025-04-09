@@ -3,7 +3,7 @@
  * @brief SPIDRV Config
  *******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -81,19 +81,19 @@
 #define SL_SPIDRV_MIKROE_PERIPHERAL_NO           0
 
 // USART0 TX on PC03
-#define SL_SPIDRV_MIKROE_TX_PORT                 gpioPortC
+#define SL_SPIDRV_MIKROE_TX_PORT                 SL_GPIO_PORT_C
 #define SL_SPIDRV_MIKROE_TX_PIN                  3
 
 // USART0 RX on PC02
-#define SL_SPIDRV_MIKROE_RX_PORT                 gpioPortC
+#define SL_SPIDRV_MIKROE_RX_PORT                 SL_GPIO_PORT_C
 #define SL_SPIDRV_MIKROE_RX_PIN                  2
 
 // USART0 CLK on PC01
-#define SL_SPIDRV_MIKROE_CLK_PORT                gpioPortC
+#define SL_SPIDRV_MIKROE_CLK_PORT                SL_GPIO_PORT_C
 #define SL_SPIDRV_MIKROE_CLK_PIN                 1
 
 // USART0 CS on PC00
-#define SL_SPIDRV_MIKROE_CS_PORT                 gpioPortC
+#define SL_SPIDRV_MIKROE_CS_PORT                 SL_GPIO_PORT_C
 #define SL_SPIDRV_MIKROE_CS_PIN                  0
 
 // [USART_SL_SPIDRV_MIKROE]$

@@ -6,7 +6,7 @@
  *        feature characteristic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -48,8 +48,8 @@
  */
 
 /* The CGM Status allows the client to actively request the status from the CGM
-* Sensor, particularly when the CGM measurement is not running and the status
-* cannot be given in the measurement result in the Status Annunciation Field.*/
+ * Sensor, particularly when the CGM measurement is not running and the status
+ * cannot be given in the measurement result in the Status Annunciation Field.*/
 /** @brief status struct:
  *         time offset 2 octets, status 3 octets, CRC 2 octets*/
 #define STATUS_LEN                                 7

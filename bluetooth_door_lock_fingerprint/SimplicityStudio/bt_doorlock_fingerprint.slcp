@@ -1,9 +1,11 @@
 project_name: bt_doorlock_fingerprint
-label: Bluetooth - Door Lock Fingerprint (A-172-MRQ)
 package: Bluetooth
+label: Bluetooth - Door Lock Fingerprint (A-172-MRQ)
 description: >
-  This example is used for a BLE-based device lock system using one Silabs EFR32xG24 Explorer kit and various hardware components such as MikroE Fingerprint Click 2 (A-172-MRQ) and SparkFun Micro OLED Breakout (Qwiic). The system is using BLE for wireless communication. This example also is the foundation to develop a secure and convenient device system using biometric authentication (fingerprint) and LED display indication. The system will use BLE for wireless communication between the Silabs board and the EFR connect mobile application.
-
+  This example is used for a BLE-based door lock system using one Silicon Labs platform
+  and various hardware components such as MikroE Fingerprint Click 2 (A-172-MRQ) and SparkFun Micro OLED Breakout (Qwiic).
+  This example also is the foundation to develop a secure and convenient device system using biometric authentication (fingerprint)
+  and LED display indication. The system uses BLE for wireless communication between the Silabs board and the Simplicity connect mobile application.
 category: Bluetooth Examples
 quality: experimental
 
@@ -16,47 +18,38 @@ filter:
     value: ["Beginner"]
 
 component:
-  - id: bluetooth_feature_sm
   - id: bluetooth_stack
-  - id: bluetooth_feature_nvm
   - id: gatt_configuration
-  - id: bluetooth_feature_legacy_scanner
+  - id: gatt_service_device_information
   - id: bluetooth_feature_legacy_advertiser
   - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
   - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
   - id: bluetooth_feature_system
   - id: rail_util_pti
   - id: app_assert
-  - id: component_catalog
   - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: iostream_usart
+    instance: [mikroe]
+  - id: iostream_eusart
+    instance: [vcom]
+  - id: app_log
+  - id: simple_led
+    instance: [led0]
   - id: services_oled_glib
     from: third_party_hw_drivers
   - id: sparkfun_micro_oled_ssd1306
     from: third_party_hw_drivers
   - id: mikroe_fingerprint2
     from: third_party_hw_drivers
-  - id: iostream_usart
-    instance: [mikroe]
-  - id: iostream_eusart
-    instance: [vcom]
-  - id: app_log
-  - id: app_assert
-  - id: simple_led
-    instance: [lock]
-
-sdk_extension:
-- id: third_party_hw_drivers
-  version: 2.0.0
-
-readme:
-- path: ../README.md
-
-source:
-  - path: ../src/main.c
-  - path: ../src/app.c
-  - path: ../src/fingerprint_app.c
-  - path: ../src/fingerprint_oled.c
-  - path: ../src/fingerprint_nvm.c
+  - id: i2cspm
+    instance: [qwiic]
 
 include:
   - path: ../inc
@@ -66,8 +59,12 @@ include:
       - path: fingerprint_oled.h
       - path: fingerprint_nvm.h
 
-define:
-  - name: DEBUG_EFM
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/fingerprint_app.c
+  - path: ../src/fingerprint_oled.c
+  - path: ../src/fingerprint_nvm.c
 
 config_file:
   - override:
@@ -75,57 +72,57 @@ config_file:
       file_id: gatt_configuration_file_id
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
-  - override:
-      component: simple_led
-      instance: lock
-      file_id: simple_led_config
-    path: "../config/simple_led/sl_simple_led_lock_config.h"
-
-other_file:
-  - path: ../images/application_init.png
-    directory: "images"
-  - path: ../images/application_logic.png
-    directory: "images"
-  - path: ../images/application_overview.png
-    directory: "images"
-  - path: ../images/config_mode_display.png
-    directory: "images"
-  - path: ../images/configuration_mode.png
-    directory: "images"
-  - path: ../images/connection_required.png
-    directory: "images"
-  - path: ../images/create_project.png
-    directory: "images"
-  - path: ../images/efr_connect_app.png
-    directory: "images"
-  - path: ../images/normal_mode_display.png
-    directory: "images"
-  - path: ../images/show_mode.png
-    directory: "images"
-  - path: ../images/normal_mode.png
-    directory: "images"
-  - path: ../images/show_mode_display.png
-    directory: "images"
-  - path: ../images/terminal_add.png
-    directory: "images"
-  - path: ../images/terminal_remove.png
-    directory: "images"
-  - path: ../images/terminal_start.png
-    directory: "images"
-  - path: ../images/terminal_normal.png
-    directory: "images"
-  - path: ../images/led_lock_config.png
-    directory: "images"
 
 configuration:
   - name: SL_STACK_SIZE
     value: "2752"
-  - name: SL_HEAP_SIZE
-    value: "9200"
+  - name: SL_IOSTREAM_USART_MIKROE_RX_BUFFER_SIZE
+    value: "800"
   - name: SL_PSA_KEY_USER_SLOT_COUNT
     value: "0"
     condition:
       - psa_crypto
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/application_init.png
+    directory: "image"
+  - path: ../image/application_logic.png
+    directory: "image"
+  - path: ../image/application_overview.png
+    directory: "image"
+  - path: ../image/config_mode_display.png
+    directory: "image"
+  - path: ../image/configuration_mode.png
+    directory: "image"
+  - path: ../image/connection_required.png
+    directory: "image"
+  - path: ../image/create_project.png
+    directory: "image"
+  - path: ../image/efr_connect_app.png
+    directory: "image"
+  - path: ../image/normal_mode_display.png
+    directory: "image"
+  - path: ../image/show_mode.png
+    directory: "image"
+  - path: ../image/normal_mode.png
+    directory: "image"
+  - path: ../image/show_mode_display.png
+    directory: "image"
+  - path: ../image/terminal_add.png
+    directory: "image"
+  - path: ../image/terminal_remove.png
+    directory: "image"
+  - path: ../image/terminal_start.png
+    directory: "image"
+  - path: ../image/terminal_normal.png
+    directory: "image"
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
 
 tag:
   - hardware:rf:band:2400

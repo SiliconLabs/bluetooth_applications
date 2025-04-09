@@ -1,0 +1,25 @@
+<gatt>
+<!--Indoor Location - Asset-->
+  <service advertise="true" id="indoor_positioning" name="Indoor Location - Asset" requirement="mandatory" sourceId="org.bluetooth.service.indoor_positioning" type="primary" uuid="1821">
+
+    <!--Network Unique Identifier-->
+    <characteristic const="false" id="NetworkUID" name="Network Unique Identifier" sourceId="" uuid="7719544e-308b-4853-996a-e50ba5297e03">
+      <description>Network Unique Identifier</description>
+      <value length="4" type="hex" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Reporting Interval-->
+    <characteristic const="false" id="ReportingInterval" name="Reporting Interval" sourceId="" uuid="b4e04b7f-94ff-4aa5-b149-9b78d36d7754">
+      <description>Reporting Interval</description>
+      <value length="2" type="hex" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+</gatt>

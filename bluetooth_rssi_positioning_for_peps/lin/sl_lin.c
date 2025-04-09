@@ -3,7 +3,7 @@
  * @brief Slave-side LIN bus driver
  *******************************************************************************
  * # License
- * <b>Copyright 2023 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -56,6 +56,7 @@
 
 #include <em_emu.h>
 #include <em_cmu.h>
+#include <em_core.h>
 #include <em_gpio.h>
 #include <em_prs.h>
 #include <em_usart.h>

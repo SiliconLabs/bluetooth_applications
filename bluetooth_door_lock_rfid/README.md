@@ -1,8 +1,15 @@
 # Bluetooth - Door Lock RFID (ID-12LA) #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_rfid_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_rfid_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_door_lock_rfid_common.json&label=License&query=license&color=green)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout%20(Qwiic)-green)](https://www.sparkfun.com/products/14532)
+[![Required board](https://img.shields.io/badge/Sparkfun-RFID%20Qwiic%20Kit-green)](https://www.sparkfun.com/products/15209)
+[![Required board](https://img.shields.io/badge/Sparkfun-Thing%20Plus%20Matter-green)](https://www.sparkfun.com/products/20270)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-226.23%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-12.05%20KB-blue)
 ## Overview ##
 
 This project aims to implement a doorlock system using Silicon Labs development Kits and external sensors integrated with the BLE wireless stack.
@@ -15,30 +22,22 @@ This code example referred to the following code examples. More detailed informa
 - [Bluetooth security feature](https://github.com/SiliconLabs/bluetooth_stack_features/tree/master/security)
 - [SparkFun RFID Qwiic Kit - ID12LA driver](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/driver/public/silabs/rfid_id12la)
 
-## Gecko SDK Suite version ##
+## SDK version ##
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Required Hardware ##
 
-- [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270)
-
-- [SparkFun RFID Qwiic Kit - ID12LA Board](https://www.sparkfun.com/products/15209)
-
-- [OLED Display - SSD1306](https://www.sparkfun.com/products/14532)
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD2704A | [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270) |
-| BRD2601B | [EFR32xG24 Dev Kit - xG24-DK2601B](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)   |
-| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
-| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)    |
-| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)    |
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For example, [SparkFun Thing Plus Matter - MGM240P - BRD2704A](https://www.sparkfun.com/products/20270)
+- 1x [SparkFun RFID Qwiic Kit - ID12LA Board](https://www.sparkfun.com/products/15209)
+- 1x [SparkFun Micro OLED Breakout (Qwiic)](https://www.sparkfun.com/products/14532)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
@@ -94,20 +93,20 @@ Listed below are the port and pin mappings for working with this example.
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-**NOTE:**
+**NOTE**:
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "rfid".
+1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "rfid".
 
 2. Click the **Create** button on the **Bluetooth - Door Lock RFID (ID-12LA)** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![setup](image/create_example.png)
 
-or you can start with an empty example project as the following:
+### Start with a "Bluetooth - SoC Empty" project ###
 
 1. Create a "Bluetooth - SoC  Empty" using Simplicity Studio v5. Use the default project settings.
 
@@ -121,14 +120,12 @@ or you can start with an empty example project as the following:
 
     - Install the following components:
 
-        - [Services] → [Sleep Timer]
-        - [Services] →  [NVM3] → NVM3 Core
-        - [Services] →  [NVM3] → NVM3 Default Instance
-        - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
+        - [Services] → [Timers] → [Sleep Timer]
+        - [Bluetooth] → [Bluetooth Host (Stack)] → [Additional Features] → [NVM Support]
+        - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: **vcom**
         - [Application] → [Utility] → [Log]
-        - [Application] → [Utility] → [Assert]
-        - [Platform] → [Driver] → [I2C] → [I2CSPM] → instance name: qwiic. Configure this instance to suit your hardware.
-        - [Third Party Hardware Drivers] →  [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C]
+        - [Platform] → [Driver] → [I2C] → [I2CSPM] → instance name: **qwiic**. Configure this instance to suit your hardware.
+        - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C]
         - [Third Party Hardware Drivers] → [Service] → [GLIB - OLED Graphics Library]
         - [Third Party Hardware Drivers] → [Wireless Connectivity] → [ID-12LA - RFID Reader (Sparkfun) - I2C]
 
@@ -146,7 +143,7 @@ or you can start with an empty example project as the following:
 
 **NOTE:**
 
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How it Works ##
 
@@ -189,7 +186,7 @@ The GATT changes were adding a new custom service (RFID Door Lock) which are 4 c
 
 1. Initialize the peripherals, the Bluetooth stack
 
-2. Initialize the OLED display, show Silabs Logo on the screen
+2. Initialize the OLED display, show the 'Silabs' logo on the screen
 
 3. Initialize and load the NVM3 configurations
 
@@ -201,7 +198,7 @@ The GATT changes were adding a new custom service (RFID Door Lock) which are 4 c
 
 7. After the *sl_bt_evt_system_boot_id* event arrives, the application sets up the security manager to bond with an iOS/Android device. And then start advertising.
 
-8. Handle GATT event to help users configure the [Use EFR Connect Mobile Application](#use-efr-connect-mobile-application) and get the result from the algorithm calculation over the *EFR32 connect* mobile application
+8. Handle GATT event to help users configure the [Use Simplicity Connect Mobile Application](#use-simplicity-connect-mobile-application) and get the result from the algorithm calculation over the *EFR32 connect* mobile application
 
 #### Application logic ####
 
@@ -261,13 +258,15 @@ Below are illustrations for each case
 
   ![screen_design](image/screen_design.png)
 
-### Use EFR Connect Mobile Application ###
+### Use Simplicity Connect Mobile Application ###
 
 #### Connect to the device ####
 
-The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with the installed EFR Connect application is required.
+Follow the below steps to test the example with the Simplicity Connect application:
 
-Open the EFR Connect application on your smartphone and allow the permission request when opened for the first time. Click [Develop] -> [Browser] and you will see a list of nearby devices which are sending Bluetooth advertisements. Find the one named *People Counting* and click the connect button on the right side. If the application shows the pairing request dialog, press **Pair** button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
+
+2. Find your device in the Bluetooth Browser, advertising as *RFID Door Lock*, and tap Connect. Then you need accept the pairing request when connected for the first time.
 
 **Note**: The pairing process on Android and iOS devices is different. For more information, refer to Bluetooth security.
 

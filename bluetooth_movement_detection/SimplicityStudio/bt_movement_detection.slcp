@@ -1,0 +1,110 @@
+project_name: bt_movement_detection
+package: Bluetooth
+label: Bluetooth - Movement Detection (BMA400)
+description: >
+  This project aims to implement a motion detection example application,
+  the motion detection algorithm and its software module will be used as a building block
+  for the Asset Tracking application.
+category: Bluetooth Examples
+quality: experimental
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_nvm
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: gpiointerrupt
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: simple_led
+    instance: [led0]
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: i2cspm
+    instance: [mikroe]
+  - id: simple_button
+    instance: [btn0]
+  - from: third_party_hw_drivers
+    id: mikroe_accel5_bma400_i2c
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: app_ble_events.h
+      - path: app_events.h
+      - path: app_callbacks.h
+      - path: app_logic_md.h
+      - path: app_config.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/app_ble_events.c
+  - path: ../src/app_events.c
+  - path: ../src/app_callbacks.c
+  - path: ../src/app_logic_md.c
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition: [psa_crypto]
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/application_logic.png
+    directory: image
+  - path: ../image/configuration_mode.png
+    directory: image
+  - path: ../image/general_mode.png
+    directory: image
+  - path: ../image/hardware_connection.png
+    directory: image
+  - path: ../image/logs_1.png
+    directory: image
+  - path: ../image/logs_2.png
+    directory: image
+  - path: ../image/movement_detection.png
+    directory: image
+  - path: ../image/normal_mode.png
+    directory: image
+  - path: ../image/overview.png
+    directory: image
+  - path: ../image/system_overview.png
+    directory: image
+  - path: ../image/create_example_project.png
+    directory: image
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

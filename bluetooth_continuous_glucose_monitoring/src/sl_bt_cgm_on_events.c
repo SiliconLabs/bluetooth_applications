@@ -3,7 +3,7 @@
  * @brief CGM GATT service
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -360,9 +360,10 @@ void sl_bt_cgm_on_event(sl_bt_msg_t *evt)
       switch (evt->data.evt_system_external_signal.extsignals)
       {
         case APP_CREATE_USER_ADV:
+          sl_bt_set_user_adv();
           break;
         case APP_SEND_MEASURE_NOTIFICATION:
-          sl_bt_set_user_adv();
+          sl_bt_cgm_send_measurement_notification();
           break;
         default:
           sl_bt_cgm_send_measurement_notification();

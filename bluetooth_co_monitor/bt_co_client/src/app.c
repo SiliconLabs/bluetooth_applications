@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -34,7 +34,7 @@
  * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include <stdio.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "sl_simple_button.h"
@@ -600,7 +600,7 @@ void timer_callback(sl_sleeptimer_timer_handle_t *handle, void *data)
   (void) data;
 
   // Restart device
-  sl_bt_system_reset(0);
+  sl_bt_system_reboot();
 }
 
 void co_monitor_callback(sl_sleeptimer_timer_handle_t *handle, void *data)

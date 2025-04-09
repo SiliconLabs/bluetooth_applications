@@ -10,7 +10,7 @@
 #include <math.h>
 #include "deca_dbg.h"
 #include "util.h"
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 #include "usb_uart_tx.h"
 #include "listener.h"
@@ -155,5 +155,5 @@ void listener_helper(void const *argument)
                                  *   necessary tasks for the Node operation. */
 
   listener_process_start();     /**< IRQ is enabled from MASTER chip and it may
-                                *   receive UWB immediately after this point */
+                                 *   receive UWB immediately after this point */
 }

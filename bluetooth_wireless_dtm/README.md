@@ -1,12 +1,12 @@
 # Bluetooth - Wireless Direct Test Mode (DTM) #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_wireless_dtm_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_wireless_dtm_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_wireless_dtm_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_wireless_dtm_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_wireless_dtm_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_wireless_dtm_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_wireless_dtm_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-188.38%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-9.75%20KB-blue)
 
 ## Overview ##
 
@@ -18,31 +18,41 @@ Because it is wireless, a Bluetooth-based design might need to support a wireles
 
 The Direct Test Mode (DTM) routines are part of the BGAPI. The most common way to use them is by having a device programmed with Network Co-Processor (NCP) firmware and launching the commands from a host using BGAPI over UART. For more information about DTM and radio testing, see [AN1267: Radio Frequency Physical Layer Evaluation in Bluetooth SDK v3.x](https://www.silabs.com/documents/public/application-notes/an1267-bt-rf-phy-evaluation-using-dtm-sdk-v3x.pdf).
 
-## Gecko SDK Version ##
+## SDK version ##
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- 2 x [BGM220-EK4314A (BGM220 Bluetooth Module Explorer Kit)](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 2x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
 The following picture shows the connection for this application:
 
-![connection required](images/connection_required.png)
+![connection required](image/connection_required.png)
 
 ## Setup ##
 
-To test this application, You can either create a project based on an example project or start with an empty example project.
+To test this application, You can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project.
+
+**NOTE**:
+
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your product name to My Products, click on it and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "dtm".
+1. From the Launcher Home, add your product name to My Products, click on it and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "dtm".
 
 2. Click **Create** button on **Bluetooth - Wireless Direct Test Mode (DTM)** project. Example project creation dialog pops up -> click Create and Finish and source code should be generated.
 
-      ![create example project](images/create_example_project.png)
+      ![create example project](image/create_example_project.png)
 
 3. Build and flash this example to your board.
 
@@ -63,13 +73,17 @@ To test this application, You can either create a project based on an example pr
 
 5. Build and flash this project to your board.
 
+**NOTE:**
+
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+
 ## How It Works ##
 
 ### Application Overview ###
 
 The following flowchart explains how the application works from the perspective of the RX/TX DUT.
 
-![application overview](images/app_overview.png)
+![application overview](image/app_overview.png)
 
 ### GATT Database ###
 
@@ -133,11 +147,11 @@ The transmitter portion of the test is triggered using the following routine (se
 
 The client will send the arguments of the sl_bt_test_dtm_rx and sl_bt_test_dtm_tx_v4 routines respectively to the receiver and the transmitter. In addition, it will also pass a time argument which is the duration of the test. This example allows passing the arguments to the DUT over the air, through a custom GATT service for each of the commands and triggers the test commands on both the receiver and the transmitter. Furthermore, it allows reading the number of packets received/sent after the test is completed on both TX/RX DUTs. The following charts indicate the sequence of steps allowing the client to control the two devices. Typically, one is the transmitter and the other is the receiver.
 
-![client operation](images/client_operation.png)
+![client operation](image/client_operation.png)
 
 **To ensure that packets are not lost by the receiver, the receiver should be started first and stay in RX test mode for a longer period than the transmitting device so that all packets are captured.**
 
-![dtm flow](images/dtm_flow.png)
+![dtm flow](image/dtm_flow.png)
 
 After the timer has elapsed, the routine that ends the test is called and triggers the tester to re-advertise so the master can reconnect and read the result from both TX and RX DUTs. After the test, the mode characteristic is zeroed out. To run the next test, the mode characteristic has to be set explicitly. This mechanism prevents the device to run unintentional tests after BLE disconnect.
 
@@ -148,20 +162,23 @@ If an error occurs, the device sets all characteristics to zero in the *DTM mode
 ### Advertising ###
 
 The device is advertising the following elements:
-      - Device name which is "dtm_test" by default
-      - The Silicon Labs DTM control service UUID (0d8991ee-e355-47eb-8810-ea89a67dddeb)
+
+- Device name which is "dtm_test" by default
+- The Silicon Labs DTM control service UUID (0d8991ee-e355-47eb-8810-ea89a67dddeb)
 
 ## Testing ##
 
-1. Power up the receiver device.
+Follow the below steps to test the example with the Simplicity Connect application:
 
-2. Connect to a device called *dtm_test* via Bluetooth using EFR connect application on a smartphone or any Bluetooth client program you prefer.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
+
+2. Find your device in the Bluetooth Browser, advertising as *dtm_test*, and tap Connect.
 
 3. First, configure the server device using its *DTM control* GATT service. Set RX mode by writing value 0x01 to the *mode characteristic*. Write the duration time value to the *duration characteristic* in seconds. This tells the receiver how long it must be in RX mode (this mode is entered once the client drops the connection).
 
 4. Write the two arguments for [sl_bt_test_dtm_rx](https://docs.silabs.com/bluetooth/latest/bluetooth-stack-api/sl-bt-test#sl-bt-test-dtm-rx) via the characteristics in the *DTM RX* GATT service.
 
-      ![rx device configuration](images/rx_device_config.png)
+    ![rx device configuration](image/rx_device_config.png)
 
 5. Power up the transmitter device.
 
@@ -171,7 +188,7 @@ The device is advertising the following elements:
 
 8. Write the five arguments for [sl_bt_test_dtm_tx_v4](https://docs.silabs.com/bluetooth/latest/bluetooth-stack-api/sl-bt-test#sl-bt-test-dtm-tx-v4) via the characteristics in the *DTM TX* GATT service.
 
-      ![tx device configuration](images/tx_device_config.png)
+    ![tx device configuration](image/tx_device_config.png)
 
 9. Disconnect the client device from the **receiver** first (that will trigger the receiver to start RX test mode).
 
@@ -181,10 +198,10 @@ The device is advertising the following elements:
 
 12. After the test has finished on the devices, they start advertising again.
 
-      ![connect device after test](images/device_connect.png)
+    ![connect device after test](image/device_connect.png)
 
 13. Reconnect and read out the results. The result corresponds to the number of packets received (if the result is read on the receiver) and the number of packets transmitted (if the result is read on the transmitter).
 
-      ![result test](images/result_test.png)
+    ![result test](image/result_test.png)
 
  Enable the read feature for the DTM Result characteristic and get the result. To ensure the TX/RX function works properly, it is important for the value on both the receiver and transmitter to be identical.

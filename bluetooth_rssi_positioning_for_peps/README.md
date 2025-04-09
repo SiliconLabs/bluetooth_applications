@@ -1,16 +1,30 @@
 # Bluetooth - RSSI-based position estimation for PEPS #
 
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-297.57%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-79.3%20KB-blue)
 ## Summary ##
 
 The project implements a rough RSSI-based position estimation for a Passive Entry Passive Start (PEPS) system. It consists of a central device and 4 or 8 peripheral units hooked up on a (TTL-level) LIN bus. The central device accepts incoming BLE connections and forwards the connection parameters to the peripheral units. These parameters are used for connection tracking to let the devices infer the RSSI values of the communication link, enabling multi-point trilateration.
 
-## Gecko SDK version ##
+## SDK version ##
 
-- GSDK v4.4.2
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-At least 5 pieces of EFR32BG24 devices, the project is implemented on [BRD4186C](https://www.silabs.com/development-tools/wireless/xg24-rb4186c-efr32xg24-wireless-gecko-radio-board?tab=overview). One device is programmed as the leader device, and the remaining devices are programmed as follower units.
+- At least 5 pieces of EFR32BG24 devices, the project is implemented on [BRD4186C](https://www.silabs.com/development-tools/wireless/xg24-rb4186c-efr32xg24-wireless-gecko-radio-board?tab=overview). One device is programmed as the leader device, and the remaining devices are programmed as follower units.
+
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
@@ -40,6 +54,10 @@ The RX and TX pins of the LIN bus could be moved to other locations in case the 
 ## Setup ##
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
+
+**NOTE**:
+
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 ### Create a project based on an example project ###
 
@@ -113,14 +131,14 @@ To test this application, you can either create a project based on an example pr
 
 **NOTE:**
 
-- Make sure that this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+
 - The DMADRV component had to be patched with a new callback registration function to allow changing DMA callbacks on the fly. So, after a new project has been created, the files that are located in the `patch/dmadrv` folder are copied into the new project into the appropriate folders:
 
   - `<Project’s SDK folder>/dmadrv/inc/dmadrv.h`
   - `<Project’s SDK folder>/dmadrv/src/dmadrv.c`
 
-  The patched DMADRV component comes from the 4.4.2 version of the SDK and should work directly with the newer SDK versions. In case of issues, the `DMADRV_SetCallback()` and the `DMADRV_SetCallbackParam()` functions and their declarations should be copied into the new SDK files.
+  The patched DMADRV component comes from the SiSDK v2024.12.0 and should work directly with the newer SDK versions. In case of issues, the `DMADRV_SetCallback()` and the `DMADRV_SetCallbackParam()` functions and their declarations should be copied into the new SDK files.
 
 ## How It Works ##
 
@@ -234,7 +252,7 @@ After the devices have been flashed and the LIN bus is formed, the devices are c
    peps follower location add name DEV2TL LEFT_FRONT
    peps follower location add name DEV3TR RIGHT_FRONT
    peps follower location add name DEV4BL LEFT_REAR
-   peps follower location add name DEV4BR RIGHT_REAR
+   peps follower location add name DEV5BR RIGHT_REAR
    peps follower location set pos LEFT_FRONT -21.9 +23.1
    peps follower location set pos RIGHT_FRONT +21.6 +23.1
    peps follower location set pos LEFT_REAR -21.9 -22.8
@@ -244,13 +262,13 @@ After the devices have been flashed and the LIN bus is formed, the devices are c
 
 To start estimating the location, perform the following steps:
 
-1. Open the EFR Connect app on your mobile phone.
-2. In the Bluetooth Browser, find the device with the name **PEPS Master**, and connect to it.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
+2. Find your device in the Bluetooth Browser, advertising as *PEPS Master*, and tap Connect.
 3. While moving the connected mobile phone to the appropriate location between collecting the calibration points. The expected output of the leader device is something like this:
 
    ![logs](image/logs.png)
 
-## Report Bugs & Get Support
+## Report Bugs & Get Support ##
 
 To report bugs in the Application Examples projects, please create a new "Issue" in the "Issues" section of [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repo. Please reference the board, project, and source files associated with the bug, and reference line numbers. If you are proposing a fix, also include information on the proposed fix. Since these examples are provided as-is, there is no guarantee that these examples will be updated to fix these issues.
 

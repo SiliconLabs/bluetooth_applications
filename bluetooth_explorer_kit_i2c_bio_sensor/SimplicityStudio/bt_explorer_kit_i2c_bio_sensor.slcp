@@ -1,0 +1,162 @@
+project_name: bt_explorer_kit_i2c_bio_sensor
+package: Bluetooth
+label: Bluetooth - Explorer Kit I2C Bio Sensor
+description: >
+  This example implements the Heart Rate service and Pulse Oximeter service.
+  It enables a peer device to connect and receive heart rate and pulse Oximeter values via Bluetooth.
+  The reported values are measured by a bio-sensor located on the Heart Rate 2 Click.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Beginner]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: gpiointerrupt
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: simple_button
+    instance: [btn0]
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: i2cspm
+    instance: [mikroe]
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+  - path: ../hrm/app
+    file_list:
+      - path: hrm_app.h
+      - path: hrm_helper.h
+    directory: hrm/app
+  - path: ../hrm/ble/config
+    file_list:
+      - path: app_timer.h
+      - path: ble_att_handler.h
+    directory: hrm/ble/config
+  - path: ../hrm/ble/device_information
+    file_list:
+      - path: device_information.h
+    directory: hrm/ble/device_information
+  - path: ../hrm/ble/heart_rate
+    file_list:
+      - path: heart_rate.h
+    directory: hrm/ble/heart_rate
+  - path: ../hrm/ble/pulse_oximeter
+    file_list:
+      - path: pulse_oximeter.h
+    directory: hrm/ble/pulse_oximeter
+  - path: ../hrm/config
+    file_list:
+      - path: maxm86161_hrm_config.h
+    directory: hrm/config
+  - path: ../hrm/drivers
+    file_list:
+      - path: maxm86161.h
+      - path: maxm86161_i2c.h
+    directory: hrm/drivers
+  - path: ../hrm/lib
+    file_list:
+      - path: maxm86161_hrm_spo2.h
+    directory: hrm/lib
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../hrm/app/hrm_app.c
+    directory: hrm/app
+  - path: ../hrm/app/hrm_helper.c
+    directory: hrm/app
+  - path: ../hrm/ble/config/ble_att_handler.c
+    directory: hrm/ble/config
+  - path: ../hrm/ble/device_information/device_information.c
+    directory: hrm/ble/device_information
+  - path: ../hrm/ble/heart_rate/heart_rate.c
+    directory: hrm/ble/heart_rate
+  - path: ../hrm/ble/pulse_oximeter/pulse_oximeter.c
+    directory: hrm/ble/pulse_oximeter
+  - path: ../hrm/drivers/maxm86161.c
+    directory: hrm/drivers
+  - path: ../hrm/drivers/maxm86161_i2c.c
+    directory: hrm/drivers
+  - path: ../hrm/lib/maxm86161_hrm_spo2.c
+    directory: hrm/lib
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition:
+      - psa_crypto
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/board.png
+    directory: image
+  - path: ../image/create_project.png
+    directory: image
+  - path: ../image/i2c_mikroe_component.png
+    directory: image
+  - path: ../image/button_component.png
+    directory: image
+  - path: ../image/usart_component.png
+    directory: image
+  - path: ../image/external_repo.png
+    directory: image
+  - path: ../image/software_architecture.png
+    directory: image
+  - path: ../image/efr_connect.png
+    directory: image
+  - path: ../image/efr_connect_app.png
+    directory: image
+  - path: ../image/heart_rate_service.png
+    directory: image
+  - path: ../image/log.png
+    directory: image
+  - path: ../image/path.png
+    directory: image
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+tag: hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

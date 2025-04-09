@@ -21,7 +21,6 @@
 #include "sl_power_manager.h"
 #endif
 #include "sl_sleeptimer.h"
-#include "gpiointerrupt.h"
 
 #define UART_RX_IRQ_NUMBER                      HAL_CAT3(HAL_UART_TYPE,   \
                                                          HAL_UART_NUMBER, \

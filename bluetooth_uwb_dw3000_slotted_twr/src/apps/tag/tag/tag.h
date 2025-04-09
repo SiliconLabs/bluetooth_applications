@@ -22,7 +22,7 @@ extern "C" {
 #include "uwb_frames.h"
 #include "msg_time.h"
 
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 
 #define DW_TAG_NOT_SLEEPING            (0)

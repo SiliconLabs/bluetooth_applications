@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,9 +26,15 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include "app.h"
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
@@ -312,16 +318,14 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
   uint8_t connection_handle = evt->data.evt_connection_parameters.connection;
   uint8_t security_level = evt->data.evt_connection_parameters.security_mode
                            + 1;
-  uint16_t tx_size = evt->data.evt_connection_parameters.txsize;
   uint16_t timeout = evt->data.evt_connection_parameters.timeout;
 
   app_log("\rBluetooth Stack Event : CONNECTION Parameters ID\n");
 
   // If security is less than 2 increase so devices can bond
   if (security_level == 0) {
-    app_log("\rBluetooth Stack Event : CONNECTION PARAMETERS : MTU = %d, \
-              SecLvl : %d, timeout : %d\n",
-            tx_size,
+    app_log("\rBluetooth Stack Event : CONNECTION PARAMETERS : \
+              SecLvl : %d, timeout : %d\r\n",
             security_level,
             timeout);
     app_log("\rBonding Handle is: 0x%04X\n", ble_bonding_handle);
@@ -340,8 +344,7 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
     }
   } else {
     app_log("\r[OK]      Bluetooth Stack Event : CONNECTION PARAMETERS : \
-              MTU = %d, SecLvl : %d, Timeout : %d\n",
-            tx_size,
+             SecLvl : %d, Timeout : %d\r\n",
             security_level,
             timeout);
   }

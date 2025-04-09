@@ -1,59 +1,42 @@
 # Bluetooth - Reporting Battery Voltage
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_reporting_battery_voltage_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_reporting_battery_voltage_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_reporting_battery_voltage_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_reporting_battery_voltage_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_reporting_battery_voltage_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_reporting_battery_voltage_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_reporting_battery_voltage_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-203.19%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-11.71%20KB-blue)
 ## Overview
 
 This example shows how to create an application to monitor the battery voltage and report it as a percentage of full charge. The Bluetooth SIG defines a battery service exactly for this purpose. The definition can be found in [Bluetooth SIG Specifications List](https://www.bluetooth.com/specifications/specs/). The example will use this adopted service to report battery level. This example is very useful for users who want to monitor the battery voltage of their devices.
 
 ## Description
 
-The battery level is measured using the EFR32’s ADC without the need for any external GPIO. In the attached `app.c` file, you will find functions which contain all code necessary to set up the ADC. The initial setup is performed by `init_adc_for_supply_measurement()`. This function mostly uses the defaults for the ADC with a few important adjustments. The inputs to the ADC are AVDD and VSS. The reference voltage is the internal 5 V reference. Users must choose the attenuation factors for the input voltage and the reference voltage. The following formulas are taken from the ADC section of the EFR32 reference manual. The attenuation factor for the reference voltage is defined as follows:
+The battery level is measured using the EFR32’s IADC without the need for any external GPIOs. In the attached `app.c` file, you will find functions which contain all the necessary code to set up the IADC. The initial setup is performed by `init_adc_for_supply_measurement()`. This function mostly uses the defaults for the ADC with a few important adjustments. The inputs to the ADC are AVDD and GND. The IADC has an internal 1.21V bandgap reference voltage that is independent of the chip's voltage supplies, and it's capable of attenuating the supply voltage input by a factor of 4, meaning we must multiply the raw data with (4 * 1210) to get the VFS for this example:
 
-> ATTVREF = (VREFATT + 6) / 24 for VREFATT < 13, and (VREFATT - 3) / 12 for VREFATT ≥ 13
+> VFS = 4 * 1210 (mV)
 
-The attenuation for the input voltage is defined as follows:
-
-> ATTVIN = VINATT / 12 for VINATT ≥ 3 (settings 0, 1, and 2 are not allowable values for VINATT)
-
-The ADC is set up for 12-bit conversions, which results in a total of 4096 steps per conversion. The attenuation factor for the input voltage is chosen to 1 and the attenuation factor for the reference voltage is set to be 0.5. The full-scale voltage for conversions is determined as follows:
-
-> VFS = 2 × VREF × ATTVREF / ATTVIN
-
-In the example,
-
-> VFS = 2×(5.0)×(0.5)/(1)
-> = 5.0 V
-
-The number of volts per division, VFS/4096 = 1221 μV/division
-
-Using this information, you can determine the battery supply voltage.
+By default, Series 2 devices' IADC use 12-bits (0 to 4095) so the number of volts per division shall be VFS/4095 = 1183 μV/division
 
 `app.c` file contains a function called `read_supply_voltage()`, which can be used to read the ADC converted value and return it as the battery voltage in mV.
 
 The boot handler for the application starts a **sleep timer** to schedule an ADC conversion once per second. The handler for the timer will trigger an **external event** to the Bluetooth stack by using the function `sl_bt_external_signal()`. The handler for the external event in the event loop will start conversion and then read the converted value. The specification for the service requires the value to be reported as a percentage so the measured voltage is converted to a percentage of 3300 mV. This value is then used in the read request handler.
 
-## Gecko SDK Suite version
+## SDK version
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required
 
-- [BRD4161A - EFR32MG12 Wireless Gecko Starter Kit](https://www.silabs.com/development-tools/wireless/zigbee/slwrb4161a-efr32mg12-radio-board)
-- 
-- CR2032 battery
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD4161A | [EFR32MG12 Wireless Gecko Starter Kit](https://www.silabs.com/development-tools/wireless/zigbee/slwrb4161a-efr32mg12-radio-board)    |
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For example, [XG24-DK2601B](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit)
+- 1x CR2032 battery
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ![hardware_connection](image/hardware_connection.png)
 
@@ -65,9 +48,15 @@ Tested boards for working with this example:
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
+
 ### Create a project based on an example project
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "reporting battery".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "reporting battery".
 
 2. Click *Create* button on the **Bluetooth - Reporting Battery Voltage** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![create_project](image/create_project.png)
@@ -104,30 +93,36 @@ To test this application, you can either create a project based on an example pr
 
     - [Application] → [Utility] → [Log]
 
-    - [Platform] → [Board] → [Board Control] →  configure: Enable Virtual COM UART
-    ![configure_board_control](image/configure_board_control.png)
-
-    - [Platform] → [Peripheral] → [ADC]
+    - [Platform] → [Peripheral] → [IADC]
 
 5. Build and flash the project to your device.
 
 **NOTE:**
 
-- Make sure that this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works
 
-Place the CR2032 battery into the Starter Kit and change the power switch from **AEM** to **BAT**
-![place_battery](image/place_battery.png)
+Use the CR2032 battery as the main power sources.
+
+- If you are using Silicon Labs motherboards alongside Silicon Labs chips, make sure to turn **AEM** to **BAT**
+- If you are using Development Kits alongside Silicon Labs chips, make sure use the battery as the main power source
 
 **Note:**
 
-- If you choose the AEM power input, the battery level will always be 100%.
+- For those who uses Silicon Labs mother boards, if you choose AEM, the battery level will always be close to 100%
+- For those who uses Silicon Labs Development Kits, if you use battery and also connect to the USB Connector at the same time, the battery level will always be close to 100%
 
 Launch the console to see log messages.  
 
 ![console_log](image/result_1.png)
 
-Open the EFR Connect app on your smartphone, open the Bluetooth Browser tab, and connect to your device. Expand the Battery Service and then press **Read** button on the Battery Level characteristic.
+Follow the below steps to test the example with the Simplicity Connect application:
 
-![efr_app](image/result_2.png)
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
+
+2. Find your device in the Bluetooth Browser, advertising as *bma400_sensor*, and tap Connect.
+
+3. Expand the Battery Service and then press **Read** button on the Battery Level characteristic.
+
+   ![efr_app](image/result_2.png)

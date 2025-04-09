@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,19 +26,22 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
-#include <string.h>
-#include "sl_spidrv_instances.h"
-#include "mikroe_e_paper_154_inch_config.h"
-#include "mikroe_e_paper_154_inch.h"
-#include "esl_tag_user_display_driver.h"
-#include "mikroe_e_paper_154_inch.h"
 
+#include "esl_tag_user_display_driver.h"
+#include "mikroe_eink_display.h"
+#include "mikroe_eink_display_config.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include "app.h"
-#include "em_common.h"
+#include "sl_common.h"
 #include "sl_bt_api.h"
 #include "esl_tag_log.h"
 #include "esl_tag_core.h"
@@ -71,6 +74,7 @@
 #ifdef gattdb_esl_image_info
 #include "esl_tag_image.h"
 #include "esl_tag_image_config.h"
+#include "esl_tag_ots_server.h"
 #endif // gattdb_esl_image_info
 #ifdef gattdb_esl_display_info
 #include "esl_tag_display.h"
@@ -83,8 +87,7 @@
 #endif // gattdb_esl_sensor_info
 
 // Our led1 will support ESL brightness settings utilizing SW PWM implementation
-#define SW_PWM_MAX_DUTY_STEPS     4 // four step brightness due ESL
-                                    //   specification
+#define SW_PWM_MAX_DUTY_STEPS     4 // four step brightness due ESL specification
 #define SW_PWM_MAX_DUTY_VALUE     (SW_PWM_MAX_DUTY_STEPS - 1)
 
 // ESL Sensor ID for our custom, vendor specific text message sensor element
@@ -99,6 +102,7 @@
 static bool led0_feedback_enabled = false;
 #endif // SL_CATALOG_SIMPLE_LED_LED0_PRESENT
 
+#ifdef gattdb_esl_led_info
 // type definition for simple SW PWM control
 typedef struct {
   sl_sleeptimer_timer_handle_t *sw_pwm_handle;  // sleep timer handle
@@ -108,6 +112,18 @@ typedef struct {
   bool                         state;           // actual led state
   uint8_t                      duty;            // requested duty cycle
 } led_sw_pwm_t;
+#endif // gattdb_esl_led_info
+static sl_bt_ots_object_type_t esl_image_type_eink = {
+  false,
+  (uint8_t[SL_BT_OTS_UUID_SIZE_128]){ 0 }
+};
+#if defined(gattdb_esl_image_info) && defined(SL_CATALOG_DMD_MEMLCD_PRESENT)
+// OTS object type for image storage
+static sl_bt_ots_object_type_t esl_image_type_wstk = {
+  false,
+  (uint8_t[SL_BT_OTS_UUID_SIZE_128]){ 0 }
+};
+#endif // gattdb_esl_image_info
 
 #ifdef gattdb_esl_led_info
 
@@ -215,15 +231,15 @@ static void sw_pwm_led_off(led_sw_pwm_t *instance)
 
 #endif // gattdb_esl_led_info
 
+#ifdef SL_CATALOG_SIMPLE_LED_LED0_PRESENT
 // Power manager callback with some LED feedback
 static void pm_callback(sl_power_manager_em_t from,
                         sl_power_manager_em_t to)
 {
   (void)from;
-
-#ifdef SL_CATALOG_SIMPLE_LED_LED0_PRESENT
   uint8_t basic_state = esl_core_get_basic_state_bit(
     ESL_BASIC_STATE_SYNCHRONIZED_BIT);
+
   switch (to) {
     case SL_POWER_MANAGER_EM0:
       if (led0_feedback_enabled) {
@@ -253,9 +269,6 @@ static void pm_callback(sl_power_manager_em_t from,
     default:
       break;
   }
-#else // SL_CATALOG_SIMPLE_LED_LED0_PRESENT
-  (void)to;
-#endif // SL_CATALOG_SIMPLE_LED_LED0_PRESENT
 }
 
 static sl_power_manager_em_transition_event_handle_t event_handle;
@@ -264,13 +277,21 @@ static sl_power_manager_em_transition_event_info_t event_info = {
                 | SL_POWER_MANAGER_EVENT_TRANSITION_ENTERING_EM0,
   .on_event = pm_callback,
 };
+#endif // SL_CATALOG_SIMPLE_LED_LED0_PRESENT
 
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
 void app_init(void)
 {
+#ifdef SL_CATALOG_SIMPLE_LED_LED0_PRESENT
+  // Provide optical feedback of the ESL internal status through led 0 instance
+  // Attention! Enable for debugging purposes only, as the vast increase in EM2
+  // wake-up time can increase the average power consumption of the synchronized
+  // ESL by up to 3uAh!
+  sl_power_manager_init();
   sl_power_manager_subscribe_em_transition_event(&event_handle, &event_info);
+#endif // SL_CATALOG_SIMPLE_LED_LED0_PRESENT
 
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
@@ -328,27 +349,31 @@ void esl_core_boot_event(void)
   sl_button_state_t button_state;
   esl_display_info_p info;
   const uint8_t type = ESL_DISPLAY_TYPE_BLACK_WHITE;
-
-  // suppress the compiler warning if none of the optional ESL characteristics
-  //   are present
   (void)sc;
 #if defined(gattdb_esl_image_info) && defined(SL_CATALOG_DMD_MEMLCD_PRESENT)
+#ifdef SL_CATALOG_OTF_DECOMPRESSOR_PRESENT
+  esl_image_ots_flags_t wstk_display_image_flags =
+    (ESL_IMAGE_FLAGS_FORMAT_LZJB | ESL_IMAGE_FLAGS_BIT_FLIP);
+#else
+  esl_image_ots_flags_t wstk_display_image_flags =
+    (ESL_IMAGE_FLAGS_FORMAT_RAW | ESL_IMAGE_FLAGS_BIT_FLIP);
+#endif // SL_CATALOG_OTF_DECOMPRESSOR_PRESENT
+  sc = esl_tag_ots_prepare_object_type(ESL_DISPLAY_TYPE_BLACK_WHITE,
+                                       wstk_display_image_flags,
+                                       &esl_image_type_wstk);
+  sl_bt_esl_assert(sc == SL_STATUS_OK);
   // Please don't forget to adjust max. image pool size if resolution increases!
   sc = esl_image_add(SL_MEMLCD_DISPLAY_WIDTH,
                      SL_MEMLCD_DISPLAY_HEIGHT,
-                     SL_MEMLCD_DISPLAY_BPP);
+                     SL_MEMLCD_DISPLAY_BPP,
+                     &esl_image_type_wstk);
   sl_bt_esl_assert(sc == SL_STATUS_OK);
   sc = esl_image_add(SL_MEMLCD_DISPLAY_WIDTH,
                      SL_MEMLCD_DISPLAY_HEIGHT,
-                     SL_MEMLCD_DISPLAY_BPP);
+                     SL_MEMLCD_DISPLAY_BPP,
+                     &esl_image_type_wstk);
   sl_bt_esl_assert(sc == SL_STATUS_OK);
 #endif // gattdb_esl_image_info
-
-  // add the mikroe epd 200x200 dots
-  sc = esl_display_create(200, 200, type, &info);
-  sc = esl_display_add(info, esl_user_display_init, esl_user_display_write);
-  sc = esl_image_add(200, 200, 1);
-  sc = esl_image_add(200, 200, 1);
 
 #ifdef SL_CATALOG_ESL_TAG_PD_EPD_DRIVER_PRESENT
 #if PD_EPD_DISPLAY_COLOR_TYPE == PD_EPD_SPECTRA
@@ -361,7 +386,29 @@ void esl_core_boot_event(void)
                      bpp);
   sl_bt_esl_assert(sc == SL_STATUS_OK);
 #endif // SL_CATALOG_ESL_TAG_PD_EPD_DRIVER_PRESENT
+// add the mikroe epd 200x200 dots
+  sc = esl_display_create(MIKROE_EINK_DISPLAY_WIDTH,
+                          MIKROE_EINK_DISPLAY_HEIGHT,
+                          type,
+                          &info);
+  sc = esl_display_add(info, esl_user_display_init, esl_user_display_write);
+  esl_image_ots_flags_t eink_display_image_flags = (ESL_IMAGE_FLAGS_NONE);
+  sc = esl_tag_ots_prepare_object_type(ESL_DISPLAY_TYPE_BLACK_WHITE,
+                                       eink_display_image_flags,
+                                       &esl_image_type_eink);
+  sl_bt_esl_assert(sc == SL_STATUS_OK);
+  sc = esl_tag_ots_prepare_object_type(ESL_DISPLAY_TYPE_BLACK_WHITE,
+                                       eink_display_image_flags,
+                                       &esl_image_type_eink);
 
+  sc = esl_image_add(MIKROE_EINK_DISPLAY_WIDTH,
+                     MIKROE_EINK_DISPLAY_HEIGHT,
+                     1,
+                     &esl_image_type_eink);
+  sc = esl_image_add(MIKROE_EINK_DISPLAY_WIDTH,
+                     MIKROE_EINK_DISPLAY_HEIGHT,
+                     1,
+                     &esl_image_type_eink);
 #ifdef gattdb_esl_led_info
   // add first abstract led instance, it will have index 0
   sc = esl_led_add(ESL_LED_TYPE_SRGB, // for testing, it'll be reported as sRGB
@@ -478,7 +525,7 @@ sl_status_t esl_sensor_custom_read(uint8_t index,
   sl_status_t result = SL_STATUS_NOT_SUPPORTED;
   // create a local buffer, leave enough space for the index and an optional
   // terminating null character - if it was needed
-  char report_data[ESL_SENSOR_MAX_REPORT_LENGTH + 2] = { index, 0 };
+  char        report_data[ESL_SENSOR_MAX_REPORT_LENGTH + 2] = { index, 0 };
   char * const read_target = &report_data[1];
 
   if (size == ESL_SENSOR_SIZE_MESH_DEVICE) {
@@ -561,14 +608,12 @@ sl_status_t esl_sensor_custom_read(uint8_t index,
 
 void esl_core_unassociate_callback(void)
 {
-  uint8_t device_index;
-
   sl_bt_esl_log(ESL_LOG_COMPONENT_APP,
                 ESL_LOG_LEVEL_INFO,
                 "Execute unassociate callback");
 
 #ifdef gattdb_esl_led_info
-  device_index = esl_led_get_count();
+  uint8_t device_index = esl_led_get_count();
 
   // disable all available LED on board
   while (device_index--) {
@@ -583,8 +628,7 @@ void esl_core_unassociate_callback(void)
 #if defined (gattdb_esl_display_info) && defined (ESL_TAG_WSTK_LCD_DRIVER_H)
   // reset WSTK display - if present
   (void)esl_wstk_lcd_init(0);
-#endif
-  // defined (gattdb_esl_display_info) && defined (ESL_TAG_WSTK_LCD_DRIVER_H)
+#endif // gattdb_esl_display_info && ESL_TAG_WSTK_LCD_DRIVER_H
 }
 
 #if ESL_TAG_VENDOR_OPCODES_ENABLED
@@ -608,13 +652,15 @@ sl_status_t esl_core_process_vendor_opcode(tlv_t opcode,
   switch (opcode) {
     // this vendor specified opcode allows to skip N cycle of PAwR sync train
     // the ESL tag to save power during e.g. store closed hours
+    // Note that if the custom resync-by-scan feature is also enabled, then a
+    // successful resync-by-scan resets the skip value to zero.
     case SILABS_LOW_ENERGY_ENABLE_OPCODE: {
       uint8_t settings = 0;
       // check the input length to make sure to avoid memory corruption by copy
       sl_bt_esl_assert(input_length
                        == esl_core_get_tlv_len(SILABS_LOW_ENERGY_ENABLE_OPCODE));
       // get the input value to the settings variable
-      memcpy(&settings, data, 1);
+      memcpy(&settings, data, input_length);
 
       if (settings <= SILABS_LOW_ENERGY_SKIP_LIMIT) {
         result = esl_core_update_sync_parameters(0, settings);
@@ -623,8 +669,7 @@ sl_status_t esl_core_process_vendor_opcode(tlv_t opcode,
           tlv_t response_tlv = SILABS_LOW_ENERGY_ENABLE_RESPONSE;
           // set response length for the TLV properly
           esl_core_set_tlv_len(response_tlv, sizeof(settings));
-          // call response builder: on our case, the response is the new skip
-          //   value
+          // call response builder: on our case, the response is the new skip value
           esl_core_build_response(response_tlv, &settings);
         } else {
           // set desired error code

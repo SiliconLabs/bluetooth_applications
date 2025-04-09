@@ -12,7 +12,7 @@
 
 #include "task_tcfm.h"
 
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 #include "tcfm.h"
 #include "deca_dbg.h"

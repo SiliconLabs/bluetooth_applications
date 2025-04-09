@@ -1,12 +1,12 @@
 # Bluetooth - Explorer Kit I2C Bio Sensor
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_bio_sensor_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_bio_sensor_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_bio_sensor_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_bio_sensor_common.json&label=SDK&query=sdk&color=green)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
 [![Required board](https://img.shields.io/badge/Mikroe-Heart%20Rate%202%20Click-green)](https://www.mikroe.com/heart-rate-2-click)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_bio_sensor_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_bio_sensor_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_bio_sensor_common.json&label=RAM&query=ram&color=blue)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-202.51%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-18.84%20KB-blue)
 
 ## Overview
 
@@ -16,36 +16,45 @@ This code example has a related code example, which may be worth reading before.
 
 - [Bio sensor MAX86161 driver.](https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/bio_sensor_maxm86161)
 
-## Gecko SDK version
+## SDK version
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required
 
-### Silabs Development Kits
+- 1x [Bluetooth Low Energy Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For example, [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
 
-- [BGM220 Bluetooth Module Explorer Kit - BGM220 - EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)
+- 1x [Heart Rate 2 Click](https://www.mikroe.com/heart-rate-2-click)
 
-### External Hardware
-
-- [Heart Rate 2 Click](https://www.mikroe.com/heart-rate-2-click)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required
 
 The Heart Rate 2 Click board can just be "clicked" into its place. Be sure that the board's 45-degree corner matches the Explorer Kit's 45-degree white line. The board also has I2C-bus pull-ups. Just be sure that the click board is configured into I2C-mode (the default) by the resistors and not into SPI-mode. Afterwards, power up the board by connecting the kit to a PC using a microUSB cable. The Power LED on Heart Rate 2 Click board will light when the kit is powered.  
 
-![board](images/board.png "Connections bitween BGM220-EK4314A board and Heart Rate 2 Click board")
+![board](image/board.png "Connections bitween BGM220-EK4314A board and Heart Rate 2 Click board")
 
 ## Setup
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+*NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
+
 ### Create a project based on an example project
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "bio-sensor".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "bio-sensor".
 
 2. Click **Create** button on both **Bluetooth - Explorer Kit I2C Bio Sensor** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![create_project](images/create_project.png)
+![create_project](image/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -53,7 +62,9 @@ To test this application, you can either create a project based on an example pr
 
 1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-2. Copy the *app.c* file and the *hrm* folder into the project's root folder (app.c will replace the existing file).
+2. Copy the *app.c* file and the *hrm* folder into the project's root folder (app.c will replace the existing file). Add the include directories into the project
+
+   ![path](image/path.png)
 
 3. Import the GATT configuration:
 
@@ -69,17 +80,19 @@ To test this application, you can either create a project based on an example pr
 
 - Install the following components:
 
+  - [Platform] → [Driver] → [GPIOINT]
+
   - Install the **I2CSPM** component with the default instance name: **mikroe**.
 
-    ![i2c_mikroe_component](images/i2c_mikroe_component.png)
+    ![i2c_mikroe_component](image/i2c_mikroe_component.png)
 
   - Install the first **Simple Button** component with the default instance name: **btn0**.
 
-    ![button_component](images/button_component.png)
+    ![button_component](image/button_component.png)
 
   - Install **IO Stream: USART** component with the default instance name: **vcom**.
 
-    ![usart_component](images/usart_component.png)
+    ![usart_component](image/usart_component.png)
 
   - Install the **Log** component (found under **[Application] > [Utility]** group).
 
@@ -87,10 +100,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure that the *bluetooth_applications* repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-![external_repo](images/external_repo.png)
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works
 
@@ -98,7 +108,7 @@ To test this application, you can either create a project based on an example pr
 
 Below is an overview of the HRM/SpO2 software architecture.
 
-![software_architecture](images/software_architecture.png "software architecture")
+![software_architecture](image/software_architecture.png "software architecture")
 
 ### GATT Configurator
 
@@ -116,21 +126,23 @@ BTN0 button is used to start/stop the measurement. Upon reset, press the BTN0 bu
 
 Maxm86161 includes an optical proximity function which could significantly reduce energy consumption and extend the battery life when the sensor is not in contact with the skin. There is a compiler option PROXIMITY in the build configuration of the project that can choose Green/IR/Red LED for this feature.
 
-### Use EFR Connect Mobile Application
+### Use Simplicity Connect Mobile Application
 
-The Silicon Labs EFR Connect application utilizes the Bluetooth adapter on your phone/tablet to scan, connect and interact with BLE devices. To run this example, an iOS or Android smartphone with EFR Connect app installed is required.
+Follow the below steps to test the example with the Simplicity Connect application:
 
-Open the EFR Connect application on your smartphone and **allow the permission request** when opened for the first time. Click [Develop] -> [Browser] and you will see a list of nearby devices which are sending Bluetooth advertisements. Find the one named "Silabs HRM Example" and click the connect button on the right side.
+- Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-![efr_connect](images/efr_connect.png "EFR Connect")
+- Find your device in the Bluetooth Browser, advertising as *Silabs HRM Example*, and tap Connect.
 
-Wait for the connection to establish and GATT database to be loaded, then find the *Heart Rate* service or the *Pulse Oximeter Service* service, and click More Info.
+   ![efr_connect](image/efr_connect.png "Simplicity Connect")
 
-![efr_connect_app](images/efr_connect_app.png "EFR Connect app")
+- Wait for the connection to establish and GATT database to be loaded, then find the *Heart Rate* service or the *Pulse Oximeter Service* service, and click More Info.
 
-To check the heart rate value and the status of finger (ON/OFF), users need turn on notify in the *Heart Rate Measurement* characteristic of the *Heart Rate* service. To check both the heart rate and the SpO2 values, users need turn on notify in the *PLX Continuous Measurement* characteristic of the *Pulse Oximeter Service* service.
+![efr_connect_app](image/efr_connect_app.png "Simplicity Connect app")
 
-![heart_rate_service](images/heart_rate_service.png "heart rate service")
+- To check the heart rate value and the status of finger (ON/OFF), users need turn on notify in the *Heart Rate Measurement* characteristic of the *Heart Rate* service. To check both the heart rate and the SpO2 values, users need turn on notify in the *PLX Continuous Measurement* characteristic of the *Pulse Oximeter Service* service.
+
+![heart_rate_service](image/heart_rate_service.png "heart rate service")
 
 ### USB Debug Mode
 
@@ -138,7 +150,7 @@ The demo firmware includes a debug mode that enables HRM/SpO2 data including raw
 
 Users can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the data from the USB. A screenshot of the console output is shown in the figure below.
 
-![USB_Debug_Output_Data](images/log.png "USB Debug Output Data")
+![USB_Debug_Output_Data](image/log.png "USB Debug Output Data")
 
 The raw data in each column represents "green LED, IR LED, red LED”. Heart rate and SpO2 values are updated once a second. The user can easily log the raw samples and debug messages to a *.csv file for post-analysis.
 

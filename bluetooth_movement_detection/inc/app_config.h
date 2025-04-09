@@ -4,7 +4,7 @@
  * @version 1.0.0
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -54,7 +54,7 @@ extern "C" {
 #define MD_BLE_FEATURE_LENGTH             4
 
 // Application time out configuration
-#define MD_LAST_REQ_TIMEOUT_MS            20000
+#define MD_LAST_REQ_TIMEOUT_MS            40000
 
 // Interrupt pin of accelerometer sensor BMA400.
 #define BMA400_INT_PIN                    MIKROE_BMA400_INT1_PIN

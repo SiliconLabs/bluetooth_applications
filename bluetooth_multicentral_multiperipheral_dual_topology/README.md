@@ -1,25 +1,31 @@
 # Bluetooth - Multi-Central Multi-Peripheral Dual Topology #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_multicentral_multiperipheral_dual_topology_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_multicentral_multiperipheral_dual_topology_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_multicentral_multiperipheral_dual_topology_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_multicentral_multiperipheral_dual_topology_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_multicentral_multiperipheral_dual_topology_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_multicentral_multiperipheral_dual_topology_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_multicentral_multiperipheral_dual_topology_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-201.38%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.8%20KB-blue)
 ## Overview ##
 
 This code example demonstrates how to handle multiple (simultaneous) connections, when the device has to act as central on some of the connections, and peripheral on the rest of the connections.
 
-![Multi-Slave Multi-Master Dual Topology](images/image1.png)
+![Multi-Slave Multi-Master Dual Topology](image/image1.png)
 
-## Gecko SDK Suite version ##
+## SDK version ##
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- [A Silicon Labs compatible-radio board.](https://www.silabs.com/development-tools/wireless/bluetooth)
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
@@ -29,12 +35,16 @@ This code example demonstrates how to handle multiple (simultaneous) connections
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter "multi-central".
+1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "multi-central".
 
 2. Click **Create** button on the **Bluetooth - Multi-Central Multi-Peripheral Dual Topology** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![board](images/create_project.png)
+![board](image/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -54,9 +64,11 @@ To test this application, you can either create a project based on an example pr
 
    - Save the GATT configuration (ctrl-s).
 
-      ![The Gathered Temperature Data is Exposed in One GATT Service](images/image3.png)
+      ![The Gathered Temperature Data is Exposed in One GATT Service](image/image3.png)
 
 4. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
+
+   - [Bluetooth] → [Bluetooth LE Controller (Link Layer)] → [Connection] → Set "Max number of connections reserved for user" to 8
 
    - [Services] → [IO Stream] → [IO Stream: EUSART] → default instance name: vcom
 
@@ -66,7 +78,7 @@ To test this application, you can either create a project based on an example pr
 
 The device discovers and connects to nearby devices implementing the Health Thermometer service and reads their temperature values. Meanwhile, the device is also advertising to make it possible for smartphones to connect to it, and read the aggregated data.
 
-![Flowchart for Simultaneous Scanning and Advertising](images/image2.png)
+![Flowchart for Simultaneous Scanning and Advertising](image/image2.png)
 
 ### Connecting to Peripherals (Device as a Central) ###
 
@@ -195,10 +207,10 @@ ADDRESS            ROLE          HANDLE        STATE
 
 To see the gathered temperature values, perform the following steps:
 
-1. Open the EFR Connect app on your mobile phone.
-2. In the Bluetooth Browser, find the device with the name **MCMPDT**, and connect to it.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
+2. Find your device in the Bluetooth Browser, advertising as *MCMPDT*, and tap Connect.
 3. Find and open the Health Thermometer service.
 4. Open the first Temperature Measurement characteristic and enable indications on it (by tapping the indications icon). Now, the new value should be displayed received from the first thermometer.
 5. Do the same for the second Temperature Measurement characteristic.
 
-   ![Aggregated Temperature Values](images/image4.png)
+   ![Aggregated Temperature Values](image/image4.png)

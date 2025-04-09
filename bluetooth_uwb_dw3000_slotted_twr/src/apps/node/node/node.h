@@ -22,7 +22,7 @@ extern "C" {
 #include "msg_time.h"
 #include "tag_list.h"
 
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 #include "common_n.h"
 

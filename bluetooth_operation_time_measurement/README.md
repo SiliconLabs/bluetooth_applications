@@ -1,66 +1,54 @@
 # Bluetooth - Operation Time Measurement (BMA400) #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_operation_time_measurement_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_operation_time_measurement_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_operation_time_measurement_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_operation_time_measurement_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_operation_time_measurement_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_operation_time_measurement_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_operation_time_measurement_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Mikroe-ACCEL%205%20CLICK-green)](https://www.mikroe.com/accel-5-click)
+[![Required board](https://img.shields.io/badge/Adafruit-IS31FL3741%2013x9%20PWM%20RGB%20LED%20Matrix%20Driver-green)](https://www.adafruit.com/product/5201)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-218.54%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-11.24%20KB-blue)
 ## Overview ##
 
-This project exemplifies how to develop an application, which uses the Silabs EFR32xG24 Explorer Kit and Mikroe ACCEL 5 CLICK board and Adafruit IS31FL3741 components to monitor the operation time of machineries and display the information graphically. The application will use BLE for wireless communication between the devices.
+This project exemplifies how to develop an application, which uses the Silicon Labs Explorer Kit and Mikroe ACCEL 5 CLICK board and Adafruit IS31FL3741 components to monitor the operation time of machineries and display the information graphically. The application will use BLE for wireless communication between the devices.
 
 **Sensor Device:**
-The sensor device is a Silabs Explorer Kit, which is connected to a MikroE ACCEL 5 CLICK sensor board. This device periodically measures the operation time level and advertises the processed time value to the client devices.
+The sensor device is a Silicon Labs Explorer Kit, which is connected to a MikroE ACCEL 5 CLICK sensor board. This device periodically measures the operation time level and advertises the processed time value to the client devices.
 
 The advertisement package contains a measurement counter value and the processed operation time in second.
 
 **Client Device:**
-The client device is a Silabs Explorer Kit, which is connected to an Adafruit IS31FL3741 RGB LED Matrix Display.
+The client device is a Silicon Labs Explorer Kit, which is connected to an Adafruit IS31FL3741 RGB LED Matrix Display.
 
 This device provides two operational modes.
 
-If the BTN0 is pressed during the initialization sequence, then the application boots into the configuration mode. In this operational mode, the device sends normal advertisement packages and is connectable to other BLE devices. Users can connect to the client via the EFR Connect mobile application. This mode provides BLE characteristics to configure the operation time threshold.
+If the BTN0 is pressed during the initialization sequence, then the application boots into the configuration mode. In this operational mode, the device sends normal advertisement packages and is connectable to other BLE devices. Users can connect to the client via the Simplicity Connect mobile application. This mode provides BLE characteristics to configure the operation time threshold.
 
 If the BTN0 is released during the initialization phase, the application starts scanning the BLE network. The application periodically scans the BLE network looking for a sensor device. The client device subscribes to the operation time characteristic to get notifications about changes in the measured operation time.
 
-## Gecko SDK Suite version ##
+## SDK version ##
 
-- GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-**Silabs Development Kits:**
-
-- [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)
-
-- [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)
-
-- [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)
-
-**External Hardware:**
-
-- [Adafruit IS31FL3741 13x9 PWM RGB LED Matrix Driver - STEMMA QT / Qwiic](https://www.adafruit.com/product/5201)
-
-- [ACCEL 5 CLICK](https://www.mikroe.com/accel-5-click)
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
-| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview) |
-| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)   |
+- 2x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). One is for the Sensor, another is for the Client. For example, [xG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)
+- 1x [Adafruit IS31FL3741 13x9 PWM RGB LED Matrix Driver - STEMMA QT / Qwiic](https://www.adafruit.com/product/5201)
+- 1x [ACCEL 5 CLICK](https://www.mikroe.com/accel-5-click)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
 The hardware connection is shown in the image below:
 
-![hardware overview](images/overview.png)
+![hardware overview](image/overview.png)
 
 **Sensor:**
 
@@ -74,12 +62,18 @@ Adafruit IS31FL3741 13x9 PWM RGB LED Matrix board can be easily connected to the
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
+
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "bma400".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "bma400".
 
 2. Click **Create** button on both **Bluetooth - Operation Time Measurement (BMA400) - Client** and **Bluetooth - Operation Time Measurement (BMA400) - Sensor** examples. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![create_project](images/create_project.png)
+![create_project](image/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -101,28 +95,22 @@ To test this application, you can either create a project based on an example pr
 
     - Install the following components for **sensor** device:
 
-        - [Application] → [Service] → [Simple timer]
-        - [Bluetooth] → [NVM] → NVM Support
-        - [Services] →  [NVM3] → NVM3 Core
-        - [Services] →  [NVM3] → NVM3 Default Instance
+        - [Application] → [Utility] → [Timer]
         - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0
         - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
         - [Application] → [Utility] → [Log]
-        - [Platform] →  [Driver]→ [I2C] →  [I2CSPM] → default instance name: mikroe
-        - [Third Party Hardware Drivers] → [Sensors] → [MQ7 - ACCEL 5 CLICK (Mikroe)]
+        - [Platform] → [Driver]→ [I2C] → [I2CSPM] → default instance name: mikroe
+        - [Third Party Hardware Drivers] → [Sensors] → [BMA400 - ACCEL 5 CLICK (Mikroe) - I2C]
 
     - Install the following components for **client** device:
-        - [Application] → [Service] → [Simple timer]
-        - [Bluetooth] → [NVM] → NVM Support
-        - [Services] →  [NVM3] → NVM3 Core
-        - [Services] →  [NVM3] → NVM3 Default Instance
+        - [Application] → [Utility] → [Timer]
         - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
         - [Application] → [Utility] → [Log]
         - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0
         - [Platform] → [Driver] → [I2C] → [I2CSPM] → default instance name: qwiic
-        - [Third Party Hardware Drivers] → [Display & LED] → IS31FL3741 - 13x9 PWM RGB LED Matrix (Adafruit) - I2C
+        - [Third Party Hardware Drivers] → [Display & LED] → [IS31FL3741 - 13x9 PWM RGB LED Matrix (Adafruit) - I2C]
 
-        ![rgb_led_config](images/rgb_led_config.png)
+        ![rgb_led_config](image/rgb_led_config.png)
 
         - [Third Party Hardware Drivers] → [Services] → [GLIB - OLED Graphics Library]
 
@@ -139,19 +127,13 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-
-![external_repo](images/external_repo.png)
-
-- SDK Extension must be enabled for the project to install some components for co monitor sensor and client projects.
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How it Works ##
 
 ### Sensor Overview ###
 
-![sensor_overview](images/sensor_overview.png)
+![sensor_overview](image/sensor_overview.png)
 
 #### Sensor GATT Database ####
 
@@ -166,7 +148,7 @@ To test this application, you can either create a project based on an example pr
 
 **Application initialization:**
 
-![sensor_init](images/sensor_init.png)
+![sensor_init](image/sensor_init.png)
 
 **Application runtime:**
 
@@ -175,7 +157,7 @@ The BMA400 accelerometer sensor detects the activity and application logic chang
 - Idle state: the device is turned off, the operation time is not measured
 - Operation state: the device is turned on, the operation time measurement is active
 
-![sensor_runtime](images/sensor_runtime.png)
+![sensor_runtime](image/sensor_runtime.png)
 
 **Advertisement Packet:**
 
@@ -193,7 +175,7 @@ AdvData field in the advertisement packet is as table below:
 
 #### Client Overview ###
 
-![client_overview](images/client_overview.png)
+![client_overview](image/client_overview.png)
 
 #### Client GATT Database ###
 
@@ -211,17 +193,17 @@ GATT Database
 
 **Application initialization:**
 
-![client_init](images/client_init.png)
+![client_init](image/client_init.png)
 
 **Runtime - Configuration Mode:**
 
-![config_mode](images/client_config.png)
+![config_mode](image/client_config.png)
 
 **Runtime - Normal Mode:**
 
 *Client normal mode:*
 
-![client_event](images/client_normal.png)
+![client_event](image/client_normal.png)
 
 *BLE Notification Event:*
 
@@ -229,7 +211,7 @@ This function processes the measured values, checks the values against the confi
 
 The measured operation time is displayed on the connected LED matrix display.
 
-![client_ble_notify](images/client_ble_notify.png)
+![client_ble_notify](image/client_ble_notify.png)
 
 **Display:**
 
@@ -242,21 +224,19 @@ If the measured operation time reaches the configured threshold, then besides sh
 
 **Sensor:**
 
-You can use a smartphone application such as the EFR Connect application, to see the advertising packet from the Sensor Device.
+Follow the below steps to test the example with the Simplicity Connect application:
 
-- Open the EFR Connect application.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-- Open the Bluetooth Browser.
+2. Find your device in the Bluetooth Browser, advertising as *bma400_sensor*, and tap Connect.
 
-- Find the device advertising as bma400_sensor
+3. After Connect to device name bma400_sensor, you should see the operation time service UUID. Please have a look at the red highlighted area below in the result pictures.
 
-- Connect to device name bma400_sensor, you should see the operation time service UUID. Please have a look at the red highlighted area below in the result pictures.
+   ![app_phone](image/app_phone.png)
 
-  ![app_phone](images/app_phone.png)
+4. After flashing the code to the sensor board, a similar output from the serial terminal is shown as below.
 
-- After flashing the code to the sensor board, a similar output from the serial terminal is shown as below.
-
-  ![sensor_log ](images/sensor_log.png)
+   ![sensor_log ](image/sensor_log.png)
 
 **Client:**
 
@@ -264,8 +244,8 @@ You can use a smartphone application such as the EFR Connect application, to see
 
 - Open your terminal emulator and connect to your client device over its serial port. Set the baud rate to 115200. A similar output is expected as below.
 
-    ![client_log](images/client_log.png)
+    ![client_log](image/client_log.png)
 
 - **Note:** Button PB0 should be pressed during startup (power-on or reset) to run the client in Configuration Mode. The terminal will display the below text.
 
-    ![client_log_config](images/client_log_config.png)
+    ![client_log_config](image/client_log_config.png)

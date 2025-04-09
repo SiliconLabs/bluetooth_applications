@@ -12,7 +12,7 @@ This document provides an overview of the following aspects of BGM:
 
 1. A Blood Glucose Meter (BGM) is a medical device for determining the approximate concentration of glucose in the blood, and send the data to smartphone through Bluetooth link.
 
-   ![](../images/bgm.png)
+   ![](../image/bgm.png)
 
    ***This document focuses on Bluetooth part, not on the biological sensors and AFE. Generally, there are no common biological sensor and AFE solution for the BGM/CGM product in the market; some of the manufacturers have their own proprietary solutions.***
 
@@ -39,13 +39,13 @@ The profile defines two roles: BGM Sensor and Collector. The BGM Sensor is the d
 - The Collector shall be a GATT Client.
 This profile shall operate over an **LE transport only**
 
-![role](../images/role.jpg)
+![role](../image/role.jpg)
 
 In the real situation, the collector maybe an APP runs on a smartphone. 
 
 Below is a SIG BGM service, it includes 4 characteristics.
 
-![bgmservice](../images/bgmservice.jpg)
+![bgmservice](../image/bgmservice.jpg)
 
 The Collector shall write to the RACP characteristic using one of the supported Op Codes to request a Glucose Sensor to perform a procedure. This shall include an Operator and Operand that is valid within the context of that Op Code.
 
@@ -53,7 +53,7 @@ The Collector shall write to the RACP characteristic using one of the supported 
 
 Below is the basic procedure of how BGM works.
 
-<img src="../images/BGM.jpeg" style="zoom:60%;" />
+<img src="../image/BGM.jpeg" style="zoom:60%;" />
 
 1. Prepare one BGM sensor and one collector, The BGM Sensor shall instantiate one and only one BGM Service.
 
@@ -89,7 +89,7 @@ The hardware is PTS dongle, you can purchase it in [SIG store](https://store.blu
 
 This document use the new LE only dongle(up to core v5.2 supported).
 
-![dongle](../images/dongle.jpg)
+![dongle](../image/dongle.jpg)
 
 
 
@@ -101,31 +101,31 @@ Firstly, plug in the dongle to the PC, open PTS software,
 
 then click "connect" to the dongle.
 
-![connectdongle](../images/connectdongle.jpg)
+![connectdongle](../image/connectdongle.jpg)
 
 create a new workspace for testing.
 
-![newworkspace](../images/newworkspace.jpg)
+![newworkspace](../image/newworkspace.jpg)
 
 make sure the Thunderboard is working now, then choose the BGM sensor, in this case, the BGM sensor's name is "silabs-BGM", click next, 
 
-![devicesearch](../images/devicesearch.jpg)
+![devicesearch](../image/devicesearch.jpg)
 
 in this test, we select GLP and GLS to the test Suite, click finish.
 
-![selectprofile](../images/selectprofile.jpg)
+![selectprofile](../image/selectprofile.jpg)
 
 remember select TSPC_ALL to unlock all the test cases.
 
-![unlockcase](../images/unlockcase.jpg)
+![unlockcase](../image/unlockcase.jpg)
 
 expand all the test cases in this panel, you should pass all the BGM service/profile as shown below,
 
-![service-profile](../images/service-profile.jpg)
+![service-profile](../image/service-profile.jpg)
 
 the whole picture is below,
 
-![wholepiacture](../images/wholepicture.jpg)
+![wholepiacture](../image/wholepicture.jpg)
 
 # 3. start to test
 
@@ -133,17 +133,17 @@ The test case is associated with the SIG test suite, let's take GLS/SEN/SPR/BV-0
 
 After test, the test item will have a PASS flag shown below,
 
-![passflag](../images/passflag.jpg)
+![passflag](../image/passflag.jpg)
 
 if something got wrong, the test item will have a failed flag as below,
 
-![failflag](../images/failflag.jpg)
+![failflag](../image/failflag.jpg)
 
 # Reference
 
 All of the specifications of BGM can be found at the Bluetooth SIG website https://www.bluetooth.com/specifications/specs/, search BGM, 
 
-![specification](../images/spec.jpg)
+![specification](../image/spec.jpg)
 
 click GLP and GLS to download the specification, click TS to download the test case specification.
 

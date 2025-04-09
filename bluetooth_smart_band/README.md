@@ -1,35 +1,29 @@
 # Bluetooth - Smart Band Application
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_smart_band_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_smart_band_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_smart_band_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_smart_band_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_smart_band_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_smart_band_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_smart_band_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-201.3%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-14.04%20KB-blue)
 ## Overview
 
-This project shows a demonstration of **Bluetooth smart band application** using Silabs development kits. It can work and perform features like a Smartwatch. It enables an Android smartphone to connect, send and receive text notifications and sensor data via BLE.
+This project demonstrates a Bluetooth smart band application using Silicon Labs development kits. It can work and perform features like a Smartwatch. It enables an Android smartphone to connect, send and receive text notifications and sensor data via BLE.
 
-## Gecko SDK Suite version
+## SDK version
 
-GSDK v4.4.0
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+
+## Software Required
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
 
 ## Hardware Required
 
-- [SiLabs EFR32xG21 Radio Board BRD4180A](https://www.silabs.com/development-tools/wireless)
-
-- [Wireless Starter Kit Mainboard (WSTK) BRD4001A](https://www.silabs.com/development-tools/wireless/efr32xg21-wireless-starter-kit?tab=overview)
-
-- An Android smartphone with [DT78 Android app](https://github.com/fbiego/DT78-App-Android/raw/dev/app/release/DT78-App-v3.6.apk).
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD4180A | [SiLabs EFR32xG21 Radio Board BRD4180A](https://www.silabs.com/development-tools/wireless)    |
-| BRD4180B | [SiLabs EFR32xG21 Radio Board BRD4180B](https://www.silabs.com/development-tools/wireless/slwrb4180b-efr32xg21-wireless-gecko-radio-board) |
+- 1x [SLWRB4180B](https://www.silabs.com/development-tools/wireless) EFR32xG21A Wireless Gecko 2.4 GHz +20 dBm Radio Board (BRD4180B)
+- 1x [SI-MB4002A](https://www.silabs.com/development-tools/wireless/wireless-pro-kit-mainboard) Wireless Pro Kit Mainboard (BRD4002A)
+- 1x Android smartphone running [DT78 Android app](https://github.com/fbiego/DT78-App-Android/raw/dev/app/release/DT78-App-v3.6.apk).
 
 ## Connections Required
 
@@ -43,9 +37,13 @@ More detailed information can be found in the section [How it works](#how-it-wor
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
 ### Create a project based on an example project
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "smart band".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "smart band".
 
 2. Click **Create** button on **Bluetooth - Smart Band Application** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![board](image/create_project.png)
@@ -62,59 +60,16 @@ To test this application, you can either create a project based on an example pr
 
 3. Install the software components:
 
-  **Services:**
-
-- Install **IO Stream: USART** component with the default instance name: **vcom**.
-
-    ![image](image/usart_component.png)
-
-- Install the **Sleep Timer** component, click on Configure and enable **wall clock functionality**.
-
-     ![image](image/sleep_timer_component.png)
-
-     ![image](image/sleep_timer_component2.png)
-
-  **Application:**
-
-- If you are using an **xG22** Radio Board, install **Relative humidity and temperature sensor** component, if you are using an **xG21** device, install **Relative humidity and temperature sensor (Mock)** component.
-
-     ![image](image/temp_sensor_component.png)
-     ![image](image/temp_sensor_component2.png)
-
-- Install the **Log** component (under Utility).
-
-     ![image](image/log_component.png)
-
-  **Platform:**
-
-- Configure **Board Control** component and enable **virtual com uart**.
-     ![image](image/board_control_component.png)
-
-     ![image](image/board_control_component2.png)
-
-- Install **Memory LCD with usart SPI driver** component.
-
-     ![image](image/lcd_component.png)
-
-- Install **Simple Button** component with the default instance name: **btn0**, add another instance with the default name: **btn1**.
-
-     ![image](image/button_component.png)
-
-     ![image](image/button_component2.png)
-
-- Install **Simple LED** component with the default instance name: **led0**, add another instance with the default name: **led1**.
-
-     ![image](image/led_component.png)
-
-     ![image](image/led_component2.png)
-
-- Install **GLIB Graphics Library** component.
-
-     ![image](image/glib_component.png)
-
-- Install **Tiny printf** component.
-
-     ![image](image/tiny_printf_component.png)
+   - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
+   - [Services] → [Timers] → [Sleeptimer] → enable **wall clock functionality**
+   - [Application] → [Utility] → [Log]
+   - [Platform] → [Board] → [Board Control] → enable *Virtual COM UART*
+   - [Platform] → [Board Drivers] → [Memory LCD] → [Peripheral Driver] → [Memory LCD with usart SPI driver]
+   - [Platform] → [Driver] → [GLIB Graphics Library]
+   - [Platform] → [Driver] → [LED] → [Simple LED] → default instance name: led0, led1
+   - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0, btn1
+   - [Bluetooth] → [Application] → [Miscellaneous] → [Relative humidity and temperature sensor] or [Relative humidity and temperature sensor (Mock)] depend on your board
+   - [Thirparty] → [Tiny Printf]
 
 4. Import the GATT configuration:
 
@@ -126,9 +81,7 @@ To test this application, you can either create a project based on an example pr
 
 5. Build and flash this example to the board.
 
-  **Note:**
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+   **Note:** - A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 6. DT78 Android app is a reverse-engineered Android app that reads app notifications on Android and sends them via BLE for WSTK to receive. More information about DT78 available [here](https://github.com/fbiego/DT78-App-Android).
 

@@ -28,10 +28,16 @@
 
 #include <stdint.h>
 #include <sys/cdefs.h>
+#include "em_msc.h"
 #include "default_config.h"
 
 /* Section ".fconfig" is defined in a linker file */
-const param_block_t FConfig __attribute__((section(".fConfig"))) \
-  __attribute__((aligned(FCONFIG_SIZE))) = DEFAULT_CONFIG;
+//const param_block_t FConfig __attribute__((section(".fConfig"))) \
+//  __attribute__((aligned(FCONFIG_SIZE))) = DEFAULT_CONFIG;
+
+static const uint32_t FConfig[FLASH_PAGE_SIZE / sizeof(uint32_t)]
+__ALIGNED(FLASH_PAGE_SIZE) __attribute__((section(".rodata")));
+
+param_block_t const *pFConfig = (const param_block_t *)FConfig;
 
 const param_block_t defaultFConfig = DEFAULT_CONFIG;

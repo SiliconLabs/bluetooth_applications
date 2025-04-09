@@ -3,7 +3,7 @@
  * @brief Write & read log from sd card
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  ********************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -153,6 +153,6 @@ sl_status_t logger_sd_card_readline(const char *filename,
  * @param filename
  *    File to delete
  ******************************************************************************/
-#define logger_sd_card_clear_log(filename) f_unlink(filename)
+sl_status_t logger_sd_card_clear_log(const char *filename);
 
 #endif /* LOGGER_SD_CARD_H_ */

@@ -3,7 +3,7 @@
  * @brief WSTK display driver implementation for user defined displays.
  *******************************************************************************
  * # License
- * <b>Copyright 2021 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,6 +26,12 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include <stdint.h>
 #include <stdarg.h>
@@ -33,18 +39,22 @@
 #include "esl_tag_display.h"
 #include "esl_tag_image_core.h"
 #include "esl_tag_user_display_driver.h"
-#include "mikroe_e_paper_154_inch.h"
+#include "mikroe_eink_display.h"
 #include "sl_spidrv_instances.h"
 
 #include "esl_tag_log.h"
 #include "esl_tag_display.h"
 #include "esl_tag_image_core.h"
-#include "mikroe_e_paper_154_inch_config.h"
+#include "mikroe_eink_display_config.h"
 
 // ESL EPD Display timer fast update interval [tick]
-#define ESL_MIKROE_EPD_DISPLAY_TIMER_FAST   2
+#define ESL_MIKROE_EPD_DISPLAY_TIMER_FAST    2
+
+// ESL EPD Display timer fast update interval [tick]
+#define ESL_MIKROE_EPD_DISPLAY_TIMER_START   10
+
 // ESL EPD Display timer slow update interval [ms]
-#define ESL_MIKROE_EPD_DISPLAY_TIMER_SLOW   (sl_sleeptimer_ms_to_tick(250))
+#define ESL_MIKROE_EPD_DISPLAY_TIMER_SLOW    (sl_sleeptimer_ms_to_tick(250))
 
 // ESL EPD driver states
 enum driver_states {
@@ -82,19 +92,15 @@ static void esl_mikroe_epd_display_step(uint8_t display_index,
 {
   (void)display_index;
   (void)image_index;
-  sl_status_t sc = mikroe_e_paper_154_inch_display_image_non_blocking(
-    image_index);
-
+  sl_status_t sc = mikroe_eink_display_image_non_blocking(image_index);
   last_result.status = sc;
   switch (state_machine) {
     case DRIVER_STANDBY:
       if (sc == SL_STATUS_IN_PROGRESS) {
-        last_result.period = ESL_MIKROE_EPD_DISPLAY_TIMER_FAST;
+        last_result.period = ESL_MIKROE_EPD_DISPLAY_TIMER_START;
         last_result.status = esl_mikroe_epd_display_yield();
-
         if (last_result.status == SL_STATUS_OK) {
-          // Prepare for more call: set last error accordingly and step next
-          //   state
+          // Prepare for more call: set last error accordingly and step next state
           last_result.error = ESL_ERROR_RETRY;
           state_machine = DRIVER_IN_PROGRESS;
         } else {
@@ -121,7 +127,6 @@ static void esl_mikroe_epd_display_writer(sl_sleeptimer_timer_handle_t *handle,
 {
   (void)handle;
   (void)data;
-
   if (state_machine == DRIVER_IN_PROGRESS) {
     esl_mikroe_epd_display_step(0, 0);
   }
@@ -129,8 +134,7 @@ static void esl_mikroe_epd_display_writer(sl_sleeptimer_timer_handle_t *handle,
 
 static sl_status_t esl_mikroe_epd_display_yield(void)
 {
-  static sl_sleeptimer_timer_handle_t display_timer = { 0 };
-
+  static sl_sleeptimer_timer_handle_t display_timer; // = { 0 };
   return sl_sleeptimer_start_timer_ms(&display_timer,
                                       last_result.period,
                                       esl_mikroe_epd_display_writer,
@@ -156,13 +160,10 @@ sl_status_t esl_user_display_write(int param_count, ...)
   // Variables for va parameters
   uint8_t     display_index;  // 2nd parameter
   uint8_t     image_index;    // 3rd parameter
-
   // User display write: Invalid parameters!
   sl_bt_esl_assert(param_count == ESL_DISPLAY_WRITE_FUNC_PARAMETERS_COUNT);
-
   // Initializing argument to the list pointer
   va_start(ptr, param_count);
-
   // Accessing variables (after each call to va_arg our ptr points to next one)
   display_index = (uint8_t)va_arg(ptr, int);
   image_index = (uint8_t)va_arg(ptr, int);
@@ -205,10 +206,9 @@ sl_status_t esl_user_display_init(int param_count, ...)
   va_end(ptr);
 
   (void)index;
-  mikroe_e_paper_154_inch_init(sl_spidrv_mikroe_handle);
-  mikroe_e_paper_154_inch_start_config();
-  mikroe_e_paper_154_inch_set_lut(EINK154_LUT_TABLE, 30);
 
-  status = SL_STATUS_OK;
+  status = mikroe_eink_display_init(sl_spidrv_mikroe_handle);
+  status = mikroe_eink_display_start_config();
+  status = mikroe_eink_display_set_lut(EINK154_LUT_TABLE, 30);
   return status;
 }

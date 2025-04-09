@@ -1,106 +1,147 @@
-# Bluetooth Cellular Gateway with BG 96B #
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_cellular_gateway_build_status.json)
+# Bluetooth - Cellular Gateway #
 
-This application is using Mikroe LTE IOT 2 CLICK shield on Silicon Laboratories BGM220 Explorer Kit Board (BRD4314A), and Hologram IO cloud service.
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Mikroe-Active%20GPS%20Antenna-green)](https://www.mikroe.com/active-gps)
+[![Required board](https://img.shields.io/badge/Mikroe-GSM/GPRS%20Antenna-green)](https://www.mikroe.com/gsm-gprs-right-angle-rubber)
+[![Required board](https://img.shields.io/badge/Mikroe-LTE%20ToT%202%20Click-green)](https://www.mikroe.com/lte-iot-2-click)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-196.63%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-13.46%20KB-blue)
 
-The application is using our BG_96 driver (https://github.com/SiliconLabs/platform_hardware_drivers/tree/master/cellular_gnss_bg96)
+## Overview ##
 
-## Hardware Required ##
+This project aims to implement a simple Bluetooth-Cellular Thin Gateway. The Gateway is a central device, it discovers and listens to the Thunderboard devices that are advertising and establish a connection with the nearest one. Once the connection is established, the Gateway device reads the temperature and humidity from the connected Thunderboard board and uploads the measured values to the cloud service.
 
-- Mikroe LTE IOT 2 CLICK, GNSS antenna, GSM antenna, SIM card
+The Gateway device periodically reads the location of this device from the connected LTE IoT 2 Click board and include this data in the data-set sending to the cloud service.
 
-![](DOC/bg96_module.jpg)
+The block diagram of this application is shown in the image below:
 
-- BGM220 Explorer Kit Board (BRD4314A), USB mini cable
+![overview](image/overview.png)
 
-- Any Silicon Laboratories Thunderboard (in the example we tested with BG22 Thunderboard (BRD4108A), and Thunderboard Sense2 (BRD4166A))
+## SDK version ##
+
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Software Required ##
 
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
 - [Hologram.io kit](https://www.hologram.io/)
-- Simplicity Studio 5
-- GSDK v4.0.2
-- TeraTerm or another serial console.
 
-## About the setup ##
+## Hardware Required ##
 
-LTE IoT 2 click is a Click board™ that allows connection to the LTE networks, featuring Quectel BG96 LTE module, which offers two LTE technologies aimed at Machine to Machine communication (M2M) and Internet of Things (IoT). This module is an embedded IoT communication solution that supports the LTE Cat M1 and NB1 technologies, offering an alternative to similar Low Power Wide Area Network (LPWAN) solutions, such as the ones provided by Sigfox and LoRa. The LTE CAT1 and NB1 technologies are designed with specific requirements of the IoT network in mind. LTE IoT 2 click also offers various other features, allowing simple and reliable connection to these new 3GPP IoT technologies.
+- 1x [Bluetooth Low Energy Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For example, [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [SLTB010A](https://www.silabs.com/development-tools/thunderboard/thunderboard-bg22-kit) EFR32BG22 Thunderboard Kit running the **Bluetooth - SoC Thunderboard EFR32BG22 (BRD4184A)** example (included in the SiSDK)
+- 1x [LTE ToT 2 Click](https://www.mikroe.com/lte-iot-2-click) features the BG96 module which running on the firmware version: **BG96MAR02A07M1G**
+- 1x [Hologram IoT sim card](https://www.hologram.io/products/global-iot-sim-card/)
+- 1x [GSM/GPRS Antenna](https://www.mikroe.com/gsm-gprs-right-angle-rubber)
+- 1x [Active GPS Antenna](https://www.mikroe.com/active-gps)
 
-## Preparations ##
+## Connections Required ##
 
-The application will run on the BGM220 Explorer Kit Board, with the fitted Mikroe LTE IOT 2 CLICK shield. You need to attach the cellular and GNSS antenna to the proper connectors (CN1 (Brown) is the GSM one, a spiky antenna, and CN2 (Blue) is the octagonal GNSS antenna). Place the GNSS antenna to be able detect GPS satellites. GSM service is also required in the area.
+- The **LTE ToT 2 Click** can be plugged into the **BGM220 Bluetooth Module Explorer Kit** via the mikroBus socket
 
-From Simplicity Studio create a Thunderboard sample app (or demo) and flash it to the Thunderboard, and power it.
+   ![hardware connection](image/hardware_connection.png)
 
-Use the attached project for BMG220 (SimplicityStudio/Bluetooth-Cellular_Gateway.sls), import it to Simplicity Studio, and assign your hologram.io token to the variable **cloud_token[]** in the app.c file. Build the project and flashit to BGM220 Explorer Kit Board.
+- Insert the SIM into the LTE IoT 2 Click. Ensure that the SIM is inserted properly.
 
-If you use another board than BGM220 Explorer Kit Board, you need to follow these steps:
+- You need to attach the GSM and GPS antenna to the proper connectors (CN1 is the GSM one, and CN2 is the GPS antenna). Place the GNSS antenna to be able detect GPS satellites. GSM service is also required in the area.
 
-1. Create a "BLE SOC empty Project" project for your board using Simplicity Studio v5. Use the default project settings. Be sure to connect and select the proper board Board from the "Debug Adapters" on the left before creating a project.
+## Setup ##
 
-2. Overwrite the project's *app.c* with the Git repository's app.c .
-3. set your hologram.io token for variable **cloud_token[]** in the app.c file.
-4. Copy the **BG96_driver** folder from the Git repository to your Simplicity Studio project folder, and add to the include path:
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-![](DOC/include_directory.png)
+**NOTE**:
 
-5. Install the software components:
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
-- Open the .slcp file in the project.
+- SDK Extension must be enabled for the project to install the required components.
 
-- Select the SOFTWARE COMPONENTS tab.
+### Create a project based on an example project ###
 
-- Install **[Services] > [IO Stream] > [IO Stream: USART]** component with the default instance name: **vcom**.
+1. From the Launcher Home, add your device to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "cellular gateway".
 
-![](DOC/iostream.png)
+2. Click **Create** button on **Bluetooth - Cellular Gateway** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+![create_project](image/create_project.png)
 
-- Install **[Services] > [IO Stream] > [IO Stream: Retarget STDIO]** component
+3. Build and flash this example to the board.
 
-![](DOC/iostream_retarget.png)
+### Start with a "Bluetooth - SoC Empty" project ###
 
-- Install the **[Services] > [Sleep Timer]** component.
+1. Create a **Bluetooth - SoC Empty** project for your hardware using Simplicity Studio 5.
 
-- Add two pin instances to **[Peripherial] > [Init] >[GPIO init]**
+2. Copy the *bg96_driver* folder and the *src/app.c* file into the project root folder (overwriting existing). Add the include directories into the project
 
-with the names:
-bg96_pwk
+   ![Path](image/path.png)
 
-![](DOC/pin_pwk.jpg)
+3. Open the .slcp file. Select the SOFTWARE COMPONENTS tab and install the software components:
+   - [Services] → [IO Stream] → [IO Stream: EUSART] → default instance name: vcom
+   - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: mikroe. Set the "Receive buffer size" to 256
+   - [Application] → [Utility] → [Log]
+   - [Application] → [Utility] → [Timer]
+   - [Platform] → [Utilities] → [Circular Queue] → Set "Max Queue Length" to 20
+   - [Third Party Hardware Drivers] → [Services] → [mikroSDK 2.0 SDK - Peripheral Drivers] → [Digital I/O]
+   - [Third Party Hardware Drivers] → [Services] → [mikroSDK 2.0 SDK - Peripheral Drivers] → [UART]
 
-bg96_sta ()
+4. Open the `app.c` file. Replace the DEVICE_KEY with your Hologram token found here: <https://support.hologram.io/hc/en-us/articles/360035212714>
 
-![](DOC/pin_sta.jpg)
+   ![Thunderboard](image/device_key.png)
 
-- Install the **[Platform] > [Utilities] > [Circular Queue]** component with a parameter value 20 Max Queue Length  
+5. Build and flash this example to the Explorer Kit board.
 
-![](DOC/Circular_queue.png)
+6. From the Simplicity Studio 5 launcher, run the **Bluetooth - SoC Thunderboard EFR32BG22 (BRD4184A)** demo on the **Thunderboard EFR32BG22** board
 
-![](DOC/Circular_queue_set_to_20.png)
+   ![Thunderboard](image/thunderboard_example.png)
 
-Install the [Platform] > [Driver] > [UART] > [UARTDRV Core] component, with a given parameters 
-1. FLow control support: enable, maximum number of driver instances: 4
-2. UART software flow control code: request peer to start TX: 17
-3. UART software flow control code: request peer to stop TX: 19
-4. Enable reception when sleeping: enable
+**Note:**
 
-![](DOC/uart.png)
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
-![](DOC/UART_setting.png)
+## How It Works ##
 
-6. Build and flash the project to your BGM220 device.
+### Gateway Implementation ###
 
-## How to use ##
+#### Application initialization ####
 
-Power the Thunderboard. Connect the BMG220 with a micro usb cable to your computer, and open TeraTerm.
+![Application init](image/app_init.png)
 
-The serial window will inform you about collecting humidity, temperature, and GPS position. Values: "t" is temperature, 25°C is represented as 2500, "h" is humidity, 50% RHT is represented as 5000. Latitude and Longitude values are also present (southern hemisphere S, northern hemisphere N, eastern longitude E, western longitude: W) after the valid GPS position was received.
+#### Data collection ####
 
-![](DOC/TetaTerm.png)
+Main periodic timer is main timer of the application, it is responsible for gathering sensor data, device location and send these data-set as a payload to the cloud service.
 
-The string containing these data will appear at the cloud provider.
+Sender periodic timer is intended to handle timeout for sensor and device location read functions and schedule the GNSS location retriever process.
 
-![](DOC/hologram_cloud.png)
+Once the data-set is available or timeout occurs while at least sensor or location data is available the payload should be prepared and send to the cloud service.
+
+![Application init](image/main_timer.png)
+
+#### Sending a Message from the Gateway to the Hologram Dashboard ####
+
+![Send data to cloud](image/tcp.png)
+
+### Testing ###
+
+- To test this application, you need one BGM220P board running the **Bluetooth - Cellular Gateway** example, and at least one Thunderboard BG22 board running the **Bluetooth - SoC Thunderboard EFR32BG22 (BRD4184A)** example. The topological setup for testing this example is shown in the [overview](#overview) section.
+
+- Make sure that the Hologram SIM is activated on the Dashboard. Here is a [link](https://hologram.io/docs/guide/connect/connect-device/#sim-activation) that walks you through that process.
+
+- Power the Thunderboard board. Connect the BMG220 with a micro usb cable to your computer, and open the Console that is integrated into Simplicity Studio to receive the data from the virtual COM port. You should expect a similar output to the one below.
+
+   ![screen at runtime](image/log.png)
+
+- Values: "t" is temperature, 27.3°C is represented as 2730, "h" is humidity, 66.13% RHT is represented as 6613. Latitude and Longitude values are also present (southern hemisphere S, northern hemisphere N, eastern longitude E, western longitude: W) after the valid GPS position was received.
+
+- Navigate to the Hologram Dashboard and click All Activity at the bottom of the screen to expand the log. The message should appear, and that's it!
+
+   ![cloud](image/hologram_cloud.png)
+
+## Resources ##
+
+- [BG96 AT Commands Manual](https://github.com/wwxxyx/Quectel_BG96/blob/master/BG96/Software/Quectel_BG96_AT_Commands_Manual_V2.2.pdf)
+
+- [BG96 GNSS AT Commands Manual](https://github.com/wwxxyx/Quectel_BG96/blob/master/BG96/Software/Quectel_BG96_GNSS_AT_Commands_Manual_V1.1.pdf)
+
+- [BG96 TCP/IP AT Commands Manual](https://github.com/wwxxyx/Quectel_BG96/blob/master/BG96/Software/Quectel_BG96_TCP(IP)_AT_Commands_Manual_V1.0.pdf)

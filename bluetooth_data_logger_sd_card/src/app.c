@@ -3,7 +3,7 @@
  * @brief Main application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  ********************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -32,7 +32,7 @@
  * as a demonstration for evaluation purposes only. This code will be maintained
  * at the sole discretion of Silicon Labs.
  ******************************************************************************/
-#include "em_common.h"
+#include "sl_common.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
 #include "app_assert.h"
@@ -41,6 +41,7 @@
 #include "diskio.h"
 #include "ff.h"
 
+#include "sl_board_control.h"
 #include "sl_sensor_rht.h"
 #include "logger_sd_card.h"
 
@@ -188,9 +189,10 @@ static sl_status_t send_notification(uint8_t connection,
                                      const uint8_t *value);
 static void print_stats(ts_counters_t *ps_counters);
 static void reset_variables();
+static void enable_data_logger(void);
+static void enable_sensor_rht(void);
 static void data_logger_callback(sl_sleeptimer_timer_handle_t *timer,
                                  void *data);
-static void send_log_data_to_spp(void);
 static void send_log_data_to_spp(void);
 static void get_2_of_3_decimal_digit(uint32_t decimal,
                                      uint8_t decimal_digit[static 2]);
@@ -268,8 +270,13 @@ void app_init(void)
 /***************************************************************************//**
  * Application Process Action.
  ******************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
+  /////////////////////////////////////////////////////////////////////////////
+  // Put your additional application code here!                              //
+  // This is called infinitely.                                              //
+  // Do not call blocking functions from here!                               //
+  /////////////////////////////////////////////////////////////////////////////
 }
 
 /***************************************************************************//**
@@ -290,9 +297,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       break;
 
     case sl_bt_evt_connection_parameters_id:
-      app_log("Conn.parameters: interval %u units, txsize %u\r\n",
-              evt->data.evt_connection_parameters.interval,
-              evt->data.evt_connection_parameters.txsize);
+      app_log("Conn.parameters: interval %u units\r\n",
+              evt->data.evt_connection_parameters.interval);
       break;
 
     case sl_bt_evt_gatt_mtu_exchanged_id:
@@ -442,12 +448,9 @@ static void sensor_rht_process_log_data(void)
   if (sl_sleeptimer_get_datetime(&date) != SL_STATUS_OK) {
     return;
   }
+  enable_sensor_rht();
   sc = sl_sensor_rht_get(&rh, &t);
-  if (SL_STATUS_NOT_INITIALIZED == sc) {
-    app_log_info(
-      "Relative Humidity and Temperature sensor is not initialized.\r\n");
-    return;
-  } else if (SL_STATUS_OK != sc) {
+  if (SL_STATUS_OK != sc) {
     app_log_status_error_f(sc, "RHT sensor measurement failed.\r\n");
     return;
   }
@@ -478,6 +481,8 @@ static void sensor_rht_process_log_data(void)
                                    rh_decimal,
                                    t,
                                    t_decimal);
+
+  enable_data_logger();
   logger_sd_card_create_log_entry("%04d/%02d/%02d %02d:%02d:%02d "
                                   "Humidity = %d.%d%d %%RH, Temperature = %d.%d%d C",
                                   date.year + 1900,
@@ -670,6 +675,7 @@ static void app_bt_gatt_server_characteristic_status
         app_properties.main_state = STATE_SPP_MODE;
         sl_power_manager_add_em_requirement(SL_POWER_MANAGER_EM1);
         app_log("SPP Mode ON\r\n");
+        enable_data_logger();
         send_log_data_to_spp();
       } else {
         app_log("SPP Mode OFF\r\n");
@@ -699,6 +705,25 @@ static void app_bt_evt_system_external_signal
     }
     set_data_logger_enable_config(app_properties.data_logger_enable);
   }
+}
+
+/***************************************************************************//**
+ * Need to disable the IMU/RHT sensor since the microSD card shares the
+ * same SPI bus with the IMU sensor (including the CS pin)
+ ******************************************************************************/
+static void enable_data_logger(void)
+{
+  (void)sl_board_disable_sensor(SL_BOARD_SENSOR_RHT);
+}
+
+/***************************************************************************//**
+ * Need to enable the sensor RHT before calling the function sl_sensor_rht_get()
+ ******************************************************************************/
+static void enable_sensor_rht(void)
+{
+  (void)sl_board_enable_sensor(SL_BOARD_SENSOR_RHT);
+  // Wait for sensor to become ready
+  sl_sleeptimer_delay_millisecond(80);
 }
 
 /***************************************************************************//**

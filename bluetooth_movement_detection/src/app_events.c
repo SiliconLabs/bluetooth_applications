@@ -4,7 +4,7 @@
  * @version 1.0.0
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -140,12 +140,6 @@ void app_event_handler_on_char_requests(uint8_t access_type, sl_bt_msg_t *evt)
           }
 
           // Store value in NVM
-          sc = sl_bt_nvm_erase(feature->nvm_key);
-          app_assert(
-            (sc == SL_STATUS_OK) || (sc == SL_STATUS_BT_PS_KEY_NOT_FOUND),
-            "[E: 0x%04x] Failed to Erase NVM\n",
-            (int ) sc);
-
           sc = sl_bt_nvm_save(feature->nvm_key,
                               feature->data_length,
                               feature->data);
@@ -195,7 +189,7 @@ void app_event_handler_on_external_event(sl_bt_msg_t *evt)
   if (evt->data.evt_system_external_signal.extsignals
       & MD_LAST_REQ_TIMEOUT_TIMER_EVENT) {
     // Restart the device.
-    sl_bt_system_reset(0);
+    sl_bt_system_reboot();
   } else if (evt->data.evt_system_external_signal.extsignals
              & MD_ACC_WAKEUP_EVENT) {
     app_logic_md_handle_acc_wakeup_evt();

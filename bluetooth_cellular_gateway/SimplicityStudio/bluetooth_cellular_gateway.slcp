@@ -1,0 +1,133 @@
+project_name: bluetooth_cellular_gateway
+package: Bluetooth
+label: Bluetooth - Cellular Gateway
+description: >
+  This project implements a Bluetooth-Cellular Thin Gateway.
+  The Gateway discovers and connects to nearest Thunderboard device via BLE, reads temperature and humidity
+  and uploads the data to the cloud.
+  It also periodically reads location data from the LTE IoT 2 Click board and includes this data in the cloud data-set.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Beginner]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: bluetooth_feature_gap
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_power_control
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: app_timer
+  - id: iostream_eusart
+    instance: [vcom]
+  - id: iostream_usart
+    instance: [mikroe]
+  - id: app_log
+  - id: sl_string
+  - id: silabs_core_circular_queue
+  - id: services_mikroe_peripheral_drivers_digital_io
+    from: third_party_hw_drivers
+  - id: services_mikroe_peripheral_drivers_uart
+    from: third_party_hw_drivers
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+  - path: ../bg96_driver/config
+    file_list:
+      - path: mikroe_bg96_config.h
+    directory: bg96_driver/config
+  - path: ../bg96_driver/inc
+    file_list:
+      - path: at_parser_core.h
+      - path: at_parser_events.h
+      - path: at_parser_platform.h
+      - path: at_parser_utility.h
+      - path: bg96_at_commands.h
+      - path: mikroe_bg96.h
+    directory: bg96_driver/inc
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../bg96_driver/src/at_parser_core.c
+    directory: bg96_driver/src
+  - path: ../bg96_driver/src/at_parser_events.c
+    directory: bg96_driver/src
+  - path: ../bg96_driver/src/at_parser_platform.c
+    directory: bg96_driver/src
+  - path: ../bg96_driver/src/bg96_at_commands.c
+    directory: bg96_driver/src
+  - path: ../bg96_driver/src/mikroe_bg96.c
+    directory: bg96_driver/src
+
+configuration:
+  - name: SL_IOSTREAM_USART_MIKROE_FLOW_CONTROL_TYPE
+    value: usartHwFlowControlNone
+  - name: SL_IOSTREAM_USART_MIKROE_RX_BUFFER_SIZE
+    value: 256
+  - name: CIRCULAR_QUEUE_LEN_MAX
+    value: 20
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+toolchain_settings:
+  - option: gcc_linker_option
+    value: "-u _printf_float"
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/app_init.png
+    directory: "image"
+  - path: ../image/create_project.png
+    directory: "image"
+  - path: ../image/device_key.png
+    directory: "image"
+  - path: ../image/hardware_connection.png
+    directory: "image"
+  - path: ../image/hologram_cloud.png
+    directory: "image"
+  - path: ../image/log.png
+    directory: "image"
+  - path: ../image/main_timer.png
+    directory: "image"
+  - path: ../image/overview.png
+    directory: "image"
+  - path: ../image/path.png
+    directory: "image"
+  - path: ../image/tcp.png
+    directory: "image"
+  - path: ../image/thunderboard_example.png
+    directory: "image"
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+tag:
+  - hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: README.md
+      focus: true

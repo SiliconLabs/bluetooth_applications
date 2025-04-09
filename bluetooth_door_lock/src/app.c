@@ -1,41 +1,42 @@
 /**************************************************************************//**
-* @file app.c
-* @brief Application interface provided to main().
-* @version 1.0.0
-*******************************************************************************
-* # License
-* <b>Copyright 2021 Silicon Laboratories Inc. www.silabs.com</b>
-*******************************************************************************
-*
-* SPDX-License-Identifier: Zlib
-*
-* The licensor of this software is Silicon Laboratories Inc.
-*
-* This software is provided \'as-is\', without any express or implied
-* warranty. In no event will the authors be held liable for any damages
-* arising from the use of this software.
-*
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-*
-* 1. The origin of this software must not be misrepresented; you must not
-*    claim that you wrote the original software. If you use this software
-*    in a product, an acknowledgment in the product documentation would be
-*    appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-*    misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*
-*******************************************************************************
-* # Experimental Quality
-* This code has not been formally tested and is provided as-is. It is not
-* suitable for production environments. In addition, this code will not be
-* maintained and there may be no bug maintenance planned for these resources.
-* Silicon Labs may update projects from time to time.
-******************************************************************************/
+ * @file app.c
+ * @brief Application interface provided to main().
+ * @version 1.0.0
+ *******************************************************************************
+ * # License
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
+ *******************************************************************************
+ *
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided \'as-is\', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
+ ******************************************************************************/
 // Includes bluetooth core headers
-#include "em_common.h"
+#include "sl_common.h"
+#include "em_cmu.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
@@ -412,7 +413,6 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
 {
   uint8_t security_level = evt->data.evt_connection_parameters.security_mode
                            + 1;
-  uint16_t tx_size = evt->data.evt_connection_parameters.txsize;
   uint16_t timeout = evt->data.evt_connection_parameters.timeout;
 
   app_log("Bluetooth Stack Event : CONNECTION Parameters ID mode = %d\r\n",
@@ -420,16 +420,14 @@ static void connection_parameters_handler(sl_bt_msg_t *evt)
 
   // If security is less than 2 increase so devices can bond
   if (security_level <= 2) {
-    app_log("Bluetooth Stack Event : CONNECTION PARAMETERS : MTU = %d, \
+    app_log("Bluetooth Stack Event : CONNECTION PARAMETERS : \
               SecLvl : %d, timeout : %d\r\n",
-            tx_size,
             security_level,
             timeout);
     app_log("+ Bonding Handle is: 0x%04X\r\n", ble_bonding_handle);
   } else {
     app_log("[OK]      Bluetooth Stack Event : CONNECTION PARAMETERS : \
-              MTU = %d, SecLvl : %d, Timeout : %d\r\n",
-            tx_size,
+             SecLvl : %d, Timeout : %d\r\n",
             security_level,
             timeout);
   }
@@ -601,13 +599,6 @@ static void gatt_server_user_write_request_handler(sl_bt_msg_t *evt)
                  "[E: 0x%04x] Failed to send a write response\n",
                  (int)sc);
 
-      // Write password to NVM
-      sc = sl_bt_nvm_erase(PASSWORD_NVM_KEY);
-      app_assert((sc == SL_STATUS_OK)
-                 || (sc == SL_STATUS_BT_PS_KEY_NOT_FOUND),
-                 "[E: 0x%04x] Failed to Erase NVM\n",
-                 (int)sc);
-
       sc = sl_bt_nvm_save(PASSWORD_NVM_KEY, sizeof(user_buf), user_buf);
       app_assert(sc == SL_STATUS_OK,
                  "[E: 0x%04x] Failed to write NVM\n",
@@ -616,6 +607,8 @@ static void gatt_server_user_write_request_handler(sl_bt_msg_t *evt)
       // Change passkey
       sl_bt_sm_set_passkey(atoi((char *) user_buf));
 
+      app_log("Change password successful: %s\r\nClose connection\r\n",
+              user_buf);
       // Delete all the bonding handle
       sc = sl_bt_sm_delete_bondings();
       app_assert(sc == SL_STATUS_OK,
@@ -637,7 +630,7 @@ static void gatt_server_user_write_request_handler(sl_bt_msg_t *evt)
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
@@ -650,6 +643,11 @@ SL_WEAK void app_init(void)
  *****************************************************************************/
 void app_process_action(void)
 {
+  /////////////////////////////////////////////////////////////////////////////
+  // Put your additional application code here!                              //
+  // This is called infinitely.                                              //
+  // Do not call blocking functions from here!                               //
+  /////////////////////////////////////////////////////////////////////////////
 }
 
 /**************************************************************************//**

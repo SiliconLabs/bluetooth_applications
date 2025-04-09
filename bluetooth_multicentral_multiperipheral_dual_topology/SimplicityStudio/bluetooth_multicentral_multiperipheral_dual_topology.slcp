@@ -1,52 +1,51 @@
-# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
 project_name: bluetooth_multicentral_multiperipheral_dual_topology
+package: Bluetooth
 label: Bluetooth - Multi-Central Multi-Peripheral Dual Topology
-description: |
+description: >
   This code example demonstrates how to handle multiple (simultaneous) connections,
   when the device has to act as central on some of the connections, and peripheral
   on the rest of the connections.
 category: Bluetooth Examples
-filter:
-- name: Device Type
-  value: [SoC]
-- name: Project Difficulty
-  value: [Advanced]
-- name: Wireless Technology
-  value: [Bluetooth]
-package: Bluetooth
 quality: experimental
 
-readme:
-- path: ../README.md
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Advanced]
+  - name: Wireless Technology
+    value: [Bluetooth]
 
-source:
-  - path: ../src/main.c
-  - path: ../src/app.c
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
 
 include:
   - path: ../inc
     file_list:
       - path: app.h
 
-component:
-  - id: bluetooth_feature_gatt_server
-  - id: bluetooth_feature_sm
-  - id: mpu
-  - id: bluetooth_feature_legacy_advertiser
-  - id: gatt_configuration
-  - id: gatt_service_device_information
-  - id: bluetooth_stack
-  - id: rail_util_pti
-  - id: bluetooth_feature_gatt
-  - id: bluetooth_feature_legacy_scanner
-  - id: app_log
-  - id: bt_post_build
-  - id: bluetooth_feature_connection
-  - id: iostream_usart
-    instance: [vcom]
-  - id: bluetooth_feature_system
-  - id: component_catalog
-  - id: app_assert
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
 
 config_file:
   - override:
@@ -55,29 +54,32 @@ config_file:
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
 
-other_file:
-  - path: ../images/image1.png
-    directory: images
-  - path: ../images/image2.png
-    directory: images
-  - path: ../images/image3.png
-    directory: images
-  - path: ../images/image4.png
-    directory: images
-  - path: ../images/create_project.png
-    directory: images
-
 configuration:
-- name: SL_STACK_SIZE
-  value: '2752'
-- name: SL_HEAP_SIZE
-  value: '9200'
-- name: SL_BOARD_ENABLE_VCOM
-  value: "1"
-  condition: [iostream_usart]
-- name: SL_PSA_KEY_USER_SLOT_COUNT
-  value: '0'
-  condition: [psa_crypto]
+  - name: SL_BT_CONFIG_MAX_CONNECTIONS
+    value: '8'
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition: [iostream_usart]
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition: [psa_crypto]
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/image1.png
+    directory: image
+  - path: ../image/image2.png
+    directory: image
+  - path: ../image/image3.png
+    directory: image
+  - path: ../image/image4.png
+    directory: image
+  - path: ../image/create_project.png
+    directory: image
 
 ui_hints:
   highlight:

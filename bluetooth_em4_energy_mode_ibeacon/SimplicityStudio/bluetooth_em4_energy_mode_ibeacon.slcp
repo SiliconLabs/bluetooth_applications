@@ -1,111 +1,95 @@
-# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
 project_name: bluetooth_em4_energy_mode_in_ibeacon_app
+package: Bluetooth
 label: Bluetooth - EM4 Energy Mode in iBeacon Application
-description: |
-  This code example shows the use of sleep mode EM4 in a Bluetooth iBeacon Application. The device will operate in deep sleep mode EM4 after advertising iBeacon packet in 5s. It will stay in EM4 for 15s but users can force the device to wake up from EM4 immediately by pushing Button.
+description: >
+  This code example shows the use of sleep mode EM4 in a Bluetooth iBeacon Application.
+  The device will operate in deep sleep mode EM4 after advertising iBeacon packet in 5s.
+  It will stay in EM4 for 15s but users can force the device to wake up from EM4 immediately by pushing Button.
 category: Bluetooth Examples
-
 quality: experimental
 
 filter:
-- name: Device Type
-  value: [SoC]
-- name: Project Difficulty
-  value: [Advanced]
-- name: Wireless Technology
-  value: [Bluetooth]
-package: Bluetooth
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Advanced]
+  - name: Wireless Technology
+    value: [Bluetooth]
 
 component:
   - id: bluetooth_stack
-  - id: gatt_configuration
-  - id: gatt_service_device_information
   - id: bluetooth_feature_legacy_advertiser
-  - id: bluetooth_feature_gatt
-  - id: bluetooth_feature_gatt_server
-  - id: bluetooth_feature_legacy_scanner
-  - id: bluetooth_feature_system
+  - id: bluetooth_feature_connection
   - id: bluetooth_feature_sm
-  - id: mpu
-  - id: bt_post_build
-  - instance: [em4wu]
-    id: simple_button
-  - id: rail_util_pti
-  - id: component_catalog
+  - id: bluetooth_feature_system
   - id: app_assert
-
-readme:
-- path: ../README.md
-
-source:
-  - path: ../src/main.c
-  - path: ../src/app.c
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: simple_button
+    instance: [em4wu]
 
 include:
   - path: ../inc
     file_list:
       - path: app.h
 
-config_file:
-  - override:
-      component: gatt_configuration
-      file_id: gatt_configuration_file_id
-    path: "../config/btconf/gatt_configuration.btconf"
-    directory: "btconf"
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
 
+config_file:
   - override:
       component: simple_button
       file_id: simple_button_config
       instance: em4wu
     path: "../config/sl_simple_button_em4wu_config.h"
 
-other_file:
-  - path: ../images/create_example.png
-    directory: images
-  - path: ../images/debug_adapter.png
-    directory: images
-  - path: ../images/result.png
-    directory: images
-
 configuration:
-- name: SL_STACK_SIZE
-  value: '2752'
-- name: SL_HEAP_SIZE
-  value: '9200'
-- name: SL_PSA_KEY_USER_SLOT_COUNT
-  value: '0'
-  condition: [psa_crypto]
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition: [psa_crypto]
+  - name: SL_SIMPLE_BUTTON_EM4WU_PORT
+    value: 'SL_GPIO_PORT_B'
+    condition: [brd2703a]
+  - name: SL_SIMPLE_BUTTON_EM4WU_PIN
+    value: '3'
+    condition: [brd2703a]
+  - name: SL_SIMPLE_BUTTON_EM4WU_PORT
+    value: 'SL_GPIO_PORT_B'
+    condition: [brd2601b]
+  - name: SL_SIMPLE_BUTTON_EM4WU_PIN
+    value: '3'
+    condition: [brd2601b]
+  - name: SL_SIMPLE_BUTTON_EM4WU_PORT
+    value: 'SL_GPIO_PORT_C'
+    condition: [brd4108a]
+  - name: SL_SIMPLE_BUTTON_EM4WU_PIN
+    value: '7'
+    condition: [brd4108a]
+  - name: SL_SIMPLE_BUTTON_EM4WU_PORT
+    value: 'SL_GPIO_PORT_C'
+    condition: [brd4314a]
+  - name: SL_SIMPLE_BUTTON_EM4WU_PIN
+    value: '7'
+    condition: [brd4314a]
 
-- name: SL_SIMPLE_BUTTON_EM4WU_PORT
-  value: 'gpioPortB'
-  condition: [brd2703a]
-- name: SL_SIMPLE_BUTTON_EM4WU_PIN
-  value: '3'
-  condition: [brd2703a]
+readme:
+  - path: ../README.md
 
-- name: SL_SIMPLE_BUTTON_EM4WU_PORT
-  value: 'gpioPortB'
-  condition: [brd2601b]
-- name: SL_SIMPLE_BUTTON_EM4WU_PIN
-  value: '3'
-  condition: [brd2601b]
-
-- name: SL_SIMPLE_BUTTON_EM4WU_PORT
-  value: 'gpioPortC'
-  condition: [brd4108a]
-- name: SL_SIMPLE_BUTTON_EM4WU_PIN
-  value: '7'
-  condition: [brd4108a]
-
-- name: SL_SIMPLE_BUTTON_EM4WU_PORT
-  value: 'gpioPortC'
-  condition: [brd4314a]
-- name: SL_SIMPLE_BUTTON_EM4WU_PIN
-  value: '7'
-  condition: [brd4314a]
+other_file:
+  - path: ../image/create_example.png
+    directory: image
+  - path: ../image/debug_adapter.png
+    directory: image
+  - path: ../image/result.png
+    directory: image
 
 ui_hints:
   highlight:
-    - path: config/btconf/gatt_configuration.btconf
     - path: README.md
       focus: true

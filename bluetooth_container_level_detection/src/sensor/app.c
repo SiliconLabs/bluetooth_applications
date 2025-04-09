@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,14 +26,19 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 
 #include <stdio.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "app.h"
-#include "gatt_db.h"
 
 #include "sl_sleeptimer.h"
 #include "sl_i2cspm_instances.h"
@@ -134,7 +139,7 @@ static void update_adv_data(uint16_t distance, uint16_t sample_counter);
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   sl_status_t sc;
 
@@ -154,7 +159,7 @@ SL_WEAK void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
@@ -231,7 +236,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
       // Start advertising and enable connections.
       sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
-                                         sl_bt_advertiser_connectable_scannable);
+                                         sl_bt_advertiser_scannable_non_connectable);
       app_assert_status(sc);
       app_log("Start advertising ...\n");
       break;
@@ -251,7 +256,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       // Restart advertising after client has disconnected.
       sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
-                                         sl_bt_advertiser_connectable_scannable);
+                                         sl_bt_advertiser_scannable_non_connectable);
       app_assert_status(sc);
       break;
 

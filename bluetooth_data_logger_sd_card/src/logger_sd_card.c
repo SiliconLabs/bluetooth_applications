@@ -3,7 +3,7 @@
  * @brief Write & read log from sd card
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  ********************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -35,6 +35,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "sl_status.h"
+#include "sl_gpio.h"
 #include "logger_sd_card.h"
 #include "sl_spidrv_instances.h"
 #include "sl_sdc_sd_card.h"
@@ -42,6 +43,7 @@
 #define EOL                       "\n"
 #define EOL_LENGTH                (1)
 #define LOG_DATA_LINE_MAX_LENGTH  (512)
+#define MOUNT_PATH                ""
 
 static char line_buf[LOG_DATA_LINE_MAX_LENGTH];
 static int line_length = 0;
@@ -55,11 +57,16 @@ sl_status_t logger_sd_card_init(void)
 {
   FRESULT fr;
   int i;
+
+  sl_gpio_t pin_port = { sl_spidrv_exp_handle->initData.portRx,
+                         sl_spidrv_exp_handle->initData.pinRx };
+  sl_gpio_set_pin_mode(&pin_port, SL_GPIO_MODE_INPUT_PULL, 1);
   sd_card_spi_init(sl_spidrv_exp_handle);
 
   for (i = 0; i < 5; i++) {
-    fr = f_mount(&fs, "", 0);
+    fr = f_mount(&fs, MOUNT_PATH, 1);
     if (fr == FR_OK) {
+      f_unmount(MOUNT_PATH);
       break;
     }
     if (FR_OK != f_mkfs("", NULL, line_buf, sizeof(line_buf))) {
@@ -113,23 +120,32 @@ sl_status_t logger_sd_card_append_current_log_entry(const char *filename)
     return SL_STATUS_NOT_READY;
   }
 
-  fr = f_open(&fil, filename, FA_WRITE | FA_OPEN_APPEND);
+  fr = f_mount(&fs, MOUNT_PATH, 1);
   if (FR_OK != fr) {
     return SL_STATUS_IO;
+  }
+
+  fr = f_open(&fil, filename, FA_WRITE | FA_OPEN_APPEND);
+  if (FR_OK != fr) {
+    goto end;
   }
 
   fr = f_write(&fil, line_buf, line_length, &bw);
 
   if ((FR_OK != fr) || (bw != (UINT)line_length)) {
-    f_close(&fil);
-    return SL_STATUS_IO;
+    goto close;
   }
   // discard current log entry
   line_length = 0;
   // call f_sync() to force write all log data to sdcard
   f_sync(&fil);
+
+  close:
   f_close(&fil);
-  return SL_STATUS_OK;
+
+  end:
+  f_unmount(MOUNT_PATH);
+  return FR_OK == fr ? SL_STATUS_OK : SL_STATUS_IO;
 }
 
 /***************************************************************************//**
@@ -143,16 +159,21 @@ sl_status_t logger_sd_card_readline(const char *filename,
   UINT br;
   char *eol = EOL;
 
-  fr = f_open(&fil, filename, FA_READ | FA_OPEN_EXISTING);
+  fr = f_mount(&fs, MOUNT_PATH, 1);
   if (FR_OK != fr) {
     return SL_STATUS_IO;
+  }
+
+  fr = f_open(&fil, filename, FA_READ | FA_OPEN_EXISTING);
+  if (FR_OK != fr) {
+    goto end;
   }
 
   do {
     char c;
     fr = f_read(&fil, &c, 1, &br);
     if (FR_OK != fr) {
-      goto error;
+      goto close;
     }
     if (br == 0) { // End of file reached
       break;
@@ -176,9 +197,25 @@ sl_status_t logger_sd_card_readline(const char *filename,
     callback(line_buf, line_length);
   }
   line_length = 0;
+
+  close:
   f_close(&fil);
-  return SL_STATUS_OK;
-  error:
-  f_close(&fil);
-  return SL_STATUS_IO;
+
+  end:
+  f_unmount(MOUNT_PATH);
+  return FR_OK == fr ? SL_STATUS_OK : SL_STATUS_IO;
+}
+
+sl_status_t logger_sd_card_clear_log(const char *filename)
+{
+  FRESULT fr;
+
+  fr = f_mount(&fs, MOUNT_PATH, 1);
+  if (FR_OK != fr) {
+    return SL_STATUS_IO;
+  }
+
+  fr = f_unlink(filename);
+  f_unmount(MOUNT_PATH);
+  return FR_OK == fr ? SL_STATUS_OK : SL_STATUS_IO;
 }

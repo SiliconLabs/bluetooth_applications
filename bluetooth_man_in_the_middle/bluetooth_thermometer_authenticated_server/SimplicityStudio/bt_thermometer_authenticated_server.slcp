@@ -1,0 +1,111 @@
+project_name: bt_thermometer_authenticated_server
+package: Bluetooth
+label: Bluetooth - SoC Thermometer Authenticated Server
+description: >
+  This example project shows an example for Bluetooth Thermometer Server that is configured with authenticated notify to prevent MITM.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: "Device Type"
+    value: ["SoC"]
+  - name: "Project Difficulty"
+    value: ["Advanced"]
+  - name: "Wireless Technology"
+    value: ["Bluetooth"]
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: health_thermometer
+  - id: sensor_rht_mock
+    condition: [device_efx]
+  - id: sleeptimer
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: i2cspm
+    instance: [sensor]
+    condition: [hardware_board_has_tempsensor]
+  - id: i2cspm
+    instance: [qwiic]
+    unless: [hardware_board_has_tempsensor]
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+
+source:
+  - path: ../src/app.c
+  - path: ../src/main.c
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/gatt_configuration.btconf"
+    directory: "btconf"
+
+configuration:
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - board_control
+
+toolchain_settings:
+  - option: gcc_linker_option
+    value: "-u _printf_float"
+
+readme:
+  - path: ../../README.md
+
+other_file:
+  - path: ../../image/create_project.png
+    directory: image
+  - path: ../../image/attacker_connect.png
+    directory: image
+  - path: ../../image/auth_fail.png
+    directory: image
+  - path: ../../image/auth_success.png
+    directory: image
+  - path: ../../image/connect_auth.png
+    directory: image
+  - path: ../../image/connect_efr.png
+    directory: image
+  - path: ../../image/connected_server.png
+    directory: image
+  - path: ../../image/connection.png
+    directory: image
+  - path: ../../image/disconnect.png
+    directory: image
+  - path: ../../image/malicious_data.png
+    directory: image
+  - path: ../../image/passkey.png
+    directory: image
+  - path: ../../image/float.png
+    directory: image
+
+tag:
+  - hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

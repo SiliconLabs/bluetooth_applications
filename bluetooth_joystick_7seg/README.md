@@ -1,12 +1,14 @@
 # Bluetooth - Joystick 7seg #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_joystick_7seg_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_joystick_7seg_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_joystick_7seg_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_joystick_7seg_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_joystick_7seg_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_joystick_7seg_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_joystick_7seg_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Mikroe-UT-green)](https://www.mikroe.com/ut-s-7-seg-r-click)
+[![Required board](https://img.shields.io/badge/Sparkfun-Qwiic%20Joystick%20Board-green)](https://www.sparkfun.com/products/15168)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-213.66%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.98%20KB-blue)
 ## Description ##
 
 This project shows an example of Bluetooth using Silicon Labs development kits and external sensors integrated with the BLE wireless stack. This project uses a Sparkfun Qwiic Joystick board and a UT-L 7-SEG R click board.
@@ -19,37 +21,47 @@ The SparkFun Qwiic Joystick combines the convenience of the Qwiic connection sys
 
 For more information about the SparkFun Qwiic Joystick, see the [specification page](https://learn.sparkfun.com/tutorials/qwiic-joystick-hookup-guide).
 
-## Gecko SDK version ##
+## SDK version ##
 
-- GSDK v4.4.0
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- [A BGM220 Explorer Kit board.](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
-
-- [A SparkFun Qwiic Joystick Board.](https://www.sparkfun.com/products/15168)
-
-- [A UT-S 7-SEG R click Board.](https://www.mikroe.com/ut-s-7-seg-r-click)
+- 1x [Bluetooth Low Energy Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [SparkFun Qwiic Joystick Board](https://www.sparkfun.com/products/15168)
+- 1x [UT-S 7-SEG R click Board](https://www.mikroe.com/ut-s-7-seg-r-click)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
-Attach the UT-L 7-SEG R Click board to the Explorer kit. Make sure that the 45-degree corner of the NFC board matches the 45-degree white line of the Silabs Explorer kit
+Attach the UT-L 7-SEG R Click board to the Explorer kit. Make sure that the 45-degree corner of the NFC board matches the 45-degree white line of the Silicon Labs Explorer kit
 
 The Sparkfun Qwiic Joystick board can be easily connected by using a Qwiic cable.
 
-![connection](images/connection.png)
+![connection](image/connection.png)
 
 ## Setup ##
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
+
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "joystick_7seg".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "joystick_7seg".
 
 2. Click **Create** button on the **Bluetooth - Joystick 7seg** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![create project](images/create_project.png)
+![create project](image/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -70,6 +82,7 @@ To test this application, you can either create a project based on an example pr
         - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
         - [Application] → [Utility] → [Log]
         - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0
+        - [Platform] → [Driver] → [I2C] → [I2CSPM] → default instance name: qwiic
         - [Third Party Hardware Drivers] → [Display & LED] → [MAX6969 - UT-M 7-SEG R Click (Mikroe)]
         - [Third Party Hardware Drivers] → [Human Machine Interface] → [Qwiic Joystick (Sparkfun)]
 
@@ -79,24 +92,29 @@ To test this application, you can either create a project based on an example pr
     - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
     - Click on the Import button and import the attached `config/btconf/gatt_configuration.btconf` file.
     - Save the GATT configuration (ctrl-s).
-    ![gatt config](images/import_gatt_configuaration.png)
+    ![gatt config](image/import_gatt_configuaration.png)
 
 5. Build and flash this example to the board.
+
+**Note:**
+
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
 The application reads a current joystick position every 100ms and prints it on the 7-segment LED display. For simplicity, reading is the current vertical position from joystick and only look at the MSB and get an 8-bit reading (for 256 positions). Each time the joystick moves up to the highest position (255), the joystick data will be increased by 1. On the contrary, each time the joystick moves down to the lowest position (0), the joystick data will be decreased by 1. When the Bluetooth connection is opened, the joystick data can be seen via Bluetooth by reading it manually or it can be also automatically updated using Notification.
-Follow the below steps to test the example:
 
-1. Open the EFR Connect app on your smartphone.
-2. Find your device in the Bluetooth Browser, advertising as joystick_7seg, and tap Connect.
+Follow the below steps to test the example with the Simplicity Connect application:
+
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
+2. Find your device in the Bluetooth Browser, advertising as *joystick_7seg*, and tap Connect. Then you need accept the pairing request when connected for the first time.
 3. Find the Unknown Service in the GATT database.
 4. Try to read, write, re-read the characteristics, and check the value.
-5. Enable Notification on this service. Try to move up/down the joystick then check the value on the 7-segment LED display and on the EFR Connect app.
+5. Enable Notification on this service. Try to move up/down the joystick then check the value on the 7-segment LED display and on the Simplicity Connect app.
 6. Try to use the BTN0 button to turn on/off the 7-segment LED display at any time.
 
-![efr connect](images/efr_connect.png)
+   ![Simplicity connect](image/efr_connect.png)
 
-You can launch the Console that is integrated in Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the logs from the virtual COM port.
+7. You can launch the Console that is integrated in Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the logs from the virtual COM port.
 
-![console](images/console.png)
+   ![console](image/console.png)

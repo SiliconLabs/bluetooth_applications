@@ -1,8 +1,11 @@
 project_name: bt_reporting_battery_voltage
+package: Bluetooth
 label: Bluetooth - Reporting Battery Voltage
 description: >
   This example shows how to create an application to monitor the battery voltage and report it as a percentage of full charge. The Bluetooth SIG defines a battery service exactly for this purpose. The definition can be found in Bluetooth SIG Specifications List. The example will use this adopted service to report battery level.
 category: Bluetooth Examples
+quality: experimental
+
 filter:
   - name: "Wireless Technology"
     value: ["Bluetooth"]
@@ -12,12 +15,6 @@ filter:
     value: ["32-bit MCU"]
   - name: "Project Difficulty"
     value: ["Beginner"]
-
-package: Bluetooth
-quality: experimental
-
-readme:
-- path: ../README.md
 
 include:
   - path: ../inc
@@ -43,6 +40,7 @@ component:
   - id: mpu
   - id: bt_post_build
   - id: sl_system
+  - id: sl_common
   - id: device_init
   - id: app_assert
   - id: app_log
@@ -50,7 +48,7 @@ component:
   - id: sleeptimer
   - id: iostream_usart
     instance: [vcom]
-  - id: emlib_adc
+  - id: emlib_iadc
 
 configuration:
   - name: SL_PSA_KEY_USER_SLOT_COUNT
@@ -71,6 +69,9 @@ config_file:
       file_id: gatt_configuration_file_id
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
+
+readme:
+  - path: ../README.md
 
 other_file:
   - path: ../image/place_battery.png

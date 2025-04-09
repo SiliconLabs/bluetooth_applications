@@ -1,23 +1,23 @@
 # Bluetooth - Data Logger SD Card
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_data_logger_sd_card_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_data_logger_sd_card_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_data_logger_sd_card_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_data_logger_sd_card_common.json&label=SDK&query=sdk&color=green)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
 [![Required board](https://img.shields.io/badge/Mikroe-Silabs%20Click%20Shield-green)](https://www.mikroe.com/silabs-click-shield)
-[![Required board](https://img.shields.io/badge/Mikroe-MICRO%20SD%20CLICK-green)](https://www.mikroe.com/microsd-click)
+[![Required board](https://img.shields.io/badge/Mikroe-microSD%20Click-green)](https://www.mikroe.com/microsd-click)
 [![Required board](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout%20(Qwiic)%20board-green)](https://www.sparkfun.com/products/14532)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_data_logger_sd_card_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_data_logger_sd_card_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_data_logger_sd_card_common.json&label=RAM&query=ram&color=blue)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-235.16%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-14.64%20KB-blue)
 
 ## Overview
 
-This project aims to implement a data logger application using Silicon Laboratories development kits integrated with the BLE wireless stack and humidity & temperature sensors (si72xx).
+This project aims to implement a data logger application using Silicon Labs development kits integrated with the BLE wireless stack and humidity & temperature sensors (si72xx).
 
 The block diagram of this application is shown in the image below:
 
-![overview](images/overview.png)
+![overview](image/overview.png)
 
 More detailed information can be found in the section [How it works](#how-it-works).
 
@@ -26,67 +26,73 @@ This code example referred to the following code examples. More detailed informa
 - [SSD1306 - SparkFun Micro OLED Breakout](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/driver/public/silabs/micro_oled_ssd1306)
 - [External Storage - microSD Click (Mikroe)](https://github.com/SiliconLabs/third_party_hw_drivers_extension/tree/master/driver/public/mikroe/microsd)
 
-## Gecko SDK version
+## SDK version
 
-- GSDK v4.4.0
-- [Third-Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required
 
-- [Thunderboard Sense 2](https://www.silabs.com/development-tools/thunderboard/thunderboard-sense-two-kit)
-- [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
-- [MICRO SD CLICK](https://www.mikroe.com/microsd-click)
-- [Silabs Click Shield](https://www.mikroe.com/silabs-click-shield)
+- 1x [xG24-DK2601B](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview) EFR32xG24 Dev Kit
+- 1x [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
+- 1x [microSD Click](https://www.mikroe.com/microsd-click)
+- 1x [Silabs Click Shield](https://www.mikroe.com/silabs-click-shield)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required
 
 The hardware connection is shown in the image below:
 
-![hardware connection](images/hardware_connection.png)
+![hardware connection](image/hardware_connection.png)
 
-- The **Thunderboard Sense 2** and the **MICRO SD CLICK** can be plugged into the [Mikroe Silabs Click Shield](https://www.mikroe.com/silabs-click-shield) via the Thunderboard socket and the mikroBus respectively or we can use some **female-to-female jumper wire** to connect them directly as shown in the table below
+- The **xG24 Dev Kit** and the **microSD Click** can be connected to the [Mikroe Silabs Click Shield](https://www.mikroe.com/silabs-click-shield) via the Thunderboard socket and the mikroBus respectively, or we can use some **female-to-female jumper wire** to connect them directly as shown in the table below
 
-  | Thunderboard sense 2 | MICRO SD CLICK |
+  | xG24 Dev Kit | microSD Click |
   | --- | --- |
-  | EXP10 - SPI_CS - PA5 (pin 10) | CS |
-  | EXP8 - SPI_SCLK - PF7 (pin 8) | SCK |
-  | EXP6 - SPI_MISO - PK2 (pin 6) | SDO |
-  | EXP4 - SPI_MOSI - PK0 (pin 4) | SDI |
-  | PA6 - EXP7 (pin 7) | CD |
+  | EXP10 - SPI_CS - PA7 (pin 10) | CS |
+  | EXP8 - SPI_SCLK - PC1 (pin 8) | SCK |
+  | EXP6 - SPI_MISO - PC2 (pin 6) | SDO |
+  | EXP4 - SPI_MOSI - PC3 (pin 4) | SDI |
+  | - | CD |
   | GND - EXP1 (pin 1) | GND |
   | EXP2 - VMCU (pin 2) | +3V3 |
 
-  The Thunderboard Sense 2  and MICRO SD CLICK pinout diagram is shown below:
-  | Thunderboard sense 2 | MICRO SD CLICK |
-  | --- | --- |
-  | ![Thunderboard sense 2 diagram](images/thunderboardsense2.png) | ![MICRO SD CLICK](images/microsd_click.png)
+  The xG24 Dev Kit  and microSD Click pinout diagram is shown below:
 
-- We can use some **female-to-female jumper wire** to connect **Micro OLED** and the **Thunderboard sense 2** or we can connect them through the [Mikroe Silabs Click Shield EXP header](https://www.mikroe.com/silabs-click-shield) with some **male-to-female jumper wire** as shown in the table below:
-
-  | Thunderboard sense 2 | Micro OLED 2.5mm Header |
+  | xG24 Dev Kit | microSD Click |
   | --- | --- |
-  | PC11 - I2C_SCL - EXP15 (pin 15) | SCL (pin 4) |
-  | EXP16 - I2C_SDA - PC10 (pin 16) | SDA (pin 3) |
-  | EXP2 - VMCU (pin 2) | 3V3 (pin 2) |
-  | GND - EXP1 (pin 1) | GND (pin 1) |
+  | ![xG24 Dev Kit diagram](image/xg24_dev_kit.png) | ![microSD Click](image/microsd_click.png) |
+
+- **Micro OLED** can be easily connected via qwiic to the xG24 Dev Kit
 
   Mikroe Silabs Click Shield EXP header pinout diagram is shown below:
 
-  ![Mikroe Silabs Click Shield EXP header](images/silabs_click_shield.png)
+  ![Mikroe Silabs Click Shield EXP header](image/silabs_click_shield.png)
 
   Micro OLED 2.5mm Header pinout diagram is shown below:
 
-  ![Micro OLED 2.5mm Header printout](images/micro_oled_qwiic_header.png)
+  ![Micro OLED 2.5mm Header printout](image/micro_oled_qwiic_header.png)
 
 ## Setup
 
-To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. You should connect the Thunderboard Sense 2 Sensor-to-Cloud Advanced IoT Kit to the PC using a MicroUSB cable.
+To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware. You should connect the xG24 Dev Kit to the PC using a MicroUSB cable.
+
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project
 
-1. From the Launcher Home, add the BRD4166A  to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter 'data logger'.
+1. From the Launcher Home, add the BRD2601B  to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by 'data logger'.
 
-   ![create_demo](images/create_project.png "Create a project based on an example project")
+   ![create_demo](image/create_project.png "Create a project based on an example project")
 
 2. Click **Create** button on the **Bluetooth - Data Logger SD Card** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 
@@ -94,7 +100,7 @@ To test this application, you can either create a project based on an example pr
 
 ### Start with a "Bluetooth - SoC Empty" project
 
-1. Create a **Bluetooth - SoC Empty** project for the **Thunderboard Sense 2** using Simplicity Studio 5.
+1. Create a **Bluetooth - SoC Empty** project for the **xG24 Dev Kit** using Simplicity Studio 5.
 
 2. Copy all attached files in the "inc" and the "src" folders into the project root folder (overwriting existing files).
 
@@ -116,22 +122,21 @@ To test this application, you can either create a project based on an example pr
 
    - Install the following components:
 
-      - [Services] →  [Timers] →  [Sleep Timer]
+      - [Services] → [Timers] → [Sleep Timer] → Set "Enable wallclock functionality"
       - [Bluetooth] → [Bluetooth Host (Stack)] → [Additional Features] → [NVM Support]
       - [Bluetooth] → [Application] → [Miscellaneous] → [Relative Humidity and Temperature sensor]
-      - [Services] →  [NVM3]
-      - [Services] →  [IO Stream] → [IO Stream: USART] → vcom
-      - [Application] →  [Utility] → [Log]
-      - [Platform] →  [Driver] → [I2C] →  [I2CSPM] → qwiic
-      - [Platform] →  [Driver] → [I2C] →  [I2CSPM] → sensor
-      - [Platform] →  [Driver] → [SPI] →  [SPIDRV] → exp
-      - [Platform] →  [Driver] → [Button] →  [Simple Button] → btn0
-      - [Platform] →  [Board Driver] → [Si70xx - Temperature/Humidity Sensor]
-      - [Platform] →  [Board] → [Board Control] →  Enable Relative Humidity and Temperature sensor
+      - [Services] → [IO Stream] → [IO Stream: USART] → vcom
+      - [Application] → [Utility] → [Log]
+      - [Platform] → [Driver] → [I2C] → [I2CSPM] → qwiic
+      - [Platform] → [Driver] → [I2C] → [I2CSPM] → sensor
+      - [Platform] → [Driver] → [SPI] → [SPIDRV] → exp
+      - [Platform] → [Driver] → [Button] → [Simple Button] → btn0
+      - [Platform] → [Board Driver] → [Si70xx - Temperature/Humidity Sensor]
+      - [Platform] → [Board] → [Board Control] → Enable Relative Humidity and Temperature sensor
       - [Third Party Hardware Drivers] → [Storage] → microSD - microSD Click (Mikroe)
       - [Third Party Hardware Drivers] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun) - I2C]
-      - [Third Party Hardware Drivers] → [Services] → GLIB - OLED Graphics Library
-      - [Third Party Hardware Drivers] → [Services] → FatFS - Generic FAT Filesystem
+      - [Third Party Hardware Drivers] → [Services] → [GLIB - OLED Graphics Library]
+      - [Third Party Hardware Drivers] → [Services] → [FatFS - Generic FAT Filesystem] → Set "Enable f_mkfs() function"
       - [Bluetooth] → [OTA] → [In-Place OTA DFU] → uninstall
       - [Platform] → [Bootloader Application Interface] → uninstall.
 
@@ -143,7 +148,7 @@ To test this application, you can either create a project based on an example pr
 
 ### Application Overview
 
-![Application Overview](images/application_overview.png)
+![Application Overview](image/application_overview.png)
 
 ### GATT Configurator
 
@@ -159,15 +164,15 @@ The GATT re-uses the [SPP over BLE](https://github.com/SiliconLabs/bluetooth_app
 
 #### Application initialization
 
-![Application init](images/application_init.png)  
+![Application init](image/application_init.png)  
 
 #### Device connect event
 
-![Device connect event](images/device_connect_event.png)  
+![Device connect event](image/device_connect_event.png)  
 
 #### Periodic timer event
 
-![Periodic timer event](images/priodic_timer_event.png)
+![Periodic timer event](image/priodic_timer_event.png)
 
 #### Application Workflows
 
@@ -206,7 +211,7 @@ The GATT re-uses the [SPP over BLE](https://github.com/SiliconLabs/bluetooth_app
 
 - Display current sensor data
   
-  ![OLED display](images/oled_display.png)
+  ![OLED display](image/oled_display.png)
 
 ### Button
 
@@ -227,8 +232,8 @@ The GATT re-uses the [SPP over BLE](https://github.com/SiliconLabs/bluetooth_app
 
 - To view the log data, we have 2 options:
 
-  - Use **EFR Connect Mobile Application** to enable notification, the log data is received as an ASCII string
+  - Use **Simplicity Connect Mobile Application** to enable notification, the log data is received as an ASCII string
 
   - Use the [BLE SPP app for Windows](https://github.com/SiliconLabs/bluetooth_applications/tree/master/bluetooth_spp_with_windows) on a laptop or PC that has a Bluetooth adapter. First, we need to enter the name of the data logger (the default name is **"Data Logger"**). You should expect a similar output to the one below.
 
-    ![Log View](images/log_view.gif)
+    ![Log View](image/log_view.gif)

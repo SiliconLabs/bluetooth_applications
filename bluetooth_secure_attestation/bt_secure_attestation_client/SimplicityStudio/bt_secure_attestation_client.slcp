@@ -1,21 +1,56 @@
-# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
 project_name: bt_secure_attestation_client
+package: Bluetooth
 label: Bluetooth - Secure Attestation - Client
-description: |
+description: >
   This project aims to implement a secure identity exchange over Bluetooth Low Energy for client device. The client acts as a central device for the accompanying server.
 category: Bluetooth Examples
-package: Bluetooth
 quality: experimental
-readme:
-- path: ../../README.md
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: mbedtls_asn1
+  - id: mbedtls_ecc
+  - id: mbedtls_ecdsa
+  - id: mbedtls_cipher
+  - id: mbedtls_x509
+  - id: mbedtls_aes
+  - id: mbedtls_base64
+  - id: mbedtls_hkdf
+  - id: mbedtls_pem
+  - id: mbedtls_error
+  - id: mbedtls_random
+  - id: psa_crypto_ecdsa
+  - id: psa_crypto_hkdf
+  - id: psa_crypto_ccm
+  - id: psa_builtin_key_support_se
+
 include:
   - path: ../inc
     file_list:
       - path: app.h
       - path: app_mbedtls_x509.h
       - path: app_psa_crypto_macro.h
-      - path: app_se_manager_macro.h 
-      - path: ecdh_util.h      
+      - path: app_se_manager_macro.h
+      - path: ecdh_util.h
       - path: app_se_manager_secure_identity.h
 source:
   - path: ../src/main.c
@@ -23,71 +58,42 @@ source:
   - path: ../src/certificates.c
   - path: ../src/ecdh_util3.c
   - path: ../src/app_se_manager_secure_identity.c
-component:
-- id: iostream_usart
-  instance: [vcom]
-- id: app_log
-- id: app_assert
-- id: mpu  
-- id: bluetooth_feature_gatt_server
-- id: bluetooth_feature_sm
-- id: bluetooth_feature_gap
-- id: bluetooth_stack
-- id: bluetooth_feature_gatt
-- id: bluetooth_feature_connection
-- id: bluetooth_feature_advertiser
-- id: bluetooth_feature_system
-- id: bluetooth_feature_scanner
-- id: bluetooth_feature_legacy_scanner
-- id: gatt_service_device_information
-- id: gatt_configuration
-- id: mbedtls_asn1
-- id: mbedtls_ecc
-- id: mbedtls_ecdsa
-- id: mbedtls_cipher
-- id: mbedtls_x509
-- id: mbedtls_aes
-- id: mbedtls_base64
-- id: mbedtls_hkdf
-- id: mbedtls_pem
-- id: mbedtls_error
-- id: mbedtls_random
-- id: psa_crypto_ecdsa
-- id: psa_crypto_hkdf
-- id: psa_crypto_ccm
-- id: psa_builtin_key_support_se
-- id: rail_util_pti
-- id: component_catalog
+
 config_file:
-  - override:
-      file_id: mbedtls_config
-    path: "../config/mbedtls_config.h" 
   - override:
       component: gatt_configuration
       file_id: gatt_configuration_file_id
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
-other_file:
-  - path: ../../images/server_console.png
-    directory: images
-  - path: ../../images/client_console.png
-    directory: images
-  - path: ../../images/create_project.png
-    directory: images
-  - path: ../../images/external_repos.png
-    directory: images
+
 configuration:
-- name: SL_BOARD_ENABLE_VCOM
-  value: "1"
-  condition:
-    - iostream_usart
-- name: SL_STACK_SIZE 
-  value: '2752'
-- name: SL_HEAP_SIZE 
-  value: '9200'
-- condition: [psa_crypto]
-  name: SL_PSA_KEY_USER_SLOT_COUNT
-  value: '0'
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+      - iostream_usart
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_BT_CONFIG_BUFFER_SIZE
+    value: '4096'
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition: [psa_crypto]
+
+readme:
+  - path: ../../README.md
+
+other_file:
+  - path: ../../image/server_console.png
+    directory: image
+  - path: ../../image/client_console.png
+    directory: image
+  - path: ../../image/create_project.png
+    directory: image
+  - path: ../../image/external_repos.png
+    directory: image
+  - path: ../../image/system_overview.png
+    directory: image
+
 ui_hints:
   highlight:
     - path: config/btconf/gatt_configuration.btconf

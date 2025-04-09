@@ -4,7 +4,7 @@
  * all the function is tested according CGMS test specification
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -39,7 +39,7 @@
 #include "sl_bt_cgm_measurement.h"
 
 /** @brief Glucose measurement current record number*/
-uint16_t records_num = 4;
+uint16_t records_num = 9600;
 
 // Glucose RACP characteristic indication enable
 bool racp_indicate_enabled = false;

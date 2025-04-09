@@ -3,18 +3,37 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
- * The licensor of this software is Silicon Laboratories Inc. Your use of this
- * software is governed by the terms of Silicon Labs Master Software License
- * Agreement (MSLA) available at
- * www.silabs.com/about-us/legal/master-software-license-agreement. This
- * software is distributed to you in Source Code format and is governed by the
- * sections of the MSLA applicable to Source Code.
+ * SPDX-License-Identifier: Zlib
  *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
@@ -26,15 +45,12 @@
 
 #include "em_device.h"
 #include "em_cmu.h"
-#include "em_adc.h"
+#include "em_iadc.h"
 
 /**************************************************************************//**
  * Define
  *****************************************************************************/
-#define VINATT(ATT_FACTOR) ATT_FACTOR << _ADC_SINGLECTRLX_VINATT_SHIFT
-#define VREFATT(ATT_FACTOR)ATT_FACTOR << _ADC_SINGLECTRLX_VREFATT_SHIFT
-
-#define MICROVOLTS_PER_STEP    1221
+#define MICROVOLTS_PER_STEP    1183
 #define TICKS_PER_SECOND       32768
 #define ADC_READ               2
 #define BATTERY_READ_INTERVAL  1 * TICKS_PER_SECOND
@@ -219,50 +235,52 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 }
 
 /**
- * @brief Initialise ADC. Called after boot in this example.
+ * @brief Initialise IADC. Called after boot in this example.
  */
 static void init_adc_for_supply_measurement(void)
 {
-  CMU_ClockEnable(cmuClock_ADC0, true);
-  ADC_Init_TypeDef ADC_Defaults = ADC_INIT_DEFAULT;
+  CMU_ClockEnable(cmuClock_IADC0, true);
 
-  ADC_InitSingle_TypeDef init_single = ADC_INITSINGLE_DEFAULT;
-  init_single.negSel = adcNegSelVSS;
-  init_single.posSel = adcPosSelAVDD;
-  init_single.reference = adcRef5V;
+  IADC_Init_t IADC_init_defaults = IADC_INIT_DEFAULT;
+  IADC_InitSingle_t IADC_init_single = IADC_INITSINGLE_DEFAULT;
+
+  IADC_AllConfigs_t IADC_allConfigs = IADC_ALLCONFIGS_DEFAULT;
+  IADC_SingleInput_t IADC_singleInput = IADC_SINGLEINPUT_DEFAULT;
+
+  IADC_reset(IADC0);
+
+  IADC_singleInput.negInput = iadcNegInputGnd;
+  IADC_singleInput.posInput = iadcPosInputAvdd;
+  IADC_allConfigs.configs[0].reference = iadcCfgReferenceInt1V2;
 
   // Start with defaults
-  ADC_Init(ADC0, &ADC_Defaults);
+  IADC_init(IADC0, &IADC_init_defaults, &IADC_allConfigs);
 
-  ADC_InitSingle(ADC0, &init_single);
-  ADC0->SINGLECTRLX = VINATT(12) | VREFATT(6);
+  IADC_initSingle(IADC0, &IADC_init_single, &IADC_singleInput);
 }
 
 /**
- * @brief Make one ACD conversion
+ * @brief Make one ADC conversion
  * @return Single ADC reading
  */
 static uint32_t read_adc(void)
 {
-  ADC_Start(ADC0, adcStartSingle);
-  while ((ADC0->STATUS & ADC_STATUS_SINGLEDV) == 0) {}
-  return ADC_DataSingleGet(ADC0);
+  IADC_command(IADC0, iadcCmdStartSingle);
+  while ((IADC0->STATUS & IADC_STATUS_SINGLEFIFODV) == 0) {}
+  return IADC_readSingleData(IADC0);
 }
 
 /**
  * @brief Read supply voltage raw reading from ADC and return reading in
  *   millivolts.
  * @return Supply Voltage in millivolts.
- * VFS = 2*VREF*VREFATTF/VINATTF, where
- * VREF is selected in the VREFSEL bitfield, and
- * VREFATTF (VREF attenuation factor) = (VREFATT+6)/24 when VREFATT is less than
- *   13, and (VREFATT-3)/12 when VREFATT is
- * greater than or equal to 13, and
- * VINATTF (VIN attenuation factor) = VINATT/12, illegal settings: 0, 1, 2
- * VREFATTF = (6+6)/24 = 0.5
- * VINATTF = 12/12
- * VFS = 2*5.0*0.5 = 5.0
- * 1.221 mV/step
+ * The IADC has an internal 1.21V bandgap reference voltage that is
+ * independent of the chip's voltage supplies, and it's capable of
+ * attenuating the supply voltage input by a factor of 4, meaning we must
+ * multiply the raw data by (4 * 1210) to accommodate. We further divide
+ * the value by 4095 (by default, series 2 devices' IADC are 12-bits) to
+ * get the desired MICROVOLTS_PER_STEP
+ * 1183 mV/step
  */
 static uint32_t read_supply_voltage(void)
 {
@@ -273,7 +291,7 @@ static uint32_t read_supply_voltage(void)
 
 /**
  *  function: sleep_timer_callback
- *  will be called when the sleep timer expire
+ *  will be called when the sleep timer expires
  */
 void sleep_timer_callback(sl_sleeptimer_timer_handle_t *handle,
                           void __attribute__((unused)) *data)
@@ -288,7 +306,6 @@ void sleep_timer_callback(sl_sleeptimer_timer_handle_t *handle,
 /**
  * @brief Get the battery voltage status,
  *  including battery capacity and battery percent
- *
  */
 static void read_supply_status(void)
 {

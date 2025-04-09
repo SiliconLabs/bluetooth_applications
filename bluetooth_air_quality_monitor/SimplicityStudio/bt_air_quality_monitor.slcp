@@ -1,0 +1,121 @@
+project_name: bt_air_quality_monitor
+package: Bluetooth
+label: Bluetooth - Air Quality Monitor
+description: >
+  This project demonstrates a Bluetooth Air Quality Monitor application using Silicon Laboratories development kits, SparkFun Micro OLED Breakout (Qwiic) board, BUZZ 2 click Mikroe board and Environmental Sensor Combo Breakout.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Beginner]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: sleeptimer
+  - id: component_catalog
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: pwm
+    instance: [mikroe]
+  - id: i2cspm
+    instance: [qwiic]
+  - id: simple_button
+    instance: [btn0]
+  - id: mikroe_buzz2
+    from: third_party_hw_drivers
+  - id: sparkfun_air_quality_ccs811
+    from: third_party_hw_drivers
+  - id: sparkfun_micro_oled_ssd1306
+    from: third_party_hw_drivers
+  - id: services_oled_glib
+    from: third_party_hw_drivers
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: air_quality_app.h
+      - path: nvm3_user.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/air_quality_app.c
+  - path: ../src/nvm3_user.c
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+  - name: SL_BOARD_ENABLE_SENSOR_GAS
+    value: "1"
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/btn0.png
+    directory: "image"
+  - path: ../image/creat_demo.png
+    directory: "image"
+  - path: ../image/display.png
+    directory: "image"
+  - path: ../image/hardware_connection.png
+    directory: "image"
+  - path: ../image/logs.png
+    directory: "image"
+  - path: ../image/overview.png
+    directory: "image"
+  - path: ../image/pairing_request.png
+    directory: "image"
+  - path: ../image/system_overview.png
+    directory: "image"
+  - path: ../image/timer_event.png
+    directory: "image"
+  - path: ../image/work_flow.png
+    directory: "image"
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+tag:
+  - hardware:rf:band:2400
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

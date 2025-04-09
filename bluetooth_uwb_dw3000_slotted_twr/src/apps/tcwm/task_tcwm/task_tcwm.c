@@ -12,7 +12,7 @@
 
 #include "task_tcwm.h"
 
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 #include "usb_uart_rx.h"
 #include "tcwm.h"

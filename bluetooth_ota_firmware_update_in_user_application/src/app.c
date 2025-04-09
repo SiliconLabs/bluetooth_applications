@@ -8,22 +8,42 @@
  * a connection is closed.
  *******************************************************************************
  * # License
- * <b>Copyright 2018 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
- * The licensor of this software is Silicon Laboratories Inc. Your use of this
- * software is governed by the terms of Silicon Labs Master Software License
- * Agreement (MSLA) available at
- * www.silabs.com/about-us/legal/master-software-license-agreement.
- * This software is distributed to you in Source Code format and is governed by
- * the sections of the MSLA applicable to Source Code.
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include <stdbool.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_log.h"
 #include "app_assert.h"
 
-#include "app_timer.h"
+#include "sl_sleeptimer.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
 #ifdef SL_COMPONENT_CATALOG_PRESENT
@@ -41,7 +61,7 @@
 #define OTA_FIRMWARE_START        0x00
 #define OTA_FIRMWARE_END          0x03
 
-static app_timer_t app_timer_handle;
+static sl_sleeptimer_timer_handle_t sleeptimer_handle_t;
 
 // The advertising set handle allocated from Bluetooth stack
 static uint8_t advertising_set_handle = 0xff;
@@ -65,7 +85,8 @@ static int32_t get_slot_info(void);
 static void erase_slot_if_needed(void);
 static void print_progress(void);
 static int32_t verify_application(void);
-static void app_timer_callback(app_timer_t *handle, void *data);
+static void sleeptimer_callback(sl_sleeptimer_timer_handle_t *handle,
+                                void *data);
 
 /**************************************************************************//**
  * Application Init.
@@ -75,11 +96,12 @@ void app_init(void)
   sl_status_t sc;
 
   app_log("...........................................\r\n");
-  sc = app_timer_start(&app_timer_handle,
-                       200,
-                       app_timer_callback,
-                       (void *)NULL,
-                       true);
+  sc = sl_sleeptimer_start_periodic_timer_ms(&sleeptimer_handle_t,
+                                             200,
+                                             sleeptimer_callback,
+                                             (void *)NULL,
+                                             1,
+                                             false);
   app_assert_status(sc);
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
@@ -333,7 +355,8 @@ static int32_t verify_application(void)
   return err;
 }
 
-static void app_timer_callback(app_timer_t *handle, void *data)
+static void sleeptimer_callback(sl_sleeptimer_timer_handle_t *handle,
+                                void *data)
 {
   (void) handle;
   (void) data;

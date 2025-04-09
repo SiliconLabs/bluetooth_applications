@@ -17,7 +17,7 @@
  */
 #include "usb2spi.h"
 
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 #include "usb_uart_rx.h"
 #include "usb_uart_tx.h"

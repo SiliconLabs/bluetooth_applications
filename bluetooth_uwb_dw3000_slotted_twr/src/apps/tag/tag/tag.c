@@ -541,7 +541,7 @@ error_e tag_process_init(void)
   dwt_configuresleep(DWT_CONFIG | DWT_PGFCAL,
                      DWT_PRES_SLEEP | DWT_WAKE_CSN | DWT_SLP_EN);
 
-  init_dw3000_irq();              /**< manually init EXTI DW3000 lines IRQs */
+//  init_dw3000_irq();              /**< manually init EXTI DW3000 lines IRQs */
 
   /* configure non-zero initial values */
 

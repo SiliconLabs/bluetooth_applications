@@ -1,11 +1,10 @@
-# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
-project_name: bt_uploading_images_to_multislots
-label: Bluetooth - Uploading images to multi-slots
-description: |
-  This project shows how to implement image uploading to the bootloader storage slots using the standard OTA process. It is also extended by allowing the users to select a slot to upload to and a slot to boot from.
-
+project_name: bt_uploading_image_to_multislots
+package: Bluetooth
+label: Bluetooth - Uploading image to multi-slots
+description: >
+  This project shows how to implement image uploading to the bootloader storage slots using the standard OTA process.
+  It is also extended by allowing the users to select a slot to upload to and a slot to boot from.
 category: Bluetooth Examples
-
 quality: experimental
 
 filter:
@@ -16,45 +15,38 @@ filter:
   - name: "Wireless Technology"
     value: ["Bluetooth"]
 
-package: Bluetooth
-
-readme:
-- path: ../README.md
+component:
+  - id: mpu
+  - id: sl_system
+  - id: device_init
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: component_catalog
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_scanner
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_sm
+  - id: bt_post_build
+  - id: rail_util_pti
+  - id: bootloader_interface
+  - id: app_log
+  - id: app_assert
+  - id: iostream_usart
+    instance: [vcom]
 
 source:
-- path: ../src/app.c
-- path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/main.c
 
 include:
-- path: ../inc
-  file_list:
-  - path: ../inc/app.h
+  - path: ../inc
+    file_list:
+      - path: app.h
 
-component:
-- id: mpu
-- id: sl_system
-- id: device_init
-- id: bluetooth_stack
-- id: gatt_configuration
-- id: gatt_service_device_information
-- id: component_catalog
-- id: bluetooth_feature_legacy_advertiser
-- id: bluetooth_feature_connection
-- id: bluetooth_feature_gatt
-- id: bluetooth_feature_gatt_server
-- id: bluetooth_feature_scanner
-- id: bluetooth_feature_system
-- id: bluetooth_feature_sm
-- id: bt_post_build
-- id: rail_util_pti
-- id: bootloader_interface
-- id: app_log
-- id: app_assert
-- id: iostream_usart
-  instance: [vcom]
-
-define:
-- name: DEBUG_EFM
 
 config_file:
   - override:
@@ -69,29 +61,32 @@ configuration:
     condition:
       - board_control
 
+readme:
+  - path: ../README.md
+
 other_file:
-  - path: ../images/create_project.png
-    directory: images
-  - path: ../images/create_bootloader.png
-    directory: images
-  - path: ../images/create_empty.png
-    directory: images
-  - path: ../images/efr_boot.png
-    directory: images
-  - path: ../images/efr_ota.png
-    directory: images
-  - path: ../images/efr_update.png
-    directory: images
-  - path: ../images/gatt_origin.png
-    directory: images
-  - path: ../images/gbl_file.png
-    directory: images
-  - path: ../images/hardware_connect.png
-    directory: images
-  - path: ../images/overview.png
-    directory: images
-  - path: ../images/run_bat.png
-    directory: images
+  - path: ../image/create_project.png
+    directory: image
+  - path: ../image/create_bootloader.png
+    directory: image
+  - path: ../image/create_empty.png
+    directory: image
+  - path: ../image/efr_boot.png
+    directory: image
+  - path: ../image/efr_ota.png
+    directory: image
+  - path: ../image/efr_update.png
+    directory: image
+  - path: ../image/gatt_origin.png
+    directory: image
+  - path: ../image/gbl_file.png
+    directory: image
+  - path: ../image/hardware_connect.png
+    directory: image
+  - path: ../image/overview.png
+    directory: image
+  - path: ../image/run_bat.png
+    directory: image
 
 ui_hints:
   highlight:

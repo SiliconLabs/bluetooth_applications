@@ -1,48 +1,39 @@
 # ESL Tag with E-Paper display 1.54" 200x200 dots (Mikroe) #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_esl_tag_mikroe_eink154_e_paper_display_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_esl_tag_mikroe_eink154_e_paper_display_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_esl_tag_mikroe_eink154_e_paper_display_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_esl_tag_mikroe_eink154_e_paper_display_common.json&label=SDK&query=sdk&color=green)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
 [![Required board](https://img.shields.io/badge/Mikroe-E-green)](https://www.mikroe.com/e-paper-display-154-200x200-dots)
 [![Required board](https://img.shields.io/badge/Mikroe-EINK%20CLICK-green)](https://www.mikroe.com/eink-click-without-display)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_esl_tag_mikroe_eink154_e_paper_display_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_esl_tag_mikroe_eink154_e_paper_display_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_esl_tag_mikroe_eink154_e_paper_display_common.json&label=RAM&query=ram&color=blue)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-229.65%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-17.44%20KB-blue)
 ## Summary ##
 
-This project aims to show how the Bluetooth LE Electronic Shelf Label (ESL) works with the E-Paper display 1,54" 200x200 dots from Mikroe using a hardware driver via APIs of the GSDK. The ESL tag displays the image transfered by the ESL Access Point using the E-Paper 1,54" display. The application is capable of storing two images in two different image slots at the same time. By default, the images are stored in the NVM memory. 
+This project aims to show how the Bluetooth LE Electronic Shelf Label (ESL) works with the E-Paper display 1,54" 200x200 dots from Mikroe using a hardware driver via APIs of the GSDK. The ESL tag displays the image transfered by the ESL Access Point using the E-Paper 1,54" display. The application is capable of storing two images in two different image slots at the same time. By default, the images are stored in the NVM memory.
 
-This project is based on the [**Bluetooth - SoC ESL Tag**](https://github.com/SiliconLabs/gecko_sdk/tree/gsdk_4.3/app/bluetooth/example/bt_soc_esl_tag) application that can be found with documentation on GitHub and also in Simplicity Studio 5. Instead of the LCD that is on the Wireless Starter Kit Mainboard, this project uses an E-Paper display 1,54" 200x200 dots from Mikroe to display the image. The size of the transferred images should be 200x200 pixels.
+This project is based on the [**Bluetooth - SoC ESL Tag**](https://github.com/SiliconLabs/simplicity_sdk/tree/sisdk-2024.12/app/bluetooth/example/bt_soc_esl_tag) application that can be found with documentation on GitHub and also in Simplicity Studio 5. Instead of the LCD that is on the Wireless Starter Kit Mainboard, this project uses an E-Paper display 1,54" 200x200 dots from Mikroe to display the image. The size of the transferred images should be 200x200 pixels.
 
-The Bluetooth LE Electronic Shelf Label documentation and the setup for the ESL network can be found in the [**AN1419: Bluetooth® LE Electronic Shelf Label**](https://www.silabs.com/documents/public/application-notes/an1419-ble-electronic-shelf-label.pdf) application note. The usage of the [**ESL Access Point**](https://github.com/SiliconLabs/gecko_sdk/tree/gsdk_4.3/app/bluetooth/example_host/bt_host_esl_ap/readme) is also documented at the link.
+The Bluetooth LE Electronic Shelf Label documentation and the setup for the ESL network can be found in the [**AN1419: Bluetooth® LE Electronic Shelf Label**](https://www.silabs.com/documents/public/application-notes/an1419-ble-electronic-shelf-label.pdf) application note. The usage of the [**ESL Access Point**](https://github.com/SiliconLabs/simplicity_sdk/tree/sisdk-2024.12/app/bluetooth/example_host/bt_host_esl_ap/readme) is also documented at the link.
 
 E-Paper display is based on Active Matrix Electrophoretic Display (AMEPD) technology and has an integrated pixel driver, which uses the SPI interface to communicate with the host MCU. E-Paper display has a resolution of 200(V) X 200(H) pixels and an active display area of 27.6 mm X 27.6 mm. The size of its square-shaped pixels is 0.138 mm x 0.138 mm. The screen displays clear and crisp graphics and has an ultra-wide viewing range. Another key feature of the E-Ink technology is the extremely low power consumption, even when the display actively refreshes its content.
 
-## Gecko SDK version ##
+## SDK version ##
 
-- GSDK v4.4.0
-- [Third-Party Hardware Drivers v2.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
 
 ## Required Hardware ##
 
-- [EFR32xG22 Radio Board](https://www.silabs.com/development-tools/wireless/slwrb4182a-efr32xg22-wireless-gecko-radio-board)
-
-- [Wireless Starter Kit Mainboard](https://www.silabs.com/development-tools/wireless/efr32xg22-wireless-starter-kit?tab=overview)
-
-- [EINK CLICK - WITHOUT DISPLAY](https://www.mikroe.com/eink-click-without-display)
-
-- [E-Paper display 1,54" 200x200 dots](https://www.mikroe.com/e-paper-display-154-200x200-dots)
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD4182A  | [EFR32xG22 Radio Board](https://www.silabs.com/development-tools/wireless/slwrb4182a-efr32xg22-wireless-gecko-radio-board)| 
-| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
-| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)    |
-| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)    |
+- 1x [SLWRB4182A](https://www.silabs.com/development-tools/wireless/slwrb4182a-efr32xg22-wireless-gecko-radio-board) EFR32xG22 Wireless Gecko 2.4 GHz +6 dBm 5x5, QFN40 Radio Board
+- 1x [SI-MB4002A](https://www.silabs.com/development-tools/wireless/wireless-pro-kit-mainboard) Wireless Pro Kit Mainboard
+- 1x [EINK CLICK - WITHOUT DISPLAY](https://www.mikroe.com/eink-click-without-display)
+- 1x [E-Paper display 1,54" 200x200 dots](https://www.mikroe.com/e-paper-display-154-200x200-dots)
 
 ## Hardware Connection ##
 
@@ -52,7 +43,7 @@ eINK display needs an external adapter to interface with the Wireless Starter Ki
 
 The eINK Click needs to be connected to the Wireless Starter Kit Mainboard via the EXP Header pins. In the project, the pins are set as in the table below:
 
-| eClick pin (Name in SS5 configurator) | xG22 (4182a) pin | Exp Header  |
+| eINK Click pin (Name in SS5 configurator) | xG22 (BRD4182A) pin | Exp Header  |
 |----------|----------|----------|
 | SCK (CLK) | PA05 | 12 |
 | CS | PA06 | 14 |
@@ -64,7 +55,7 @@ The eINK Click needs to be connected to the Wireless Starter Kit Mainboard via t
 | 3.3V | 3.3V | 20 |
 | - (Rx) | - | - |
 
-Different pin combinations can also be set by changing the pin configuration in the Mikroe driver components (E-Paper display 1.54" 200x200 dots (Mikroe) and mikroe SPIDRV). 
+Different pin combinations can also be set by changing the pin configuration in the Mikroe driver components (E-Paper display 1.54" 200x200 dots (Mikroe) and mikroe SPIDRV).
 
 This example application works with the listed explorer kits as well. The eINK Click board can be easily attached to the explorer kits via the mikrobus connector. The connected eINK Click board is shown in the image below.
 
@@ -72,13 +63,21 @@ This example application works with the listed explorer kits as well. The eINK C
 
 ## Setup ##
 
-You can either create a project based on an example project or start with the Bluetooth - SoC ESL Tag project.
+You can either create a project based on an example project or start with the "Bluetooth - SoC ESL Tag" project.
+
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add the BRD4182A to My Products, or connect a BRD4182A to the PC,  click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with filter **Mikroe**. Click the **Create** button on the **Bluetooth - ESL Tag with E-Paper display 154inch 200x200 dots from Mikroe** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+1. From the Launcher Home, add the BRD4182A to My Products, or connect a BRD4182A to the PC,  click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab.
 
-![Create_example](image/project.png)
+2. Find the example project filtering by **Mikroe**. Click the **Create** button on the **Bluetooth - ESL Tag with E-Paper display 154inch 200x200 dots from Mikroe** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
+
+   ![Create_example](image/project.png)
 
 3. Build and flash this example to the board. Do not forget to flash the proper Bootloader.
 
@@ -100,22 +99,19 @@ You can either create a project based on an example project or start with the Bl
 
 5. Configure the pins as described in the Hardware connection section.
 
-6. Build and flash this example to the board. Do not forget to flash the proper Bootloader. 
+6. Build and flash this example to the board.
 
 **Note:**
 
-- Make sure that the SDK extension has already been installed. If not, please follow [this documentation](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
-
-- Third-party drivers extension must be enabled for the project to install "E-Paper Display (Mikroe)" component.
-
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC ESL Tag" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ### Components ###
 
-The required components are detailed in this section. 
+The required components are detailed in this section.
 
 **E-Paper display 1.54" 200x200 dots (Mikroe)**:
 
-This component contains the driver for the Mikroe eINK Click adapter board with the E-Paper display 1.54" 200x200 dots. The E-Paper display 1.54" 200x200 dots driver in this project is extended with APIs that are specially created for BLE ESL and have the required non-blocking structure. The pins can be configured on the configuration panel. Third-party drivers extension must be enabled for the project to install the "E-Paper Display 1.54" 200x200 dots (Mikroe)" component.
+This component contains the driver for the Mikroe eINK Click adapter board with the E-Paper display 1.54" 200x200 dots. The E-Paper display 1.54" 200x200 dots driver in this project is extended with APIs that are specially created for BLE ESL and have the required non-blocking structure. The pins can be configured on the configuration panel. Third-party drivers extension must be enabled for the project to install the "E-Paper Display - eINK Click (Mikroe)" component.
 
 ![Import project](image/driver.png)
 
@@ -125,10 +121,9 @@ The SPI communication and the pins are set up here. The pins can be configured o
 
 ![Import project](image/spi.png)
 
-Configuration: 
+Configuration:
 
 ![Import project](image/spiconf.png)
-
 
 **ESL Tag NVM Image**:
 
@@ -152,18 +147,17 @@ Note that for displaying all of the components, the following filter should be c
 
 ![Import project](image/clear.png)
 
-
 ## How It Works ##
 
 ### Using the application ###
 
-After downloading and importing the project, the application has to be built in Simplicity Studio 5 and flashed to the target BRD4182A radio board. Do not forget to build and flash the **Bootloader - SoC Bluetooth Apploader OTA DFU** Bootloader as well. 
+After downloading and importing the project, the application has to be built in Simplicity Studio 5 and flashed to the target BRD4182A radio board. Do not forget to build and flash the **Bootloader - SoC Bluetooth Apploader OTA DFU** Bootloader as well.
 
-By following the process presented in the readme file of the [**ESL Access Point**](https://github.com/SiliconLabs/gecko_sdk/blob/gsdk_4.4/app/bluetooth/example_host/bt_host_esl_ap/readme/readme.md), the uploaded images can be displayed on the E-Paper display. There are two different image slots (0 and 1) on the ESL Tag meaning that two images can be uploaded and stored on the tag. Both of the uploaded images can be displayed on the E-Paper Display separately. 
+By following the process presented in the readme file of the [**ESL Access Point**](https://github.com/SiliconLabs/simplicity_sdk/blob/sisdk-2024.12/app/bluetooth/example_host/bt_host_esl_ap/readme), the uploaded images can be displayed on the E-Paper display. There are two different image slots (0 and 1) on the ESL Tag meaning that two images can be uploaded and stored on the tag. Both of the uploaded images can be displayed on the E-Paper Display separately.
 
 ### Testing ###
 
-The [**ESL Access Point**](https://github.com/SiliconLabs/gecko_sdk/blob/gsdk_4.4/app/bluetooth/example_host/bt_host_esl_ap/readme/readme.md) provides many different use cases. For instance, Windows PowerShell can be used to control the ESL Access Point. 
+The [**ESL Access Point**](https://github.com/SiliconLabs/simplicity_sdk/blob/sisdk-2024.12/app/bluetooth/example_host/bt_host_esl_ap/readme/readme.md) provides many different use cases. For instance, Windows PowerShell can be used to control the ESL Access Point.
 
 One of the possible uses is presented below with the following command flow:
 
@@ -173,7 +167,7 @@ The result on the E-Paper display 1,54" should be the following:
 
 ![result](image/result1.png)
 
-## Report Bugs & Get Support
+## Report Bugs & Get Support ##
 
 To report bugs in the Application Examples projects, please create a new "Issue" in the "Issues" section of [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repo. Please reference the board, project, and source files associated with the bug, and reference line numbers. If you are proposing a fix, also include information on the proposed fix. Since these examples are provided as-is, there is no guarantee that these examples will be updated to fix these issues.
 

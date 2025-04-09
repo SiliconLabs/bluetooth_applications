@@ -1,54 +1,63 @@
-# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
 project_name: bt_ota_firmware_update_in_user_application
+package: Bluetooth
 label:  Bluetooth - OTA Firmware Update in User Application 
 description: |
   This project aims to implement firmware upgrade method used in SoC-mode Bluetooth applications. A Gecko Bootloader (GBL) image containing the new firmware is sent to target device via a Bluetooth connection.
 category: Bluetooth Examples
-filter:
-- name: Device Type
-  value: [SoC]
-- name: Project Difficulty
-  value: [Advanced]
-- name: Wireless Technology
-  value: [Bluetooth]
-package: Bluetooth
 quality: experimental
-readme:
-- path: ../README.md
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Advanced]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
 include:
   - path: ../inc
     file_list:
       - path: app.h
+
 source:
   - path: ../src/main.c
   - path: ../src/app.c
+
 component:
-- id: iostream_usart
-  instance: [vcom]  
-- id: app_log
-- id: app_assert
-- id: mpu
-- id: bluetooth_stack
-- id: bluetooth_feature_gatt_server
-- id: bluetooth_feature_sm
-- id: bluetooth_feature_legacy_advertiser
-- id: bluetooth_feature_gatt
-- id: bluetooth_feature_legacy_scanner
-- id: bluetooth_feature_connection
-- id: bluetooth_feature_system
-- id: gatt_configuration
-- id: gatt_service_device_information
-- id: rail_util_pti
-- id: bt_post_build
-- id: bootloader_interface
-- id: component_catalog
-- id: app_timer
+  - id: iostream_usart
+    instance: [vcom]  
+  - id: app_log
+  - id: app_assert
+  - id: mpu
+  - id: bluetooth_stack
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_system
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: rail_util_pti
+  - id: bt_post_build
+  - id: bootloader_interface
+  - id: component_catalog
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+
 config_file:    
   - override:
       component: gatt_configuration
       file_id: gatt_configuration_file_id
     path: "../config/btconf/gatt_configuration.btconf"
     directory: "btconf"
+
+readme:
+  - path: ../README.md
+
 other_file:
   - path: ../images/create_project.png
     directory: images
@@ -56,19 +65,22 @@ other_file:
     directory: images
   - path: ../images/log.png
     directory: images
+
 configuration:
-- name: SL_STACK_SIZE 
-  value: '2752'
-- name: SL_HEAP_SIZE
-  value: '9200'
-- name: SL_BOARD_ENABLE_VCOM
-  value: "1"
-  condition:
-  - iostream_usart
-- name: SL_PSA_KEY_USER_SLOT_COUNT
-  value: '0'
-  condition: psa_crypto
+  - name: SL_STACK_SIZE 
+    value: '2752'
+  - name: SL_HEAP_SIZE
+    value: '9200'
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+    condition:
+    - iostream_usart
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition: psa_crypto
+
 tag: hardware:rf:band:2400
+
 ui_hints:
   highlight:
     - path: config/btconf/gatt_configuration.btconf

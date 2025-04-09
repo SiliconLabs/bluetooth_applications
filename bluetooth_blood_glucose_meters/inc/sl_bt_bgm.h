@@ -3,7 +3,7 @@
  * @brief BGM header file
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -316,8 +316,8 @@ void sl_bt_bgm_report_num_records(sl_bt_msg_t *evt);
 void sl_bt_bgm_report_num_all_records(uint8_t connection);
 
 /**************************************************************************//**
-* Report Number of Stored Records – ‘Greater than or equal to Time Offset’
-******************************************************************************/
+ * Report Number of Stored Records – ‘Greater than or equal to Time Offset’
+ ******************************************************************************/
 void sl_bt_bgm_report_greater_num_records(uint8_t connection, uint16_t high);
 void sl_bt_bgm_report_within_range(sl_bt_msg_t *evt);
 

@@ -15,64 +15,53 @@ filter:
     value: ["Bluetooth"]
 
 component:
-  - id: app_assert
-  - id: app_log
-  - id: app_timer
-  - id: bluetooth_feature_builtin_bonding_database
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
   - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_builtin_bonding_database
   - id: bluetooth_feature_connection_analyzer
   - id: bluetooth_feature_connection_phy_update
   - id: bluetooth_feature_extended_advertiser
   - id: bluetooth_feature_extended_scanner
-  - id: bluetooth_feature_gatt
-  - id: bluetooth_feature_gatt_server
   - id: bluetooth_feature_l2cap
-  - id: bluetooth_feature_legacy_advertiser
-  - id: bluetooth_feature_legacy_scanner
-  - id: bluetooth_feature_nvm
   - id: bluetooth_feature_periodic_advertiser
-  - id: bluetooth_feature_sm
-  - id: bluetooth_feature_system
   - id: bluetooth_on_demand_start
-  - id: bluetooth_stack
-  - id: bootloader_interface
-  - id: bt_post_build
-  - instance: [inst]
-    id: cli
-  - instance: [inst]
-    id: cli_storage_nvm3
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: app_timer
+  - id: cli
+    instance: [inst]
   - id: cmsis_dsp
-  - id: component_catalog
   - id: dmd_memlcd
   - id: ead_core
   - id: emlib_letimer
   - id: emlib_usart
-  - id: gatt_configuration
-  - id: gatt_service_device_information
+  - id: emlib_vdac
   - id: glib
   - id: gpiointerrupt
-  - id: in_place_ota_dfu
-  - instance: [vcom]
-    id: iostream_eusart
+  - id: iostream_eusart
+    instance: [vcom]
+  - id: app_log
+  - id: printf
   - id: memlcd_eusart
   - id: mpu
   - id: mx25_flash_shutdown_eusart
-  - id: printf
-  - id: rail_util_pti
-  - instance: [active, dclk, dout, rxsync]
-    id: sl_radioprs
+  - id: sl_radioprs
+    instance: [active, dclk, dout, rxsync]
   - id: toolchain_gcc
   - id: toolchain_variant_arm
-
-config_file:
-  - override:
-      component: gatt_configuration
-      file_id: gatt_configuration_file_id
-    path: ../config/btconf/gatt_configuration.btconf
-    directory: btconf
-
-readme:
-- path: ../README.md
 
 include:
   - path: ../inc
@@ -96,7 +85,7 @@ include:
   - path: ../patch/dmadrv/inc
     file_list:
       - path: dmadrv.h
-    directory: "gecko_sdk_4.4.2/platform/emdrv/dmadrv/inc"
+    directory: "simplicity_sdk_2024.12.0/platform/emdrv/dmadrv/inc"
 
 source:
   - path: ../src/main.c
@@ -115,7 +104,65 @@ source:
   - path: ../lin/sl_lin.c
     directory: "lin"
   - path: ../patch/dmadrv/src/dmadrv.c
-    directory: "gecko_sdk_4.4.2/platform/emdrv/dmadrv/src"
+    directory: "simplicity_sdk_2024.12.0/platform/emdrv/dmadrv/src"
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: ../config/btconf/gatt_configuration.btconf
+    directory: btconf
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "65536"
+  - name: SL_BOARD_ENABLE_VCOM
+    value: "1"
+  - name: SL_BOARD_ENABLE_DISPLAY
+    value: "1"
+  - name: SL_BOARD_DISABLE_MEMORY_SPI
+    value: "0"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+  - name: SL_IOSTREAM_EUSART_VCOM_FLOW_CONTROL_TYPE
+    value: "eusartHwFlowControlNone"
+  - name: RADIOPRS_ACTIVE_SOURCESEL
+    value: "PRS_RACL_RX"
+  - name: RADIOPRS_ACTIVE_CHANNEL
+    value: "10"
+  - name: RADIOPRS_ACTIVE_PORT
+    value: "SL_GPIO_PORT_C"
+  - name: RADIOPRS_ACTIVE_PIN
+    value: "5"
+  - name: RADIOPRS_RXSYNC_SOURCESEL
+    value: "PRS_MODEML_FRAMEDET"
+  - name: RADIOPRS_RXSYNC_CHANNEL
+    value: "11"
+  - name: RADIOPRS_RXSYNC_PORT
+    value: "SL_GPIO_PORT_C"
+  - name: RADIOPRS_RXSYNC_PIN
+    value: "7"
+  - name: RADIOPRS_DOUT_SOURCESEL
+    value: "PRS_MODEML_DOUT"
+  - name: RADIOPRS_DOUT_CHANNEL
+    value: "14"
+  - name: RADIOPRS_DOUT_PORT
+    value: "SL_GPIO_PORT_B"
+  - name: RADIOPRS_DOUT_PIN
+    value: "5"
+  - name: RADIOPRS_DCLK_SOURCESEL
+    value: "PRS_MODEML_DCLK"
+  - name: RADIOPRS_DCLK_CHANNEL
+    value: "15"
+  - name: RADIOPRS_DCLK_PORT
+    value: "SL_GPIO_PORT_A"
+  - name: RADIOPRS_DCLK_PIN
+    value: "0"
+
+readme:
+  - path: ../README.md
 
 other_file:
   - path: ../image/board_control.png
@@ -142,56 +189,6 @@ other_file:
     directory: "image"
   - path: ../image/system_overview.png
     directory: "image"
-
-configuration:
-  - name: SL_STACK_SIZE
-    value: "65536"
-  - name: SL_HEAP_SIZE
-    value: "9200"
-  - name: SL_BOARD_ENABLE_VCOM
-    value: "1"
-  - name: SL_BOARD_ENABLE_DISPLAY
-    value: "1"
-  - name: SL_BOARD_DISABLE_MEMORY_SPI
-    value: "0"
-  - name: SL_PSA_KEY_USER_SLOT_COUNT
-    value: "0"
-    condition:
-      - psa_crypto
-  - name: SL_IOSTREAM_EUSART_VCOM_FLOW_CONTROL_TYPE
-    value: "eusartHwFlowControlNone"
-  - name: RADIOPRS_ACTIVE_SOURCESEL
-    value: "PRS_RACL_RX"
-  - name: RADIOPRS_ACTIVE_CHANNEL
-    value: "10"
-  - name: RADIOPRS_ACTIVE_PORT
-    value: "gpioPortC"
-  - name: RADIOPRS_ACTIVE_PIN
-    value: "5"
-  - name: RADIOPRS_RXSYNC_SOURCESEL
-    value: "PRS_MODEML_FRAMEDET"
-  - name: RADIOPRS_RXSYNC_CHANNEL
-    value: "11"
-  - name: RADIOPRS_RXSYNC_PORT
-    value: "gpioPortC"
-  - name: RADIOPRS_RXSYNC_PIN
-    value: "7"
-  - name: RADIOPRS_DOUT_SOURCESEL
-    value: "PRS_MODEML_DOUT"
-  - name: RADIOPRS_DOUT_CHANNEL
-    value: "14"
-  - name: RADIOPRS_DOUT_PORT
-    value: "gpioPortB"
-  - name: RADIOPRS_DOUT_PIN
-    value: "5"
-  - name: RADIOPRS_DCLK_SOURCESEL
-    value: "PRS_MODEML_DCLK"
-  - name: RADIOPRS_DCLK_CHANNEL
-    value: "15"
-  - name: RADIOPRS_DCLK_PORT
-    value: "gpioPortA"
-  - name: RADIOPRS_DCLK_PIN
-    value: "0"
 
 tag:
   - hardware:rf:band:2400

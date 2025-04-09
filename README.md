@@ -13,9 +13,9 @@
 
 # Silicon Labs Bluetooth Applications #
 
-[![Version Badge](https://img.shields.io/badge/-v2.2.0-green)](https://github.com/SiliconLabs/bluetooth_applications/releases)
-[![GSDK Badge](https://img.shields.io/badge/GSDK-v4.4.0-green)](https://github.com/SiliconLabs/gecko_sdk/releases)
-[![TPHD Version Badge](https://img.shields.io/badge/TPHD-v2.0.0+-green)](https://github.com/SiliconLabs/third_party_hw_drivers_extension/releases)
+[![Version Badge](https://img.shields.io/badge/-v3.0.0-green)](https://github.com/SiliconLabs/bluetooth_applications/releases)
+[![SDK Badge](https://img.shields.io/badge/SiSDK-v2024.12.0-green)](https://github.com/SiliconLabs/simplicity_sdk/releases)
+[![TPHD Version Badge](https://img.shields.io/badge/TPHD-v4.1.0+-green)](https://github.com/SiliconLabs/third_party_hw_drivers_extension/releases)
 ![License badge](https://img.shields.io/badge/License-Zlib-green)
 
 The Silicon Labs Bluetooth stack allows for a wide variety applications to be built on its foundation. This repo showcases some example applications using the Silicon Labs Bluetooth stack.
@@ -86,21 +86,22 @@ This repository provides both SLCP projects (as External Repositories) and SLS p
 | 58 | Bluetooth - BTHome v2 - PIR Alarm | [Click Here](./bluetooth_bthome_v2_pir_alarm/) |
 | 59 | Bluetooth - DW3000 TWR demo | [Click Here](./bluetooth_uwb_dw3000_slotted_twr/) |
 | 60 | Bluetooth - BThome v2 - People Counting (VL53L1X)  | [Click Here](./bluetooth_bthome_v2_people_counting/) |
+| 61 | Bluetooth - MIDI over BLE  | [Click Here](./bluetooth_midi_over_ble/) |
 
 ## Requirements ##
 
 1. Silicon Labs EFR32 Development Kit
 2. Simplicity Studio 5
-3. Compatible GSDK version that specified in each project's readme file. You can install it via Simplicity Studio or download it from our GitHub [gecko_sdk](https://github.com/SiliconLabs/gecko_sdk)
+3. Compatible SDK version that specified in each project's readme file. You can install it via Simplicity Studio or download it from our GitHub [gecko_sdk](https://github.com/SiliconLabs/gecko_sdk) or [simplicity_sdk](https://github.com/SiliconLabs/simplicity_sdk)
 4. Compatible Third-Party Hardware Drivers extension that also specified in each project's readme file, available [here](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
 ## Working with Projects ##
 
 1. To add an external repository, perform the following steps.
 
-    - From Simpilicity Studio 5, go to **Preferences > Simplicity Studio > External Repos**. Here you can add the repo `https://github.com/SiliconLabs/bluetooth_applications.git`. 
+    - From Simpilicity Studio 5, go to **Preferences > Simplicity Studio > External Repos**. Here you can add the repo `https://github.com/SiliconLabs/bluetooth_applications.git`.
 
-    - Cloning and then selecting the branch, tag, or commit to add. The default branch is Master. This repo cloned to `<path_to_the_SimplicityStudio_v5>\developer\repos\`
+    - Cloning and then selecting the branch, tag, or commit to add. The default branch is Master. This repo cloned to `<path_to_the_SimplicityStudio_v5>/developer/repos/`
 
 2. From Launcher, select your device from the "Debug Adapters" on the left before creating a project. Then click the **EXAMPLE PROJECTS & DEMOS** tab -> check **bluetooth_applications** under **Provider** to show a list of Bluetooth example projects compatible with the selected device. Click CREATE on a project to generate a new application from the selected template.
 

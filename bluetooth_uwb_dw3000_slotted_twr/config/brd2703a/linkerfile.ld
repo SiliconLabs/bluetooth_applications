@@ -2,7 +2,7 @@
  * GCC Linker script for Silicon Labs devices
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -27,9 +27,9 @@
  *
  ******************************************************************************/
 FLASH_PAGE_SIZE = 0x2000;
-FLASH_SIZE = 0xfe000;
+FLASH_SIZE = 0x17e000;
 RAM_SIZE = 0x40000;
- 
+
  MEMORY
  {
    FLASH   (rx)  : ORIGIN = 0x8000000, LENGTH = (FLASH_SIZE - FLASH_PAGE_SIZE) /* No bootloader at this moment for easy use */
@@ -42,7 +42,7 @@ ENTRY(Reset_Handler)
 SECTIONS
 {
 
-  .text :
+  .vectors :
   {
     linker_vectors_begin = .;
     KEEP(*(.vectors))
@@ -50,9 +50,62 @@ SECTIONS
 
     __Vectors_End = .;
     __Vectors_Size = __Vectors_End - __Vectors;
+    __lma_ramfuncs_start__ = .;
+  } > FLASH
 
+  .stack (NOLOAD):
+  {
+    . = ALIGN(8);
+    __StackLimit = .;
+    KEEP(*(.stack*))
+    . = ALIGN(4);
+    __StackTop = .;
+    PROVIDE(__stack = __StackTop);
+  } > RAM
+
+  .bss :
+  {
+    . = ALIGN(4);
+    __bss_start__ = .;
+    *(SORT_BY_ALIGNMENT(.bss*))
+    *(COMMON)
+    . = ALIGN(32);
+    __bss_end__ = .;
+  } > RAM
+
+
+  .noinit (NOLOAD):
+  {
+    *(.noinit*);
+    . = ALIGN(32);
+  } > RAM
+
+
+  text_application_ram :
+  {
+    . = ALIGN(32);
+    __vma_ramfuncs_start__ = .;
+    __text_application_ram_start__ = .;
+
+    *(text_application_ram)
+
+    . = ALIGN(32);
+    __vma_ramfuncs_end__ = .;
+    __text_application_ram_end__ = .;
+  } > RAM AT > FLASH
+
+  .rodata :
+  {
+    __lma_ramfuncs_end__ = .;
+    __rodata_start__ = .;
+    __rodata_end__ = .;
+  } > FLASH
+
+  .text :
+  {
     linker_code_begin = .;
     *(SORT_BY_ALIGNMENT(.text*))
+    *(SORT_BY_ALIGNMENT(text_*))
     . = ALIGN(32);
     linker_code_end = .;
 
@@ -73,12 +126,6 @@ SECTIONS
     *(SORT(.dtors.*))
     *(.dtors)
 
-    __code_classification_validator_start__ = .;
-    . = . + 0x20;
-    *(code_classification_validator)
-    . = ALIGN(32);
-    __code_classification_validator_end__ = .;
-
     *(.rodata*)
     *(.eh_frame*)
   } > FLASH
@@ -95,7 +142,7 @@ SECTIONS
   } > FLASH
   __exidx_end = .;
 
-    .copy.table :
+  .copy.table :
   {
     . = ALIGN(4);
     __copy_table_start__ = .;
@@ -105,23 +152,25 @@ SECTIONS
     LONG ((__data_end__ - __data_start__) / 4)
 
     /* Add each additional data section here */
-/*
+    /*
     LONG (__etext2)
     LONG (__data2_start__)
     LONG ((__data2_end__ - __data2_start__) / 4)
-*/
+    */
+
     __copy_table_end__ = .;
   } > FLASH
 
-    .zero.table :
+  .zero.table :
   {
     . = ALIGN(4);
     __zero_table_start__ = .;
     /* Add each additional bss section here */
-/*
+    /*
     LONG (__bss2_start__)
     LONG ((__bss2_end__ - __bss2_start__) / 4)
-*/
+    */
+
     __zero_table_end__ = .;
   } > FLASH
 
@@ -134,35 +183,13 @@ SECTIONS
 
   __etext = .;
 
-  /* Start placing output sections which are loaded into RAM */
-  . = ORIGIN(RAM);
-
-  .stack ALIGN(8) (NOLOAD):
-  {
-    __StackLimit = .;
-    KEEP(*(.stack*))
-    . = ALIGN(4);
-    __StackTop = .;
-    PROVIDE(__stack = __StackTop);
-  } > RAM
-
-
-  .noinit . (NOLOAD):
-  {
-    *(.noinit*);
-  } > RAM
-
-  .data . : AT (__etext)
+  .data :
   {
     . = ALIGN(4);
     __data_start__ = .;
     *(vtable)
     *(SORT_BY_ALIGNMENT(.data*))
     . = ALIGN(4);
-
-    PROVIDE(__ram_func_section_start = .);
-    *(.ram)
-    PROVIDE(__ram_func_section_end = .);
 
     . = ALIGN(4);
     /* preinit data */
@@ -188,46 +215,21 @@ SECTIONS
     /* All data end */
     __data_end__ = .;
 
-  } > RAM
+  } > RAM AT > FLASH
 
-  .bss . :
+
+/* Calculate heap size based on RAM limits. */
+heap_limit = ORIGIN(RAM) + LENGTH(RAM);  /* End of RAM */
+heap_size = heap_limit - __HeapBase;
+  .memory_manager_heap (NOLOAD):
   {
-    . = ALIGN(4);
-    __bss_start__ = .;
-    *(SORT_BY_ALIGNMENT(.bss*))
-    *(COMMON)
-    . = ALIGN(4);
-    __bss_end__ = .;
-  } > RAM
-
-  __ramfuncs_start__ = .;
-
-  __vma_ramfuncs_start__ = .;
-  __lma_ramfuncs_start__ = __etext + SIZEOF(.data);
-
-  __text_application_ram_offset__ = . - __vma_ramfuncs_start__;
-  text_application_ram . : AT(__lma_ramfuncs_start__ + __text_application_ram_offset__)
-  {
-    . = ALIGN(4);
-    __text_application_ram_start__ = .;
-    *(text_application_ram)
-    . = ALIGN(4);
-    __text_application_ram_end__ = .;
-  } > RAM
-
-  . = ALIGN(4);
-  __vma_ramfuncs_end__ = .;
-  __lma_ramfuncs_end__ = __lma_ramfuncs_start__ + __text_application_ram_offset__ + SIZEOF(text_application_ram);
-
-  __ramfuncs_end__ = .;
-
-  .heap (COPY):
-  {
+    . = ALIGN(8);
     __HeapBase = .;
+    . += heap_size;
     __end__ = .;
     end = __end__;
     _end = __end__;
-    KEEP(*(.heap*))
+    KEEP(*(.memory_manager_heap*))
     __HeapLimit = ORIGIN(RAM) + LENGTH(RAM);
   } > RAM
 
@@ -240,34 +242,24 @@ SECTIONS
   .internal_storage (DSECT) : {
     KEEP(*(.internal_storage*))
   } > FLASH
-  
+
 
   .nvm (DSECT) : {
     KEEP(*(.simee*))
   } > FLASH
 
+  __ramfuncs_start__ = __vma_ramfuncs_start__;
+  __ramfuncs_end__ = __vma_ramfuncs_end__;
+
   linker_nvm_end = __main_flash_end__;
   linker_nvm_begin = linker_nvm_end - SIZEOF(.nvm);
-  linker_nvm_size = SIZEOF(.nvm);
   linker_storage_end = linker_nvm_begin;
   __nvm3Base = linker_nvm_begin;
 
   linker_storage_begin = linker_storage_end - SIZEOF(.internal_storage);
-  linker_storage_size = SIZEOF(.internal_storage);
   ASSERT((linker_storage_begin >= (__etext + SIZEOF(.data))), "FLASH memory overflowed !")
 
 
   app_flash_end = 0x8000000 + 0x17e000;
   ASSERT( (linker_nvm_begin + SIZEOF(.nvm)) <= app_flash_end, "NVM3 is excessing the flash size !")
-
-  .config_otp : {
-    __fconfig_start = . ;
-    KEEP(*(.fConfig))
-    . = ALIGN(FLASH_PAGE_SIZE);
-    __fconfig_end = . ;
-  } > DFLASH
-
-  ASSERT((ORIGIN(DFLASH) == __fconfig_start), "DATA FLASH start address is wrong!")
-  ASSERT((0 == (__fconfig_end % FLASH_PAGE_SIZE)), "DATA FLASH alignment issue!")
-  ASSERT(((ORIGIN(DFLASH) + LENGTH(DFLASH)) == __fconfig_end), "DATA FLASH memory allocation issue!")
 }

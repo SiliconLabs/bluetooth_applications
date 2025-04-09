@@ -1,35 +1,39 @@
 # Bluetooth - BTHome v2 - People Counting (VL53L1X) #
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_bthome_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_bthome_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_bthome_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_bthome_common.json&label=SDK&query=sdk&color=green)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
 [![Required board](https://img.shields.io/badge/Sparkfun-Distance%20Sensor%20Breakout-green)](https://www.sparkfun.com/products/14722)
 [![Required board](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout%20(Qwiic)%20board-green)](https://www.sparkfun.com/products/14532)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_bthome_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_bthome_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_people_counting_bthome_common.json&label=RAM&query=ram&color=blue)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-226.28%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-11.38%20KB-blue)
 
 ## Overview ##
 
-This project aims to implement a people-counting application using Silicon Laboratories development kits integrated with the BLE wireless stack and a VL53L1X distance sensor.
+This project aims to implement a people-counting application using Silicon Labs development kits integrated with the BLE wireless stack and a VL53L1X distance sensor.
 
-This example can be as the first step in developing other upgrade applications based on it. It will be upgraded as a part of the people tracking system in the building or the factory and so on soon. Integrated with BLE wireless technology, therefore the user can control and monitor this system so easily. 
+This example can serve as the first step in developing other applications based on it. It can be upgraded to be a part of a people tracking system in a building, factory, or similar environment. Integrated with BLE wireless technology, the system can be easily monitored and controlled by the user.
 
-##  Gecko SDK version ##
+## SDK version ##
 
- - GSDK v4.4.4
-  
- - [Third Party Hardware Drivers v2.0.2](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Home Assistant OS](https://www.home-assistant.io/)
 
 ## Hardware Required ##
 
-- [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
+- 1x [SparkFun Distance Sensor Breakout - VL53L1X](https://www.sparkfun.com/products/14722)
+- 1x Raspberry Pi 4 running Home Assistant OS
+- 1x smartphone running Home Assistant application
 
-- [SparkFun Micro OLED Breakout (Qwiic) board](https://www.sparkfun.com/products/14532)
-
-- [SparkFun Distance Sensor Breakout - VL53L1X](https://www.sparkfun.com/products/14722)
-
-## Connections Required
+## Connections Required ##
 
 The I2C connection is made from the BGM220 Bluetooth Module Explorer Kit to the Distance Sensor Breakout board and the Micro OLED Breakout by using the Qwiic cable.
 
@@ -41,9 +45,15 @@ The hardware connection is shown in the image below:
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
+
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to **My Products**, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter **"people counting"**.
+1. From the Launcher Home, add your hardware to **My Products**, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by **"people counting"**.
 
 2. Click **Create** button on the **Bluetooth - People Counting (VL53L1X) with BThome v2** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![create_project](image/create_project.png)
@@ -61,7 +71,7 @@ To test this application, you can either create a project based on an example pr
     - Open the .slcp file in the project.
 
     - Select the **CONFIGURATION TOOLS** tab and open the **Bluetooth GATT Configurator**.
-    
+
     - Find the Import button and import the configuration `bluetooth_people_counting/config/btconfig/gatt_configuration.btconf` file.
 
     - Save the GATT configuration (ctrl-s).
@@ -76,6 +86,8 @@ To test this application, you can either create a project based on an example pr
   
     - [Platform] → [Driver] → [LED] → [Simple LED] → default instance name: led0
 
+    - [Platform] → [Driver] → [I2C] → [I2CSPM] → default instance name: qwiic
+
     - [Third Party Hardware Drives] → [Sensors] → [VL53L1X - Distance Sensor Breakout (Sparkfun)]
   
     - [Third Party Hardware Drives] → [Display & LED] → [SSD1306 - Micro OLED Breakout (Sparkfun - I2C)]
@@ -88,9 +100,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Make sure the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-
-- These examples expect a specific Gecko Bootloader to be present on your device. For more details see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader).
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
@@ -198,9 +208,9 @@ Advertisement Packet Device name: **People Counting**
 
 7. Start a periodical timer with 1000 milliseconds for each periodic period, The timer callback will raise an external event to the BLE stack. The event handler will display people counting data which was calculated by the people counting algorithm. It also sends the data to Home Assistant server.
 
-8.  After the **sl_bt_evt_system_boot_id** event arrives, the application sets up the security manager to bond with an iOS or Android device. And then start advertising.
+8. After the **sl_bt_evt_system_boot_id** event arrives, the application sets up the security manager to bond with an iOS or Android device. And then start advertising.
 
-9.  Handle GATT events to help the user configures the counting algorithm and get the result from the algorithm calculation over the **EFR Connect** mobile application.
+9. Handle GATT events to help the user configures the counting algorithm and get the result from the algorithm calculation over the **Simplicity Connect** mobile application.
 
 ### People Counting algorithm ###
 
@@ -243,19 +253,13 @@ Press the button to clear the number of people who are standing in detected area
   
 - To reset the number of people currently, the user has to write 0 to the **People Count** characteristic.
 
-#### Connect to EFR Connect app ####
+#### Connect to Simplicity Connect app ####
 
-You can use a smartphone app, such as the **EFR Connect** application on your phone, to connect to the board. Please, follow some steps below:
+Follow the below steps to test the example with the Simplicity Connect application:
 
-- Open the EFR Connect app.
+- Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-- Open the Bluetooth Browser.
-
-- Find the device advertising as **People Counting**.
-
-- Click on **Connect** button.
-  
-- If the application shows the pairing request dialog, press **Pair** button to confirm authentication for the pairing process. After that, wait for the connection to be established and the GATT database to be loaded.
+- Find your device in the Bluetooth Browser, advertising as *People Counting*, and tap Connect. Then you need accept the pairing request when connected for the first time.
 
 **Note**: The pairing process on Android and iOS devices is different. For more information, refer to Bluetooth security.
 

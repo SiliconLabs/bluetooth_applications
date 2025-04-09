@@ -1,0 +1,89 @@
+project_name: bt_bthome_v2_internal_temperature_monitor
+package: Bluetooth
+label: Bluetooth - BTHome v2 - Internal Temperature Monitor
+description: >
+  This project illustrates how BTHome can be effectively utilized with Silabs Dev kits
+  to communicate internal temperature sensor values to a Home Assistant system.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Advanced]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: tempdrv
+  - id: component_catalog
+  - from: third_party_hw_drivers
+    id: services_bthome_v2
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/create_project_from_example.png
+    directory: image
+  - path: ../image/connection.png
+    directory: image
+  - path: ../image/overview.png
+    directory: image
+  - path: ../image/add_device.png
+    directory: image
+  - path: ../image/app_init.png
+    directory: image
+  - path: ../image/app_setting.png
+    directory: image
+  - path: ../image/bindkey_sensor_device.png
+    directory: image
+  - path: ../image/sensor_initialize_log.png
+    directory: image
+  - path: ../image/timer_handle.png
+    directory: image
+  - path: ../image/track_sensor_value.png
+    directory: image
+  - path: ../image/system_boot_event.png
+    directory: image
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+ui_hints:
+  highlight:
+    - path: README.md
+      focus: true

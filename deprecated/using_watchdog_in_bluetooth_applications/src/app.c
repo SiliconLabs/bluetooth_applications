@@ -11,7 +11,7 @@
  *
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * The licensor of this software is Silicon Laboratories Inc. Your use of this
@@ -22,7 +22,7 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
-#include "em_common.h"
+#include "sl_common.h"
 #include "sl_app_assert.h"
 #include "sl_bluetooth.h"
 #include "gatt_db.h"
@@ -44,15 +44,15 @@ static uint8_t advertising_set_handle = 0xff;
 static uint32_t reset_cause;
 static const WDOG_Init_TypeDef init =
 {
- .enable = true,             /* Start watchdog when init done */
- .debugRun = false,          /* WDOG not counting during debug halt */
- .em2Run = true,             /* WDOG counting when in EM2 */
- .em3Run = true,             /* WDOG counting when in EM3 */
- .em4Block = false,          /* EM4 can be entered */
- .swoscBlock = false,        /* Do not block disabling LFRCO/LFXO in CMU */
- .lock = false,              /* Do not lock WDOG configuration (if locked, reset needed to unlock) */
- .clkSel = wdogClkSelULFRCO, /* Select 1kHZ WDOG oscillator */
- .perSel = wdogPeriod_2k,    /* Set the watchdog period to 2049 clock periods (ie ~2 seconds)*/
+  .enable = true,            /* Start watchdog when init done */
+  .debugRun = false,         /* WDOG not counting during debug halt */
+  .em2Run = true,            /* WDOG counting when in EM2 */
+  .em3Run = true,            /* WDOG counting when in EM3 */
+  .em4Block = false,         /* EM4 can be entered */
+  .swoscBlock = false,       /* Do not block disabling LFRCO/LFXO in CMU */
+  .lock = false,             /* Do not lock WDOG configuration (if locked, reset needed to unlock) */
+  .clkSel = wdogClkSelULFRCO, /* Select 1kHZ WDOG oscillator */
+  .perSel = wdogPeriod_2k,   /* Set the watchdog period to 2049 clock periods (ie ~2 seconds)*/
 };
 
 /******************************************
@@ -62,8 +62,8 @@ void sl_button_on_change(const sl_button_t *handle)
 {
   sl_status_t sc;
 
-  if((handle == &sl_button_btn0) &&
-      (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_PRESSED)) { //if button 0 is pressed
+  if (sl_button_get_state(handle) == SL_SIMPLE_BUTTON_PRESSED) {
+    if (&sl_button_btn0 == handle) {
       /* Stop software timer to imitate that the stack is frozen
        * This will cause a watchdog reset. */
       sc = sl_bt_system_set_soft_timer(0, 0, 0);
@@ -71,13 +71,14 @@ void sl_button_on_change(const sl_button_t *handle)
                     "[E: 0x%04x] Failed to stop soft timer\n",
                     (int)sc);
       sl_app_log("Stop feed the watchdog \n");
+    }
   }
 }
 
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application init code here!                         //
@@ -88,7 +89,7 @@ SL_WEAK void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Put your additional application code here!                              //
@@ -122,15 +123,15 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       reset_cause = RMU_ResetCauseGet();
       RMU_ResetCauseClear();
       if (reset_cause & RMU_RSTCAUSE_WDOGRST) {
-          /* watchdog reset occured */
-          sl_app_log("Watchdog Reset Occurred!\n");
+        /* watchdog reset occured */
+        sl_app_log("Watchdog Reset Occurred!\n");
       }
 
       // Init Watchdog driver
       WDOG_Init(&init);
 
       // Start the software timer to feed the watchdog every 1s
-      sc = sl_bt_system_set_soft_timer(32768,0,0);
+      sc = sl_bt_system_set_soft_timer(32768, 0, 0);
       sl_app_assert(sc == SL_STATUS_OK,
                     "[E: 0x%04x] Failed to start soft timer\n",
                     (int)sc);
@@ -210,7 +211,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       sl_led_toggle(&sl_led_led0);
       WDOG_Feed();
       sl_app_log("Feed the watchdog \r\n");
-    break;
+      break;
 
     ///////////////////////////////////////////////////////////////////////////
     // Add additional event handlers here as your application requires!      //

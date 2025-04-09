@@ -1,19 +1,21 @@
 # Bluetooth - Dosimeter (Sparkfun Type 5) #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_dosimeter_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_dosimeter_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_dosimeter_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_dosimeter_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_dosimeter_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_dosimeter_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_dosimeter_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Mikroe-Buzzer%202%20Click%20Board-green)](https://www.mikroe.com/buzz-2-click)
+[![Required board](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout%20(Qwiic)-green)](https://www.sparkfun.com/products/14532)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-165.91%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-9.49%20KB-blue)
 ## Overview ##
 
 This project aims to implement a dosimeter application using Silicon Labs development kits and external sensors integrated with the BLE wireless stack.
 
 The block diagram of this application is shown in the image below:
 
-![overview](images/overview.png)
+![overview](image/overview.png)
 
 The wireless dosimeter system is composed of a sensor and a (at least one) client device. The sensor device continuously monitors the ambient radiation and calculates it in uSv/h unit and then reports this value to a client device via BLE (Bluetooth Low Energy).
 
@@ -29,34 +31,33 @@ The client device scans periodically the BLE network. Once the sensor device is 
 
 Note: Any other BLE capable device can be a client device, (e.g.: a simple mobile phone).
 
-## Gecko SDK Suite version ##
+## SDK version ##
 
-- GSDK v4.4.0
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
 **Sensor:**
 
-- [A Silicon Labs compatible-radio board.](https://www.silabs.com/development-tools/wireless/bluetooth)
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
 
-- [Pocket Geiger Radiation Sensor - Type 5](https://www.sparkfun.com/products/14209)
+- 1x Pocket Geiger Radiation Sensor - Type 5
+
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 **Client:**
 
-- [A Silicon Labs compatible-radio board.](https://www.silabs.com/development-tools/wireless/bluetooth)
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
 
-- [OLED Display - SSD1306](https://www.sparkfun.com/products/14532)
+- 1x [SparkFun Micro OLED Breakout (Qwiic)](https://www.sparkfun.com/products/14532)
 
-- [Buzzer 2 Click Board](https://www.mikroe.com/buzz-2-click)
-
-**NOTE:** The sensor device can run on all Silicon Labs boards while the client device should be used with the listed boards below:
-
-| Board ID | Description  |
-| -------- | ------------ |
-| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
-| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview) |
-| BRD4314A | [BGM220 Explorer Kit Board](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)   |
+- 1x [Buzzer 2 Click Board](https://www.mikroe.com/buzz-2-click)
 
 ## Connections Required ##
 
@@ -64,7 +65,7 @@ The hardware connection is shown in the image below:
 
 |**Sensor** | **Client**|
 |:-------------------------:|:-------------------------:|
-|![sensor](images/sensor.png) | ![client](images/client.png)|
+|![sensor](image/sensor.png) | ![client](image/client.png)|
 
 The Sparkfun OLED Display board can be easily connected to these boards above by using a Qwiic cable while the Buzzer 2 Click connects to them using SPI protocol via a Mikroe connection.
 
@@ -81,19 +82,19 @@ The Sparkfun OLED Display board can be easily connected to these boards above by
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-**NOTE:**
+**NOTE**:
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 - SDK Extension must be enabled for the project to install the required components.
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project with the filter "dosimeter".
+1. From the Launcher Home, add your hardware to MyProducts, click on it, and click on the EXAMPLE PROJECTS & DEMOS tab. Find the example project filtering by "dosimeter".
 
 2. Click **Create** button on both **Bluetooth - Dosimeter (Sparkfun Type 5) - Sensor** and **Bluetooth - Dosimeter (Sparkfun Type 5) - Client** examples. Example project creation dialog pops up -> click Create and Finish and the projects will be generated.
 
-    ![create example](images/create_example.png)
+    ![create example](image/create_example.png)
 
 3. Build and flash the examples to the board.
 
@@ -122,7 +123,7 @@ To test this application, you can either create a project based on an example pr
 4. Open the .slcp file. Select the **SOFTWARE COMPONENTS** tab and install the software components:
 
     - For **sensor** device:
-        - [Services] → [Sleep Timer]
+        - [Services] → [Timers] → [Sleep Timer]
         - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: **vcom**
         - [Application] → [Utility] → [Log]
         - [Application] → [Utility] → [Assert]
@@ -130,9 +131,7 @@ To test this application, you can either create a project based on an example pr
         - [Third Party Hardware Drivers] → [Sensors] → [Type 5 - Poket Geiger Radiation (Sparkfun)]
 
     - For **client** device:
-        - [Services] → [Sleep Timer]
-        - [Services] →  [NVM3] → NVM3 Core
-        - [Services] →  [NVM3] → NVM3 Default Instance
+        - [Services] → [Timers] → [Sleep Timer]
         - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: **vcom**
         - [Application] → [Utility] → [Log]
         - [Application] → [Utility] → [Assert]
@@ -148,7 +147,7 @@ To test this application, you can either create a project based on an example pr
 
 **Note:**
 
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How it Works ##
 
@@ -156,7 +155,7 @@ To test this application, you can either create a project based on an example pr
 
 #### Sensor overview ###
 
-![Application overview](images/sensor_overview.png)
+![Application overview](image/sensor_overview.png)
 
 #### Sensor GATT Database ###
 
@@ -170,13 +169,13 @@ To test this application, you can either create a project based on an example pr
 
 **Application initialization:**
 
-![Application init](images/sensor_init.png)
+![Application init](image/sensor_init.png)
 
 **On Radiation Callback:**
 
 This handler is called when the driver calculates the current radiation level in every configured process period time.
 
-![Application callback](images/sensor_callback.png)
+![Application callback](image/sensor_callback.png)
 
 **Advertisement Packet:**
 
@@ -194,7 +193,7 @@ The AdvData field in the advertisement packet is as table below:
 
 #### Client overview ####
 
-![Application overview](images/client_overview.png)
+![Application overview](image/client_overview.png)
 
 #### Client GATT Database ####
 
@@ -220,70 +219,68 @@ GATT Database
 
 **Application initialization:**
 
-![Application init](images/client_init.png)
+![Application init](image/client_init.png)
 
 **Runtime - Configuration Mode:**
 
-![Config mode](images/client_config.png)
+![Config mode](image/client_config.png)
 
 **Runtime - Normal Mode:**
 
 *Client events:*
 
-![Client event](images/client_event.png)
+![Client event](image/client_event.png)
 
-![Client button](images/client_btn.png)
+![Client button](image/client_btn.png)
 
 *Logic blocks:*
 
-![Client logic](images/client_logic.png)
+![Client logic](image/client_logic.png)
 
 *Radiation Characteristic Notification Event:*
 
-![Client logic](images/client_notify.png)
+![Client logic](image/client_notify.png)
 
 **Display:**
 
 The OLED will display **config mode** and **disconnected** respectively if the client device is in the configuration mode and disconnected to sensor device.
 
-**Configuration Mode** | **Disconnected to sensor**
- :-------------------------:|:-------------------------:
-![Configuration](images/configuration.png) | ![Disconnected](images/disconnected.gif)
+|**Configuration Mode** | **Disconnected to sensor**|
+|:-------------------------:|:-------------------------:|
+|![Configuration](image/configuration.png) | ![Disconnected](image/disconnected.gif)|
 
 The application shows the received current radiation value on the display in nSv/h or uSv/h unit depending on the measured radiation level.
 
 - \< 1 uSv/h => nSv/h (no decimals)
 - \>=  1 uSv/h => uSv/h (2 decimals)
 
-![Display](images/display.png)
+![Display](image/display.png)
 
 ### Testing ###
 
 **Sensor:**
 
-You can use a smartphone application such as the EFR Connect application, to see the advertising packet from the Sensor.
+Follow the below steps to test the Sensor with the Simplicity Connect application:
 
-- Open the EFR Connect application.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-- Open the Bluetooth Browser.
-
-- Find the device advertising as **DM_SENSOR**.
+2. Find your device in the Bluetooth Browser, advertising as *DM_SENSOR*.
 
 - Click on the instance of **DM_SENSOR**. Now, you should see the counter and the radiation value on the Manufacturer Specific Data row. Please have a look at the red highlighted area below in the result pictures.
 
-    ![sensor efr connect](images/efr_connect.png)
+    ![sensor Simplicity connect](image/efr_connect.png)
 
 - After a connection is established, a similar output from a serial terminal as shown below
 
-    ![sensor Log](images/log_sensor.png)
+    ![sensor Log](image/log_sensor.png)
 
 **Client:**
 
 - Upon reset, the application will display the Silicon Labs logo on the OLED screen for a few seconds.
 
-- Push the button 0 after reset the client device will make the device run into the **configuration** mode. In this mode, users can use the **EFR Connect** application to connect to the client device to change its operating configuration.
+- Push the button 0 after reset the client device will make the device run into the **configuration** mode. In this mode, users can use the **Simplicity Connect** application to connect to the client device to change its operating configuration.
 
-    ![client configuration efr](images/client_configuration_efr.png)
+    ![client configuration efr](image/client_configuration_efr.png)
 
 - After the firmware is configured, the device starts in normal mode. In this state, it starts Scanning/Discovering advertising devices. It initiates a connection with those devices that contain the DM_SENSOR name in their advertising packets.
 
@@ -291,8 +288,8 @@ You can use a smartphone application such as the EFR Connect application, to see
 
 - Open your terminal emulator and connect to your client device over its serial port. Set the baud rate to 115200. A similar output as below.
 
-    ![client log](images/log_client.png)
+    ![client log](image/log_client.png)
 
 - **Note:** Button PB0 should be pressed during startup (power-on or reset) to run the client in Configuration Mode. The terminal will display information as below and the Oled will also display "**CONFIG MODE**".
 
-    ![client configuration](images/client_configuration.png)
+    ![client configuration](image/client_configuration.png)

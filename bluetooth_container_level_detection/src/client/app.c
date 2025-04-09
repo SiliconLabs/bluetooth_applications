@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -26,12 +26,18 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include <stdio.h>
 #include "sl_bluetooth.h"
 #include "sl_sleeptimer.h"
 #include "gatt_db.h"
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_assert.h"
 #include "app.h"
 #include "app_log.h"
@@ -410,7 +416,7 @@ static void app_advertising_timer_callback(sl_sleeptimer_timer_handle_t *handle,
   (void) handle;
   (void) data;
   app_log("time out. reseting.\r\n");
-  sl_bt_system_reset(0);
+  sl_bt_system_reboot();
 }
 
 void container_level_device_check_event_handler()
@@ -505,11 +511,11 @@ static void container_app_user_write_request_handler(sl_bt_msg_t *evt)
     case gattdb_select_container_to_configure:
     {
       if (data >= MAX_CONTAINER_SLOT) {
-        app_log("invalid selected slot");
+        app_log("invalid selected slot\r\n");
         container_display_status("ER");
         sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
       } else {
-        app_log("Writing selected slot");
+        app_log("Writing selected slot\r\n");
         container_display_status("WT");
         slot_selected = data;
       }
@@ -519,11 +525,11 @@ static void container_app_user_write_request_handler(sl_bt_msg_t *evt)
     {
       if ((data > 4000) || (data < 40)
           || (data > container.config[slot_selected].highest_level)) {
-        app_log("invalid lowest value");
+        app_log("invalid lowest value\r\n");
         container_display_status("ER");
         sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
       } else {
-        app_log("Writing lowest value");
+        app_log("Writing lowest value\r\n");
         container_display_status("LO");
         container.config[slot_selected].lowest_level = data;
         sc = container_nvm3_write(NVM3_KEY_MIN + slot_selected,
@@ -535,11 +541,11 @@ static void container_app_user_write_request_handler(sl_bt_msg_t *evt)
     {
       if ((data > 4000) || (data < 40)
           || (data < container.config[slot_selected].lowest_level)) {
-        app_log("invalid highest value");
+        app_log("invalid highest value\r\n");
         container_display_status("ER");
         sc = SL_STATUS_BT_ATT_OUT_OF_RANGE;
       } else {
-        app_log("Writing highest value");
+        app_log("Writing highest value\r\n");
         container_display_status("HI");
         container.config[slot_selected].highest_level = data;
         sc = container_nvm3_write(NVM3_KEY_MIN + slot_selected,
@@ -576,7 +582,7 @@ static void container_app_user_read_request_handler(sl_bt_msg_t *evt)
   {
     case gattdb_select_container_to_configure:
     {
-      app_log("reading selected slot");
+      app_log("reading selected slot\r\n");
       container_display_status("RD");
 
       respond_data_length = snprintf(respond_data, 10, "%d", slot_selected);
@@ -591,7 +597,7 @@ static void container_app_user_read_request_handler(sl_bt_msg_t *evt)
     }
     case gattdb_container_slot_configuration:
     {
-      app_log("reading id slot");
+      app_log("reading id slot\r\n");
       container_display_status("id");
 
       respond_data_length = snprintf(respond_data,
@@ -609,7 +615,7 @@ static void container_app_user_read_request_handler(sl_bt_msg_t *evt)
     }
     case gattdb_container_lowest_level:
     {
-      app_log("reading lowest value");
+      app_log("reading lowest value\r\n");
       container_display_status("LO");
 
       container_nvm3_get_config(container.config);
@@ -629,7 +635,7 @@ static void container_app_user_read_request_handler(sl_bt_msg_t *evt)
     }
     case gattdb_container_highest_level:
     {
-      app_log("reading highest value");
+      app_log("reading highest value\r\n");
       container_display_status("HI");
 
       container_nvm3_get_config(container.config);

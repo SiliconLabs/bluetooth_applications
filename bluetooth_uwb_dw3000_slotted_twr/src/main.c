@@ -15,7 +15,7 @@
 #include "em_gpio.h"
 #include "sl_system_init.h"
 #include "sl_event_handler.h"
-#include "port.h"
+#include "port_dw3000.h"
 #include "app.h"
 #include "crc16.h"
 #include "config.h"

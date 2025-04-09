@@ -3,7 +3,7 @@
  * @brief DMADRV API implementation.
  *******************************************************************************
  * # License
- * <b>Copyright 2018 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -32,20 +32,24 @@
 #include <stddef.h>
 
 #include "em_device.h"
-#include "em_core.h"
+#include "sl_core.h"
 
 #include "dmadrv.h"
 
-#if defined(EMDRV_DMADRV_UDMA)
-#include "em_cmu.h"
-#include "dmactrl.h"
+#if defined(EMDRV_DMADRV_LDMA_S3)
+#include "sl_clock_manager.h"
 #endif
 
 /// @cond DO_NOT_INCLUDE_WITH_DOXYGEN
 
 #if !defined(EMDRV_DMADRV_DMA_CH_COUNT) \
   || (EMDRV_DMADRV_DMA_CH_COUNT > DMA_CHAN_COUNT)
+
+#if defined(_SILICON_LABS_32B_SERIES_3)
+#define EMDRV_DMADRV_DMA_CH_COUNT DMA_CHAN_COUNT(0)
+#else
 #define EMDRV_DMADRV_DMA_CH_COUNT DMA_CHAN_COUNT
+#endif
 #endif
 
 typedef enum {
@@ -200,29 +204,24 @@ Ecode_t DMADRV_DeInit(void)
   }
 
   if (!inUse) {
-#if defined(EMDRV_DMADRV_UDMA)
-    NVIC_DisableIRQ(DMA_IRQn);
-    DMA->IEN = _DMA_IEN_RESETVALUE;
-    DMA->CONFIG = _DMA_CONFIG_RESETVALUE;
-    CMU_ClockEnable(cmuClock_DMA, false);
-#elif defined(EMDRV_DMADRV_LDMA)
+#if defined(EMDRV_DMADRV_LDMA)
     LDMA_DeInit();
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-    NVIC_DisableIRQ(LDMA_CHNL0_IRQn);
-    NVIC_DisableIRQ(LDMA_CHNL1_IRQn);
-    NVIC_DisableIRQ(LDMA_CHNL2_IRQn);
-    NVIC_DisableIRQ(LDMA_CHNL3_IRQn);
-    NVIC_DisableIRQ(LDMA_CHNL4_IRQn);
-    NVIC_DisableIRQ(LDMA_CHNL5_IRQn);
-    NVIC_DisableIRQ(LDMA_CHNL6_IRQn);
-    NVIC_DisableIRQ(LDMA_CHNL7_IRQn);
+    NVIC_DisableIRQ(LDMA0_CHNL0_IRQn);
+    NVIC_DisableIRQ(LDMA0_CHNL1_IRQn);
+    NVIC_DisableIRQ(LDMA0_CHNL2_IRQn);
+    NVIC_DisableIRQ(LDMA0_CHNL3_IRQn);
+    NVIC_DisableIRQ(LDMA0_CHNL4_IRQn);
+    NVIC_DisableIRQ(LDMA0_CHNL5_IRQn);
+    NVIC_DisableIRQ(LDMA0_CHNL6_IRQn);
+    NVIC_DisableIRQ(LDMA0_CHNL7_IRQn);
 
-    sl_hal_ldma_reset();
+    sl_hal_ldma_reset(LDMA0);
 
-    // TODO CM add call to the equivalent of CMU_ClockEnable() to disable
-    //   cmuClock_LDMA. It will require to include the proper S3 CMU header
-    //   file.
+    sl_clock_manager_disable_bus_clock(SL_BUS_CLOCK_LDMA0);
+    sl_clock_manager_disable_bus_clock(SL_BUS_CLOCK_LDMAXBAR0);
 #endif
+
     initialized = false;
     CORE_EXIT_ATOMIC();
     return ECODE_EMDRV_DMADRV_OK;
@@ -316,36 +315,38 @@ Ecode_t DMADRV_Init(void)
   dmaInit.ldmaInitIrqPriority = EMDRV_DMADRV_DMA_IRQ_PRIORITY;
   LDMA_Init(&dmaInit);
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-  sl_hal_ldma_init(&dmaInit);
+  sl_clock_manager_enable_bus_clock(SL_BUS_CLOCK_LDMA0);
+  sl_clock_manager_enable_bus_clock(SL_BUS_CLOCK_LDMAXBAR0);
+  sl_hal_ldma_init(LDMA0, &dmaInit);
 
-  NVIC_ClearPendingIRQ(LDMA_CHNL0_IRQn);
-  NVIC_ClearPendingIRQ(LDMA_CHNL1_IRQn);
-  NVIC_ClearPendingIRQ(LDMA_CHNL2_IRQn);
-  NVIC_ClearPendingIRQ(LDMA_CHNL3_IRQn);
-  NVIC_ClearPendingIRQ(LDMA_CHNL4_IRQn);
-  NVIC_ClearPendingIRQ(LDMA_CHNL5_IRQn);
-  NVIC_ClearPendingIRQ(LDMA_CHNL6_IRQn);
-  NVIC_ClearPendingIRQ(LDMA_CHNL7_IRQn);
+  NVIC_ClearPendingIRQ(LDMA0_CHNL0_IRQn);
+  NVIC_ClearPendingIRQ(LDMA0_CHNL1_IRQn);
+  NVIC_ClearPendingIRQ(LDMA0_CHNL2_IRQn);
+  NVIC_ClearPendingIRQ(LDMA0_CHNL3_IRQn);
+  NVIC_ClearPendingIRQ(LDMA0_CHNL4_IRQn);
+  NVIC_ClearPendingIRQ(LDMA0_CHNL5_IRQn);
+  NVIC_ClearPendingIRQ(LDMA0_CHNL6_IRQn);
+  NVIC_ClearPendingIRQ(LDMA0_CHNL7_IRQn);
 
-  NVIC_SetPriority(LDMA_CHNL0_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
-  NVIC_SetPriority(LDMA_CHNL1_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
-  NVIC_SetPriority(LDMA_CHNL2_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
-  NVIC_SetPriority(LDMA_CHNL3_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
-  NVIC_SetPriority(LDMA_CHNL4_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
-  NVIC_SetPriority(LDMA_CHNL5_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
-  NVIC_SetPriority(LDMA_CHNL6_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
-  NVIC_SetPriority(LDMA_CHNL7_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
+  NVIC_SetPriority(LDMA0_CHNL0_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
+  NVIC_SetPriority(LDMA0_CHNL1_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
+  NVIC_SetPriority(LDMA0_CHNL2_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
+  NVIC_SetPriority(LDMA0_CHNL3_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
+  NVIC_SetPriority(LDMA0_CHNL4_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
+  NVIC_SetPriority(LDMA0_CHNL5_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
+  NVIC_SetPriority(LDMA0_CHNL6_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
+  NVIC_SetPriority(LDMA0_CHNL7_IRQn, EMDRV_DMADRV_DMA_IRQ_PRIORITY);
 
-  NVIC_EnableIRQ(LDMA_CHNL0_IRQn);
-  NVIC_EnableIRQ(LDMA_CHNL1_IRQn);
-  NVIC_EnableIRQ(LDMA_CHNL2_IRQn);
-  NVIC_EnableIRQ(LDMA_CHNL3_IRQn);
-  NVIC_EnableIRQ(LDMA_CHNL4_IRQn);
-  NVIC_EnableIRQ(LDMA_CHNL5_IRQn);
-  NVIC_EnableIRQ(LDMA_CHNL6_IRQn);
-  NVIC_EnableIRQ(LDMA_CHNL7_IRQn);
+  NVIC_EnableIRQ(LDMA0_CHNL0_IRQn);
+  NVIC_EnableIRQ(LDMA0_CHNL1_IRQn);
+  NVIC_EnableIRQ(LDMA0_CHNL2_IRQn);
+  NVIC_EnableIRQ(LDMA0_CHNL3_IRQn);
+  NVIC_EnableIRQ(LDMA0_CHNL4_IRQn);
+  NVIC_EnableIRQ(LDMA0_CHNL5_IRQn);
+  NVIC_EnableIRQ(LDMA0_CHNL6_IRQn);
+  NVIC_EnableIRQ(LDMA0_CHNL7_IRQn);
 
-  sl_hal_ldma_enable();
+  sl_hal_ldma_enable(LDMA0);
 #endif
 
   return ECODE_EMDRV_DMADRV_OK;
@@ -398,7 +399,7 @@ Ecode_t DMADRV_LdmaStartTransfer(int                channelId,
   }
 
   ch = &chTable[channelId];
-  if (ch->allocated == false) {
+  if (!ch->allocated) {
     return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
   }
 
@@ -406,6 +407,38 @@ Ecode_t DMADRV_LdmaStartTransfer(int                channelId,
   ch->userParam = cbUserParam;
   ch->callbackCount = 0;
   LDMA_StartTransfer(channelId, transfer, descriptor);
+
+  return ECODE_EMDRV_DMADRV_OK;
+}
+
+#elif defined(EMDRV_DMADRV_LDMA_S3)
+Ecode_t DMADRV_LdmaStartTransfer(int                            channelId,
+                                 sl_hal_ldma_transfer_config_t  *transfer,
+                                 sl_hal_ldma_descriptor_t       *descriptor,
+                                 DMADRV_Callback_t              callback,
+                                 void                           *cbUserParam)
+{
+  ChTable_t *ch;
+
+  if (!initialized) {
+    return ECODE_EMDRV_DMADRV_NOT_INITIALIZED;
+  }
+
+  if (channelId >= (int)EMDRV_DMADRV_DMA_CH_COUNT) {
+    return ECODE_EMDRV_DMADRV_PARAM_ERROR;
+  }
+
+  ch = &chTable[channelId];
+  if (ch->allocated == false) {
+    return ECODE_EMDRV_DMADRV_CH_NOT_ALLOCATED;
+  }
+
+  ch->callback = callback;
+  ch->userParam = cbUserParam;
+  ch->callbackCount = 0;
+  sl_hal_ldma_init_transfer(LDMA0, channelId, transfer, descriptor);
+  sl_hal_ldma_enable_interrupts(LDMA0, (1 << channelId));
+  sl_hal_ldma_start_transfer(LDMA0, channelId);
 
   return ECODE_EMDRV_DMADRV_OK;
 }
@@ -700,7 +733,7 @@ Ecode_t DMADRV_PauseTransfer(unsigned int channelId)
 #elif defined(EMDRV_DMADRV_LDMA)
   LDMA_EnableChannelRequest(channelId, false);
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-  sl_hal_ldma_disable_channel_request(channelId);
+  sl_hal_ldma_disable_channel_request(LDMA0, channelId);
 #endif
 
   return ECODE_EMDRV_DMADRV_OK;
@@ -736,7 +769,7 @@ Ecode_t DMADRV_ResumeTransfer(unsigned int channelId)
 #elif defined(EMDRV_DMADRV_LDMA)
   LDMA_EnableChannelRequest(channelId, true);
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-  sl_hal_ldma_enable_channel_request(channelId);
+  sl_hal_ldma_enable_channel_request(LDMA0, channelId);
 #endif
 
   return ECODE_EMDRV_DMADRV_OK;
@@ -772,7 +805,7 @@ Ecode_t DMADRV_StopTransfer(unsigned int channelId)
 #elif defined(EMDRV_DMADRV_LDMA)
   LDMA_StopTransfer(channelId);
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-  sl_hal_ldma_stop_transfer(channelId);
+  sl_hal_ldma_stop_transfer(LDMA0, channelId);
 #endif
 
   return ECODE_EMDRV_DMADRV_OK;
@@ -812,7 +845,7 @@ Ecode_t DMADRV_TransferActive(unsigned int channelId, bool *active)
 #elif defined(EMDRV_DMADRV_LDMA)
   if (LDMA_ChannelEnabled(channelId))
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-  if (sl_hal_ldma_channel_is_enabled(channelId))
+  if (sl_hal_ldma_channel_is_enabled(LDMA0, channelId))
 #endif
   {
     *active = true;
@@ -828,8 +861,7 @@ Ecode_t DMADRV_TransferActive(unsigned int channelId, bool *active)
  *  Check if a transfer complete is pending.
  *
  * @details
- *  Will check the channel interrupt flag. This assumes that the DMA is
- *   configured
+ *  Will check the channel interrupt flag. This assumes that the DMA is configured
  *  to give a completion interrupt.
  *
  * @param[in] channelId
@@ -862,7 +894,7 @@ Ecode_t DMADRV_TransferCompletePending(unsigned int channelId, bool *pending)
 #elif defined(EMDRV_DMADRV_LDMA)
   if (LDMA->IF & (1 << channelId))
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-  if (sl_hal_ldma_get_interrupts() & (1 << channelId))
+  if (sl_hal_ldma_get_pending_interrupts(LDMA0) & (1 << channelId))
 #endif
   {
     *pending = true;
@@ -929,7 +961,7 @@ Ecode_t DMADRV_TransferDone(unsigned int channelId, bool *done)
 #elif defined(EMDRV_DMADRV_LDMA)
   *done = LDMA_TransferDone(channelId);
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-  *done = sl_hal_ldma_transfer_is_done(channelId);
+  *done = sl_hal_ldma_transfer_is_done(LDMA0, channelId);
 #endif
 
   return ECODE_EMDRV_DMADRV_OK;
@@ -993,7 +1025,7 @@ Ecode_t DMADRV_TransferRemainingCount(unsigned int channelId,
 #elif defined(EMDRV_DMADRV_LDMA)
   *remaining = LDMA_TransferRemainingCount(channelId);
 #elif defined(EMDRV_DMADRV_LDMA_S3)
-  *remaining = sl_hal_ldma_transfer_remaining_count(channelId);
+  *remaining = sl_hal_ldma_transfer_remaining_count(LDMA0, channelId);
 #endif
 
   return ECODE_EMDRV_DMADRV_OK;
@@ -1144,7 +1176,7 @@ static void LDMA_IRQHandlerDefault(uint8_t chnum)
   uint32_t chmask;
 
   /* Get all pending and enabled interrupts. */
-  pending = sl_hal_ldma_get_enabled_interrupts();
+  pending = sl_hal_ldma_get_enabled_pending_interrupts(LDMA0);
 
   /* Check for LDMA error. */
   if (pending & (LDMA_IF_ERROR0 << chnum)) {
@@ -1157,7 +1189,7 @@ static void LDMA_IRQHandlerDefault(uint8_t chnum)
   chmask = 1 << chnum;
   if (pending & chmask) {
     /* Clear the interrupt flag. */
-    sl_hal_ldma_clear_interrupts(chmask);
+    sl_hal_ldma_clear_interrupts(LDMA0, chmask);
 
     /* Callback called if it was provided for the given channel. */
     ch = &chTable[chnum];
@@ -1178,7 +1210,7 @@ static void LDMA_IRQHandlerDefault(uint8_t chnum)
  * @brief
  *  Root interrupt handler for LDMA channel 0.
  ******************************************************************************/
-void LDMA_CHNL0_IRQHandler(void)
+void LDMA0_CHNL0_IRQHandler(void)
 {
   LDMA_IRQHandlerDefault(0);
 }
@@ -1187,7 +1219,7 @@ void LDMA_CHNL0_IRQHandler(void)
  * @brief
  *  Root interrupt handler for LDMA channel 1.
  ******************************************************************************/
-void LDMA_CHNL1_IRQHandler(void)
+void LDMA0_CHNL1_IRQHandler(void)
 {
   LDMA_IRQHandlerDefault(1);
 }
@@ -1196,7 +1228,7 @@ void LDMA_CHNL1_IRQHandler(void)
  * @brief
  *  Root interrupt handler for LDMA channel 2.
  ******************************************************************************/
-void LDMA_CHNL2_IRQHandler(void)
+void LDMA0_CHNL2_IRQHandler(void)
 {
   LDMA_IRQHandlerDefault(2);
 }
@@ -1205,7 +1237,7 @@ void LDMA_CHNL2_IRQHandler(void)
  * @brief
  *  Root interrupt handler for LDMA channel 3.
  ******************************************************************************/
-void LDMA_CHNL3_IRQHandler(void)
+void LDMA0_CHNL3_IRQHandler(void)
 {
   LDMA_IRQHandlerDefault(3);
 }
@@ -1214,7 +1246,7 @@ void LDMA_CHNL3_IRQHandler(void)
  * @brief
  *  Root interrupt handler for LDMA channel 4.
  ******************************************************************************/
-void LDMA_CHNL4_IRQHandler(void)
+void LDMA0_CHNL4_IRQHandler(void)
 {
   LDMA_IRQHandlerDefault(4);
 }
@@ -1223,7 +1255,7 @@ void LDMA_CHNL4_IRQHandler(void)
  * @brief
  *  Root interrupt handler for LDMA channel 5.
  ******************************************************************************/
-void LDMA_CHNL5_IRQHandler(void)
+void LDMA0_CHNL5_IRQHandler(void)
 {
   LDMA_IRQHandlerDefault(5);
 }
@@ -1232,7 +1264,7 @@ void LDMA_CHNL5_IRQHandler(void)
  * @brief
  *  Root interrupt handler for LDMA channel 6.
  ******************************************************************************/
-void LDMA_CHNL6_IRQHandler(void)
+void LDMA0_CHNL6_IRQHandler(void)
 {
   LDMA_IRQHandlerDefault(6);
 }
@@ -1241,7 +1273,7 @@ void LDMA_CHNL6_IRQHandler(void)
  * @brief
  *  Root interrupt handler for LDMA channel 7.
  ******************************************************************************/
-void LDMA_CHNL7_IRQHandler(void)
+void LDMA0_CHNL7_IRQHandler(void)
 {
   LDMA_IRQHandlerDefault(7);
 }
@@ -1619,9 +1651,9 @@ static Ecode_t StartTransfer(DmaMode_t             mode,
   ch->callbackCount = 0;
   ch->mode = mode;
 
-  sl_hal_ldma_init_transfer(channelId, &xfer, desc);
-  sl_hal_ldma_start_transfer(channelId);
-  sl_hal_ldma_enable_interrupts((0x1UL << channelId));
+  sl_hal_ldma_init_transfer(LDMA0, channelId, &xfer, desc);
+  sl_hal_ldma_start_transfer(LDMA0, channelId);
+  sl_hal_ldma_enable_interrupts(LDMA0, (0x1UL << channelId));
 
   return ECODE_EMDRV_DMADRV_OK;
 }
@@ -1641,30 +1673,32 @@ static Ecode_t StartTransfer(DmaMode_t             mode,
 ///   @n @section dmadrv_intro Introduction
 ///
 ///   The DMADRV driver supports writing code using DMA which will work
-///   regardless of the type of the DMA controller on the underlying
-///   microcontroller.
+///   regardless of the type of the DMA controller on the underlying microcontroller.
 ///   Additionally, DMA can be used in several modules that are
 ///   completely unaware of each other.
-///   The driver does not preclude use of the native emlib API of the underlying
-///   DMA controller. On the contrary, it will often result in more efficient
+///   The driver does not preclude use of the native emlib or peripheral API of the
+///   underlying DMA controller. On the contrary, it will often result in more efficient
 ///   code and is necessary for complex DMA operations. The housekeeping
 ///   functions of this driver are valuable even in this use-case.
 ///
 ///   The dmadrv.c and dmadrv.h source files are in the
 ///   emdrv/dmadrv folder.
 ///
-///   @note DMA transfer completion callback functions are called from within
-///   the DMA interrupt handler.
+///   @note DMA transfer completion callback functions are called from within the
+///   DMA interrupt handler. On versions of the DMA controller with one interrupt per
+///   channel, the callback function is called from its respective channel interrupt
+///   handler.
 ///
 ///   @n @section dmadrv_conf Configuration Options
 ///
 ///   Some properties of the DMADRV driver are compile-time configurable. These
 ///   properties are stored in a file named dmadrv_config.h. A template for this
-///   file, containing default values, is in the emdrv/config folder.
+///   file, containing default values, is in the emdrv/config folder. IC specific
+///   versions of dmadrv_config.h files are available in config/sx_xch directories.
 ///   Currently the configuration options are as follows:
 ///   @li The interrupt priority of the DMA peripheral.
 ///   @li A number of DMA channels to support.
-///   @li Use the native emlib API belonging to the underlying DMA hardware in
+///   @li Use the native emlib/peripheral API belonging to the underlying DMA hardware in
 ///      combination with the DMADRV API.
 ///
 ///   Both configuration options will help reduce the driver's RAM footprint.
@@ -1680,8 +1714,8 @@ static Ecode_t StartTransfer(DmaMode_t             mode,
 /// #define EMDRV_DMADRV_DMA_IRQ_PRIORITY 4
 ///
 ///   // DMADRV channel count configuration option.
-///   // A number of DMA channels to support. A lower DMA channel count will
-///   // reduce RAM footprint.
+///   // A number of DMA channels to support. A lower DMA channel count will reduce
+///   // RAM footprint.
 /// #define EMDRV_DMADRV_DMA_CH_COUNT 4
 ///
 /// #endif
@@ -1721,6 +1755,12 @@ static Ecode_t StartTransfer(DmaMode_t             mode,
 ///
 ///   @ref DMADRV_LdmaStartTransfer() @n
 ///    Start a DMA transfer on an LDMA controller.
+///
+///   @ref DMADRV_PauseTransfer() @n
+///    Pause an ongoing DMA transfer.
+///
+///   @ref DMADRV_ResumeTransfer() @n
+///    Resume paused DMA transfer.
 ///
 ///   @ref DMADRV_StopTransfer() @n
 ///    Stop an ongoing DMA transfer.

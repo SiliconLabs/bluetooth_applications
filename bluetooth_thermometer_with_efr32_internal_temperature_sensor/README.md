@@ -1,73 +1,50 @@
 # Bluetooth - Thermometer with EFR32 Internal Temperature Sensor #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_thermometer_with_efr32_internal_temperature_sensor_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_thermometer_with_efr32_internal_temperature_sensor_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_thermometer_with_efr32_internal_temperature_sensor_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_thermometer_with_efr32_internal_temperature_sensor_common.json&label=SDK&query=sdk&color=green)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_thermometer_with_efr32_internal_temperature_sensor_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_thermometer_with_efr32_internal_temperature_sensor_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_thermometer_with_efr32_internal_temperature_sensor_common.json&label=RAM&query=ram&color=blue)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-195.99%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.71%20KB-blue)
 ## Description ##
 
-This example is an adaptation of the standard 'SOC - Thermometer' example. However, instead of accessing the Si7021 Temperature and Relative Humidity sensor through I2C, this example uses the EFR32's own internal temperature sensor. This sensor is measured during the production test. The temperature readout from the ADC at production temperature as well as the Celsius value are given in the device information page. Using these and the millivolts per degrees slope in the sensor data sheet, the current temperature can be calculated as follows:
-
-```c
-T_Celsius = T_Calibration - (ADC_Calibration_Reading - ADC_Current_Reading) * V_Ref / (4096 * Slope)
-```
+This example is an adaptation of the standard 'SOC - Thermometer' example. However, instead of accessing the Si7021 Temperature and Relative Humidity sensor through I2C, this example uses the EFR32's own internal temperature sensor. This sensor is measured during the production test.
 
 For more information, see the ADC section of the reference manual of your chosen hardware, e.g., [EFR32xG12](https://www.silabs.com/documents/public/reference-manuals/efr32xg12-rm.pdf).
 
-These are the changes to the basic SoC-Thermometer example:
+## SDK version ##
 
-- *init_adc* function to initialize ADC with the correct voltage reference and prescaler.
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
 
-- *read_adc* function to get a single sample readout from ADC, which has a busy wait loop for simplicity.
+## Software Required ##
 
-- *convert_to_millicelsius* function takes the sample and uses the calibration values in the above formula to get the result as degrees Celsius. The returned value is given in millicelsius.
-
-- *measure_temperature* function is nearly identical to the one in the Thermometer example except for this line that uses the above functions:
-
-```C
-temperature_data = convert_to_millicelsius(read_adc());
-```
-
-## Gecko SDK version ##
-
-- GSDK v4.4.0
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- One WSTK board: BRD4001A
-- One Bluetooth radio board, e.g: BRD4161A, BRD4162A
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD4162A | [SLWRB4162a efr32mg12 radio board](https://www.silabs.com/development-tools/wireless/zigbee/slwrb4162a-efr32mg12-radio-board) |
-| BRD4161A | [SLWRB4161a efr32mg12 radio board](https://www.silabs.com/development-tools/wireless/zigbee/slwrb4161a-efr32mg12-radio-board)   |
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
-- Connect the Bluetooth Development Kits to the PC through a compatible-cable.
+- Connect the Bluetooth Development Kits to the PC through a compatible-cable. For example, a micro USB cable for the BGM220 Bluetooth Module Explorer Kit.
 
 ## Setup ##
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
-**NOTE:**
+**NOTE**:
 
-- Make sure that the [SDK extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is already installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-
-- SDK Extension must be enabled for the project to install the required components.
+- Make sure that the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
 
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "thermometer".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "thermometer".
 
 2. Click **Create** button on the **Bluetooth - Thermometer With EFR32 Internal Temperature Sensor** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
-![create_project](images/create_project.png)
+![create_project](image/create_project.png)
 
 3. Build and flash this example to the board.
 
@@ -80,46 +57,38 @@ To test this application, you can either create a project based on an example pr
    - Select the CONFIGURATION TOOLS tab and open the "Bluetooth GATT Configurator".
    - Find the Import button and import the attached *gatt_configuration.btconf* file.
    - Save the GATT configuration (ctrl-s).
-   ![import_gatt_configuration](images/import_gatt_configuaration.png)
+   ![import_gatt_configuration](image/import_gatt_configuaration.png)
 
-3. Open the .slcp file again. Select the "SOFTWARE COMPONENTS" tab and do the following changes:
+3. Install the software components:
 
-   - Install the **ADC** component (found under Platform > Peripheral).
-   ![install_adc](images/install_adc.png)
+   - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
+   - [Application] → [Utility] → [Log]
+   - [Application] → [Utility] → [Timer]
+   - [Platform] → [Driver] → [TEMPDRV]
+   - [Bluetooth] → [Application] → [GATT Services] → [Health Thermometer API]
 
-   - Install **IO Stream: USART** component with the default instance name: **vcom**.
-   ![usart](images/install_usart.png)
-
-   - Find the **Board Control** component and enable *Virtual* COM UART* under its configuration.
-
-   - Install the **Log** component (found under Bluetooth > Utility group).
-
-4. Replace the *app.c* file in the project with the provided *app.c*.
+4. Replace the *app.c* file in the project with the provided `src/app.c`.
 
 5. Build and flash to the target.
 
 **Note:**
 
-- Make sure that this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
 Follow the below steps to test the example:
 
-1. Open the EFR Connect app on your smartphone.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-2. Find your device in the Health Thermometer, advertising as IntTemp and connect to it.
+2. Find your device in the Health Thermometer, advertising as IntTemp and connect to it. Upon connection, will automatically enable notifications and display the temperature data.
 
-   ![htm_scan](images/htm_scan.png)
+   ![htm_feature](image/htm_feature.png)
 
-   *HTM Scan*
+   ![htm_scan](image/htm_scan.png)
 
-   ![htm_reading](images/htm_reading.png)
+   ![htm_reading](image/htm_reading.png)
 
-   *HTM Reading*
+3. You can launch the Console that is integrated on Simplicity Studio to receive the logs from the virtual COM port.
 
-3. You can launch the Console that is integrated on Simplicity Studio or can use a third-party terminal tool like TeraTerm to receive the logs from the virtual COM port.
-
-   ![console](images/console.png)
+   ![console](image/console.png)

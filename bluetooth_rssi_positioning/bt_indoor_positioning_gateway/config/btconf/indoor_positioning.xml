@@ -1,0 +1,35 @@
+<gatt>
+<!--Indoor Location - Asset-->
+  <service advertise="true" id="indoor_positioning" name="Indoor Location - Asset" requirement="mandatory" sourceId="org.bluetooth.service.indoor_positioning" type="primary" uuid="1821">
+
+    <!--Network Unique Identifier-->
+    <characteristic const="false" id="NetworkUID" name="Network Unique Identifier" sourceId="" uuid="7719544e-308b-4853-996a-e50ba5297e03">
+      <description>Network Unique Identifier</description>
+      <value length="4" type="hex" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Room ID-->
+    <characteristic const="false" id="RoomId" name="Room ID" sourceId="" uuid="41841d0f-5fee-400b-be5c-36323a41308d">
+      <description>Room ID</description>
+      <value length="2" type="hex" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+
+    <!--Room Name-->
+    <characteristic const="false" id="RoomName" name="Room Name" sourceId="" uuid="c476ba11-db09-4bf5-9b82-6798560eb7aa">
+      <description>Room Name</description>
+      <value length="7" type="utf-8" variable_length="false">00</value>
+      <properties>
+        <read authenticated="false" bonded="false" encrypted="false"/>
+        <write authenticated="false" bonded="true" encrypted="false"/>
+      </properties>
+    </characteristic>
+  </service>
+</gatt>

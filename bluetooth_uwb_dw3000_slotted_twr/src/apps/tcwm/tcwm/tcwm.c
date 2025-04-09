@@ -12,7 +12,7 @@
 #include "tcwm.h"
 
 #include "app.h"
-#include "port.h"
+#include "port_dw3000.h"
 #include "deca_device_api.h"
 
 /* IMPLEMETATION */

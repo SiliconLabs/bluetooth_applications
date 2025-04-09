@@ -1,42 +1,34 @@
 # Bluetooth - Barometer I2C #
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=License&query=license&color=green)
-![SDK badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=SDK&query=sdk&color=green)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
 [![Required board](https://img.shields.io/badge/Mikroe-Pressure%203%20Click-green)](https://www.mikroe.com/pressure-3-click)
-![Build badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_build_status.json)
-![Flash badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=Flash&query=flash&color=blue)
-![RAM badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_explorer_kit_i2c_barometer_common.json&label=RAM&query=ram&color=blue)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-208.9%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-11.25%20KB-blue)
 
 ## Overview ##
 
 This project shows an example of **Bluetooth - Barometer I2C** using the **Silicon Labs BGM220-EK4314A BGM220 Bluetooth Module Explorer Kit.**
 
-This example is intended to make a pressure and temperature measurement every second when the Bluetooth connection is open. The measurement can be seen via Bluetooth Pressure and Temperature characteristics under the Environmental Sensing service by reading it manually, or it can also be automatically updated using notifications.
+This example is intended to make a pressure and temperature measurement every second when the Bluetooth connection is open. The measurement can be seen via Bluetooth Pressure and Temperature characteristics under the Environmental Sensing service by reading it manually, or it can also be automatically updated using notifications. The application uses a Mikore Pressure 3 Click using mikroE mikroBUS-socket I2C connection. This example can be used as a barometer pressure sensor in the weather station an altitude sensor and so on.
 
-The application uses a Mikore Pressure 3 Click using mikroE mikroBUS-socket I2C connection. Moreover, SparkFun Micro OLED Breakout is used to display the measurement value on the screen.
+## SDK version ##
 
-This example can be used as a barometer pressure sensor in the weather station or an altitude sensor and so on.
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
 
-## Gecko SDK version ##
+## Software Required ##
 
-- GSDK v4.4.0
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
+- [Simplicity Connect Mobile App](https://www.silabs.com/developer-tools/simplicity-connect-mobile-app)
 
 ## Hardware Required ##
 
-- [**BGM220-EK4314A** BGM220 Bluetooth Module Explorer Kit (BRD4314A BGM220 Explorer Kit Board)](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
-
-- [MikroE Pressure 3 Click](https://www.mikroe.com/pressure-3-click) based on DPS310 sensor.
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| ---------------------- | ------ |
-| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)  |
-| BRD2703A | [EFR32xG24 Explorer Kit - XG24-EK2703A ](https://www.silabs.com/development-tools/wireless/efr32xg24-explorer-kit?tab=overview)    |
-| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)  |
+- 1x [Bluetooth Low Energy Explorer Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For example, [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [MikroE Pressure 3 Click](https://www.mikroe.com/pressure-3-click) based on DPS310 sensor
+- 1x smartphone running the 'Simplicity Connect' mobile app
 
 ## Connections Required ##
 
@@ -50,9 +42,15 @@ The following picture shows the system view of how it works.
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
+
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to **My Products**, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter **"barometer"**.
+1. From the Launcher Home, add your hardware to **My Products**, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by **"barometer"**.
 
 2. Click **Create** button on the **Bluetooth - Barometer I2C** example. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 ![create_project](image/create_project.png)
@@ -88,21 +86,20 @@ To test this application, you can either create a project based on an example pr
     - Open Properties of the Project.
 
     - Select C/C++ Build → Settings → Tool Settings → GNU ARM C Linker → General. Check Printf float.
-    ![install_float](image/install_float.png)
+
+      ![install_float](image/install_float.png)
 
 6. Build and flash the project to your device.
 
 **Note:**
 
-- Make sure that the [Third Party Hardware Drivers Extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md) already be installed and this repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
 ### GATT Database ###
 
-The application is based on the Bluetooth - SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required. 
+The application is based on the Bluetooth - SoC Empty example. Since the example already has the Bluetooth GATT server, advertising, and connection mechanisms, only minor changes are required.
 
 Advertisement Packet Device name: **Silabs Barometer I2C**
 
@@ -121,20 +118,16 @@ GATT Database
 
 After the barometer sensor initialization is successful. Bluetooth advertising will be started. When the connection is opened, the application gets the temperature and pressure from the sensor every second. If the connection is closed, also the barometer measurement timer is stopped.
 
-You can use a smartphone app, such as the **EFR Connect** application on your phone, to connect to the board. Please, follow some steps below:
+Follow the below steps to test the example with the Simplicity Connect application:
 
-- Open the EFR Connect app.
+1. Open the Simplicity Connect app on your smartphone and allow the permission requested the first time it is opened.
 
-- Open the Bluetooth Browser.
+2. Find your device in the Bluetooth Browser, advertising as *Silabs Barometer I2C*, and tap Connect.
 
-- Find the device advertising as **Silabs Barometer I2C**.
+3. When the device is connected, you can read the temperature and pressure values manually. If you want these values updated automatically, you have to enable the **Notify** property for them, so the client device is notified about the value updated.
 
-- Click on **Connect** button.
+   ![project_teting](image/project_testing.png)
 
-When the device is connected, you can read the temperature and pressure values manually. If you want these values updated automatically, you have to enable the **Notify** property for them, so the client device is notified about the value updated.
+4. You can launch Console that's integrated into Simplicity Studio or use a third-party terminal tool like TeraTerm to receive the data from the USB. A screenshot of the console output is shown in the figure below.
 
-![project_teting](image/project_testing.png)
-
-You can launch Console that's integrated into Simplicity Studio or use a third-party terminal tool like TeraTerm to receive the data from the USB. A screenshot of the console output is shown in the figure below.
-
-![console_log](image/console_log.png)
+   ![console_log](image/console_log.png)

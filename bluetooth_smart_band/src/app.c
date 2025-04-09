@@ -3,7 +3,7 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2022 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -111,6 +111,9 @@ static uint8_t conn_handle = 0xff;
 static bool app_btn0_pressed = false;
 static bool app_btn1_pressed = false;
 
+// Set_time state
+static bool time_set = false;
+
 // Periodic timer handle.
 // static sl_simple_timer_t app_periodic_timer;
 
@@ -126,7 +129,7 @@ void dataFilter(uint8_t len, uint8_t data[]);
 /**************************************************************************//**
  * Application Init.
  *****************************************************************************/
-SL_WEAK void app_init(void)
+void app_init(void)
 {
   sl_smartwatch_ui_init();
   app_log_info("Smart band initialized\n");
@@ -137,7 +140,7 @@ SL_WEAK void app_init(void)
 /**************************************************************************//**
  * Application Process Action.
  *****************************************************************************/
-SL_WEAK void app_process_action(void)
+void app_process_action(void)
 {
   /////////////////////////////////////////////////////////////////////////////
   // This is called infinitely.                                              //
@@ -297,16 +300,17 @@ void show_time()
 
   sc = sl_sleeptimer_get_datetime(&present);
   app_assert(sc == SL_STATUS_OK, "Failed to get date and time");
-  snprintf(formattedTime,
-           sizeof(formattedTime),
-           "%d:%d \n%d/%d/%d\n",
-           present.hour,
-           present.min,
-           present.month_day,
-           ((uint8_t)present.month + 1),
-           present.year + 1900);
+  if (time_set) {
+    snprintf(formattedTime,
+             sizeof(formattedTime),
+             "%d:%d \n%d/%d/%d\n",
+             present.hour,
+             present.min,
+             present.month_day,
+             ((uint8_t)present.month + 1),
+             present.year + 1900);
+  }
   sl_smartwatch_ui_print_time(formattedTime);
-
   // Measure temperature; units are % and milli-Celsius.
   sc = sl_sensor_rht_get(&humidity, &temperature);
   if (sc != SL_STATUS_OK) {
@@ -423,6 +427,7 @@ void dataFilter(uint8_t len, uint8_t data[])
         app_assert(SL_STATUS_OK == sc,
                    "Error while setting date and time. ERR CODE: %ld\n",
                    sc);
+        time_set = true;
         LOG("Time set successfully\n");
         break;
 
@@ -526,12 +531,42 @@ void sl_button_on_change(const sl_button_t *handle)
         sl_sleeptimer_get_tick_count());
 
       if (!(timeScreen || notifScreen)) {
+        // 2 cases:
+        // Case 1: At the first time we can use both two button to show Time Screen
+        // Case 2: When screen is off by BTN1 then if press BTN0 should show Notification screen not Time Screen
         // Open time screen
-        show_time();
-        timeScreen = true;
-        notifScreen = false;
-        canScrollUp = false;
-        canScrollDown = false;
+        if (!btn_1_flag) {
+          show_time();
+          timeScreen = true;
+          notifScreen = false;
+          canScrollUp = false;
+          canScrollDown = false;
+        } else {
+          // Open notif screen
+          timeScreen = false;
+          notifScreen = true;
+          canScrollUp = false;
+          canScrollDown = false;
+
+          if (notifPtr == NOTIF_COUNT) {
+            sl_smartwatch_ui_clear_screen();
+            sl_smartwatch_ui_print_text_wrapped("No notifications");
+            sl_smartwatch_ui_update();
+          } else {
+            sl_smartwatch_ui_clear_screen();
+            row_count = 0;
+            for (uint8_t i = notifPtr; i < NOTIF_COUNT; i++) {
+              row_count += sl_smartwatch_ui_char_to_rows(
+                (uint8_t) (sl_strlen(notifData[i])));
+            }
+            if (row_count > max_rows_on_display) {
+              current_scroll = 0;
+              canScrollUp = false;
+              canScrollDown = true;
+            }
+            show_notif(0, 0);
+          }
+        }
       } else if (timeScreen) {
         // Open notif screen
         timeScreen = false;
@@ -573,7 +608,6 @@ void sl_button_on_change(const sl_button_t *handle)
             canScrollDown = true;
             if ((abs(current_scroll) + (max_rows_on_display * row_height))
                 > (row_count * row_height)) {
-              current_scroll = 0;
               canScrollUp = true;
               canScrollDown = false;
             }
@@ -596,9 +630,9 @@ void sl_button_on_change(const sl_button_t *handle)
 
       if (!(timeScreen || notifScreen)) {
         // Open time screen
-        show_time();
         timeScreen = true;
         notifScreen = false;
+        show_time();
       } else if (timeScreen) {
         // Turn off screen
         LOG("TURNING SCREEN OFF\n");
@@ -608,10 +642,10 @@ void sl_button_on_change(const sl_button_t *handle)
         notifScreen = false;
         canScrollUp = false;
         canScrollDown = false;
+        btn_1_flag = true;
       } else if (notifScreen) {
         // Open time screen
         btn_1_flag = true;
-
         if (click_times[3] - click_times[2] < DOUBLE_CLICK_THRESHOLD) {
           LOG("DOUBLE CLICK 1\n");
           btn_1_flag = false;
@@ -624,7 +658,7 @@ void sl_button_on_change(const sl_button_t *handle)
             canScrollUp = true;
             canScrollDown = true;
             if (current_scroll >= 0) {
-              current_scroll = 0;
+              // current_scroll = 0;
               canScrollUp = false;
               canScrollDown = true;
             }
@@ -634,9 +668,9 @@ void sl_button_on_change(const sl_button_t *handle)
           btn_0_flag = false;
           btn_1_flag = false;
           sl_smartwatch_ui_clear_screen();
-          show_time();
           timeScreen = true;
           notifScreen = false;
+          show_time();
         }
       }
       click_times[2] = (uint32_t) click_times[3];

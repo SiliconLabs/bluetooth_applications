@@ -1,8 +1,13 @@
 # Bluetooth - Optimized Energy Consuming Switch #
 
-![Type badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_switch_common.json&label=Type&query=type&color=green)
-![Technology badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_switch_common.json&label=Technology&query=technology&color=green)
-![License badge](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/SiliconLabs/application_examples_ci/master/bluetooth_applications/bluetooth_optimized_energy_consuming_switch_common.json&label=License&query=license&color=green)
+![Type badge](https://img.shields.io/badge/Type-Virtual%20Application-green)
+![Technology badge](https://img.shields.io/badge/Technology-Bluetooth-green)
+![License badge](https://img.shields.io/badge/License-Zlib-green)
+![SDK badge](https://img.shields.io/badge/SDK-v2024.12.0-green)
+[![Required board](https://img.shields.io/badge/Sparkfun-Micro%20OLED%20Breakout%20(Qwiic)-green)](https://www.sparkfun.com/products/14532)
+![Build badge](https://img.shields.io/badge/Build-passing-green)
+![Flash badge](https://img.shields.io/badge/Flash-178.38%20KB-blue)
+![RAM badge](https://img.shields.io/badge/RAM-10.23%20KB-blue)
 ## Overview ##
 
 > **! THIS IS NOT A REFERENCE DESIGN !**
@@ -15,11 +20,11 @@ The correct way to use this example is to have a known power budget in mind – 
 
 The overview of this application is shown in the image below:
 
-![overview](images/overview.png)
+![overview](image/overview.png)
 
 **Switch Device:**
 
-![switch](images/switch.png)
+![switch](image/switch.png)
 
 This application is meant to mimic how a battery-less kinetic energy switch would operate.
 These designs will require super-capacitor storage and power management circuits.
@@ -35,66 +40,67 @@ In this example, we use the Wireless Gecko Starter Kit’s built-in button PB �
 
 The status display device represents a gateway.
 
-The switch status display device is the BG22 Explorer Kit connected to the SparkFun Micro OLED Breakout or to EFR Connect Mobile Application.
+The switch status display device is the BG22 Explorer Kit connected to the SparkFun Micro OLED Breakout or to Simplicity Connect Mobile Application.
 
 This device scans and analyzes the advertisement packet of the switch device to get the status of the switch. It controls the LED0 on-board depending on the gathered switch's status. For example, if the switch's status value is 1, LED0 is turned on and the switch's status value is 0, LED0 is turned off.
 
 The gathered switch's status is shown on the SparkFun Micro OLED Breakout.
 
-## Gecko SDK Version ##
+## SDK version ##
 
-- GSDK v4.4.0
-- [Third Party Hardware Drivers v2.0.0.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+- [SiSDK v2024.12.0](https://github.com/SiliconLabs/simplicity_sdk)
+- [Third Party Hardware Drivers v4.1.0](https://github.com/SiliconLabs/third_party_hw_drivers_extension)
+
+## Software Required ##
+
+- [Simplicity Studio v5 IDE](https://www.silabs.com/developers/simplicity-studio)
 
 ## Hardware Required ##
 
 **Switch Device:**
 
-- [EFR32xG22 Wireless Gecko Starter Kit](https://www.silabs.com/development-tools/wireless/efr32xg22-wireless-starter-kit?tab=overview)
+- 1x [SLWSTK6021A](https://www.silabs.com/development-tools/wireless/efr32xg22-wireless-starter-kit?tab=overview) EFR32xG22 Wireless Gecko Starter Kit
 
 **Switch Status Display Device:**
 
-- [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)
-
-- [SparkFun Micro OLED Breakout (Qwiic)](https://www.sparkfun.com/products/14532)
-
-**NOTE:**
-Tested boards for working with this example:
-
-| Board ID | Description  |
-| -------- | ------ |
-| BRD4314A | [BGM220 Bluetooth Module Explorer Kit - BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit?tab=overview)   |
-| BRD4108A | [BG22 Bluetooth SoC Explorer Kit - BG22-EK4108A](https://www.silabs.com/development-tools/wireless/bluetooth/bg22-explorer-kit?tab=overview)   |
+- 1x [Bluetooth Low Energy Development Kit](https://www.silabs.com/development-tools/wireless/bluetooth). For simplicity, Silicon Labs recommends the [BGM220-EK4314A](https://www.silabs.com/development-tools/wireless/bluetooth/bgm220-explorer-kit)
+- 1x [SparkFun Micro OLED Breakout (Qwiic)](https://www.sparkfun.com/products/14532)
 
 ## Connections Required ##
 
 **Switch device**
 The hardware connection is shown in the image below:
 
-![hardware connection of switch device](images/switch_hardware_connect.png)
+![hardware connection of switch device](image/switch_hardware_connect.png)
 
 **Switch Status Display Device:**
 The Distance Sparkfun sensor can be easily connected to the EFR32xG24 Explorer Kit via a Qwiic connection.
 
-![hardware connection of switch status display device](images/display_hardware_connect.png)
+![hardware connection of switch status display device](image/display_hardware_connect.png)
 
 ## Setup ##
 
 To test this application, you can either create a project based on an example project or start with a "Bluetooth - SoC Empty" project based on your hardware.
 
+**NOTE**:
+
+- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is installed as part of the SiSDK and the [bluetooth_applications](https://github.com/SiliconLabs/bluetooth_applications) repository is added to [Preferences > Simplicity Studio > External Repos](https://docs.silabs.com/simplicity-studio-5-users-guide/latest/ss-5-users-guide-about-the-launcher/welcome-and-device-tabs).
+
+- SDK Extension must be enabled for the project to install the required components.
+
 ### Create a project based on an example project ###
 
-1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project with the filter "optimized".
+1. From the Launcher Home, add your hardware to My Products, click on it, and click on the **EXAMPLE PROJECTS & DEMOS** tab. Find the example project filtering by "optimized".
 
 2. Click **Create** button on **Bluetooth - Optimized Energy Consuming Switch** for switch device and **Bluetooth - Optimized Energy Consuming Switch - Status Display** for switch status display. Example project creation dialog pops up -> click Create and Finish and Project should be generated.
 
-**Switch device:**
+   **Switch device:**
 
-![create switch project from example](images/create_switch_project_from_example.png)
+   ![create switch project from example](image/create_switch_project_from_example.png)
 
-**Switch Status Display Device:**
+   **Switch Status Display Device:**
 
-![create display project from example](images/create_display_project_from_example.png)
+   ![create display project from example](image/create_display_project_from_example.png)
 
 3. Build and flash these examples to boards.
 
@@ -111,8 +117,8 @@ To test this application, you can either create a project based on an example pr
       - [Header files](inc/display_device/)
       - [Source files](src/display_device/)
 
-> **_NOTE_** \
-The switch application uses the bare minimum of services to avoid wasting any energy. The following software components should be installed to make the example work.
+   > **_NOTE_** \
+   The switch application uses the bare minimum of services to avoid wasting any energy. The following software components should be installed to make the example work.
 
 3. Install the software components:
 
@@ -122,13 +128,10 @@ The switch application uses the bare minimum of services to avoid wasting any en
 
     - Install the following components for the **switch** device:
         - [Application] → [Timers] → [Sleep timer]
-        - [Bluetooth] → [NVM] → NVM Support
-        - [Services] →  [NVM3] → NVM3 Core
-        - [Services] →  [NVM3] → NVM3 Default Instance
         - [Platform] → [Driver] → [Button] → [Simple Button] → default instance name: btn0
         - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
         - [Application] → [Utility] → [Log]
-        - [Platform] → [Board] → [Board Control]: Enable Virtual COM UART.
+        - [Platform] → [Board] → [Board Control] → Enable Virtual COM UART.
 
     - Install the following components for **switch status display** device:
         - [Services] → [IO Stream] → [IO Stream: USART] → default instance name: vcom
@@ -142,19 +145,13 @@ The switch application uses the bare minimum of services to avoid wasting any en
 
 **Note:**
 
-- Make sure that the [Third Party Hardware Drivers extension](https://github.com/SiliconLabs/third_party_hw_drivers_extension) is added to the required SDK: [Preferences > Simplicity Studio > SDKs](https://github.com/SiliconLabs/third_party_hw_drivers_extension/blob/master/README.md#how-to-add-to-simplicity-studio-ide).
-
-![sdk_extension](images/sdk_extension.png)
-
-- SDK Extension must be enabled for the project to install components.
-
-- Do not forget to flash a bootloader to your board, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
+- A bootloader needs to be flashed to your board if the project starts from the "Bluetooth - SoC Empty" project, see [Bootloader](https://github.com/SiliconLabs/bluetooth_applications/blob/master/README.md#bootloader) for more information.
 
 ## How It Works ##
 
 ### Switch Device Overview ###
 
-![Switch device overview](images/switch_device_overview.png)
+![Switch device overview](image/switch_device_overview.png)
 
 The energy-harvesting, battery-less kinetic switches have very finite amounts of energy available (~200..300uJ), therefore the application shall be optimized to transmit only the minimal required information within the shortest feasible time slot.
 
@@ -179,7 +176,7 @@ More information about Bluetooth energy optimization is available [here](https:/
 
 **Application initialization:**
 
-![switch device init](images/switch_device_init.png)
+![switch device init](image/switch_device_init.png)
 
 **Bluetooth Stack Initialization:**
 
@@ -193,7 +190,7 @@ A configuration switch is added to reduce the number of primary channels.
 
 **Application runtime:**
 
-![switch device runtime](images/switch_device_runtime.png)
+![switch device runtime](image/switch_device_runtime.png)
 
 **Advertisement Packet:**
 
@@ -211,7 +208,7 @@ The device is not connectable. It sends manufacturer-specific advertisement pack
 
 > **The results of the performance measurements below are not officially specified values!**
 
-![performance measurement](images/energy_harvesting_app_performance.png)
+![performance measurement](image/energy_harvesting_app_performance.png)
 
 <table>
     <thead>
@@ -296,7 +293,7 @@ The device is not connectable. It sends manufacturer-specific advertisement pack
 
 **Display Implementation:**
 
-![switch status display runtime](images/switch_status_runtime.png)
+![switch status display runtime](image/switch_status_runtime.png)
 
 ## Testing ##
 
@@ -304,26 +301,26 @@ The device is not connectable. It sends manufacturer-specific advertisement pack
 
 - After booting the switch device, it advertises 3 times and goes to sleep mode (EM2).
 
-  ![switch device start ](images/switch_device_start.png)
+  ![switch device start ](image/switch_device_start.png)
 
 - Every time button 0 on-board is released, the switch device wakes up and saves the switch's state to NVM, and updates the advertisement packet. After that, this device advertises 3 times again and back to sleep mode after advertising.
 
-  ![switch device log](images/switch_device_log.png)
+  ![switch device log](image/switch_device_log.png)
 
 - Between two advertising times, the switch device is back in sleep mode (EM2) for 1 second. Select the debug interface as JTAG to detect the target part. Open the Energy Profiler to observe energy consumption.
 
-    ![energy profiler capture](images/energy_profiler.png)
+    ![energy profiler capture](image/energy_profiler.png)
 
 **Switch status display device:**
 
 - After the display device is turned on, the device starts in normal mode. In this state, it starts scanning the advertisement packet to find the switch device with name "BG22_SW".
 
-    ![display device start](images/display_device_start.png)
+    ![display device start](image/display_device_start.png)
 
 - When the switch device is found, it gets the switch's state and controls the LED 0 on-board. If the switch's state is 1, the LED is turned on, and the switch's state is 0, the LED is turned off.
 
-    ![display update status](images/switch_display_update_status.png)
+    ![display update status](image/switch_display_update_status.png)
 
 - This device also shows the switch's state on the Sparkfun Micro Oled.
 
-    ![screen at runtime](images/screen_runtime.png)
+    ![screen at runtime](image/screen_runtime.png)

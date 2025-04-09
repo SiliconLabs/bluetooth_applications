@@ -22,7 +22,6 @@ extern "C" {
 #include "app.h"
 #include "error.h"
 #include "port_uart.h"
-#include "deca_spi.h"
 #include "deca_device_api.h"
 #include "cmsis_os2.h" // only for the OS priority definitions
 #include "FreeRTOS.h"

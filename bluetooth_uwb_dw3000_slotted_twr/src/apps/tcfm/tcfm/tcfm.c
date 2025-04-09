@@ -31,7 +31,7 @@
 #include "tcfm.h"
 
 #include "msg_time.h"
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 #include "uwb_frames.h"
 
@@ -129,7 +129,7 @@ error_e tcfm_process_init(tcfm_info_t *info)
 
   dwt_setinterrupt(DWT_INT_TXFRS_BIT_MASK, 0, DWT_ENABLE_INT_ONLY);
 
-  init_dw3000_irq();              /**< manually init EXTI DW3000 lines IRQs */
+//  init_dw3000_irq();              /**< manually init EXTI DW3000 lines IRQs */
 
   pTcfmMsg->fixed_sts = app.pConfig->s.stsStatic;   // value 0 = dynamic STS, 1
                                                     //   = fixed STS

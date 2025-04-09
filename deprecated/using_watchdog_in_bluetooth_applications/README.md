@@ -31,7 +31,7 @@ Each time it triggers, it will activate the event `sl_bt_evt_system_soft_timer_i
 
 To determine whether you recovered from a crash with a Watchdog reset or whether the device was reset normally, use the function `RMU_ResetCauseGet()`.
 
-## Gecko SDK version ##
+## SDK version ##
 
 - GSDK v3.1.1
 
@@ -39,6 +39,10 @@ To determine whether you recovered from a crash with a Watchdog reset or whether
 
 - One WSTK board: BR4001A
 - One Bluetooth radio board, e.g: BRD4162A
+
+## Connections Required ##
+
+- Connect the BRD4162A Dev Kit to the PC through a USB cable.
 
 ## Setup
 
@@ -77,7 +81,7 @@ To determine whether you recovered from a crash with a Watchdog reset or whether
 
 5. Build and flash the project to your devices.
 
-## Usage
+## How It Works ##
 
 The attached example application sets a Watchdog period of 2 seconds and sets up a soft timer to feed the Watchdog every second (1s). The LED0 is also toggled on every soft timer event to make the heartbeat visible.
 

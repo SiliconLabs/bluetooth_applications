@@ -39,7 +39,7 @@
 #define STATIC_ASSERT(condition) typedef char assert[(condition) ? 1 : -1]
 
 // ------------------------------------------------------------------------------
-extern const param_block_t FConfig;
+extern const param_block_t const *pFConfig;
 extern const param_block_t defaultFConfig;
 
 extern uint32_t __fconfig_start[];
@@ -57,7 +57,7 @@ static param_block_t tmpConfig;
 // ------------------------------------------------------------------------------
 // Size checks
 STATIC_ASSERT(sizeof(tmpConfig) == FCONFIG_SIZE);
-STATIC_ASSERT(sizeof(FConfig) == FCONFIG_SIZE);
+//STATIC_ASSERT(sizeof(FConfig) == FLASH_PAGE_SIZE);
 STATIC_ASSERT(sizeof(defaultFConfig) == FCONFIG_SIZE);
 STATIC_ASSERT(sizeof(param_block_t) == FCONFIG_SIZE);
 STATIC_ASSERT(FCONFIG_SIZE <= FLASH_PAGE_SIZE);
@@ -81,7 +81,13 @@ param_block_t *get_pbssConfig(void)
  * */
 void load_bssConfig(void)
 {
-  memcpy(&tmpConfig, &FConfig, FCONFIG_SIZE);
+  uint32_t i;
+  uint8_t *config_data;
+
+  if (pFConfig->signature != DEFAULT_CONFIG_SIGNATURE) {
+    restore_bssConfig();
+  }
+  memcpy(&tmpConfig, pFConfig, FCONFIG_SIZE);
 }
 
 /* @fn      restore_bssConfig
@@ -101,9 +107,9 @@ void restore_bssConfig(void)
 error_e save_bssConfig(const param_block_t *pNewRamParametersBlock)
 {
   MSC_Init();
-  int sts = MSC_ErasePage(__fconfig_start);
+  int sts = MSC_ErasePage((uint32_t *)pFConfig);
   sts |=
-    MSC_WriteWord(__fconfig_start,
+    MSC_WriteWord((uint32_t *)pFConfig,
                   pNewRamParametersBlock,
                   sizeof(*pNewRamParametersBlock));
   MSC_Deinit();

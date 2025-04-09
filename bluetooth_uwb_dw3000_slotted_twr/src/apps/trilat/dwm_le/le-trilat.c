@@ -37,7 +37,7 @@ static trilat_solver_t *_trilat_solver = NULL;
 
 #define CFG_LEGACY                         1
 
-#include "port.h"
+#include "port_dw3000.h"
 #include "port_common.h"
 #include "deca_dbg.h"
 #define TRILAT_MALLOC                      pvPortMalloc

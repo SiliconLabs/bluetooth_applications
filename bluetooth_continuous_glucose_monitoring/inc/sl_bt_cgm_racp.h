@@ -3,7 +3,7 @@
  * @brief Record Access Control Point characteristic behavior
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -155,9 +155,9 @@ void sl_bt_cgm_report_num_records(sl_bt_msg_t *evt);
 void sl_bt_cgm_report_num_all_records(uint8_t connection);
 
 /**************************************************************************//**
-* Report Number of Stored Records – ‘Greater than or equal to Time Offset’
-* @param[in] evt Event coming from the Bluetooth stack.
-******************************************************************************/
+ * Report Number of Stored Records – ‘Greater than or equal to Time Offset’
+ * @param[in] evt Event coming from the Bluetooth stack.
+ ******************************************************************************/
 void sl_bt_cgm_report_num_records_greater(sl_bt_msg_t *evt);
 
 /**************************************************************************//**

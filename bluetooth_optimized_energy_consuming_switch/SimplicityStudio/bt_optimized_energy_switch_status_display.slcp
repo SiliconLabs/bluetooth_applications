@@ -1,0 +1,108 @@
+project_name: bt_optimized_energy_switch_status_display
+package: Bluetooth
+label: Bluetooth - Optimized Energy Consuming Switch - Status Display
+description: >
+    This project aims to implement an optimized energy consuming switch.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Advanced]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: bluetooth_feature_gap
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_system
+  - id: bluetooth_feature_power_control
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: simple_led
+    instance: [led0]
+  - id: i2cspm
+    instance: [qwiic]
+  - from: third_party_hw_drivers
+    id: sparkfun_micro_oled_ssd1306
+  - from: third_party_hw_drivers
+    id: services_oled_glib
+
+include:
+  - path: ../inc
+    file_list:
+    - path: display_device/app.h
+    - path: display_device/switch_display_oled.h
+
+source:
+  - path: ../src/display_device/main.c
+  - path: ../src/display_device/app.c
+  - path: ../src/display_device/switch_display_oled.c
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: '2752'
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: '0'
+    condition: [psa_crypto]
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/switch_device_init.png
+    directory: image
+  - path: ../image/switch_device_log.png
+    directory: image
+  - path: ../image/switch_device_overview.png
+    directory: image
+  - path: ../image/switch_device_runtime.png
+    directory: image
+  - path: ../image/switch_device_start.png
+    directory: image
+  - path: ../image/switch_display_update_status.png
+    directory: image
+  - path: ../image/switch_hardware_connect.png
+    directory: image
+  - path: ../image/switch_status_runtime.png
+    directory: image
+  - path: ../image/screen_runtime.png
+    directory: image
+  - path: ../image/overview.png
+    directory: image
+  - path: ../image/energy_harvesting_app_performance.png
+    directory: image
+  - path: ../image/display_hardware_connect.png
+    directory: image
+  - path: ../image/display_device_start.png
+    directory: image
+  - path: ../image/create_switch_project_from_example.png
+    directory: image
+  - path: ../image/create_display_project_from_example.png
+    directory: image
+  - path: ../image/energy_profiler.png
+    directory: image
+  - path: ../image/switch.png
+    directory: image
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+ui_hints:
+  highlight:
+    - path: README.md
+      focus: true

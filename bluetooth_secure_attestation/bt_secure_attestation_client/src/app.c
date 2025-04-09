@@ -3,20 +3,39 @@
  * @brief Core application logic.
  *******************************************************************************
  * # License
- * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2025 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
- * The licensor of this software is Silicon Laboratories Inc. Your use of this
- * software is governed by the terms of Silicon Labs Master Software License
- * Agreement (MSLA) available at
- * www.silabs.com/about-us/legal/master-software-license-agreement. This
- * software is distributed to you in Source Code format and is governed by the
- * sections of the MSLA applicable to Source Code.
+ * SPDX-License-Identifier: Zlib
  *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
+ *
+ *******************************************************************************
+ * # Experimental Quality
+ * This code has not been formally tested and is provided as-is. It is not
+ * suitable for production environments. In addition, this code will not be
+ * maintained and there may be no bug maintenance planned for these resources.
+ * Silicon Labs may update projects from time to time.
  ******************************************************************************/
 #include <stdbool.h>
 #include <math.h>
-#include "em_common.h"
+#include "sl_common.h"
 #include "app_log.h"
 #include "app_assert.h"
 #include "app_se_manager_secure_identity.h"
@@ -221,7 +240,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // This event indicates the device has started and the radio is ready.
     // Do not call any stack command before receiving this boot event!
     case sl_bt_evt_system_boot_id:
-      app_log("\r\n----- Silicon Labs Application Layer Security Demo -----\r\n");
+      app_log(
+        "\r\n----- Silicon Labs Application Layer Security Demo: Client Role-----\r\n");
 
       // configure security
       sc = sl_bt_sm_configure(0, sl_bt_sm_io_capability_noinputnooutput);
@@ -270,8 +290,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
         // and connect to that device
         sc = sl_bt_connection_open(
-          evt->data.evt_scanner_scan_report.address,
-          evt->data.evt_scanner_scan_report.address_type,
+          evt->data.evt_scanner_legacy_advertisement_report.address,
+          evt->data.evt_scanner_legacy_advertisement_report.address_type,
           sl_bt_gap_1m_phy,
           NULL);
         if (SL_STATUS_OK == sc) {
@@ -380,18 +400,6 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       }
       break;
     }
-
-    // -------------------------------
-    // This event is generated when RSSI value was measured
-    case sl_bt_evt_connection_rssi_id:
-      table_index = find_index_by_connection_handle(
-        evt->data.evt_connection_rssi.connection);
-      if (table_index != TABLE_INDEX_INVALID) {
-        conn_properties[table_index].rssi = evt->data.evt_connection_rssi.rssi;
-      }
-      // Print the values
-      // print_values(conn_properties);
-      break;
 
     // -------------------------------
     case sl_bt_evt_connection_phy_status_id:
@@ -555,7 +563,11 @@ sl_status_t gatt_characteristic_value_test_data_cb(
   sl_status_t sc = SL_STATUS_OK;
   if (value->characteristic
       == conn_properties[table_index].characteristic_handles[test_data]) {
-    uint8_t plaintext[16], ciphertext[32], additional[16], nonce[13];
+    uint8_t plaintext[16] = { 0 };
+    uint8_t ciphertext[32] = { 0 };
+    uint8_t additional[16] = { 0 };
+    uint8_t nonce[13] = { 0 };
+
     psa_algorithm_t alg = PSA_ALG_CCM;
     size_t bytes_decrypted;
     uint8_t *p = value->value.data;
@@ -1183,7 +1195,7 @@ static int verify_callback(void *data,
   // app_log("  + Verify requested for (Depth %d) ... OK\n", depth);
 
   /*for (i = 0; i < ret; i++) {
-  *    printf("%c", buf[i]); */
+   *    printf("%c", buf[i]); */
   if (depth == 3) {
     p = strstr((const char *)buf, "subject");
     q = strstr((const char *)p, "O=Silicon Labs");

@@ -1,0 +1,133 @@
+project_name: bt_blood_glucose_meters
+package: Bluetooth
+label: Bluetooth - Blood Glucose Meters
+description: >
+  This project aims to implement the Bluetooth Glucose Profile.
+  This shows an example of Blood Glucose Meters using the Thunderboard EFR32BG22.
+category: Bluetooth Examples
+quality: experimental
+
+filter:
+  - name: Device Type
+    value: [SoC]
+  - name: Project Difficulty
+    value: [Beginner]
+  - name: Wireless Technology
+    value: [Bluetooth]
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: app_timer
+  - id: simple_button
+    instance: [btn0]
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: sl_bt_bgm.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/sl_bt_bgm_error_handle.c
+  - path: ../src/sl_bt_bgm_measure.c
+  - path: ../src/sl_bt_bgm_measure_context.c
+  - path: ../src/sl_bt_bgm_on_event.c
+  - path: ../src/sl_bt_bgm_racp.c
+  - path: ../src/sl_bt_bgm_racp_handler.c
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+readme:
+  - path: ../README.md
+
+other_file:
+  - path: ../image/racp.jpg
+    directory: image
+  - path: ../image/context.jpg
+    directory: image
+  - path: ../image/measure.jpg
+    directory: image
+  - path: ../image/read_all_records.jpg
+    directory: image
+  - path: ../image/set_notify.jpg
+    directory: image
+  - path: ../image/service.jfif
+    directory: image
+  - path: ../image/external_repo.png
+    directory: image
+  - path: ../image/create_project.png
+    directory: image
+  - path: ../image/bgm.png
+    directory: image
+  - path: ../image/role.jpg
+    directory: image
+  - path: ../image/bgmservice.jpg
+    directory: image
+  - path: ../image/BGM.jpeg
+    directory: image
+  - path: ../image/dongle.jpg
+    directory: image
+  - path: ../image/connectdongle.jpg
+    directory: image
+  - path: ../image/newworkspace.jpg
+    directory: image
+  - path: ../image/devicesearch.jpg
+    directory: image
+  - path: ../image/selectprofile.jpg
+    directory: image
+  - path: ../image/unlockcase.jpg
+    directory: image
+  - path: ../image/service-profile.jpg
+    directory: image
+  - path: ../image/wholepicture.jpg
+    directory: image
+  - path: ../image/passflag.jpg
+    directory: image
+  - path: ../image/failflag.jpg
+    directory: image
+  - path: ../image/spec.jpg
+    directory: image
+  - path: ../image/device_filter.jpg
+    directory: image
+  - path: ../image/bgm_service.jpg
+    directory: image
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true

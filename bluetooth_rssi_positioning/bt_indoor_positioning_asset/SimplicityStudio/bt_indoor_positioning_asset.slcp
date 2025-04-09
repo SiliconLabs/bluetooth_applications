@@ -1,0 +1,121 @@
+project_name: bt_indoor_positioning_asset
+package: Bluetooth
+label: RSSI Positioning - Asset
+description: >
+  Bluetooth RSSI Positioning - Asset is an application intended to showcase a room finder or asset locator service
+  using the BLE stack on Silicon Laboratories development kits.
+category: Bluetooth Examples
+quality: experimental
+
+component:
+  - id: bluetooth_stack
+  - id: gatt_configuration
+  - id: gatt_service_device_information
+  - id: bluetooth_feature_legacy_advertiser
+  - id: bluetooth_feature_connection
+  - id: bluetooth_feature_gatt
+  - id: bluetooth_feature_gatt_server
+  - id: bluetooth_feature_legacy_scanner
+  - id: bluetooth_feature_sm
+  - id: bluetooth_feature_system
+  - id: rail_util_pti
+  - id: app_assert
+  - id: mpu
+  - id: sl_system
+  - id: clock_manager
+  - id: device_init
+  - id: sl_common
+  - id: simple_button
+    instance: [btn0]
+  - id: iostream_usart
+    instance: [vcom]
+  - id: app_log
+  - id: i2cspm
+    instance: [qwiic]
+  - id: services_oled_glib
+    from: third_party_hw_drivers
+  - id: sparkfun_micro_oled_ssd1306
+    from: third_party_hw_drivers
+
+include:
+  - path: ../inc
+    file_list:
+      - path: app.h
+      - path: indoor_positioning.h
+
+source:
+  - path: ../src/main.c
+  - path: ../src/app.c
+  - path: ../src/indoor_positioning.c
+
+config_file:
+  - override:
+      component: gatt_configuration
+      file_id: gatt_configuration_file_id
+    path: "../config/btconf/gatt_configuration.btconf"
+    directory: "btconf"
+  - path: "../config/btconf/indoor_positioning.xml"
+    directory: "btconf"
+  - path: "../config/brd2704a/sl_simple_button_btn0_config.h"
+    condition: [brd2704a]
+    override:
+      component: simple_button
+      file_id: simple_button_config
+      instance: btn0
+
+configuration:
+  - name: SL_STACK_SIZE
+    value: "2752"
+  - name: SL_PSA_KEY_USER_SLOT_COUNT
+    value: "0"
+    condition:
+      - psa_crypto
+
+readme:
+  - path: ../../README.md
+
+other_file:
+  - path: ../../image/asset_block.png
+    directory: "image"
+  - path: ../../image/asset_hw.png
+    directory: "image"
+  - path: ../../image/browser_asset.png
+    directory: "image"
+  - path: ../../image/browser_gw.png
+    directory: "image"
+  - path: ../../image/config_options_asset.png
+    directory: "image"
+  - path: ../../image/config_options_gw.png
+    directory: "image"
+  - path: ../../image/configmode_asset.png
+    directory: "image"
+  - path: ../../image/configmode_flow.png
+    directory: "image"
+  - path: ../../image/create_project.png
+    directory: "image"
+  - path: ../../image/indoor_pos_service.png
+    directory: "image"
+  - path: ../../image/initialization.png
+    directory: "image"
+  - path: ../../image/logs_asset.PNG
+    directory: "image"
+  - path: ../../image/logs_config_asset.PNG
+    directory: "image"
+  - path: ../../image/room_finder.png
+    directory: "image"
+  - path: ../../image/room_found_oled.png
+    directory: "image"
+  - path: ../../image/system_overview.png
+    directory: "image"
+  - path: ../../image/waiting_for_gws_oled.png
+    directory: "image"
+
+sdk_extension:
+  - id: third_party_hw_drivers
+    version: 4.1.0
+
+ui_hints:
+  highlight:
+    - path: config/btconf/gatt_configuration.btconf
+    - path: README.md
+      focus: true
